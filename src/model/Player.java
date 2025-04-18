@@ -1,6 +1,7 @@
 package model;
 
 import model.enums.*;
+import view.Menu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +15,14 @@ public class Player {
     private String email;
     private Energy energy;
     private Place place;
-    private refrigerator refrigerator;
+    private Refrigerator refrigerator;
+    private Menus currentMenu = Menus.MainMenu;
+
+    public Menus getCurrentMenu() {
+        return currentMenu;
+    }
+
+    // maybe delete
     private boolean isPlaying = false;
     private boolean gender;
     private Tools inHand;
@@ -59,7 +67,7 @@ public class Player {
         return place;
     }
 
-    public model.refrigerator getRefrigerator() {
+    public Refrigerator getRefrigerator() {
         return refrigerator;
     }
 
@@ -127,7 +135,7 @@ public class Player {
         this.place = place;
     }
 
-    public void setRefrigerator(model.refrigerator refrigerator) {
+    public void setRefrigerator(Refrigerator refrigerator) {
         this.refrigerator = refrigerator;
     }
 

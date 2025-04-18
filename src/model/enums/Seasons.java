@@ -5,4 +5,7 @@ public enum Seasons {
     Summer,
     Fall,
     Winter;
+    //each season must have its own method that applies special effects
+
+    public abstract void seasonEffects();
 }

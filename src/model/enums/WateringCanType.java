@@ -1,6 +1,8 @@
 package model.enums;
 
-public enum WateringCanType {
+public enum
+
+WateringCanType {
     Initial(40),
     Copper(55),
     Iron(70),

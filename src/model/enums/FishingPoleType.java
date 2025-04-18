@@ -1,7 +1,7 @@
 package model.enums;
 
 public enum FishingPoleType {
-    Initial(8, false),
+    Training(8, false),
     Bamboo(8, true),
     Fiberglass(6, true),
     Iridium(4, true);
