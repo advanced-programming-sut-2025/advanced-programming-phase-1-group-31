@@ -8,6 +8,7 @@ import model.materials.FruitTrees;
 import java.util.ArrayList;
 
 public class Farm {
+    private int id;//iliya added this
     private GreenHouse greenhouse;
     private Coop coop;
     private Barn barn;

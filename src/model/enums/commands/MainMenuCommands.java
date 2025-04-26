@@ -1,48 +1,22 @@
 package model.enums.commands;
 
-public enum MainMenuCommands {
-    //command patterns must be added.
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-    //public enum LoginMenuCommands {
-    //    RegisterUser("\\s*create\\s+a\\s+user\\s+account\\s+" +
-    //            "-fn\\s+(?<firstname>[\\s\\S]+)\\s+" +
-    //            "-ln\\s+(?<lastname>[\\s\\S]+)\\s+" +
-    //            "-p\\s+(?<password>[\\s\\S]+)\\s+" +
-    //            "-rp\\s+(?<reEnteredPassword>[\\s\\S]+)\\s+" +
-    //            "-e\\s+(?<email>[\\s\\S]+)\\s*"),
-    //
-    //    RegisterStore("\\s*create\\s+a\\s+store\\s+account\\s+" +
-    //            "-b\\s+(?<brand>[\\s\\S]+)\\s+" +
-    //            "-p\\s+(?<password>[\\s\\S]+)\\s+" +
-    //            "-rp\\s+(?<reEnteredPassword>[\\s\\S]+)\\s+" +
-    //            "-e\\s+(?<email>[\\s\\S]+)\\s*"),
-    //
-    //    LoginUser("\\s*login\\s+as\\s+user\\s+" +
-    //            "-e\\s+(?<email>[\\s\\S]+)\\s+" +
-    //            "-p\\s+(?<password>[\\s\\S]+)\\s*"),
-    //
-    //    LoginStore("\\s*login\\s+as\\s+store\\s+" +
-    //            "-e\\s+(?<email>[\\s\\S]+)\\s+" +
-    //            "-p\\s+(?<password>[\\s\\S]+)\\s*"),
-    //
-    //    DeleteAccount("\\s*delete\\s+account\\s+" +
-    //            "-p\\s+(?<password>[\\s\\S]+)\\s+" +
-    //            "-rp\\s+(?<reEnteredPassword>[\\s\\S]+)\\s*"),
-    //
-    //    Logout("\\s*logout\\s*"),
-    //
-    //    Back("\\s*go\\s+back\\s*");
-    //
-    //    private final String pattern;
-    //
-    //    LoginMenuCommands(String pattern) {
-    //        this.pattern = pattern;
-    //    }
-    //
-    //    public Matcher match(String pattern) {
-    //        Matcher matcher = Pattern.compile(this.pattern).matcher(pattern);
-    //        if (matcher.matches()) return matcher;
-    //        return null;
-    //    }
-    //}
+public enum MainMenuCommands {
+    LOGOUT("^user\\s+logout\\s*$"),
+    CHANGE_USERNAME("^change\\s+username\\s+-u\\s+(?<username>\\S+)\\s*$"),
+    CHANGE_NICKNAME("^change\\s+nickname\\s+-u\\s+(?<nickname>\\S+)\\s*$"),
+    CHANGE_EMAIL("^change\\s+email\\s+-e\\s+(?<email>\\S+)\\s*$"),
+    CHANGE_PASSWORD("^change\\s+password\\s+-p\\s+(?<newPassword>\\S+)\\s+-o\\s+(?<oldPassword>\\S+)\\s*$"),
+    SHOW_INFO("^user\\s+info\\s*$");
+
+
+    private final Pattern pattern;
+    
+    MainMenuCommands(String pattern){this.pattern = Pattern.compile(pattern);}
+
+    public Matcher getMatcher(String input){
+        return pattern.matcher(input);
+    } 
 }
