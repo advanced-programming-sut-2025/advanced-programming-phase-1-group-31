@@ -1,5 +1,8 @@
 package model;
 
+import java.awt.*;
+
 public class Lake {
-    private Place place;
+    Rectangle rectangle = new Rectangle();
+    public Lake(Rectangle rectangle) {}
 }

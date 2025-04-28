@@ -1,6 +1,8 @@
 package model;
 
+import java.awt.*;
+
 public class GreenHouse {
-    private Place place;
+    private Rectangle rectangle;
 
 }

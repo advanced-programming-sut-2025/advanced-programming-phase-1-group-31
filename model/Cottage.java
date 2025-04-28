@@ -1,6 +1,7 @@
 package model;
 
-public class Cottage {
-    private Place place;
+import java.awt.*;
 
+public class Cottage {
+    Rectangle rectangle = new Rectangle();
 }

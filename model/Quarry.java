@@ -1,6 +1,7 @@
 package model;
 
-public class Quarry {
-    private Place place;
+import java.awt.*;
 
+public class Quarry {
+    Rectangle rectangle = new Rectangle();
 }
