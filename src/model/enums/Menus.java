@@ -1,26 +1,30 @@
 package model.enums;
 
-import com.sun.tools.javac.Main;
 import view.*;
 
 import java.util.Scanner;
 
 public enum Menus {
-    LoginMenu(new LoginMenu()),
-    MainMenu(new MainMenu()),
-    GameMenu(new GameMenu()),
-    ProfileMenu(new ProfileMenu()),
-    ShopMenu(new ShopMenu()),
-    HouseMenu(new HouseMenu()),
-    ExitMenu(new ExitMenu()),
-    TradeMenu(new TradeMenu());
-
+    LoginMenu(new LoginMenu(), "login"),
+    MainMenu(new MainMenu(), "main"),
+    GameMenu(new GameMenu(), "game"),
+    ProfileMenu(new ProfileMenu(), "profile"),
+    ShopMenu(new ShopMenu(), "shop"),
+    HouseMenu(new HouseMenu(), "house"),
+    ExitMenu(new ExitMenu(), "exit"),
+    TradeMenu(new TradeMenu(), "trade");
 
 
     private final Menu menu;
+    private final String name;
 
-    Menus(Menu menu) {
+    Menus(Menu menu, String name) {
         this.menu = menu;
+        this.name = name;
+    }
+
+    public String getName(){
+        return this.name;
     }
 
     public void check(Scanner scanner){

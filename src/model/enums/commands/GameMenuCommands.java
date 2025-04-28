@@ -15,7 +15,7 @@ public enum GameMenuCommands {
     SHOW_DATE_AND_TIME("^datetime\\s*$"),
     SHOW_WEEKDAY("^day\\s+of\\s+the\\s+week\\s*$"),
     CHEAT_ADVANCE_TIME("^cheat\\s+advance\\s+time\\s+(?<number>\\d+)h\\s*$"),
-    CHEAT_ADVANCE_DATE("^cheat\\s+advance\\s+date\\s+(?<number>\\d+)d\\s*$"),//fix
+    CHEAT_ADVANCE_DATE("^cheat\\s+advance\\s+date\\s+(?<number>\\d+)d\\s*$"),
     SHOW_SEASON("^season\\s*$"),
     CHEAT_CREATE_THUNDER("^cheat\\s+Thor\\s+-l(?<X>\\d+)\\s+(?<Y>\\d+)\\s*$"),
     SHOW_WEATHER("^weather\\s*$"),

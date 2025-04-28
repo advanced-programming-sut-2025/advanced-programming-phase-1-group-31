@@ -57,4 +57,3 @@ public class GameMenuController {
     public void listQuests() {}
     public void completeQuest(int index) {}
 }
-

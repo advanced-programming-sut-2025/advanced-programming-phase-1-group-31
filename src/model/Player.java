@@ -4,31 +4,30 @@ import model.enums.*;
 import view.Menu;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 
 public class Player {
-    private int highScore;
-    private int gameCount;
+    private int highScore = 0;
+    private int gameCount = 0;
     private String username;
     private String password;
     private String nickname;
     private String email;
     private Energy energy;
     private Place place;
+    private int gold;
     private Refrigerator refrigerator;
     private Menus currentMenu = Menus.MainMenu;
 
-    public Menus getCurrentMenu() {
-        return currentMenu;
-    }
+    
 
     // maybe delete
     private boolean isPlaying = false;
-    private boolean gender;
+    private boolean gender;// IMPORTANT!!!!!!!!!! : false is male, true is female
     private Tools inHand;
     private Farm farm;
 
-    private HashMap<String, String> backup;
+    private Map<String, String> backup;
     private Skill skills;
     public ArrayList<Friendship> friendships = new ArrayList<>();
     public ArrayList<FriendshipWithNPC> NPCFriendships = new ArrayList<>();
@@ -37,6 +36,15 @@ public class Player {
     private HashMap<Craftable, Boolean> craftingRecipes;
     //details of the Cooking recipes must be determined
     private HashMap<Food, Boolean> cookingRecipes;
+
+    public Player(String username, String password, String nickname, String email, boolean gender, Map<String, String> backup){
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+        this.email = email;
+        this.gender = gender;
+        this.backup = backup;
+    }
 
 
     public int getHighScore() {
@@ -87,7 +95,7 @@ public class Player {
         return farm;
     }
 
-    public HashMap<String, String> getBackup() {
+    public Map<String, String> getBackup() {
         return backup;
     }
 
@@ -155,7 +163,7 @@ public class Player {
         this.farm = farm;
     }
 
-    public void setBackup(HashMap<String, String> backup) {
+    public void setBackup(Map<String, String> backup) {
         this.backup = backup;
     }
 
@@ -165,6 +173,14 @@ public class Player {
 
     public void setCookingRecipes(HashMap<Food, Boolean> cookingRecipes) {
         this.cookingRecipes = cookingRecipes;
+    }
+
+    public Menus getCurrentMenu() {
+        return currentMenu;
+    }
+
+    public void setCurrentMenu(Menus menu){
+        this.currentMenu = menu;
     }
 }
 
