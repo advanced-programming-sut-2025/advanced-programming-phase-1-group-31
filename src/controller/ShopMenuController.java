@@ -1,5 +1,6 @@
 package controller;
 
+import model.Result;
 import model.enums.TradeMenuCommand;
 
 import java.util.Scanner;
@@ -12,51 +13,47 @@ public class ShopMenuController {
         return instance;
     }
 
-    public void run(Scanner scanner) {
-        while (true) {
-            String input = scanner.nextLine();
-            Matcher matcher;
+    public Result run(Scanner scanner) {
+        String input = scanner.nextLine();
+        Matcher matcher;
 
-            if ((matcher = TradeMenuCommand.SELECT_PRODUCTS_AVAILABLE.getMatcher(input)) != null) {
-                showAllAvailableProducts();
-            }
-            else if ((matcher = TradeMenuCommand.SELECT_PRODUCTS_ALL.getMatcher(input)) != null) {
-                showAllProducts();
-            }
-            else if ((matcher = TradeMenuCommand.SELECT_PURCHASE.getMatcher(input)) != null) {
-                purchaseProduct(matcher.group("productName"), matcher.group("count"));
-            }
-            else if ((matcher = TradeMenuCommand.SELECT_ADD_DOLLARS.getMatcher(input)) != null) {
-                addDollars(matcher.group("count"));
-            }
-            else if ((matcher = TradeMenuCommand.SELECT_SELL.getMatcher(input)) != null) {
-                sellProduct(matcher.group("productName"), matcher.group("count"));
-            }
-            else {
-                System.out.println("Invalid command!");
-            }
+        if ((matcher = TradeMenuCommand.SELECT_PRODUCTS_AVAILABLE.getMatcher(input)) != null) {
+            return showAllAvailableProducts(matcher);
+        } else if ((matcher = TradeMenuCommand.SELECT_PRODUCTS_ALL.getMatcher(input)) != null) {
+            return showAllProducts(matcher);
+        } else if ((matcher = TradeMenuCommand.SELECT_PURCHASE.getMatcher(input)) != null) {
+            return purchaseProduct(matcher);
+        } else if ((matcher = TradeMenuCommand.SELECT_ADD_DOLLARS.getMatcher(input)) != null) {
+            return addDollars(matcher);
+        } else if ((matcher = TradeMenuCommand.SELECT_SELL.getMatcher(input)) != null) {
+            return sellProduct(matcher);
+        } else {
+            return new Result(false, "Invalid command!");
         }
     }
 
-    // Implement all the methods called above
-    private void showAllAvailableProducts() {
-        // Implementation
+    private Result showAllAvailableProducts(Matcher matcher) {
+        return new Result(true, "Showing all available products.");
     }
 
-    private void showAllProducts() {
-        // Implementation
+    private Result showAllProducts(Matcher matcher) {
+        return new Result(true, "Showing all products.");
     }
 
-    private void purchaseProduct(String productName, String count) {
-        // Implementation
+    private Result purchaseProduct(Matcher matcher) {
+        String productName = matcher.group("productName");
+        String count = matcher.group("count");
+        return new Result(true, "Purchased " + count + " of " + productName);
     }
 
-    private void addDollars(String count) {
-        // Implementation
+    private Result addDollars(Matcher matcher) {
+        String count = matcher.group("count");
+        return new Result(true, "Added " + count + " dollars to account.");
     }
 
-    private void sellProduct(String productName, String count) {
-        // Implementation
+    private Result sellProduct(Matcher matcher) {
+        String productName = matcher.group("productName");
+        String count = matcher.group("count");
+        return new Result(true, "Sold " + count + " of " + productName);
     }
-
 }

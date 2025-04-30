@@ -13,89 +13,73 @@ public class HouseMenuController {
     }
 
     public Result run(Scanner scanner) {
-            String input = scanner.nextLine().trim();
-            Matcher matcher;
+        String input = scanner.nextLine().trim();
+        Matcher matcher;
 
-            if ((matcher = HouseMenuCommand.COOKING_REF_PUT_PICK.getMatcher(input)) != null) {
-                return function(matcher);
-            }
-            else if ((matcher = HouseMenuCommand.COOKING_SHOW_RECIPES.getMatcher(input)) != null) {
-                showCookingRecipes();
-            }
-            else if ((matcher = HouseMenuCommand.COOKING_PREPARE.getMatcher(input)) != null) {
-                prepareRecipe(matcher.group("recipe"));
-            }
-            else if ((matcher = HouseMenuCommand.EAT_FOOD.getMatcher(input)) != null) {
-                eatFood(matcher.group("food"));
-            }
-            else if ((matcher = HouseMenuCommand.CRAFTING_SHOW_RECIPES.getMatcher(input)) != null) {
-                showCraftingRecipes();
-            }
-            else if ((matcher = HouseMenuCommand.CRAFTING_CRAFT.getMatcher(input)) != null) {
-                craftItem(matcher.group("item"));
-            }
-            else if ((matcher = HouseMenuCommand.PLACE_ITEM.getMatcher(input)) != null) {
-                placeItem(
-                        matcher.group("item"),
-                        matcher.group("direction")
-                );
-            }
-            else if ((matcher = HouseMenuCommand.CHEAT_ADD_ITEM.getMatcher(input)) != null) {
-                cheatAddItem(
-                        matcher.group("name"),
-                        Integer.parseInt(matcher.group("count"))
-                );
-            }
-            else {
-                System.out.println("Invalid command!");
-            }
-    }
-
-    private void handleRefrigeratorAction(String action, String item) {
-        if (action.equals("put")) {
-            putInRefrigerator(item);
+        if ((matcher = HouseMenuCommand.COOKING_REF_PUT_PICK.getMatcher(input)) != null) {
+            return handleRefrigeratorAction(matcher);
+        } else if ((matcher = HouseMenuCommand.COOKING_SHOW_RECIPES.getMatcher(input)) != null) {
+            return showCookingRecipes(matcher);
+        } else if ((matcher = HouseMenuCommand.COOKING_PREPARE.getMatcher(input)) != null) {
+            return prepareRecipe(matcher);
+        } else if ((matcher = HouseMenuCommand.EAT_FOOD.getMatcher(input)) != null) {
+            return eatFood(matcher);
+        } else if ((matcher = HouseMenuCommand.CRAFTING_SHOW_RECIPES.getMatcher(input)) != null) {
+            return showCraftingRecipes(matcher);
+        } else if ((matcher = HouseMenuCommand.CRAFTING_CRAFT.getMatcher(input)) != null) {
+            return craftItem(matcher);
+        } else if ((matcher = HouseMenuCommand.PLACE_ITEM.getMatcher(input)) != null) {
+            return placeItem(matcher);
+        } else if ((matcher = HouseMenuCommand.CHEAT_ADD_ITEM.getMatcher(input)) != null) {
+            return cheatAddItem(matcher);
         } else {
-            pickFromRefrigerator(item);
+            return new Result(false, "Invalid command!");
         }
     }
 
-    private void putInRefrigerator(String item) {
-        // منطق قرار دادن آیتم در یخچال
+    private Result handleRefrigeratorAction(Matcher matcher) {
+        String action = matcher.group("action");
+        String item = matcher.group("item");
+
+        if (action.equals("put")) {
+            return new Result(true, "Put " + item + " in refrigerator.");
+        } else {
+            return new Result(true, "Picked " + item + " from refrigerator.");
+        }
     }
 
-    private void pickFromRefrigerator(String item) {
-        // منطق برداشتن آیتم از یخچال
+    private Result showCookingRecipes(Matcher matcher) {
+        return new Result(true, "Showing cooking recipes.");
     }
 
-    private void showCookingRecipes() {
-        // نمایش دستورات آشپزی
+    private Result prepareRecipe(Matcher matcher) {
+        String recipe = matcher.group("recipe");
+        return new Result(true, "Preparing recipe: " + recipe);
     }
 
-    private void prepareRecipe(String recipe) {
-        // آماده کردن دستور پخت
-    }
-    private void eatFood(String food) {
-
+    private Result eatFood(Matcher matcher) {
+        String food = matcher.group("food");
+        return new Result(true, "Ate food: " + food);
     }
 
-    private void showCraftingRecipes() {
-        // نمایش دستورات صنایع دستی
+    private Result showCraftingRecipes(Matcher matcher) {
+        return new Result(true, "Showing crafting recipes.");
     }
 
-    private void craftItem(String item) {
-        // ساخت آیتم
+    private Result craftItem(Matcher matcher) {
+        String item = matcher.group("item");
+        return new Result(true, "Crafted item: " + item);
     }
 
-    private void placeItem(String item, String direction) {
-        // قرار دادن آیتم در جهت مشخص
+    private Result placeItem(Matcher matcher) {
+        String item = matcher.group("item");
+        String direction = matcher.group("direction");
+        return new Result(true, "Placed " + item + " to the " + direction);
     }
 
-    private void cheatAddItem(String name, int count) {
-        // اضافه کردن آیتم به صورت تقلب
-    }
-
-    private Result function(Matcher matcher){
-        String golabi = matcher.group("jsf").trim();
-        
+    private Result cheatAddItem(Matcher matcher) {
+        String name = matcher.group("name");
+        int count = Integer.parseInt(matcher.group("count"));
+        return new Result(true, "Added " + count + "x " + name + " (cheat)");
     }
 }

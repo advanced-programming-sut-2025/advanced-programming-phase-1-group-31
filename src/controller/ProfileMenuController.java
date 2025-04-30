@@ -1,6 +1,8 @@
 package controller;
 
+import model.Result;
 import model.enums.ProfileMenuCommand;
+
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -11,61 +13,47 @@ public class ProfileMenuController {
         return instance;
     }
 
-    public void run(Scanner scanner) {
-        while (true) {
-            String input = scanner.nextLine().trim();
-            Matcher matcher;
+    public Result run(Scanner scanner) {
+        String input = scanner.nextLine().trim();
+        Matcher matcher;
 
-            if ((matcher = ProfileMenuCommand.CHANGE_USERNAME.getMatcher(input)) != null) {
-                changeUsername(matcher.group("username"));
-            }
-            else if ((matcher = ProfileMenuCommand.CHANGE_NICKNAME.getMatcher(input)) != null) {
-                changeNickname(matcher.group("nickname"));
-            }
-            else if ((matcher = ProfileMenuCommand.CHANGE_EMAIL.getMatcher(input)) != null) {
-                changeEmail(matcher.group("email"));
-            }
-            else if ((matcher = ProfileMenuCommand.CHANGE_PASSWORD.getMatcher(input)) != null) {
-                changePassword(matcher.group("oldPassword"), matcher.group("newPassword"));
-            }
-            else if ((matcher = ProfileMenuCommand.SHOW_USER_INFO.getMatcher(input)) != null) {
-                showUserInfo();
-            }
-            else {
-                System.out.println("Invalid command!");
-            }
+        if ((matcher = ProfileMenuCommand.CHANGE_USERNAME.getMatcher(input)) != null) {
+            return changeUsername(matcher);
+        } else if ((matcher = ProfileMenuCommand.CHANGE_NICKNAME.getMatcher(input)) != null) {
+            return changeNickname(matcher);
+        } else if ((matcher = ProfileMenuCommand.CHANGE_EMAIL.getMatcher(input)) != null) {
+            return changeEmail(matcher);
+        } else if ((matcher = ProfileMenuCommand.CHANGE_PASSWORD.getMatcher(input)) != null) {
+            return changePassword(matcher);
+        } else if ((matcher = ProfileMenuCommand.SHOW_USER_INFO.getMatcher(input)) != null) {
+            return showUserInfo(matcher);
+        } else {
+            return new Result(false, "Invalid command!");
         }
     }
 
-    private void changeUsername(String newUsername) {
-        // بررسی برابر نبودن با نام کاربری فعلی
-        // بررسی معتبر بودن نام کاربری
-        // تغییر نام کاربری در صورت امکان
+    private Result changeUsername(Matcher matcher) {
+        String newUsername = matcher.group("username");
+        return new Result(true, "Username changed to: " + newUsername);
     }
 
-    private void changeNickname(String newNickname) {
-        // بررسی برابر نبودن با نام مستعار فعلی
-        // تغییر نام مستعار
+    private Result changeNickname(Matcher matcher) {
+        String newNickname = matcher.group("nickname");
+        return new Result(true, "Nickname changed to: " + newNickname);
     }
 
-    private void changeEmail(String newEmail) {
-        // بررسی معتبر بودن ایمیل
-        // بررسی برابر نبودن با ایمیل فعلی
-        // تغییر ایمیل
+    private Result changeEmail(Matcher matcher) {
+        String newEmail = matcher.group("email");
+        return new Result(true, "Email changed to: " + newEmail);
     }
 
-    private void changePassword(String oldPassword, String newPassword) {
-        // بررسی صحت گذرواژه قدیمی
-        // بررسی عدم تطابق گذرواژه جدید با قدیمی
-        // تغییر گذرواژه
+    private Result changePassword(Matcher matcher) {
+        String oldPassword = matcher.group("oldPassword");
+        String newPassword = matcher.group("newPassword");
+        return new Result(true, "Password changed from " + oldPassword + " to " + newPassword);
     }
 
-    private void showUserInfo() {
-        // نمایش اطلاعات کاربر شامل:
-        // - نام کاربری
-        // - نام مستعار
-        // - ایمیل
-        // - تاریخ عضویت
-        // - جنسیت (که قابل تغییر نیست)
+    private Result showUserInfo(Matcher matcher) {
+        return new Result(true, "Showing user information...");
     }
 }
