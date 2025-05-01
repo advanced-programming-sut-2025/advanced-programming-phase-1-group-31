@@ -34,20 +34,20 @@ public class GameMenuController {
 
         if (usernames.length > 3)
             return new Result(false, "A maximum of 3 usernames is allowed.");
+        if (isPlayerAlreadyInGame(App.getPlayerLoggedIn()))
+            return new Result(false, "User already in game: " + App.getPlayerLoggedIn().getUsername());
         for (String username : usernames) {
             Player player = App.getRegisteredPlayers().stream().filter(b -> b.getUsername().equals(username))
                     .findFirst().orElse(null);
             if (player == null)
                 return new Result(false, "Invalid username: " + username);
-            // if (isPlayerAlreadyInGame(player))
-            // return new Result(false, "Duplicate username: " + username);
-
             if (isPlayerAlreadyInGame(player))
                 return new Result(false, "User already in game: " + username);
         }
         ArrayList<Player> matchedPlayers = App.getRegisteredPlayers().stream()
                 .filter(player -> Arrays.asList(usernames).contains(player.getUsername()))
                 .collect(Collectors.toCollection(ArrayList::new));
+        matchedPlayers.add(0, App.getPlayerLoggedIn()); 
         matchedPlayers.forEach(p -> p.setCurrentMenu(Menus.GameMenu));
         Game game = new Game(matchedPlayers);
         App.addGames(game);
