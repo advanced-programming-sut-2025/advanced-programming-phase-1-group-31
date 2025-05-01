@@ -1,15 +1,15 @@
 package model.enums;
 
 public enum TileType {
-    EMPTY(".", "\u001B[0m"),
-    TREE("T", "\u001B[32m"),
-    FORAGING("F", "\u001B[92m"),
-    STONE("S", "\u001B[37m"),
-    LAKE("L", "\u001B[34m"),
-    HOUSE("H", "\u001B[35m"),
-    GREENHOUSE("G", "\u001B[36m"),
-    MINE("M", "\u001B[31m"),
-    QUARRY("Q", "\u001B[37m");
+    EMPTY(".", "\u001B[40m"),  // پس‌زمینه سیاه
+    TREE("T", "\u001B[42m"),
+    FORAGING("F", "\u001B[102m"),
+    STONE("S", "\u001B[47m"),
+    LAKE("L", "\u001B[44m"),
+    HOUSE("H", "\u001B[45m"),
+    GREENHOUSE("G", "\u001B[46m"),
+    MINE("M", "\u001B[41m"),
+    QUARRY("Q", "\u001B[47m");
 
 
     private final String symbol;

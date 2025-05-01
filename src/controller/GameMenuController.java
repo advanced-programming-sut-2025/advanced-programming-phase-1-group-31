@@ -1,9 +1,12 @@
 package controller;
 
 import model.App;
+import model.Farm;
+import model.FarmFactory;
 import model.Game;
 import model.Player;
 import model.Result;
+import model.Tile;
 import model.enums.Menus;
 import model.enums.commands.GameMenuCommand;
 import java.util.*;
@@ -47,17 +50,78 @@ public class GameMenuController {
         ArrayList<Player> matchedPlayers = App.getRegisteredPlayers().stream()
                 .filter(player -> Arrays.asList(usernames).contains(player.getUsername()))
                 .collect(Collectors.toCollection(ArrayList::new));
-        matchedPlayers.add(0, App.getPlayerLoggedIn()); 
+        matchedPlayers.add(0, App.getPlayerLoggedIn());
         matchedPlayers.forEach(p -> p.setCurrentMenu(Menus.GameMenu));
         Game game = new Game(matchedPlayers);
         App.addGames(game);
         App.setCurrentGame(game);
+        gameMap(matchedPlayers);
         return new Result(true, "Game started with " + matchedPlayers.size() + " new player(s).");
     }
 
     private boolean isPlayerAlreadyInGame(Player player) {
         return App.getGames().stream()
                 .anyMatch(game -> game.getPlayers().contains(player));
+    }
+
+    public void gameMap(ArrayList<Player> players) {
+        Scanner scanner = new Scanner(System.in);
+        for (Player player : players) {
+            System.out.println("Player " + player.getUsername() + ", please choose your map using 'game map <number>'");
+            while (true) {
+                displayFourMaps();
+                String input = scanner.nextLine().trim();
+                Matcher matcher = GameMenuCommand.MAP_SELECT_PATTERN.getMatcher(input);
+                if (!matcher.matches()) {
+                    System.out.println("Invalid command. Use 'game map <number>'");
+                    continue;
+                }
+
+                int selected = Integer.parseInt(matcher.group("number"));
+                if (selected < 1 || selected > 4) {
+                    System.out.println("Invalid map number. Choose between 1 and 4.");
+                } else {
+                    player.setFarm(FarmFactory.getPreset(selected));
+                    FarmFactory.randomGenerateFarm(player.getFarm());
+                    System.out.println("Player " + player.getUsername() + " selected map " + selected);
+                    break;
+                }
+            }
+        }
+
+        System.out.println("All players selected their maps. Game is starting...");
+    }
+    public static void displayFourMaps() {
+        Tile[][] map1 = FarmFactory.getPreset(1).getMainMap();
+        Tile[][] map2 = FarmFactory.getPreset(2).getMainMap();
+        Tile[][] map3 = FarmFactory.getPreset(3).getMainMap();
+        Tile[][] map4 = FarmFactory.getPreset(4).getMainMap();
+
+        System.out.println("map1\t\tmap2\t\tmap3\t\tmap4");
+        System.out.println("--------------------------------------------------");
+
+        for (int y = 0; y < map1[0].length; y++) {
+            for (Tile[] tiles : map1) {
+                System.out.print(tiles[y].getType().getColor()+" " + tiles[y].getType().getSymbol() +" "+ "\u001B[0m");
+            }
+            System.out.print("\t");
+
+            for (Tile[] tiles : map2) {
+                System.out.print(tiles[y].getType().getColor()+" " + tiles[y].getType().getSymbol() +" "+ "\u001B[0m");
+            }
+            System.out.print("\t");
+
+            for (Tile[] tiles : map3) {
+                System.out.print(tiles[y].getType().getColor()+" " + tiles[y].getType().getSymbol() +" "+ "\u001B[0m");
+            }
+            System.out.print("\t");
+
+            for (Tile[] tiles : map4) {
+                System.out.print(tiles[y].getType().getColor()+" " + tiles[y].getType().getSymbol() +" "+ "\u001B[0m");
+            }
+            System.out.println();
+        }
+        System.out.println();
     }
 
 }

@@ -5,7 +5,8 @@ import java.util.regex.Pattern;
 public enum GameMenuCommand implements Command {
     GAME_NEW_PATTERN(
     "^\\s*game\\s+new\\s+-u\\s+(?<usernames>(\\w+\\s*){1,3})\\s*$"
-);
+),
+MAP_SELECT_PATTERN("^game\\s+map\\s+(?<number>\\d+)$");
 
 
     private final String pattern;
