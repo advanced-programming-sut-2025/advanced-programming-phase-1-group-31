@@ -121,4 +121,18 @@ public class FarmFactory {
         } while (farm.getMainMap()[x][y].getType() != TileType.EMPTY);
         return new Point(x, y);
     }
+    public static Farm getEmptyFarm() {
+        Farm farm = new Farm();
+        Tile[][] map = new Tile[55][35];
+        for (int x = 0; x < 55; x++) {
+            for (int y = 0; y < 35; y++) {
+                Tile tile = new Tile();
+                tile.setType(TileType.EMPTY);
+                map[x][y] = tile;
+            }
+        }
+        farm.setMainMap(map);
+        return farm;
+    }
+    
 }
