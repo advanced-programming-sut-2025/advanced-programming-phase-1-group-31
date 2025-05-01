@@ -21,18 +21,18 @@ public class FarmFactory {
 
     private static Farm generateFarm1() {
         Farm farm = new Farm();
-        placeBuilding(farm, TileType.HOUSE, new Rectangle(0, 0, 7, 7));
+        placeBuilding(farm, TileType.HOUSE, new Rectangle(1, 1, 7, 7));
         placeBuilding(farm, TileType.GREENHOUSE, new Rectangle(10, 10, 5, 6));
-        placeBuilding(farm, TileType.QUARRY, new Rectangle(farm.getRectangle().width-6, 0, 4, 4));
+        placeBuilding(farm, TileType.QUARRY, new Rectangle(farm.getRectangle().width-6, 1, 4, 4));
         placeBuilding(farm, TileType.LAKE, new Rectangle(farm.getRectangle().width/3, farm.getRectangle().height-6, 5, 5));
         return farm;
     }
 
     private static Farm generateFarm2() {
         Farm farm = new Farm();
-        placeBuilding(farm, TileType.HOUSE, new Rectangle(0, 0, 7, 7));
-        placeBuilding(farm, TileType.GREENHOUSE, new Rectangle(farm.getRectangle().width-15, 0, 5, 6));
-        placeBuilding(farm, TileType.QUARRY, new Rectangle(farm.getRectangle().width-6, 0, 4, 4));
+        placeBuilding(farm, TileType.HOUSE, new Rectangle(1, 1, 7, 7));
+        placeBuilding(farm, TileType.GREENHOUSE, new Rectangle(farm.getRectangle().width-15, 1, 5, 6));
+        placeBuilding(farm, TileType.QUARRY, new Rectangle(farm.getRectangle().width-6, 1, 4, 4));
         placeBuilding(farm, TileType.LAKE, new Rectangle(farm.getRectangle().width/3, farm.getRectangle().height-6, 5, 5));
         placeBuilding(farm, TileType.LAKE, new Rectangle(farm.getRectangle().width/3, farm.getRectangle().height/2, 4, 4));
         return farm;

@@ -9,6 +9,7 @@ public enum TileType {
     HOUSE("H", "\u001B[45m"),
     GREENHOUSE("G", "\u001B[46m"),
     MINE("M", "\u001B[41m"),
+    WALL("W", "\u001B[41m"),
     QUARRY("Q", "\u001B[47m");
 
 

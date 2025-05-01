@@ -121,6 +121,10 @@ public class GameMenuController {
                 m1[x][y].setPoint(new Point(x, y));
             }
         }
+        if(!isEmptyFarm(f1)){
+            addWallsAroundFarm(map ,f1, 0, 0);
+        }
+
         for (int x = 0; x < farmWidth; x++) {
             for (int y = 0; y < farmHeight; y++) {
                 map.setMainMap(m2[x][y], x + 85, y);
@@ -128,6 +132,7 @@ public class GameMenuController {
             }
         }
         if (!isEmptyFarm(f2)){
+            addWallsAroundFarm(map,f2, 85, 0);
             f2.getGreenhouse().getRectangle().translate(85, 0);
             f2.getCottage().getRectangle().translate(85, 0);
             f2.getLakeInFarm().forEach(l -> l.getRectangle().translate(85, 0));
@@ -144,6 +149,7 @@ public class GameMenuController {
             }
         }
         if (!isEmptyFarm(f3)){
+            addWallsAroundFarm(map,f3, 0, 55);
             f3.getGreenhouse().getRectangle().translate(0, 85);
             f3.getCottage().getRectangle().translate(0, 85);
             f3.getLakeInFarm().forEach(l -> l.getRectangle().translate(0, 85));
@@ -159,6 +165,7 @@ public class GameMenuController {
             }
         }
         if (!isEmptyFarm(f4)){
+            addWallsAroundFarm(map ,f4, 85, 55);
             f4.getGreenhouse().getRectangle().translate(85, 85);
             f4.getCottage().getRectangle().translate(85, 85);
             f4.getLakeInFarm().forEach(l -> l.getRectangle().translate(85, 85));
@@ -183,6 +190,33 @@ public class GameMenuController {
             }
         }
     }
+    private static void addWallsAroundFarm(Map map, Farm farm, int offsetX, int offsetY) {
+        int farmWidth = farm.getRectangle().width;
+        int farmHeight = farm.getRectangle().height;
+        
+        for (int y = 0; y < farmHeight; y++) {
+            Tile leftWall = new Tile();
+            leftWall.setType(TileType.WALL);
+            map.setMainMap(leftWall, offsetX, offsetY + y);
+            
+            Tile rightWall = new Tile();
+            rightWall.setType(TileType.WALL);
+            map.setMainMap(rightWall, offsetX + farmWidth - 1, offsetY + y);
+        }
+        
+        for (int x = 1; x < farmWidth - 1; x++) {
+            Tile topWall = new Tile();
+            topWall.setType(TileType.WALL);
+            map.setMainMap(topWall, offsetX + x, offsetY);
+            
+            Tile bottomWall = new Tile();
+            bottomWall.setType(TileType.WALL);
+            map.setMainMap(bottomWall, offsetX + x, offsetY + farmHeight - 1);
+        }
+        
+        farm.getRectangle().setBounds(offsetX, offsetY, farmWidth, farmHeight);
+    }
+    
 
     public static void displayFourMaps() {
         Tile[][] map1 = FarmFactory.getPreset(1).getMainMap();
