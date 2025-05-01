@@ -52,7 +52,7 @@ public class GameMenuController {
         Game game = new Game(matchedPlayers);
         App.addGames(game);
         App.setCurrentGame(game);
-        return new Result(true, "Game started with " + usernames.length + " new player(s).");
+        return new Result(true, "Game started with " + matchedPlayers.size() + " new player(s).");
     }
 
     private boolean isPlayerAlreadyInGame(Player player) {
