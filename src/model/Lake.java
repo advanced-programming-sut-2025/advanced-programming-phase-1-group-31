@@ -1,5 +1,14 @@
 package model;
 
+import java.awt.*;
+
 public class Lake {
-    private Place place;
+    Rectangle rectangle = new Rectangle();
+    public Rectangle getRectangle() {
+        return rectangle;
+    }
+
+    public void setRectangle(Rectangle rectangle) {
+        this.rectangle = rectangle;
+    }
 }
