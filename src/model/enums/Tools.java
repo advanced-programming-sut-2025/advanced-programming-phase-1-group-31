@@ -2,6 +2,7 @@ package model.enums;
 
 import model.materials.Tools.*;
 
+// a class of tools that implements material
 public enum Tools {
     Hoe(new Hoe()),
     Pickaxe(new Pickaxe()),

@@ -58,4 +58,6 @@ public enum ToolType {
     public boolean isCanCatchAllFishes() {
         return canCatchAllFishes;
     }
+
+    abstract void work();
 }
