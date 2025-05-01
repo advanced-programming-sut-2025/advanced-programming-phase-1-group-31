@@ -1,6 +1,4 @@
-package model.enums;
-
-import model.enums.commands.Command;
+package model.enums.commands;
 
 public enum ProfileMenuCommand implements Command {
     CHANGE_USERNAME("\\s*change\\s+username\\s+-u\\s+(?<username>\\S+)\\s*"),

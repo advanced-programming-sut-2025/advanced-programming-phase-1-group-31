@@ -1,7 +1,7 @@
 package controller;
 
 import model.Result;
-import model.enums.TradeMenuCommand;
+import model.enums.commands.TradeMenuCommand;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 

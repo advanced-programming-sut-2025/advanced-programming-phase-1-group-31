@@ -1,7 +1,7 @@
 package controller;
 
 import model.Result;
-import model.enums.HouseMenuCommand;
+import model.enums.commands.HouseMenuCommand;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 

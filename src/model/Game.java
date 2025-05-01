@@ -6,22 +6,54 @@ import model.enums.Shops;
 import java.util.ArrayList;
 
 public class Game {
-    private static Map mainMap;
-    private static Player adminPlayer;
-    private static Player activePlayer;
-    private static TimeAndDate time;
+    private Map mainMap;
+    private Player adminPlayer;
+    private Player activePlayer;
+    private TimeAndDate time;
 
-    public static ArrayList<Player> players = new ArrayList<>();
-    public static ArrayList<Shops> shops = new ArrayList<>();
-    public static Player getActivePlayer() {
+    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<Shops> shops = new ArrayList<>();
+    public Game (ArrayList<Player> players){
+    this.players = players;
+    }
+
+    public Map getMainMap() {
+        return mainMap;
+    }
+
+    public void setMainMap(Map mainMap) {
+        this.mainMap = mainMap;
+    }
+
+    public Player getAdminPlayer() {
+        return adminPlayer;
+    }
+
+    public void setAdminPlayer(Player adminPlayer) {
+        this.adminPlayer = adminPlayer;
+    }
+
+    public Player getActivePlayer() {
         return activePlayer;
     }
-    public static void changeTurn(){
-        int playerIndex = players.indexOf(activePlayer) + 1;
-        if(playerIndex >= players.size())
-            playerIndex = 0;
-        activePlayer = players.get(playerIndex);
+
+    public void setActivePlayer(Player activePlayer) {
+        this.activePlayer = activePlayer;
     }
 
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
 
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
+    public ArrayList<Shops> getShops() {
+        return shops;
+    }
+
+    public void setShops(ArrayList<Shops> shops) {
+        this.shops = shops;
+    }
 }

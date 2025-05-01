@@ -1,6 +1,4 @@
-package model.enums;
-
-import model.enums.commands.Command;
+package model.enums.commands;
 
 public enum HouseMenuCommand implements Command {
     COOKING_REF_PUT_PICK("\\s*cooking\\s+refrigerator\\s+(?<action>(put|pick))\\s+(?<item>\\S+)\\s*"),
