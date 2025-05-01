@@ -3,7 +3,7 @@ package model.enums;
 import java.util.ArrayList;
 
 // Maybe we should differentiate between trees, fruits and seeds using enums
-public enum FruitTree {
+public enum Fruits {
 
     ;
     //All Trees
@@ -17,14 +17,14 @@ public enum FruitTree {
     private final int fruitEnergy;
     private final Seasons season;
 
-    FruitTree(String name,
-              String source,
-              int totalHarvestTime,
-              int fruitHarvestCycle,
-              int fruitBaseSellPrice,
-              boolean isFruitEdible,
-              int fruitEnergy,
-              Seasons season) {
+    Fruits(String name,
+           String source,
+           int totalHarvestTime,
+           int fruitHarvestCycle,
+           int fruitBaseSellPrice,
+           boolean isFruitEdible,
+           int fruitEnergy,
+           Seasons season) {
         this.name = name;
         this.source = source;
         this.totalHarvestTime = totalHarvestTime;

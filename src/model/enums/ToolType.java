@@ -1,7 +1,12 @@
 package model.enums;
 
 public enum ToolType {
-    Initial(),
+    Initial(){
+        @Override
+        public void work() {
+
+        }
+    },
     Initial(),
     Initial(),
     Initial();
@@ -59,5 +64,5 @@ public enum ToolType {
         return canCatchAllFishes;
     }
 
-    abstract void work();
+    abstract public void work();
 }

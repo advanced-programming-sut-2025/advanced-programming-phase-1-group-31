@@ -1,13 +1,13 @@
 package model;
 
 import model.materials.Crop;
-import model.materials.FruitTrees;
+import model.materials.Fruit;
 
 import java.util.ArrayList;
 // Includes all farms
 public class Map{
     public static ArrayList<Farm> farms = new ArrayList<>();
-    public static ArrayList<FruitTrees> allFruitTrees = new ArrayList<>();
+    public static ArrayList<Fruit> allFruitTrees = new ArrayList<>();
     public static ArrayList<Crop> allCrops = new ArrayList<>();
     public static Tile[][] mainMap = new Tile[50][50];
 
