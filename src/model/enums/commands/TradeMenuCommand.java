@@ -1,6 +1,6 @@
 package model.enums;
 
-import java.util.regex.Matcher;
+import model.enums.commands.Command;
 
 public enum TradeMenuCommand implements Command {
     SELECT_PRODUCTS_AVAILABLE("\\s*show\\s+all\\s+available\\s+products\\s*"),

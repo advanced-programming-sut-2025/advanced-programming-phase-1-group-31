@@ -1,5 +1,7 @@
 package model.enums;
 
+import model.enums.commands.Command;
+
 public enum ShopMenuCommand implements Command {
     SELECT_PRODUCTS_AVAILABLE("\\s*show\\s+all\\s+available\\s+products\\s*"),
     SELECT_PRODUCTS_ALL("\\s*show\\s+all\\s+products\\s*"),

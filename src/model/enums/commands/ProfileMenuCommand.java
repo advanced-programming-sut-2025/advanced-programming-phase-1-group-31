@@ -1,6 +1,6 @@
 package model.enums;
 
-import java.util.regex.Matcher;
+import model.enums.commands.Command;
 
 public enum ProfileMenuCommand implements Command {
     CHANGE_USERNAME("\\s*change\\s+username\\s+-u\\s+(?<username>\\S+)\\s*"),
