@@ -8,16 +8,18 @@ package model;
 import java.awt.*;
 import java.util.ArrayList;
 
+import model.enums.TileType;
+
 public class Farm {
    private Rectangle rectangle ;
     public Tile[][] mainMap = new Tile[55][35];
 
 
-    public Farm() {
+    public Farm(Point point) {
 
-        this.rectangle = new Rectangle(0 , 0 , 55 , 35);
-        for(int i=0; i<55 ; i++){
-            for(int j=0; j<35; j++){
+        this.rectangle = new Rectangle(0 , 0 , point.x , point.y);
+        for(int i=0; i<point.x ; i++){
+            for(int j=0; j<point.y; j++){
                 mainMap[i][j] = new Tile();
                 mainMap[i][j].setType(TileType.EMPTY);
             }

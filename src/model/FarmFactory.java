@@ -1,7 +1,6 @@
 // File: factory/FarmFactory.java
 package model;
 
-import model.*;
 import model.enums.TileType;
 
 import java.awt.*;
@@ -18,9 +17,32 @@ public class FarmFactory {
             default -> throw new IllegalArgumentException("Invalid map number: " + number);
         };
     }
+    public static Farm generateStors() {
+        Farm marketFarm = new Farm(new Point(60, 20));
+        int storeCount = 7, npcCount = 5, trashCount = 4;
+
+        for (int i = 0; i < storeCount; i++) {
+            if (!tryPlace(marketFarm, TileType.STORE, 6, 6)) {
+                System.out.println("⚠ Could not place Store #" + i);
+            }
+        }
+
+        for (int i = 0; i < npcCount; i++) {
+            if (!tryPlace(marketFarm, TileType.NPC, 1, 1)) {
+                System.out.println("⚠ Could not place NPC #" + i);
+            }
+        }
+
+        for (int i = 0; i < trashCount; i++) {
+            if (!tryPlace(marketFarm, TileType.TRASH_BIN, 4, 4)) {
+                System.out.println("⚠ Could not place Trash Bin #" + i);
+            }
+        }
+        return marketFarm;
+    }
 
     private static Farm generateFarm1() {
-        Farm farm = new Farm();
+        Farm farm = new Farm(new Point(55,35));
         placeBuilding(farm, TileType.HOUSE, new Rectangle(1, 1, 7, 7));
         placeBuilding(farm, TileType.GREENHOUSE, new Rectangle(10, 10, 5, 6));
         placeBuilding(farm, TileType.QUARRY, new Rectangle(farm.getRectangle().width-6, 1, 4, 4));
@@ -29,7 +51,7 @@ public class FarmFactory {
     }
 
     private static Farm generateFarm2() {
-        Farm farm = new Farm();
+        Farm farm = new Farm(new Point(55,35));
         placeBuilding(farm, TileType.HOUSE, new Rectangle(1, 1, 7, 7));
         placeBuilding(farm, TileType.GREENHOUSE, new Rectangle(farm.getRectangle().width-15, 1, 5, 6));
         placeBuilding(farm, TileType.QUARRY, new Rectangle(farm.getRectangle().width-6, 1, 4, 4));
@@ -39,7 +61,7 @@ public class FarmFactory {
     }
 
     private static Farm generateFarm3() {
-        Farm farm = new Farm();
+        Farm farm = new Farm(new Point(55,35));
         placeBuilding(farm, TileType.HOUSE, new Rectangle(1, 1, 6, 6));
         placeBuilding(farm, TileType.GREENHOUSE, new Rectangle(15, 1, 5, 5));
         placeBuilding(farm, TileType.QUARRY, new Rectangle(1, 15, 5, 5));
@@ -50,7 +72,7 @@ public class FarmFactory {
     }
 
     private static Farm generateFarm4() {
-        Farm farm = new Farm();
+        Farm farm = new Farm(new Point(55,35));
         placeBuilding(farm, TileType.HOUSE, new Rectangle(10, 5, 6, 6));
         placeBuilding(farm, TileType.GREENHOUSE, new Rectangle(5, 5, 4, 4));
         placeBuilding(farm, TileType.GREENHOUSE, new Rectangle(17, 5, 4, 4));
@@ -122,7 +144,7 @@ public class FarmFactory {
         return new Point(x, y);
     }
     public static Farm getEmptyFarm() {
-        Farm farm = new Farm();
+        Farm farm = new Farm(new Point(55,35));
         Tile[][] map = new Tile[55][35];
         for (int x = 0; x < 55; x++) {
             for (int y = 0; y < 35; y++) {
@@ -133,6 +155,32 @@ public class FarmFactory {
         }
         farm.setMainMap(map);
         return farm;
+    }
+    public static boolean tryPlace(Farm farm, TileType type, int width, int height) {
+        for (int attempt = 0; attempt < 100; attempt++) {
+            int x = ThreadLocalRandom.current().nextInt(farm.getRectangle().width - width);
+            int y = ThreadLocalRandom.current().nextInt(farm.getRectangle().height - height);
+            boolean canPlace = true;
+
+            for (int i = x; i < x + width && canPlace; i++) {
+                for (int j = y; j < y + height; j++) {
+                    if (farm.getMainMap()[i][j].getType() != TileType.EMPTY) {
+                        canPlace = false;
+                        break;
+                    }
+                }
+            }
+
+            if (canPlace) {
+                for (int i = x; i < x + width; i++) {
+                    for (int j = y; j < y + height; j++) {
+                        farm.getMainMap()[i][j].setType(type);
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
     }
     
 }

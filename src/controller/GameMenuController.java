@@ -121,8 +121,8 @@ public class GameMenuController {
                 m1[x][y].setPoint(new Point(x, y));
             }
         }
-        if(!isEmptyFarm(f1)){
-            addWallsAroundFarm(map ,f1, 0, 0);
+        if (!isEmptyFarm(f1)) {
+            addWallsAroundFarm(map, f1, 0, 0);
         }
 
         for (int x = 0; x < farmWidth; x++) {
@@ -131,92 +131,100 @@ public class GameMenuController {
                 m2[x][y].setPoint(new Point(x + 85, y));
             }
         }
-        if (!isEmptyFarm(f2)){
-            addWallsAroundFarm(map,f2, 85, 0);
+        if (!isEmptyFarm(f2)) {
+            addWallsAroundFarm(map, f2, 85, 0);
             f2.getGreenhouse().getRectangle().translate(85, 0);
             f2.getCottage().getRectangle().translate(85, 0);
             f2.getLakeInFarm().forEach(l -> l.getRectangle().translate(85, 0));
             f2.getQuarryInFarm().forEach(q -> q.getRectangle().translate(85, 0));
             f2.getRectangle().translate(85, 0);
-    
+
         }
 
-       
         for (int x = 0; x < farmWidth; x++) {
             for (int y = 0; y < farmHeight; y++) {
-                map.setMainMap(m3[x][y], x, y + 55);
-                m3[x][y].setPoint(new Point(x, y + 55));
+                map.setMainMap(m3[x][y], x, y + 65);
+                m3[x][y].setPoint(new Point(x, y + 65));
             }
         }
-        if (!isEmptyFarm(f3)){
-            addWallsAroundFarm(map,f3, 0, 55);
-            f3.getGreenhouse().getRectangle().translate(0, 85);
-            f3.getCottage().getRectangle().translate(0, 85);
-            f3.getLakeInFarm().forEach(l -> l.getRectangle().translate(0, 85));
-            f3.getQuarryInFarm().forEach(q -> q.getRectangle().translate(0, 85));
-            f3.getRectangle().translate(0, 85);
-    
+        if (!isEmptyFarm(f3)) {
+            addWallsAroundFarm(map, f3, 0, 65);
+            f3.getGreenhouse().getRectangle().translate(0, 65);
+            f3.getCottage().getRectangle().translate(0, 65);
+            f3.getLakeInFarm().forEach(l -> l.getRectangle().translate(0, 65));
+            f3.getQuarryInFarm().forEach(q -> q.getRectangle().translate(0, 65));
+            f3.getRectangle().translate(0, 65);
+
         }
-        
+
         for (int x = 0; x < farmWidth; x++) {
             for (int y = 0; y < farmHeight; y++) {
-                map.setMainMap(m4[x][y], x + 85, y + 55);
-                m4[x][y].setPoint(new Point(x + 85, y + 55));
+                map.setMainMap(m4[x][y], x + 85, y + 65);
+                m4[x][y].setPoint(new Point(x + 85, y + 65));
             }
         }
-        if (!isEmptyFarm(f4)){
-            addWallsAroundFarm(map ,f4, 85, 55);
-            f4.getGreenhouse().getRectangle().translate(85, 85);
-            f4.getCottage().getRectangle().translate(85, 85);
-            f4.getLakeInFarm().forEach(l -> l.getRectangle().translate(85, 85));
-            f4.getQuarryInFarm().forEach(q -> q.getRectangle().translate(85, 85));
-            f4.getRectangle().translate(85, 85);
-    
+        if (!isEmptyFarm(f4)) {
+            addWallsAroundFarm(map, f4, 85, 65);
+            f4.getGreenhouse().getRectangle().translate(85, 65);
+            f4.getCottage().getRectangle().translate(85, 65);
+            f4.getLakeInFarm().forEach(l -> l.getRectangle().translate(85, 65));
+            f4.getQuarryInFarm().forEach(q -> q.getRectangle().translate(85, 65));
+            f4.getRectangle().translate(85, 65);
+
         }
-        
+        Farm marketFarm = FarmFactory.generateStors();
+        for (int x = 0; x < marketFarm.getMainMap().length; x++) {
+            for (int y = 0; y < marketFarm.getMainMap()[0].length; y++) {
+                map.setMainMap(m4[x][y], x + 30, y + 40);
+                m4[x][y].setPoint(new Point(x + 30, y + 40));
+            }
+        }
         for (int x = 0; x < 140; x++) {
-            for (int y = 0; y < 90; y++) {
+            for (int y = 0; y < 100; y++) {
                 if (x < 55 && y < 35)
                     continue; // مزرعه 1
                 if (x >= 85 && y < 35)
                     continue; // مزرعه 2
-                if (x < 55 && y >= 55)
+                if (x < 55 && y >= 65)
                     continue; // مزرعه 3
-                if (x >= 85 && y >= 55)
+                if (x >= 85 && y >= 65)
                     continue; // مزرعه 4
+                if (x >=30 && y >=40 && y<=60 && x<=90) {
+                    continue;
+                }
                 Tile tile = new Tile();
                 tile.setType(TileType.EMPTY);
                 map.setMainMap(tile, x, y);
             }
         }
     }
+
     private static void addWallsAroundFarm(Map map, Farm farm, int offsetX, int offsetY) {
         int farmWidth = farm.getRectangle().width;
         int farmHeight = farm.getRectangle().height;
-        
+
         for (int y = 0; y < farmHeight; y++) {
             Tile leftWall = new Tile();
             leftWall.setType(TileType.WALL);
             map.setMainMap(leftWall, offsetX, offsetY + y);
-            
+
             Tile rightWall = new Tile();
             rightWall.setType(TileType.WALL);
             map.setMainMap(rightWall, offsetX + farmWidth - 1, offsetY + y);
         }
-        
+
         for (int x = 1; x < farmWidth - 1; x++) {
             Tile topWall = new Tile();
             topWall.setType(TileType.WALL);
             map.setMainMap(topWall, offsetX + x, offsetY);
-            
+
             Tile bottomWall = new Tile();
             bottomWall.setType(TileType.WALL);
             map.setMainMap(bottomWall, offsetX + x, offsetY + farmHeight - 1);
         }
-        
+
         farm.getRectangle().setBounds(offsetX, offsetY, farmWidth, farmHeight);
     }
-    
 
     public static void displayFourMaps() {
         Tile[][] map1 = FarmFactory.getPreset(1).getMainMap();
@@ -254,11 +262,11 @@ public class GameMenuController {
         }
         System.out.println();
     }
+
     public static boolean isEmptyFarm(Farm farm) {
         return farm.getMainMap() == null || Arrays.stream(farm.getMainMap())
-            .flatMap(Arrays::stream)
-            .allMatch(tile -> tile.getType() == TileType.EMPTY);
+                .flatMap(Arrays::stream)
+                .allMatch(tile -> tile.getType() == TileType.EMPTY);
     }
-    
 
 }
