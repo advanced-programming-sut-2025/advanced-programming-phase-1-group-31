@@ -43,7 +43,7 @@ public enum Crops {
             true, 45, List.of(Seasons.Summer), false),
     Radish(Seeds.RadishSeeds, List.of(2, 1, 2, 1), 6, true, null, 90,
             true, 45, List.of(Seasons.Summer), false),
-    Red_Cabbage(Seeds.RedCabbage, List.of(2, 1, 2, 2, 2), 9, true, null, 260,
+    Red_Cabbage(Seeds.RedCabbageSeeds, List.of(2, 1, 2, 2, 2), 9, true, null, 260,
             true, 75, List.of(Seasons.Summer), false),
     Starfruit(Seeds.StarfruitSeeds, List.of(2, 3, 2, 3, 3), 13, true, null,
             750, true, 125, List.of(Seasons.Summer), false),
