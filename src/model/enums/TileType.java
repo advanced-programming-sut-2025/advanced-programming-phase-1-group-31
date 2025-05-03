@@ -9,7 +9,7 @@ public enum TileType {
     HOUSE("H", "\u001B[45m"),
     GREENHOUSE("G", "\u001B[46m"),
     MINE("M", "\u001B[41m"),
-    WALL("W", "\u001B[41m"),
+    WALL("w", "\u001B[48;5;94m"),
     QUARRY("Q", "\u001B[47m"),
     STORE("S", "\u001B[45m"),       // بنفش (Magenta) برای فروشگاه
     NPC("N", "\u001B[46m"),         // فیروزه‌ای (Cyan) برای NPC

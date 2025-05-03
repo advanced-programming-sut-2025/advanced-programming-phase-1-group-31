@@ -19,6 +19,7 @@ public class FarmFactory {
     }
     public static Farm generateStors() {
         Farm marketFarm = new Farm(new Point(60, 20));
+        addWall(marketFarm);
         int storeCount = 7, npcCount = 5, trashCount = 4;
 
         for (int i = 0; i < storeCount; i++) {
@@ -43,6 +44,7 @@ public class FarmFactory {
 
     private static Farm generateFarm1() {
         Farm farm = new Farm(new Point(55,35));
+        addWall(farm);
         placeBuilding(farm, TileType.HOUSE, new Rectangle(1, 1, 7, 7));
         placeBuilding(farm, TileType.GREENHOUSE, new Rectangle(10, 10, 5, 6));
         placeBuilding(farm, TileType.QUARRY, new Rectangle(farm.getRectangle().width-6, 1, 4, 4));
@@ -52,6 +54,7 @@ public class FarmFactory {
 
     private static Farm generateFarm2() {
         Farm farm = new Farm(new Point(55,35));
+        addWall(farm);
         placeBuilding(farm, TileType.HOUSE, new Rectangle(1, 1, 7, 7));
         placeBuilding(farm, TileType.GREENHOUSE, new Rectangle(farm.getRectangle().width-15, 1, 5, 6));
         placeBuilding(farm, TileType.QUARRY, new Rectangle(farm.getRectangle().width-6, 1, 4, 4));
@@ -62,6 +65,7 @@ public class FarmFactory {
 
     private static Farm generateFarm3() {
         Farm farm = new Farm(new Point(55,35));
+        addWall(farm);
         placeBuilding(farm, TileType.HOUSE, new Rectangle(1, 1, 6, 6));
         placeBuilding(farm, TileType.GREENHOUSE, new Rectangle(15, 1, 5, 5));
         placeBuilding(farm, TileType.QUARRY, new Rectangle(1, 15, 5, 5));
@@ -73,6 +77,7 @@ public class FarmFactory {
 
     private static Farm generateFarm4() {
         Farm farm = new Farm(new Point(55,35));
+        addWall(farm);
         placeBuilding(farm, TileType.HOUSE, new Rectangle(10, 5, 6, 6));
         placeBuilding(farm, TileType.GREENHOUSE, new Rectangle(5, 5, 4, 4));
         placeBuilding(farm, TileType.GREENHOUSE, new Rectangle(17, 5, 4, 4));
@@ -107,7 +112,18 @@ public class FarmFactory {
             }
         }
     }
+    public static void addWall(Farm farm) {
+        int width = farm.getMainMap().length;
+        int height = farm.getMainMap()[0].length;
 
+        
+        placeBuilding(farm, TileType.WALL, new Rectangle(0, 0, width, 1)); 
+        placeBuilding(farm, TileType.WALL, new Rectangle(0, height-1, width, 1)); 
+
+      
+        placeBuilding(farm, TileType.WALL, new Rectangle(0, 0, 1, height));
+        placeBuilding(farm, TileType.WALL, new Rectangle(width-1, 0, 1, height)); 
+    }
     private static void setTileType(TileType type, Rectangle rectangle, Farm farm) {
         Tile[][] tiles = farm.getMainMap();
         for (int i = rectangle.x; i < rectangle.x + rectangle.width; i++) {
