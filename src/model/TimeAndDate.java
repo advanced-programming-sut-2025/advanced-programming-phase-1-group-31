@@ -1,7 +1,7 @@
 package model;
 
-import model.enums.Seasons;
-import model.enums.Weather;
+import model.enums.general.Seasons;
+import model.enums.general.Weather;
 
 import java.time.DayOfWeek;
 import java.util.Random;

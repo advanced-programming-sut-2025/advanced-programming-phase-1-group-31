@@ -1,6 +1,6 @@
 package model;
 
-import model.enums.Fertilizers;
+import model.enums.plantable.Fertilizers;
 
 public class Fertilizer {
     private Fertilizers fertilizerType = Fertilizers.;

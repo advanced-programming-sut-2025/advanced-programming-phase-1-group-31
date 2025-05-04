@@ -1,6 +1,6 @@
 package model.materials;
 
-import model.enums.Crops;
+import model.enums.plantable.Crops;
 
 public class Crop {
     private Crops crop;

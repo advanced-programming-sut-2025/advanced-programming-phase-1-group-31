@@ -1,6 +1,6 @@
 package model.materials.Tools;
 
-import model.enums.FishingPoleType;
+import model.enums.toolTypes.FishingPoleType;
 import model.materials.Material;
 
 public class FishingPole implements Tool, Material {

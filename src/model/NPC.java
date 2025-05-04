@@ -1,6 +1,6 @@
 package model;
 
-import model.enums.NPCs;
+import model.enums.npc.NPCs;
 
 public class NPC {
     private NPCs NPCName;

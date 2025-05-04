@@ -1,6 +1,6 @@
 package model.materials.Tools;
 
-import model.enums.TrashCanType;
+import model.enums.toolTypes.TrashCanType;
 import model.materials.Material;
 
 public class TrashCan implements Tool, Material {

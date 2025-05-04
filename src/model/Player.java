@@ -1,7 +1,6 @@
 package model;
 
-import model.enums.*;
-import view.Menu;
+import model.enums.general.Menus;
 
 import java.util.ArrayList;
 import java.util.HashMap;

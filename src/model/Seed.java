@@ -1,6 +1,6 @@
 package model;
 
-import model.enums.Seeds;
+import model.enums.plantable.Seeds;
 
 public class Seed {
     private Seeds sourceName;

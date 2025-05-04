@@ -1,6 +1,6 @@
 package model;
 
-import model.enums.Craftables;
+import model.enums.crafting.Craftables;
 
 public class Craftable {
     private Craftables craftableType = Craftables.;

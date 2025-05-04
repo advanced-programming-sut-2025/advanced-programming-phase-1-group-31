@@ -2,7 +2,7 @@ package model.materials.Tools;
 
 import model.materials.Crop;
 import model.materials.Fruit;
-import model.enums.BackpackType;
+import BackpackType;
 import model.materials.Material;
 
 import java.util.ArrayList;

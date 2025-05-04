@@ -1,6 +1,6 @@
 package model.materials.Tools;
 
-import model.enums.AxePickHoeType;
+import AxePickHoeType;
 import model.materials.Material;
 
 public class Axe implements Tool, Material {
