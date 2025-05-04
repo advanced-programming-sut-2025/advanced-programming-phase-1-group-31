@@ -2,78 +2,105 @@ package model;
 
 import model.enums.Seasons;
 import model.enums.Weather;
-import model.enums.WeekDays;
 
-import java.time.LocalDateTime;
+import java.time.DayOfWeek;
 import java.util.Random;
+
+
 //cheat code for changing weather must be added.
 
 
-
-
 public class TimeAndDate {
-    private static int hour = 9;
-    private static int day = 1;
-    private static Seasons season = Seasons.Spring;
-    private static Weather weather = Weather.Sunny;
+    private static TimeAndDate instance;
+    private final Random random = new Random();
+    private int hour = 9;
+    private int day = 1;
+    private Seasons season = Seasons.Spring;
+    private Weather weather = Weather.Sunny;
+    private DayOfWeek dayOfWeek = DayOfWeek.SATURDAY;
 
-    public static int getHour() {
+    private TimeAndDate() {
+    }
+
+    public static TimeAndDate getInstance() {
+        if (instance == null) instance = new TimeAndDate();
+        return instance;
+    }
+
+    public int getHour() {
         return hour;
     }
 
-    public static int getDay() {
+    public int getDay() {
         return day;
     }
 
-    public static Seasons getSeason() {
+    public Seasons getSeason() {
         return season;
     }
 
-    public static Weather getWeather() {return weather;}
+    public Weather getWeather() {
+        return weather;
+    }
 
-    public static void addHour(int addHour) {
+    public DayOfWeek getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void addHour(int addHour) {
+        // this algorithm to keep hour between 9-22
+        hour -= 8;
         hour += addHour;
-        if (hour > 22) {
-            int countOfDay = hour / 22;
-            hour = hour % 22;
+        if (hour > 14) {
+            int countOfDay = hour / 14;
+            hour = (hour - 1) % 14 + 1;
             addDay(countOfDay);
         }
+        hour += 8;
     }
 
-    public static void addDay(int addDay) {
+    public void addDay(int addDay) {
         day += addDay;
-        if (day > 28) {
-            int countOfSeason = day / 28;
-            day = day % 28;
-            for (int i = 0; i < countOfSeason; i++) {
-                changeSeason();
-            }
+        int countOfSeason = (day - 1) / 28;
+        day = (day - 1) % 28 + 1;
+        for (int i = 0; i < countOfSeason; i++) {
+            changeSeason();
         }
-        Random random = new Random();
+        int countOfWeek = addDay % 7;
+        for (int i = 0; i < countOfWeek; i++) {
+            changeWeek();
+        }
 
-        switch (season) {
-            case Winter -> {
-                weather = switch (random.nextInt(2)) {
-                    case 0 -> Weather.Sunny;
-                    case 1 -> Weather.Snowy;
-                    default -> Weather.Sunny; // fallback
-                };
-            }
-            default -> {
-                weather = switch (random.nextInt(3)) {
-                    case 0 -> Weather.Sunny;
-                    case 1 -> Weather.Rainy;
-                    case 2 -> Weather.Stormy;
-                    default -> Weather.Sunny; // fallback
-                };
-            }
+        if (season == Seasons.Winter) {
+            weather = (random.nextInt(2) == 0) ? Weather.Sunny : Weather.Snowy;
+        } else {
+            weather = switch (random.nextInt(3)) {
+                case 1 -> Weather.Rainy;
+                case 2 -> Weather.Stormy;
+                default -> Weather.Sunny;
+            };
         }
     }
 
-    private static void changeSeason() {
-        if (season.equals(Seasons.Spring)) season = Seasons.Summer;
-        else if (season.equals(Seasons.Summer)) season = Seasons.Fall;
-        else if (season.equals(Seasons.Fall)) season = Seasons.Winter;
-        else season = Seasons.Spring;
+
+    private void changeWeek() {
+        switch (dayOfWeek) {
+            case SATURDAY -> dayOfWeek = DayOfWeek.SUNDAY;
+            case SUNDAY -> dayOfWeek = DayOfWeek.MONDAY;
+            case MONDAY -> dayOfWeek = DayOfWeek.TUESDAY;
+            case TUESDAY -> dayOfWeek = DayOfWeek.WEDNESDAY;
+            case WEDNESDAY -> dayOfWeek = DayOfWeek.THURSDAY;
+            case THURSDAY -> dayOfWeek = DayOfWeek.FRIDAY;
+            case FRIDAY -> dayOfWeek = DayOfWeek.SATURDAY;
+        }
+    }
+
+    private void changeSeason() {
+        switch (season) {
+            case Spring -> season = Seasons.Summer;
+            case Summer -> season = Seasons.Fall;
+            case Fall -> season = Seasons.Winter;
+            case Winter -> season = Seasons.Spring;
+        }
     }
 }

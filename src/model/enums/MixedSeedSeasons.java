@@ -6,10 +6,10 @@ import java.util.List;
 import static model.enums.Crops.*;
 
 public enum MixedSeedSeasons {
-    Spring(Arrays.asList(Cauliflower, Parsnip)),
-    Summer(Arrays.asList()),
-    Fall(Arrays.asList()),
-    Winter(Arrays.asList());
+    Spring(),
+    Summer(),
+    Fall(),
+    Winter();
 
     private final List<Crops> crops;
 
