@@ -1,6 +1,5 @@
 package model;
 
-import model.enums.Crops;
 import model.enums.Shops;
 
 import java.util.ArrayList;

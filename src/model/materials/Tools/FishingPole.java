@@ -1,12 +1,12 @@
-package model.materials.Tools;
+// package model.materials.Tools;
 
-import model.enums.FishingPoleType;
-import model.materials.Material;
+// import model.enums.FishingPoleType;
+// import model.materials.Material;
 
-public class FishingPole implements Tool, Material {
-    private FishingPoleType fishingPoleType = FishingPoleType.Initial;
+// public class FishingPole implements Tool, Material {
+//     private FishingPoleType fishingPoleType = FishingPoleType.Initial;
 
-    public void work() {
+//     public void work() {
 
-    }
-}
+//     }
+// }

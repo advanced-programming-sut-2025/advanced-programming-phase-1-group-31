@@ -1,12 +1,12 @@
-package model;
+// package model;
 
-import model.enums.NPCs;
+// import model.enums.NPCs;
 
-public class NPC {
-    private NPCs NPCName;
-
-
+// public class NPC {
+//     private NPCs NPCName;
 
 
 
-}
+
+
+// }

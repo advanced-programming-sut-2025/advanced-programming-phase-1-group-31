@@ -4,6 +4,7 @@ import model.enums.*;
 import view.Menu;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Player {
@@ -22,9 +23,8 @@ public class Player {
     
 
     // maybe delete
-    private boolean isPlaying = false;
     private boolean gender;// IMPORTANT!!!!!!!!!! : false is male, true is female
-    private Tools inHand;
+    // private Tools inHand;
     private Farm farm;
 
     private Map<String, String> backup;
@@ -33,9 +33,9 @@ public class Player {
     public ArrayList<FriendshipWithNPC> NPCFriendships = new ArrayList<>();
     public ArrayList<Trade> tradeHistory = new ArrayList<>();
     //details of the Crafting recipes must be determined
-    private HashMap<Craftable, Boolean> craftingRecipes;
-    //details of the Cooking recipes must be determined
-    private HashMap<Food, Boolean> cookingRecipes;
+    // private HashMap<Craftable, Boolean> craftingRecipes;
+    // //details of the Cooking recipes must be determined
+    // private HashMap<Food, Boolean> cookingRecipes;
 
     public Player(String username, String password, String nickname, String email, boolean gender, Map<String, String> backup){
         this.username = username;
@@ -79,17 +79,13 @@ public class Player {
         return refrigerator;
     }
 
-    public boolean isPlaying() {
-        return isPlaying;
-    }
-
     public boolean isGender() {
         return gender;
     }
 
-    public Tools getInHand() {
-        return inHand;
-    }
+    // public Tools getInHand() {
+    //     return inHand;
+    // }
 
     public Farm getFarm() {
         return farm;
@@ -103,13 +99,13 @@ public class Player {
         return skills;
     }
 
-    public HashMap<Craftable, Boolean> getCraftingRecipes() {
-        return craftingRecipes;
-    }
+    // public HashMap<Craftable, Boolean> getCraftingRecipes() {
+    //     return craftingRecipes;
+    // }
 
-    public HashMap<Food, Boolean> getCookingRecipes() {
-        return cookingRecipes;
-    }
+    // public HashMap<Food, Boolean> getCookingRecipes() {
+    //     return cookingRecipes;
+    // }
 
     public void setHighScore(int highScore) {
         this.highScore = highScore;
@@ -147,17 +143,15 @@ public class Player {
         this.refrigerator = refrigerator;
     }
 
-    public void setPlaying(boolean playing) {
-        isPlaying = playing;
-    }
+    
 
     public void setGender(boolean gender) {
         this.gender = gender;
     }
 
-    public void setInHand(Tools inHand) {
-        this.inHand = inHand;
-    }
+    // public void setInHand(Tools inHand) {
+    //     this.inHand = inHand;
+    // }
 
     public void setFarm(Farm farm) {
         this.farm = farm;
@@ -167,13 +161,13 @@ public class Player {
         this.backup = backup;
     }
 
-    public void setCraftingRecipes(HashMap<Craftable, Boolean> craftingRecipes) {
-        this.craftingRecipes = craftingRecipes;
-    }
+    // public void setCraftingRecipes(HashMap<Craftable, Boolean> craftingRecipes) {
+    //     this.craftingRecipes = craftingRecipes;
+    // }
 
-    public void setCookingRecipes(HashMap<Food, Boolean> cookingRecipes) {
-        this.cookingRecipes = cookingRecipes;
-    }
+    // public void setCookingRecipes(HashMap<Food, Boolean> cookingRecipes) {
+    //     this.cookingRecipes = cookingRecipes;
+    // }
 
     public Menus getCurrentMenu() {
         return currentMenu;

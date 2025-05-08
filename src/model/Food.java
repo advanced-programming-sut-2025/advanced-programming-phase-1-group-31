@@ -1,9 +1,9 @@
-package model;
+// package model;
 
-import model.enums.Foods;
+// import model.enums.Foods;
 
-public class Food {
-    private Foods foodType = Foods.;
+// public class Food {
+//     private Foods foodType = Foods.;
 
 
-}
+// }

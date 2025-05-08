@@ -1,15 +1,16 @@
 package model;
 
-import view.Menu;
 
 import java.util.ArrayList;
 
+import model.enums.Menus;
+
 public class App {
     private static Player playerLoggedIn;
+    private static Menus currentMenu = Menus.LoginMenu;
     private static Game currentGame;
-    private static ArrayList<Player> registeredPlayers;
-    private static ArrayList<String> registeredUsernames;
-    private static ArrayList<Map> maps;
+    private static final ArrayList<Player> registeredPlayers = new ArrayList<>();
+    private static final ArrayList<String> registeredUsernames = new ArrayList<>();
     private static ArrayList<Game> games = new ArrayList<>();
 
     public static Game getCurrentGame() {
@@ -20,20 +21,12 @@ public class App {
         App.currentGame = currentGame;
     }
 
-    public static void setRegisteredPlayers(ArrayList<Player> registeredPlayers) {
-        App.registeredPlayers = registeredPlayers;
+    public static void addRegisteredUsername(String username){
+        registeredUsernames.add(username);
     }
 
-    public static void setRegisteredUsernames(ArrayList<String> registeredUsernames) {
-        App.registeredUsernames = registeredUsernames;
-    }
-
-    public static ArrayList<Map> getMaps() {
-        return maps;
-    }
-
-    public static void setMaps(ArrayList<Map> maps) {
-        App.maps = maps;
+    public static ArrayList<String> getRegisteredUsernames(){
+        return registeredUsernames;
     }
 
     public static ArrayList<Game> getGames() {
@@ -44,28 +37,29 @@ public class App {
         App.games.add(game);
     }
 
-    public static void addRegisteredPlayer(Player player){
+    public static void addRegisteredPlayer(Player player) {
         registeredPlayers.add(player);
     }
 
-    public static ArrayList<Player> getRegisteredPlayers(){
+    public static ArrayList<Player> getRegisteredPlayers() {
         return registeredPlayers;
     }
 
-    public static void addRegisteredUsername(String username){
-        registeredUsernames.add(username);
-    }
+    
 
-    public static ArrayList<String> getRegisteredUsernames(){
-        return registeredUsernames;
-    }
-
-    public static void setPlayerLoggedIn(Player player){
+    public static void setPlayerLoggedIn(Player player) {
         playerLoggedIn = player;
     }
 
-    public static Player getPlayerLoggedIn(){
+    public static Player getPlayerLoggedIn() {
         return playerLoggedIn;
     }
-    
+    public static Menus getCurrentMenu() {
+        return currentMenu;
+    }
+
+    public static void setCurrentMenu(Menus currentMenu) {
+        App.currentMenu = currentMenu;
+    }
+
 }

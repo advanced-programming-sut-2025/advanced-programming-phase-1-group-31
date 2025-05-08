@@ -1,13 +1,13 @@
-package model.enums;
+// package model.enums;
 
-public enum ForagingTrees {
-    ;
+// public enum ForagingTrees {
+//     ;
 
-    private final String name;
-    private final Seasons seasons;
+//     private final String name;
+//     private final Seasons seasons;
 
-    ForagingTrees(String name, Seasons seasons) {
-        this.name = name;
-        this.seasons = seasons;
-    }
-}
+//     ForagingTrees(String name, Seasons seasons) {
+//         this.name = name;
+//         this.seasons = seasons;
+//     }
+// }

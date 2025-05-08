@@ -12,19 +12,23 @@ import model.enums.TileType;
 
 public class Farm {
    private Rectangle rectangle ;
-    public Tile[][] mainMap = new Tile[55][35];
+    public Tile[][] mainMap ;
 
 
-    public Farm(Point point) {
-
-        this.rectangle = new Rectangle(0 , 0 , point.x , point.y);
-        for(int i=0; i<point.x ; i++){
-            for(int j=0; j<point.y; j++){
-                mainMap[i][j] = new Tile();
+    public Farm(Point size) {
+        this.rectangle = new Rectangle(0,0,size.x,size.y);
+        int width = size.x;
+        int height = size.y;
+        this.mainMap = new Tile[width][height];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                this.mainMap[i][j] = new Tile();
                 mainMap[i][j].setType(TileType.EMPTY);
             }
         }
     }
+
+
 
     private GreenHouse greenhouse;
 

@@ -1,7 +1,7 @@
 package model;
 
 public class FriendshipWithNPC {
-    private NPC npc;
+    // private NPC npc;
     private int friendshipLevel = 0;
     private int friendshipUnit = 0;
 

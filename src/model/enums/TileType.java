@@ -1,7 +1,7 @@
 package model.enums;
 
 public enum TileType {
-    EMPTY(".", "\u001B[40m"),  // پس‌زمینه سیاه
+    EMPTY(".", "\u001B[40m"),  
     TREE("T", "\u001B[42m"),
     FORAGING("F", "\u001B[102m"),
     STONE("S", "\u001B[47m"),
@@ -11,8 +11,8 @@ public enum TileType {
     MINE("M", "\u001B[41m"),
     WALL("w", "\u001B[48;5;94m"),
     QUARRY("Q", "\u001B[47m"),
-    STORE("S", "\u001B[45m"),       // بنفش (Magenta) برای فروشگاه
-    NPC("N", "\u001B[46m"),         // فیروزه‌ای (Cyan) برای NPC
+    STORE("S", "\u001B[45m"),       
+    NPC("N", "\u001B[46m"),         
     TRASH_BIN("T", "\u001B[41m");
 
 

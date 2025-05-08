@@ -1,7 +1,7 @@
-package model.materials;
+// package model.materials;
 
-import model.enums.ForagingCrops;
+// import model.enums.ForagingCrops;
 
-public class ForagingCrop {
-    private ForagingCrops foragingCrop;
-}
+// public class ForagingCrop {
+//     private ForagingCrops foragingCrop;
+// }

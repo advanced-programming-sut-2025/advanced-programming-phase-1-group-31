@@ -39,6 +39,10 @@ public class GameMenuController {
         if (usernames.length < 1)
             return new Result(false, "At least 1 username is required.");
 
+            if (Arrays.asList(usernames).contains(App.getPlayerLoggedIn().getUsername())) {
+                return new Result(false, "you can not chose own");
+            }
+
         if (usernames.length > 3)
             return new Result(false, "A maximum of 3 usernames is allowed.");
         if (isPlayerAlreadyInGame(App.getPlayerLoggedIn()))
@@ -75,8 +79,9 @@ public class GameMenuController {
             while (true) {
                 displayFourMaps();
                 String input = scanner.nextLine().trim();
-                Matcher matcher = GameMenuCommand.MAP_SELECT_PATTERN.getMatcher(input);
-                if (!matcher.matches()) {
+                Matcher matcher;
+               
+                if ( (matcher = GameMenuCommand.MAP_SELECT_PATTERN.getMatcher(input)) == null) {
                     System.out.println("Invalid command. Use 'game map <number>'");
                     continue;
                 }
@@ -111,6 +116,7 @@ public class GameMenuController {
         Tile[][] m2 = f2.getMainMap();
         Tile[][] m3 = f3.getMainMap();
         Tile[][] m4 = f4.getMainMap();
+
 
         int farmHeight = m1[0].length;
         int farmWidth = m1.length;
@@ -171,8 +177,8 @@ public class GameMenuController {
         Farm marketFarm = FarmFactory.generateStors();
         for (int x = 0; x < marketFarm.getMainMap().length; x++) {
             for (int y = 0; y < marketFarm.getMainMap()[0].length; y++) {
-                map.setMainMap(m4[x][y], x + 30, y + 40);
-                m4[x][y].setPoint(new Point(x + 30, y + 40));
+                map.setMainMap(marketFarm.getMainMap()[x][y], x + 30, y + 40);
+                marketFarm.getMainMap()[x][y].setPoint(new Point(x + 30, y + 40));
             }
         }
         for (int x = 0; x < 140; x++) {

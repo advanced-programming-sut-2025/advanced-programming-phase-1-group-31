@@ -8,7 +8,7 @@ public class Map{
     private ArrayList<Farm> farms = new ArrayList<>();
 //    public static ArrayList<FruitTrees> allFruitTrees = new ArrayList<>();
 //    public static ArrayList<Crop> allCrops = new ArrayList<>();
-    private Tile[][] mainMap = new Tile[140][90];
+    private Tile[][] mainMap = new Tile[140][100];
 
     public Tile getMainMap(int x, int y) {
         return mainMap[x][y];

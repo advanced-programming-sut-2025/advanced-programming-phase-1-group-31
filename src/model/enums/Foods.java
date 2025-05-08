@@ -16,7 +16,7 @@ public enum Foods {
 
     //Method for Buff
 
-    public abstract void buff();
+    // public abstract void buff();
 
 
 
