@@ -29,6 +29,8 @@ public class GameMenuController {
         Matcher matcher;
         if ((matcher = GameMenuCommand.GAME_NEW_PATTERN.getMatcher(input)) != null) {
             return gameNew(matcher);
+        } else if ((matcher = GameMenuCommand.PRINT_MAP.getMatcher(input)) != null) {
+            return printMap(matcher);
         }
         return new Result(false, "Invalid command.");
     }
@@ -61,16 +63,14 @@ public class GameMenuController {
         matchedPlayers.add(0, App.getPlayerLoggedIn());
         matchedPlayers.forEach(p -> p.setCurrentMenu(Menus.GameMenu));
         Game game = new Game(matchedPlayers);
+        game.setAdminPlayer(App.getPlayerLoggedIn());
+        game.setActivePlayer(App.getPlayerLoggedIn());
         App.addGames(game);
         App.setCurrentGame(game);
         gameMap(matchedPlayers);
         return new Result(true, "Game started with " + matchedPlayers.size() + " new player(s).");
     }
 
-    private boolean isPlayerAlreadyInGame(Player player) {
-        return App.getGames().stream()
-                .anyMatch(game -> game.getPlayers().contains(player));
-    }
 
     public void gameMap(ArrayList<Player> players) {
         Scanner scanner = new Scanner(System.in);
@@ -111,6 +111,43 @@ public class GameMenuController {
         App.getCurrentGame().setMainMap(map);
     }
 
+    private boolean isPlayerAlreadyInGame(Player player) {
+        return App.getGames().stream()
+                .anyMatch(game -> game.getPlayers().contains(player));
+    }
+    private Result printMap(Matcher matcher) {
+        int x = 0, y = 0, size = 0;
+        try {
+            x = Integer.parseInt(matcher.group("X"));
+            y = Integer.parseInt(matcher.group("Y"));
+            size = Integer.parseInt(matcher.group("size"));
+        } catch (Exception e) {
+            return new Result(false, e.getMessage());
+        }
+    
+        Point pos = new Point(x, y);
+        int startX = pos.x;
+        int startY = pos.y;
+        int endX = Math.min(140, pos.x + size + 1);
+        int endY = Math.min(100, pos.y + size + 1);
+    
+        System.out.println("موقعیت بازیکن: (" + pos.x + "," + pos.y + ")");
+    
+        for (int i = startX; i < endX; i++) {
+            for (int j = startY; j < endY; j++) {
+                Tile tile = App.getCurrentGame().getMainMap().getMainMap()[i][j];
+                if (i == pos.x && j == pos.y) {
+                    System.out.print("\u001B[34mP\u001B[0m");
+                } else {
+                    System.out.print(tile.getType().getColor() + tile.getType().getSymbol() + "\u001B[0m");
+                }
+            }
+            System.out.println();
+        }
+    
+        return new Result(true, "نقشه با موفقیت چاپ شد");
+    }
+    
     public static void integrateFarmsIntoMainMap(Map map, Farm f1, Farm f2, Farm f3, Farm f4) {
         Tile[][] m1 = f1.getMainMap();
         Tile[][] m2 = f2.getMainMap();
@@ -210,31 +247,28 @@ public class GameMenuController {
         System.out.println("map1\t\tmap2\t\tmap3\t\tmap4");
         System.out.println("--------------------------------------------------");
 
-        for (int y = 0; y < map1[0].length; y++) {
-            for (Tile[] tiles : map1) {
-                System.out.print(
-                        tiles[y].getType().getColor() + " " + tiles[y].getType().getSymbol() + " " + "\u001B[0m");
+        for (int x = 0; x < map1.length; x++) {
+            for (int y = 0; y < map1[0].length; y++) {
+                System.out.print(map1[x][y].getType().getColor() + " " + map1[x][y].getType().getSymbol() + " " + "\u001B[0m");
             }
             System.out.print("\t");
-
-            for (Tile[] tiles : map2) {
-                System.out.print(
-                        tiles[y].getType().getColor() + " " + tiles[y].getType().getSymbol() + " " + "\u001B[0m");
+        
+            for (int y = 0; y < map2[0].length; y++) {
+                System.out.print(map2[x][y].getType().getColor() + " " + map2[x][y].getType().getSymbol() + " " + "\u001B[0m");
             }
             System.out.print("\t");
-
-            for (Tile[] tiles : map3) {
-                System.out.print(
-                        tiles[y].getType().getColor() + " " + tiles[y].getType().getSymbol() + " " + "\u001B[0m");
+        
+            for (int y = 0; y < map3[0].length; y++) {
+                System.out.print(map3[x][y].getType().getColor() + " " + map3[x][y].getType().getSymbol() + " " + "\u001B[0m");
             }
             System.out.print("\t");
-
-            for (Tile[] tiles : map4) {
-                System.out.print(
-                        tiles[y].getType().getColor() + " " + tiles[y].getType().getSymbol() + " " + "\u001B[0m");
+        
+            for (int y = 0; y < map4[0].length; y++) {
+                System.out.print(map4[x][y].getType().getColor() + " " + map4[x][y].getType().getSymbol() + " " + "\u001B[0m");
             }
             System.out.println();
         }
+        
         System.out.println();
     }
 

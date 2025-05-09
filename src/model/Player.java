@@ -3,6 +3,7 @@ package model;
 import model.enums.*;
 import view.Menu;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +16,7 @@ public class Player {
     private String nickname;
     private String email;
     private Energy energy;
-    private Place place;
+    private Point place;
     private int gold;
     private Refrigerator refrigerator;
     private Menus currentMenu = Menus.MainMenu;
@@ -71,7 +72,7 @@ public class Player {
         return email;
     }
 
-    public Place getPlace() {
+    public Point getPlace() {
         return place;
     }
 
@@ -135,7 +136,7 @@ public class Player {
         return energy;
     }
 
-    public void setPlace(Place place) {
+    public void setPlace(Point place) {
         this.place = place;
     }
 
