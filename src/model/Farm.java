@@ -3,6 +3,7 @@ package model;
 import model.materials.Barn;
 import model.materials.Coop;
 import model.materials.Crop;
+import model.materials.Foraging.Foraging;
 import model.materials.Fruit;
 
 import java.util.ArrayList;

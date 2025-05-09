@@ -1,48 +1,24 @@
 package model.enums.commands;
 
-public enum MainMenuCommands {
-    //command patterns must be added.
+public enum MainMenuCommands implements Command {
+    MENU_ENTER("\\s*menu\\s+enter\\s+(?<menuName>\\S+)\\s*"),
+    LOGOUT("^user\\s+logout\\s*$"),
+    CHANGE_USERNAME("^change\\s+username\\s+-u\\s+(?<username>\\S+)\\s*$"),
+    CHANGE_NICKNAME("^change\\s+nickname\\s+-u\\s+(?<nickname>\\S+)\\s*$"),
+    CHANGE_EMAIL("^change\\s+email\\s+-e\\s+(?<email>\\S+)\\s*$"),
+    CHANGE_PASSWORD("^change\\s+password\\s+-p\\s+(?<newPassword>\\S+)\\s+-o\\s+(?<oldPassword>\\S+)\\s*$"),
+    SHOW_INFO("^user\\s+info\\s*$");
 
-    //public enum LoginMenuCommands {
-    //    RegisterUser("\\s*create\\s+a\\s+user\\s+account\\s+" +
-    //            "-fn\\s+(?<firstname>[\\s\\S]+)\\s+" +
-    //            "-ln\\s+(?<lastname>[\\s\\S]+)\\s+" +
-    //            "-p\\s+(?<password>[\\s\\S]+)\\s+" +
-    //            "-rp\\s+(?<reEnteredPassword>[\\s\\S]+)\\s+" +
-    //            "-e\\s+(?<email>[\\s\\S]+)\\s*"),
-    //
-    //    RegisterStore("\\s*create\\s+a\\s+store\\s+account\\s+" +
-    //            "-b\\s+(?<brand>[\\s\\S]+)\\s+" +
-    //            "-p\\s+(?<password>[\\s\\S]+)\\s+" +
-    //            "-rp\\s+(?<reEnteredPassword>[\\s\\S]+)\\s+" +
-    //            "-e\\s+(?<email>[\\s\\S]+)\\s*"),
-    //
-    //    LoginUser("\\s*login\\s+as\\s+user\\s+" +
-    //            "-e\\s+(?<email>[\\s\\S]+)\\s+" +
-    //            "-p\\s+(?<password>[\\s\\S]+)\\s*"),
-    //
-    //    LoginStore("\\s*login\\s+as\\s+store\\s+" +
-    //            "-e\\s+(?<email>[\\s\\S]+)\\s+" +
-    //            "-p\\s+(?<password>[\\s\\S]+)\\s*"),
-    //
-    //    DeleteAccount("\\s*delete\\s+account\\s+" +
-    //            "-p\\s+(?<password>[\\s\\S]+)\\s+" +
-    //            "-rp\\s+(?<reEnteredPassword>[\\s\\S]+)\\s*"),
-    //
-    //    Logout("\\s*logout\\s*"),
-    //
-    //    Back("\\s*go\\s+back\\s*");
-    //
-    //    private final String pattern;
-    //
-    //    LoginMenuCommands(String pattern) {
-    //        this.pattern = pattern;
-    //    }
-    //
-    //    public Matcher match(String pattern) {
-    //        Matcher matcher = Pattern.compile(this.pattern).matcher(pattern);
-    //        if (matcher.matches()) return matcher;
-    //        return null;
-    //    }
-    //}
+
+    private final String pattern;
+
+    MainMenuCommands(String pattern) {
+        this.pattern = pattern;
+    }
+
+    @Override
+    public String getPattern() {
+        return pattern;
+    }
+    
 }
