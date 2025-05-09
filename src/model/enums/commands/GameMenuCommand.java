@@ -28,7 +28,7 @@ public enum GameMenuCommand implements Command {
     WALK("\\s*walk\\s+-l\\s+(?<X>\\d+)\\s+(?<Y>\\d+)\\s*"),
      PRINT_MAP("\\s*print\\s+map\\s+-l\\s+(?<X>\\d+)\\s+(?<Y>\\d+)\\s+-s\\s+(?<size>\\d+)\\s*$"),
     SHOW_LEGEND("^help\\s+reading\\s+map\\s*$"),
-    SHOW_ENERGY("^energy\\s+show\\s*$"),
+    SHOW_ENERGY("\\s*energy\\s+show\\s*"),
     CHEAT_CHANGE_ENERGY("^energy\\s+set\\-v\\s+(?<value>\\d+)\\s*$"),
     UNLIMITED_ENERGY("^energy\\s+unlimited\\s*$"),
     SHOW_INVENTORY("^inventory\\s+show\\s*$"),

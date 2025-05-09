@@ -22,7 +22,10 @@ public class Player {
     private Menus currentMenu = Menus.MainMenu;
     private TileType type ;
 
-    
+
+    public void setEnergy(Energy energy) {
+        this.energy = energy;
+    }
 
     // maybe delete
     private boolean gender;// IMPORTANT!!!!!!!!!! : false is male, true is female

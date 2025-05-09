@@ -1,6 +1,7 @@
 package controller;
 
 import model.App;
+import model.Energy;
 import model.Farm;
 import model.FarmFactory;
 import model.Game;
@@ -33,6 +34,8 @@ public class GameMenuController {
             return printMap(matcher);
         } else if ((matcher = GameMenuCommand.WALK.getMatcher(input)) != null) {
             return walk(matcher);
+        } else if ((matcher = GameMenuCommand.SHOW_ENERGY.getMatcher(input)) != null) {
+            return showEnergy(matcher);
         }
         return new Result(false, "Invalid command.");
     }
@@ -166,10 +169,15 @@ public class GameMenuController {
         }
         App.getCurrentGame().getMainMap().getMainMap()[place.x][place.y].setType(TileType.EMPTY);
         App.getCurrentGame().getMainMap().getMainMap()[x][y].setType(App.getCurrentGame().getActivePlayer().getType());
+        App.getCurrentGame().getActivePlayer().getEnergy().setEnergyAmount(App.getCurrentGame().getActivePlayer().getEnergy().getEnergyAmount() - ((int)place.distance(x,y)/20));
         place.move(x,y);
         App.getCurrentGame().getActivePlayer().setPlace(place);
         return new Result(true,"موقعیت کنونی بازیکن: (" + place.x + "," + place.y + ")");
     }
+    public Result showEnergy(Matcher matcher) {
+        return new Result(true , "your energy " + App.getCurrentGame().getActivePlayer().getEnergy().getEnergyAmount());
+    }
+
 
     public static void integrateFarmsIntoMainMap(Map map, Farm f1, Farm f2, Farm f3, Farm f4) {
         Tile[][] m1 = f1.getMainMap();
@@ -317,6 +325,8 @@ public class GameMenuController {
                     player.getFarm().getRectangle().y + player.getFarm().getRectangle().height / 2);
             player.setPlace(startPoint);
             player.setType(symbol);
+            player.setEnergy(new Energy());
+            player.getEnergy().setEnergyAmount(player.getEnergy().getMaxEnergy());
             App.getCurrentGame().getMainMap().getMainMap()[startPoint.x][startPoint.y].setType(symbol);
         }
     }
