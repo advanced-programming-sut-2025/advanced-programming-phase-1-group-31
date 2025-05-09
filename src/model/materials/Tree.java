@@ -1,5 +1,16 @@
 package model.materials;
 
-public class Tree {
 
+import model.enums.plantable.Trees;
+import model.materials.Tools.MaterialType;
+
+public class Tree implements Material{
+    private Trees treeType;
+
+
+
+    @Override
+    public MaterialType getType() {
+        return treeType;
+    }
 }

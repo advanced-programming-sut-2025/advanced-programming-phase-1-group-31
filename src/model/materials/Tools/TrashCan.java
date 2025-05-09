@@ -9,4 +9,9 @@ public class TrashCan implements Tool, Material {
     public void work() {
 
     }
+
+    @Override
+    public MaterialType getType() {
+        return trashCanType;
+    }
 }

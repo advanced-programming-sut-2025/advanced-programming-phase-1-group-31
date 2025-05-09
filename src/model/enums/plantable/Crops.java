@@ -1,10 +1,11 @@
 package model.enums.plantable;
 
 import model.enums.general.Seasons;
+import model.materials.Tools.MaterialType;
 
 import java.util.List;
 
-public enum Crops {
+public enum Crops implements MaterialType {
     Blue_Jazz("Blue Jazz", Seeds.JazzSeeds, List.of(1, 2, 2, 2), 7, true, null, 50, true, 45, List.of(Seasons.Spring), false),
     Carrot("Carrot", Seeds.CarrotSeeds, List.of(1, 1, 1), 3, true, null, 35, true, 75, List.of(Seasons.Spring), false),
     Cauliflower("Cauliflower", Seeds.CauliflowerSeeds, List.of(1, 2, 4, 4, 1), 12, true, null, 175, true, 75, List.of(Seasons.Spring), true),

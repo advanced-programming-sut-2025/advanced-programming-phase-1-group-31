@@ -1,6 +1,8 @@
 package model.enums.foragings;
 
-public enum ForagingMinerals {
+import model.materials.Tools.MaterialType;
+
+public enum ForagingMinerals implements MaterialType {
     Quartz("Quartz", "A clear crystal commonly found in caves and mines.", 25),
     EarthCrystal("Earth Crystal", "A resinous substance found near the surface.", 50),
     FrozenTear("Frozen Tear", "A crystal fabled to be the frozen tears of a yeti.", 75),
@@ -18,6 +20,7 @@ public enum ForagingMinerals {
     Copper("Copper", "A common ore that can be smelted into bars.", 5),
     Iron("Iron", "A fairly common ore that can be smelted into bars.", 10),
     Gold("Gold", "A precious ore that can be smelted into bars.", 25),
+    Stone("Stone", "Common Stone", 2),
     Iridium("Iridium", "An exotic ore with many curious properties. Can be smelted into bars.",
             100),
     Coal("Coal", "A combustible rock that is useful for crafting and smelting.", 15);

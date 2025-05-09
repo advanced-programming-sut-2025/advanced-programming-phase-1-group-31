@@ -1,6 +1,8 @@
 package model.enums.toolTypes;
 
-public enum FishingPoleType {
+import model.materials.Tools.MaterialType;
+
+public enum FishingPoleType implements MaterialType {
     Training(8, false),
     Bamboo(8, true),
     Fiberglass(6, true),

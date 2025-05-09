@@ -14,7 +14,7 @@ public class GameMenu implements Menu{
     public void checkCommand(Scanner scanner){
         Result result = controller.run(scanner);
             if (result != null) {
-                System.out.println(result.Message());
+                System.out.println(result.message());
             }
     }
 }

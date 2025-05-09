@@ -3,7 +3,6 @@ package model;
 import model.materials.Barn;
 import model.materials.Coop;
 import model.materials.Crop;
-import model.materials.Foraging.Foraging;
 import model.materials.Fruit;
 
 import java.util.ArrayList;
@@ -18,6 +17,4 @@ public class Farm {
     private ArrayList<Fruit> fruitTreesInFarm = new ArrayList<>();
     private ArrayList<Crop> cropsInFarm = new ArrayList<>();
     private ArrayList<Rock> rocksInFarm = new ArrayList<>();
-    private ArrayList<Foraging> foragingsInFarm = new ArrayList<>();
-
 }

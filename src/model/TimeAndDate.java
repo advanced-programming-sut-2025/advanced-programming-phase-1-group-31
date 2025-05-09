@@ -3,6 +3,7 @@ package model;
 import model.enums.general.Seasons;
 import model.enums.general.Weather;
 
+import java.awt.*;
 import java.time.DayOfWeek;
 import java.util.Random;
 
@@ -11,41 +12,13 @@ import java.util.Random;
 
 
 public class TimeAndDate {
-    private static TimeAndDate instance;
     private final Random random = new Random();
     private int hour = 9;
     private int day = 1;
     private Seasons season = Seasons.Spring;
     private Weather weather = Weather.Sunny;
+    private Weather tomorrowWeather = Weather.Sunny;
     private DayOfWeek dayOfWeek = DayOfWeek.SATURDAY;
-
-    private TimeAndDate() {
-    }
-
-    public static TimeAndDate getInstance() {
-        if (instance == null) instance = new TimeAndDate();
-        return instance;
-    }
-
-    public int getHour() {
-        return hour;
-    }
-
-    public int getDay() {
-        return day;
-    }
-
-    public Seasons getSeason() {
-        return season;
-    }
-
-    public Weather getWeather() {
-        return weather;
-    }
-
-    public DayOfWeek getDayOfWeek() {
-        return dayOfWeek;
-    }
 
     public void addHour(int addHour) {
         // this algorithm to keep hour between 9-22
@@ -71,17 +44,18 @@ public class TimeAndDate {
             changeWeek();
         }
 
+        weather = tomorrowWeather;
+
         if (season == Seasons.Winter) {
-            weather = (random.nextInt(2) == 0) ? Weather.Sunny : Weather.Snowy;
+            tomorrowWeather = (random.nextInt(2) == 0) ? Weather.Sunny : Weather.Snowy;
         } else {
-            weather = switch (random.nextInt(3)) {
+            tomorrowWeather = switch (random.nextInt(3)) {
                 case 1 -> Weather.Rainy;
                 case 2 -> Weather.Stormy;
                 default -> Weather.Sunny;
             };
         }
     }
-
 
     private void changeWeek() {
         switch (dayOfWeek) {
@@ -102,5 +76,45 @@ public class TimeAndDate {
             case Fall -> season = Seasons.Winter;
             case Winter -> season = Seasons.Spring;
         }
+    }
+
+    public void changeSeason(Seasons seasons) {
+        this.season = seasons;
+    }
+
+    public void setTomorrowWeather(Weather tomorrowWeather) {
+        this.tomorrowWeather = tomorrowWeather;
+    }
+
+    public Weather getTomorrowWeather() {
+        return tomorrowWeather;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public Seasons getSeason() {
+        return season;
+    }
+
+    public Weather getWeather() {
+        return weather;
+    }
+
+    public DayOfWeek getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    private void thunder(){
+
+    }
+
+    public void thunder(Point point){
+
     }
 }

@@ -7,4 +7,9 @@ public class Scythe implements Tool, Material {
     public void work() {
 
     }
+
+    @Override
+    public MaterialType getType() {
+        return null;
+    }
 }

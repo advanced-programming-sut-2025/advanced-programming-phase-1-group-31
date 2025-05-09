@@ -1,8 +1,10 @@
 package model.enums.plantable;
 
+import model.materials.Tools.MaterialType;
+
 import java.util.List;
 
-public enum MixedSeedSeasons {
+public enum MixedSeedSeasons implements MaterialType {
     Spring(),
     Summer(),
     Fall(),
