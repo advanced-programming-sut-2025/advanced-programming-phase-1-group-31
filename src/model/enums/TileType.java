@@ -13,8 +13,11 @@ public enum TileType {
     QUARRY("Q", "\u001B[47m"),
     STORE("S", "\u001B[45m"),       
     NPC("N", "\u001B[46m"),         
-    TRASH_BIN("T", "\u001B[41m");
-
+    TRASH_BIN("T", "\u001B[41m"),
+    PLAYER1("P", "\u001B[34m"),
+    PLAYER2("P", "\u001B[31m"),
+    PLAYER3("P", "\u001B[33m"),
+    PLAYER4("P", "\u001B[32m");
 
     private final String symbol;
     private final String color;

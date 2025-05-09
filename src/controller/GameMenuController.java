@@ -31,6 +31,8 @@ public class GameMenuController {
             return gameNew(matcher);
         } else if ((matcher = GameMenuCommand.PRINT_MAP.getMatcher(input)) != null) {
             return printMap(matcher);
+        } else if ((matcher = GameMenuCommand.WALK.getMatcher(input)) != null) {
+            return walk(matcher);
         }
         return new Result(false, "Invalid command.");
     }
@@ -41,9 +43,9 @@ public class GameMenuController {
         if (usernames.length < 1)
             return new Result(false, "At least 1 username is required.");
 
-            if (Arrays.asList(usernames).contains(App.getPlayerLoggedIn().getUsername())) {
-                return new Result(false, "you can not chose own");
-            }
+        if (Arrays.asList(usernames).contains(App.getPlayerLoggedIn().getUsername())) {
+            return new Result(false, "you can not chose own");
+        }
 
         if (usernames.length > 3)
             return new Result(false, "A maximum of 3 usernames is allowed.");
@@ -71,7 +73,6 @@ public class GameMenuController {
         return new Result(true, "Game started with " + matchedPlayers.size() + " new player(s).");
     }
 
-
     public void gameMap(ArrayList<Player> players) {
         Scanner scanner = new Scanner(System.in);
         for (Player player : players) {
@@ -80,8 +81,8 @@ public class GameMenuController {
                 displayFourMaps();
                 String input = scanner.nextLine().trim();
                 Matcher matcher;
-               
-                if ( (matcher = GameMenuCommand.MAP_SELECT_PATTERN.getMatcher(input)) == null) {
+
+                if ((matcher = GameMenuCommand.MAP_SELECT_PATTERN.getMatcher(input)) == null) {
                     System.out.println("Invalid command. Use 'game map <number>'");
                     continue;
                 }
@@ -96,6 +97,7 @@ public class GameMenuController {
                     break;
                 }
             }
+
         }
 
         System.out.println("All players selected their maps. Game is starting...");
@@ -109,12 +111,14 @@ public class GameMenuController {
         Map map = new Map();
         integrateFarmsIntoMainMap(map, f1, f2, f3, f4);
         App.getCurrentGame().setMainMap(map);
+        setPlacePlayer();
     }
 
     private boolean isPlayerAlreadyInGame(Player player) {
         return App.getGames().stream()
                 .anyMatch(game -> game.getPlayers().contains(player));
     }
+
     private Result printMap(Matcher matcher) {
         int x = 0, y = 0, size = 0;
         try {
@@ -124,36 +128,54 @@ public class GameMenuController {
         } catch (Exception e) {
             return new Result(false, e.getMessage());
         }
-    
+
         Point pos = new Point(x, y);
         int startX = pos.x;
         int startY = pos.y;
         int endX = Math.min(140, pos.x + size + 1);
         int endY = Math.min(100, pos.y + size + 1);
-    
+
         System.out.println("موقعیت بازیکن: (" + pos.x + "," + pos.y + ")");
-    
+
         for (int i = startX; i < endX; i++) {
             for (int j = startY; j < endY; j++) {
                 Tile tile = App.getCurrentGame().getMainMap().getMainMap()[i][j];
-                if (i == pos.x && j == pos.y) {
-                    System.out.print("\u001B[34mP\u001B[0m");
-                } else {
-                    System.out.print(tile.getType().getColor() + tile.getType().getSymbol() + "\u001B[0m");
-                }
+                System.out.print(tile.getType().getColor() + tile.getType().getSymbol() + "\u001B[0m");
             }
             System.out.println();
         }
-    
+
         return new Result(true, "نقشه با موفقیت چاپ شد");
     }
-    
+
+    public Result walk(Matcher matcher) {
+        int x = 0, y = 0;
+        Point place = App.getCurrentGame().getActivePlayer().getPlace();
+        try {
+            x = Integer.parseInt(matcher.group("X"));
+            y = Integer.parseInt(matcher.group("Y"));
+        } catch (Exception e) {
+            return new Result(false, e.getMessage());
+        } 
+        if (App.getCurrentGame().getActivePlayer().getFarm().getRectangle().contains(place) && !App.getCurrentGame().getActivePlayer().getFarm().getRectangle().contains(new Point(x, y))) {
+            return new Result(false, "you are in your farm please use the door");
+        }
+        if (App.getCurrentGame().getMainMap().getMainMap()[x][y].getType()!=TileType.EMPTY) {
+            System.out.println("Tile at (" + x + "," + y + ") type: " + App.getCurrentGame().getMainMap().getMainMap()[x][y].getType());
+            return new Result(false, "gtg");
+        }
+        App.getCurrentGame().getMainMap().getMainMap()[place.x][place.y].setType(TileType.EMPTY);
+        App.getCurrentGame().getMainMap().getMainMap()[x][y].setType(App.getCurrentGame().getActivePlayer().getType());
+        place.move(x,y);
+        App.getCurrentGame().getActivePlayer().setPlace(place);
+        return new Result(true,"موقعیت کنونی بازیکن: (" + place.x + "," + place.y + ")");
+    }
+
     public static void integrateFarmsIntoMainMap(Map map, Farm f1, Farm f2, Farm f3, Farm f4) {
         Tile[][] m1 = f1.getMainMap();
         Tile[][] m2 = f2.getMainMap();
         Tile[][] m3 = f3.getMainMap();
         Tile[][] m4 = f4.getMainMap();
-
 
         int farmHeight = m1[0].length;
         int farmWidth = m1.length;
@@ -175,6 +197,7 @@ public class GameMenuController {
             }
         }
         if (!isEmptyFarm(f2)) {
+
             f2.getGreenhouse().getRectangle().translate(85, 0);
             f2.getCottage().getRectangle().translate(85, 0);
             f2.getLakeInFarm().forEach(l -> l.getRectangle().translate(85, 0));
@@ -228,7 +251,7 @@ public class GameMenuController {
                     continue; // مزرعه 3
                 if (x >= 85 && y >= 65)
                     continue; // مزرعه 4
-                if (x >=30 && y >=40 && y<=60 && x<=90) {
+                if (x >= 30 && y >= 40 && y <= 60 && x <= 90) {
                     continue;
                 }
                 Tile tile = new Tile();
@@ -236,6 +259,7 @@ public class GameMenuController {
                 map.setMainMap(tile, x, y);
             }
         }
+
     }
 
     public static void displayFourMaps() {
@@ -249,27 +273,52 @@ public class GameMenuController {
 
         for (int x = 0; x < map1.length; x++) {
             for (int y = 0; y < map1[0].length; y++) {
-                System.out.print(map1[x][y].getType().getColor() + " " + map1[x][y].getType().getSymbol() + " " + "\u001B[0m");
+                System.out.print(
+                        map1[x][y].getType().getColor() + " " + map1[x][y].getType().getSymbol() + " " + "\u001B[0m");
             }
             System.out.print("\t");
-        
+
             for (int y = 0; y < map2[0].length; y++) {
-                System.out.print(map2[x][y].getType().getColor() + " " + map2[x][y].getType().getSymbol() + " " + "\u001B[0m");
+                System.out.print(
+                        map2[x][y].getType().getColor() + " " + map2[x][y].getType().getSymbol() + " " + "\u001B[0m");
             }
             System.out.print("\t");
-        
+
             for (int y = 0; y < map3[0].length; y++) {
-                System.out.print(map3[x][y].getType().getColor() + " " + map3[x][y].getType().getSymbol() + " " + "\u001B[0m");
+                System.out.print(
+                        map3[x][y].getType().getColor() + " " + map3[x][y].getType().getSymbol() + " " + "\u001B[0m");
             }
             System.out.print("\t");
-        
+
             for (int y = 0; y < map4[0].length; y++) {
-                System.out.print(map4[x][y].getType().getColor() + " " + map4[x][y].getType().getSymbol() + " " + "\u001B[0m");
+                System.out.print(
+                        map4[x][y].getType().getColor() + " " + map4[x][y].getType().getSymbol() + " " + "\u001B[0m");
             }
             System.out.println();
         }
-        
+
         System.out.println();
+    }
+
+    private void setPlacePlayer() {
+        List<TileType> symbols = List.of(
+                TileType.PLAYER1,
+                TileType.PLAYER2,
+                TileType.PLAYER3,
+                TileType.PLAYER4);
+
+        List<Player> players = App.getCurrentGame().getPlayers();
+        for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
+            TileType symbol = symbols.get(i);
+
+            Point startPoint = new Point(
+                    player.getFarm().getRectangle().x + player.getFarm().getRectangle().width / 2,
+                    player.getFarm().getRectangle().y + player.getFarm().getRectangle().height / 2);
+            player.setPlace(startPoint);
+            player.setType(symbol);
+            App.getCurrentGame().getMainMap().getMainMap()[startPoint.x][startPoint.y].setType(symbol);
+        }
     }
 
     public static boolean isEmptyFarm(Farm farm) {

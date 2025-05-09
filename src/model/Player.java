@@ -20,6 +20,7 @@ public class Player {
     private int gold;
     private Refrigerator refrigerator;
     private Menus currentMenu = Menus.MainMenu;
+    private TileType type ;
 
     
 
@@ -101,6 +102,14 @@ public class Player {
     }
 
     // public HashMap<Craftable, Boolean> getCraftingRecipes() {
+
+    public TileType getType() {
+        return type;
+    }
+
+    public void setType(TileType type) {
+        this.type = type;
+    }
     //     return craftingRecipes;
     // }
 
