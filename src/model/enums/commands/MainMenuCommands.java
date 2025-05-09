@@ -12,6 +12,7 @@ public enum MainMenuCommands implements Command {
 
     private final String pattern;
 
+
     MainMenuCommands(String pattern) {
         this.pattern = pattern;
     }
