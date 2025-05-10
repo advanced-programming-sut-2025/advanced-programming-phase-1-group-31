@@ -1,11 +1,9 @@
 package model;
 
-import model.enums.*;
-import view.Menu;
-
+import model.enums.general.Menus;
+import model.enums.general.TileType;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Player {

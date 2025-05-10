@@ -2,15 +2,24 @@ package model;
 
 import java.awt.*;
 
-import model.enums.TileType;
+import model.enums.general.TileType;
+import model.materials.Material;
 
 public class Tile {
    private TileType type;
    private Point point = new Point();
-
+    private Material material;
 
     public TileType getType() {
         return type;
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
     }
 
     public void setType(TileType type) {

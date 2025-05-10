@@ -1,7 +1,7 @@
 // File: factory/FarmFactory.java
 package model;
 
-import model.enums.TileType;
+import model.enums.general.TileType;
 
 import java.awt.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -23,7 +23,7 @@ public class FarmFactory {
         int storeCount = 7, npcCount = 5, trashCount = 4;
 
         for (int i = 0; i < storeCount; i++) {
-            if (!tryPlace(marketFarm, TileType.STORE, 6, 6)) {
+            if (!tryPlace(marketFarm, TileType.SHOP, 6, 6)) {
                 System.out.println("⚠ Could not place Store #" + i);
             }
         }
@@ -34,11 +34,11 @@ public class FarmFactory {
             }
         }
 
-        for (int i = 0; i < trashCount; i++) {
-            if (!tryPlace(marketFarm, TileType.TRASH_BIN, 4, 4)) {
-                System.out.println("⚠ Could not place Trash Bin #" + i);
-            }
-        }
+        // for (int i = 0; i < trashCount; i++) {
+        //     if (!tryPlace(marketFarm, TileType.TRASH_BIN, 4, 4)) {
+        //         System.out.println("⚠ Could not place Trash Bin #" + i);
+        //     }
+        // }
         return marketFarm;
     }
 
@@ -136,18 +136,18 @@ public class FarmFactory {
         int randomNumberOfTree = ThreadLocalRandom.current().nextInt(10, 21);
         for (int i = 0; i < randomNumberOfTree; i++) {
             Point point = randomPoint(farm);
-            farm.getMainMap()[point.x][point.y].setType(TileType.TREE);
+            farm.getMainMap()[point.x][point.y].setType(TileType.FORAGING_TREE);
 
         }
         int randomNumberOfStone = ThreadLocalRandom.current().nextInt(10, 21);
         for (int i = 0; i < randomNumberOfStone; i++) {
             Point point = randomPoint(farm);
-            farm.getMainMap()[point.x][point.y].setType(TileType.STONE);
+            farm.getMainMap()[point.x][point.y].setType(TileType.FORAGING_MINERAL);
         }
         int randomNumberOfForaging = ThreadLocalRandom.current().nextInt(10, 21);
         for (int i = 0; i < randomNumberOfForaging; i++) {
             Point point = randomPoint(farm);
-            farm.getMainMap()[point.x][point.y].setType(TileType.FORAGING);
+            farm.getMainMap()[point.x][point.y].setType(TileType.FORAGING_CROPS);
         }
     }
     public static Point randomPoint(Farm farm) {

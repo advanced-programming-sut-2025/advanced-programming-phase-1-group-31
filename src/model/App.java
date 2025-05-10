@@ -3,7 +3,7 @@ package model;
 
 import java.util.ArrayList;
 
-import model.enums.Menus;
+import model.enums.general.Menus;
 
 public class App {
     private static Player playerLoggedIn;

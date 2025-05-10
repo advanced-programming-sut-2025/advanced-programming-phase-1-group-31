@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 
 import model.App;
 import model.Result;
-import model.enums.Menus;
+import model.enums.general.Menus;
 import model.enums.commands.MainMenuCommands;
 
 public class MainMenuController {

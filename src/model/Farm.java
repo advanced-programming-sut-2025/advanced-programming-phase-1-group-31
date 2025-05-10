@@ -8,7 +8,7 @@ package model;
 import java.awt.*;
 import java.util.ArrayList;
 
-import model.enums.TileType;
+import model.enums.general.TileType;
 
 public class Farm {
    private Rectangle rectangle ;

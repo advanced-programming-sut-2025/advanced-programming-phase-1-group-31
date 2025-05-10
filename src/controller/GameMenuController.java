@@ -8,8 +8,11 @@ import model.Game;
 import model.Player;
 import model.Result;
 import model.Tile;
-import model.enums.Menus;
-import model.enums.TileType;
+import model.enums.general.Direction;
+import model.enums.general.Menus;
+import model.enums.general.TileType;
+import model.enums.plantable.Crops;
+import model.materials.Material;
 import model.enums.commands.GameMenuCommand;
 
 import java.awt.Point;
@@ -36,7 +39,12 @@ public class GameMenuController {
             return walk(matcher);
         } else if ((matcher = GameMenuCommand.SHOW_ENERGY.getMatcher(input)) != null) {
             return showEnergy(matcher);
+        } else if ((matcher = GameMenuCommand.CHEAT_CHANGE_ENERGY.getMatcher(input)) != null) {
+            return cheatChangeEnergy(matcher);
+        } else if ((matcher = GameMenuCommand.UNLIMITED_ENERGY.getMatcher(input)) != null) {
+            return unlimitedEnergy(matcher);
         }
+
         return new Result(false, "Invalid command.");
     }
 
@@ -159,24 +167,76 @@ public class GameMenuController {
             y = Integer.parseInt(matcher.group("Y"));
         } catch (Exception e) {
             return new Result(false, e.getMessage());
-        } 
-        if (App.getCurrentGame().getActivePlayer().getFarm().getRectangle().contains(place) && !App.getCurrentGame().getActivePlayer().getFarm().getRectangle().contains(new Point(x, y))) {
+        }
+        if (App.getCurrentGame().getActivePlayer().getFarm().getRectangle().contains(place)
+                && !App.getCurrentGame().getActivePlayer().getFarm().getRectangle().contains(new Point(x, y))) {
             return new Result(false, "you are in your farm please use the door");
         }
-        if (App.getCurrentGame().getMainMap().getMainMap()[x][y].getType()!=TileType.EMPTY) {
-            System.out.println("Tile at (" + x + "," + y + ") type: " + App.getCurrentGame().getMainMap().getMainMap()[x][y].getType());
+        if (App.getCurrentGame().getMainMap().getMainMap()[x][y].getType() != TileType.EMPTY) {
+            System.out.println("Tile at (" + x + "," + y + ") type: "
+                    + App.getCurrentGame().getMainMap().getMainMap()[x][y].getType());
             return new Result(false, "gtg");
         }
         App.getCurrentGame().getMainMap().getMainMap()[place.x][place.y].setType(TileType.EMPTY);
         App.getCurrentGame().getMainMap().getMainMap()[x][y].setType(App.getCurrentGame().getActivePlayer().getType());
-        App.getCurrentGame().getActivePlayer().getEnergy().setEnergyAmount(App.getCurrentGame().getActivePlayer().getEnergy().getEnergyAmount() - ((int)place.distance(x,y)/20));
-        place.move(x,y);
+        App.getCurrentGame().getActivePlayer().getEnergy()
+                .setEnergyAmount(App.getCurrentGame().getActivePlayer().getEnergy().getEnergyAmount()
+                        - ( place.distance(x, y) / 20));
+        place.move(x, y);
         App.getCurrentGame().getActivePlayer().setPlace(place);
-        return new Result(true,"موقعیت کنونی بازیکن: (" + place.x + "," + place.y + ")");
+        return new Result(true, "موقعیت کنونی بازیکن: (" + place.x + "," + place.y + ")");
     }
+
     public Result showEnergy(Matcher matcher) {
-        return new Result(true , "your energy " + App.getCurrentGame().getActivePlayer().getEnergy().getEnergyAmount());
+        if (App.getCurrentGame().getActivePlayer().getEnergy().getEnergyAmount() == Double.POSITIVE_INFINITY) {
+            return new Result(true, "your energy " + App.getCurrentGame().getActivePlayer().getEnergy().getEnergyAmount());
+        } else {
+            return new Result(false , "your energy " + (int) Math.round(App.getCurrentGame().getActivePlayer().getEnergy().getEnergyAmount()));
+        }
     }
+
+    public Result cheatChangeEnergy(Matcher matcher) {
+        Double amountEnergy = 0.0;
+        try {
+            amountEnergy = Double.parseDouble(matcher.group("value"));
+        } catch (Exception e) {
+            return new Result(false, e.getMessage());
+        }
+        Energy energy = App.getCurrentGame().getActivePlayer().getEnergy();
+        if(amountEnergy>=energy.getMaxEnergy()) {
+            Double maxEnergy = energy.getMaxEnergy();
+            int maxEnergyInt = (int) Math.round(maxEnergy);
+            return new Result(false , "your energy is bigger than " + maxEnergyInt);
+        }
+        if(energy.getMaxEnergy() == Double.POSITIVE_INFINITY) {
+            energy.setMaxEnergy(200.0);
+        }
+        App.getCurrentGame().getActivePlayer().getEnergy().setEnergyAmount(amountEnergy);
+        return new Result(false , "your energy set to " + (int) Math.round(amountEnergy));
+    }
+
+    public Result unlimitedEnergy(Matcher matcher) {
+        Energy energy = App.getCurrentGame().getActivePlayer().getEnergy();
+        energy.setEnergyAmount(Double.POSITIVE_INFINITY);
+        energy.setMaxEnergy(Double.POSITIVE_INFINITY);
+        return new Result(false , "your energy set to unlimited");
+    }
+    public Result handlePlantCommand(Player player, String seedName, String direction) {
+    Point pos = player.getPlace();
+    Point target = Direction.fromString(direction).apply(pos);
+
+    Tile[][] map = player.getFarm().getMainMap();
+    Tile targetTile = map[target.x][target.y];
+
+    if (targetTile.getType()!=TileType.EMPTY) return new Result(false, "Soil is not tilled!");
+    // if (!targetTile.isPlantable()) return new Result(false, "Can't plant here!");
+
+    Material crop = findCropBySeed(seedName);
+    if (crop == null) return new Result(false, "Invalid seed!");
+
+    targetTile.getType().getMaterial() = crop;
+    return new Result(true, crop.getDisplayName() + " planted!");
+}
 
 
     public static void integrateFarmsIntoMainMap(Map map, Farm f1, Farm f2, Farm f3, Farm f4) {
