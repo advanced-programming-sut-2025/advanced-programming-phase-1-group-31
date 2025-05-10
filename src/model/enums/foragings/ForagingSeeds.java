@@ -1,7 +1,7 @@
 package model.enums.foragings;
 
 import model.enums.general.Seasons;
-import model.materials.Tools.MaterialType;
+import model.materials.MaterialType;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package model.materials.Tools;
+package model.materials;
 
 public interface MaterialType {
 }

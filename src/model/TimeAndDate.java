@@ -55,6 +55,9 @@ public class TimeAndDate {
                 default -> Weather.Sunny;
             };
         }
+        for (int i = 0; i < addDay; i++){
+            if (weather.equals(Weather.Stormy)) thunder();
+        }
     }
 
     private void changeWeek() {
@@ -111,6 +114,9 @@ public class TimeAndDate {
     }
 
     private void thunder(){
+        // amirabbas
+
+
 
     }
 

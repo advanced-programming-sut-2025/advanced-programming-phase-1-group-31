@@ -1,6 +1,6 @@
 package model.enums.plantable;
 
-import model.materials.Tools.MaterialType;
+import model.materials.MaterialType;
 
 import java.util.List;
 

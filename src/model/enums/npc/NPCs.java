@@ -5,10 +5,11 @@ import model.enums.crafting.Foods;
 import model.enums.creature.AnimalProducts;
 import model.enums.foragings.ForagingMinerals;
 import model.materials.Material;
+import model.materials.MaterialType;
 
 import java.util.ArrayList;
 
-public enum NPCs {
+public enum NPCs implements MaterialType {
     Sebastian({new Trade(ForagingMinerals.Iron, 50),
                             new Trade(Foods.PumpkinPie, 1),
                             new Trade(ForagingMinerals.Stone, 150)},

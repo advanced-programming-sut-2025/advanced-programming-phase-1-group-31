@@ -1,6 +1,6 @@
 package model.enums.toolTypes;
 
-import model.materials.Tools.MaterialType;
+import model.materials.MaterialType;
 
 public enum
 

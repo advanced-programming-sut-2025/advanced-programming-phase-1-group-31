@@ -4,7 +4,9 @@ import model.Game;
 import model.Result;
 import model.TimeAndDate;
 import model.enums.commands.GameMenuCommand;
+import model.enums.general.Weather;
 
+import java.awt.*;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -26,35 +28,53 @@ public class GameMenuController {
             return showWeekday();
         else if ((matcher = GameMenuCommand.CHEAT_ADVANCE_TIME.getMatcher(input)) != null)
             return timeCheating(matcher);
-        else if (GameMenuCommand.CHEAT_ADVANCE_DATE.getMatcher(input) != null)
-            return dateCheating();
-        else if (GameMenuCommand.CHEAT_CREATE_THUNDER.getMatcher(input) != null)
-            return thunderCheating();
+        else if ((matcher = GameMenuCommand.CHEAT_ADVANCE_DATE.getMatcher(input)) != null)
+            return dateCheating(matcher);
+        else if ((matcher = GameMenuCommand.CHEAT_CREATE_THUNDER.getMatcher(input)) != null)
+            return thunderCheating(matcher);
         else if (GameMenuCommand.FORECAST_WEATHER.getMatcher(input) != null)
             return forecastWeather();
-        else if (GameMenuCommand.CHEAT_CHANGE_WEATHER.getMatcher(input) != null)
-            return weatherCheating();
+        else if ((matcher = GameMenuCommand.CHEAT_CHANGE_WEATHER.getMatcher(input)) != null)
+            return weatherCheating(matcher);
 
         return new Result(false, "Invalid command.");
     }
 
-    private Result weatherCheating() {
+    private Result weatherCheating(Matcher matcher) {
+        String weatherString = matcher.group("weather").trim();
+        Weather weather;
+        try {
+            weather = Weather.valueOf(weatherString);
+        } catch (IllegalArgumentException e) {
+            return new Result(false,
+                    "Invalid weather name. Use one of: Sunny, Rainy, Stormy, Snowy.");
+        }
+        Game.getTimeAndDate().setTomorrowWeather(weather);
+        return new Result(true, "Tomorrow weather has been manipulated...!");
     }
 
     private Result forecastWeather() {
+        return new Result(true, "It will be \""
+                + Game.getTimeAndDate().getTomorrowWeather() + "\" tomorrow!");
     }
 
-    private Result thunderCheating() {
+    private Result thunderCheating(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("X").trim());
+        int y = Integer.parseInt(matcher.group("Y").trim());
+        // must be in range check it
+        if ()
+        Game.getTimeAndDate().thunder(new Point(x, y));
+        return new Result(true, "Thunder...!");
     }
 
     private Result dateCheating(Matcher matcher) {
-        int number = Integer.parseInt(matcher.group("number"));
+        int number = Integer.parseInt(matcher.group("number").trim());
         Game.getTimeAndDate().addDay(number);
         return showDate();
     }
 
     private Result timeCheating(Matcher matcher) {
-        int number = Integer.parseInt(matcher.group("number"));
+        int number = Integer.parseInt(matcher.group("number").trim());
         Game.getTimeAndDate().addHour(number);
         return showTime();
     }
