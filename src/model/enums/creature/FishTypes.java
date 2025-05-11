@@ -1,6 +1,8 @@
 package model.enums.creature;
 
-public enum FishTypes {
+import model.materials.MaterialType;
+
+public enum FishTypes implements MaterialType {
     //to be added
     ;
 

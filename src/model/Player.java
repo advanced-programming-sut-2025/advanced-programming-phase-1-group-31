@@ -1,41 +1,64 @@
 package model;
 
 import model.enums.general.Menus;
+import model.enums.general.TileType;
+import model.Tools.Tool;
 
+import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 
 public class Player {
-    private int highScore;
-    private int gameCount;
-    private String username;
-    private String password;
-    private String nickname;
-    private String email;
-    private Energy energy;
-    private Place place;
-    private Refrigerator refrigerator;
-    private Menus currentMenu = Menus.MainMenu;
-
-    public Menus getCurrentMenu() {
-        return currentMenu;
-    }
-
     // maybe delete
-    private boolean isPlaying = false;
-    private boolean gender;
-    private Tools inHand;
+    private boolean gender;// IMPORTANT!!!!!!!!!! : false is male, true is female
+     private Tool inHand;
     private Farm farm;
-
-    private HashMap<String, String> backup;
+    private Map<String, String> backup;
     private Skill skills;
     public ArrayList<Friendship> friendships = new ArrayList<>();
     public ArrayList<FriendshipWithNPC> NPCFriendships = new ArrayList<>();
     public ArrayList<Trade> tradeHistory = new ArrayList<>();
     //details of the Crafting recipes must be determined
-    private HashMap<Craftable, Boolean> craftingRecipes;
-    //details of the Cooking recipes must be determined
-    private HashMap<Food, Boolean> cookingRecipes;
+    // private HashMap<Craftable, Boolean> craftingRecipes;
+    // //details of the Cooking recipes must be determined
+    // private HashMap<Food, Boolean> cookingRecipes;
+
+    private int highScore = 0;
+    private int gameCount = 0;
+    private String username;
+    private String password;
+    private String nickname;
+    private String email;
+    private Energy energy;
+    private Point place;
+    private int gold;
+    private static Menus currentMenu = Menus.MainMenu;
+    private TileType type;
+    private final Backpack inventory = new Backpack();
+
+
+    public Backpack getInventory() {
+        return inventory;
+    }
+
+    public void setEnergy(Energy energy) {
+        this.energy = energy;
+    }
+
+
+    public Player(String username,
+                  String password,
+                  String nickname,
+                  String email,
+                  boolean gender,
+                  Map<String, String> backup) {
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+        this.email = email;
+        this.gender = gender;
+        this.backup = backup;
+    }
 
 
     public int getHighScore() {
@@ -62,23 +85,15 @@ public class Player {
         return email;
     }
 
-    public Place getPlace() {
+    public Point getPlace() {
         return place;
-    }
-
-    public Refrigerator getRefrigerator() {
-        return refrigerator;
-    }
-
-    public boolean isPlaying() {
-        return isPlaying;
     }
 
     public boolean isGender() {
         return gender;
     }
 
-    public Tools getInHand() {
+    public Tool getInHand() {
         return inHand;
     }
 
@@ -86,7 +101,7 @@ public class Player {
         return farm;
     }
 
-    public HashMap<String, String> getBackup() {
+    public Map<String, String> getBackup() {
         return backup;
     }
 
@@ -94,13 +109,14 @@ public class Player {
         return skills;
     }
 
-    public HashMap<Craftable, Boolean> getCraftingRecipes() {
-        return craftingRecipes;
+    public TileType getType() {
+        return type;
     }
 
-    public HashMap<Food, Boolean> getCookingRecipes() {
-        return cookingRecipes;
+    public void setType(TileType type) {
+        this.type = type;
     }
+
 
     public void setHighScore(int highScore) {
         this.highScore = highScore;
@@ -130,40 +146,39 @@ public class Player {
         return energy;
     }
 
-    public void setPlace(Place place) {
+    public void setPlace(Point place) {
         this.place = place;
-    }
-
-    public void setRefrigerator(Refrigerator refrigerator) {
-        this.refrigerator = refrigerator;
-    }
-
-    public void setPlaying(boolean playing) {
-        isPlaying = playing;
     }
 
     public void setGender(boolean gender) {
         this.gender = gender;
     }
 
-    public void setInHand(Tools inHand) {
-        this.inHand = inHand;
-    }
+    // public void setInHand(Tools inHand) {
+    //     this.inHand = inHand;
+    // }
 
     public void setFarm(Farm farm) {
         this.farm = farm;
     }
 
-    public void setBackup(HashMap<String, String> backup) {
+    public void setBackup(Map<String, String> backup) {
         this.backup = backup;
     }
 
-    public void setCraftingRecipes(HashMap<Craftable, Boolean> craftingRecipes) {
-        this.craftingRecipes = craftingRecipes;
+    // public void setCraftingRecipes(HashMap<Craftable, Boolean> craftingRecipes) {
+    //     this.craftingRecipes = craftingRecipes;
+    // }
+
+    // public void setCookingRecipes(HashMap<Food, Boolean> cookingRecipes) {
+    //     this.cookingRecipes = cookingRecipes;
+    // }
+
+    public static Menus getCurrentMenu() {
+        return currentMenu;
     }
 
-    public void setCookingRecipes(HashMap<Food, Boolean> cookingRecipes) {
-        this.cookingRecipes = cookingRecipes;
+    public static void setCurrentMenu(Menus menu) {
+        currentMenu = menu;
     }
 }
-

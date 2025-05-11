@@ -1,9 +1,8 @@
-package model.materials.Tools;
+package model.Tools;
 
 import model.enums.toolTypes.FishingPoleType;
-import model.materials.Material;
 
-public class FishingPole implements Tool, Material {
+public class FishingPole implements Tool {
     private FishingPoleType fishingPoleType = FishingPoleType.Training;
 
 
@@ -11,8 +10,8 @@ public class FishingPole implements Tool, Material {
         this.fishingPoleType = fishingPoleType;
     }
 
-    @Override
-    public void work() {
-
+    public FishingPoleType getFishingPoleType() {
+        return fishingPoleType;
     }
+
 }

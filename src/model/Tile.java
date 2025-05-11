@@ -10,6 +10,11 @@ public class Tile {
     private Point point = new Point();
     private Material material;
 
+    public Tile(TileType type, Material material) {
+        this.type = type;
+        this.material = material;
+    }
+
     public TileType getType() {
         return type;
     }

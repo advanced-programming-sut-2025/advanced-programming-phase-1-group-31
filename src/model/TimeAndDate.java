@@ -136,7 +136,7 @@ public class TimeAndDate {
         if (tile.getMaterial() instanceof Tree || tile.getMaterial() instanceof ForagingTree) {
             tile.setType(TileType.FORAGING_CROPS);
             tile.setMaterial(new ForagingMineral(ForagingMinerals.Coal));
-        } else if (tile.getMaterial())
+        } else if ()
 
     }
 }

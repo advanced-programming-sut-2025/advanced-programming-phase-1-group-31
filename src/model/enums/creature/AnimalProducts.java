@@ -1,6 +1,8 @@
 package model.enums.creature;
 
-public enum AnimalProducts {
+import model.materials.MaterialType;
+
+public enum AnimalProducts implements MaterialType {
     //to be added
     ;
 }

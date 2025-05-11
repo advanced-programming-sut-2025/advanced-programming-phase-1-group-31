@@ -1,17 +1,16 @@
-package model.materials.Tools;
+package model.Tools;
 
 import model.enums.toolTypes.AxePickHoeType;
-import model.materials.Material;
 
-public class Axe implements Tool, Material {
+public class Axe implements Tool {
     private AxePickHoeType axeType = AxePickHoeType.Initial;
 
     public void setAxeType(AxePickHoeType axeType) {
         this.axeType = axeType;
     }
 
-    @Override
-    public void work() {
-
+    public AxePickHoeType getAxeType() {
+        return axeType;
     }
+
 }

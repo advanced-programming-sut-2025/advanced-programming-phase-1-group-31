@@ -1,6 +1,8 @@
 package model.enums.crafting;
 
-public enum CraftedProducts {
+import model.materials.MaterialType;
+
+public enum CraftedProducts implements MaterialType {
     //to be added
     ;
 }

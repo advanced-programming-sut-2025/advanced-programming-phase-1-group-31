@@ -1,5 +1,7 @@
 package model;
 
+import model.materials.Food;
+
 import java.util.ArrayList;
 
 public class Refrigerator {

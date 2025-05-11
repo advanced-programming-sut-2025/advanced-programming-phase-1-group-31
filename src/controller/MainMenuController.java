@@ -4,9 +4,11 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 
 import model.App;
+import model.Player;
 import model.Result;
 import model.enums.Menus;
 import model.enums.commands.MainMenuCommands;
+import model.enums.general.Menus;
 
 public class MainMenuController {
     public Result run(Scanner scanner){
@@ -21,8 +23,8 @@ public class MainMenuController {
     }
     private Result menuEnter(Matcher matcher){
         String menuName = matcher.group("menuName").trim();
-        if (menuName.equals(Menus.GameMenu.getName())) {
-            App.setCurrentMenu(Menus.GameMenu);
+        if (menuName.equals(Menus.GameMenu.name())) {
+            Player.setCurrentMenu(Menus.GameMenu);
             return new Result(true,"You are in gameMenu");
         }
         return new Result(false,menuName + "doesn't exist");

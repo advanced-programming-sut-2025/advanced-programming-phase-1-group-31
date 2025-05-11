@@ -1,6 +1,8 @@
 package model.enums.foragings;
 
-public enum ForagingMinerals {
+import model.materials.MaterialType;
+
+public enum ForagingMinerals implements MaterialType {
     Quartz("Quartz", "A clear crystal commonly found in caves and mines.", 25),
     EarthCrystal("Earth Crystal", "A resinous substance found near the surface.", 50),
     FrozenTear("Frozen Tear", "A crystal fabled to be the frozen tears of a yeti.", 75),

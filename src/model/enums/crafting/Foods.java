@@ -1,6 +1,8 @@
 package model.enums.crafting;
 
-public enum Foods {
+import model.materials.MaterialType;
+
+public enum Foods implements MaterialType {
     // method and fields like example below
 //    APPLE("Apple", 50, 10) {
 //        @Override

@@ -1,11 +1,38 @@
 package model.enums.toolTypes;
 
-public enum TrashCanType {
-    Initial(0),
-    Copper(15),
-    Iron(30),
-    Gold(45),
-    Iridium(60);
+import model.materials.MaterialType;
+
+public enum TrashCanType implements MaterialType {
+    Initial(0){
+        @Override
+        public void work() {
+
+        }
+    },
+    Copper(15){
+        @Override
+        public void work() {
+
+        }
+    },
+    Iron(30){
+        @Override
+        public void work() {
+
+        }
+    },
+    Gold(45){
+        @Override
+        public void work() {
+
+        }
+    },
+    Iridium(60){
+        @Override
+        public void work() {
+
+        }
+    };
 
     private final int moneyReturnedPercentage;
 
@@ -16,4 +43,7 @@ public enum TrashCanType {
     public int getEnergyConsumption() {
         return moneyReturnedPercentage;
     }
+
+    public abstract void work();
+
 }

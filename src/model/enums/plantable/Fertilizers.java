@@ -1,6 +1,8 @@
 package model.enums.plantable;
 
-public enum Fertilizers {
+import model.materials.MaterialType;
+
+public enum Fertilizers implements MaterialType {
     //types to be added
     ;
 
