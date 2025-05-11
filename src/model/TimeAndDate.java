@@ -152,7 +152,10 @@ public class TimeAndDate {
                     Material material = tile.getMaterial();
                       if (material instanceof Seed seed) {
                     seed.grow(); 
-                    if (seed.isReadyToTreeOrCrop()) {
+                    if (seed.getDaysWithoutWater() >= 2) {
+                        tile.setType(TileType.EMPTY); 
+                        tile.setMaterial(null); 
+                    } else if (seed.isFullyGrown()) {
                         if (seed.getCorrespondingCrop() != null) {
                             tile.setType(TileType.CROPS);
                             tile.setMaterial(new Crop(seed.getCorrespondingCrop()));

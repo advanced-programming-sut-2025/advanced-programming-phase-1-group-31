@@ -8,12 +8,18 @@ public class Game {
     private Map mainMap;
     private Player adminPlayer;
     private Player activePlayer;
-    private TimeAndDate time;
+    private static final TimeAndDate timeAndDate = new TimeAndDate();
+    private static TimeAndDate time;
+
+    public static TimeAndDate getTimeAndDate() {
+        return timeAndDate;
+    }
 
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<Shops> shops = new ArrayList<>();
-    public Game (ArrayList<Player> players){
-    this.players = players;
+
+    public Game(ArrayList<Player> players) {
+        this.players = players;
     }
 
     public Map getMainMap() {

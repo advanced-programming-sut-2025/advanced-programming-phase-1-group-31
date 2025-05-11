@@ -13,6 +13,7 @@ import model.enums.general.Menus;
 import model.enums.general.TileType;
 import model.enums.plantable.Crops;
 import model.enums.plantable.Seeds;
+import model.enums.plantable.Trees;
 import model.materials.Material;
 import model.materials.Seed;
 import model.enums.commands.GameMenuCommand;
@@ -45,6 +46,8 @@ public class GameMenuController {
             return cheatChangeEnergy(matcher);
         } else if ((matcher = GameMenuCommand.UNLIMITED_ENERGY.getMatcher(input)) != null) {
             return unlimitedEnergy(matcher);
+        } else if ((matcher = GameMenuCommand.PLANT_SEED.getMatcher(input)) != null) {
+            return handlePlantCommand(matcher);
         }
 
         return new Result(false, "Invalid command.");
@@ -183,7 +186,7 @@ public class GameMenuController {
         App.getCurrentGame().getMainMap().getMainMap()[x][y].setType(App.getCurrentGame().getActivePlayer().getType());
         App.getCurrentGame().getActivePlayer().getEnergy()
                 .setEnergyAmount(App.getCurrentGame().getActivePlayer().getEnergy().getEnergyAmount()
-                        - ( place.distance(x, y) / 20));
+                        - (place.distance(x, y) / 20));
         place.move(x, y);
         App.getCurrentGame().getActivePlayer().setPlace(place);
         return new Result(true, "موقعیت کنونی بازیکن: (" + place.x + "," + place.y + ")");
@@ -191,9 +194,11 @@ public class GameMenuController {
 
     public Result showEnergy(Matcher matcher) {
         if (App.getCurrentGame().getActivePlayer().getEnergy().getEnergyAmount() == Double.POSITIVE_INFINITY) {
-            return new Result(true, "your energy " + App.getCurrentGame().getActivePlayer().getEnergy().getEnergyAmount());
+            return new Result(true,
+                    "your energy " + App.getCurrentGame().getActivePlayer().getEnergy().getEnergyAmount());
         } else {
-            return new Result(false , "your energy " + (int) Math.round(App.getCurrentGame().getActivePlayer().getEnergy().getEnergyAmount()));
+            return new Result(false, "your energy "
+                    + (int) Math.round(App.getCurrentGame().getActivePlayer().getEnergy().getEnergyAmount()));
         }
     }
 
@@ -205,50 +210,92 @@ public class GameMenuController {
             return new Result(false, e.getMessage());
         }
         Energy energy = App.getCurrentGame().getActivePlayer().getEnergy();
-        if(amountEnergy>=energy.getMaxEnergy()) {
+        if (amountEnergy >= energy.getMaxEnergy()) {
             Double maxEnergy = energy.getMaxEnergy();
             int maxEnergyInt = (int) Math.round(maxEnergy);
-            return new Result(false , "your energy is bigger than " + maxEnergyInt);
+            return new Result(false, "your energy is bigger than " + maxEnergyInt);
         }
-        if(energy.getMaxEnergy() == Double.POSITIVE_INFINITY) {
+        if (energy.getMaxEnergy() == Double.POSITIVE_INFINITY) {
             energy.setMaxEnergy(200.0);
         }
         App.getCurrentGame().getActivePlayer().getEnergy().setEnergyAmount(amountEnergy);
-        return new Result(false , "your energy set to " + (int) Math.round(amountEnergy));
+        return new Result(false, "your energy set to " + (int) Math.round(amountEnergy));
     }
 
     public Result unlimitedEnergy(Matcher matcher) {
         Energy energy = App.getCurrentGame().getActivePlayer().getEnergy();
         energy.setEnergyAmount(Double.POSITIVE_INFINITY);
         energy.setMaxEnergy(Double.POSITIVE_INFINITY);
-        return new Result(false , "your energy set to unlimited");
+        return new Result(false, "your energy set to unlimited");
     }
-     public Result handlePlantCommand(Player player, String seedName, String direction) {
-     Point pos = player.getPlace();
-     Point target = Direction.fromString(direction).apply(pos);
 
-     Tile[][] map = player.getFarm().getMainMap();
-     Tile targetTile = map[target.x][target.y];
+    public Result handlePlantCommand(Matcher matcher) {
+        String seedName = matcher.group("usernames");
+        String direction = matcher.group("direction");
+        Player player = App.getCurrentGame().getActivePlayer();
+        Point pos = player.getPlace();
+        Point target = Direction.fromString(direction).apply(pos);
 
-     if (targetTile.getType()!=TileType.EMPTY) return new Result(false, "Soil is not tilled!");
-     // if (!targetTile.isPlantable()) return new Result(false, "Can't plant here!");
+        Tile[][] map = player.getFarm().getMainMap();
+        Tile targetTile = map[target.x][target.y];
 
-     Seed seed = findCropBySeed(seedName);
-     if (seed == null) return new Result(false, "Invalid seed!");
+        if (targetTile.getType() != TileType.EMPTY)
+            return new Result(false, "Soil is not tilled!");
+        // if (!targetTile.isPlantable()) return new Result(false, "Can't plant here!");
 
-     targetTile.setType(TileType.SEED);
-     targetTile.setMaterial(seed);
-     return new Result(true, seedName + " planted!");
- }
-     public static Seed findCropBySeed(String seedName){
+        Seed seed = findCropBySeed(seedName);
+        if (seed == null)
+            return new Result(false, "Invalid seed!");
+            Crops crops = seed.getCorrespondingCrop();
+            if (crops!=null) {
+                if (!crops.getSeasons().contains(App.getCurrentGame().getTimeAndDate().getSeason())) {
+                    return new Result(false, "This crop cannot be planted in this season.");
+                }
+            }
+        Trees trees = seed.getCorrespondingTrees();
+            if (trees!=null) {
+                if (!trees.getSeasons().contains(App.getCurrentGame().getTimeAndDate().getSeason())) {
+                    return new Result(false, "This tree cannot be planted in this season.");
+                }
+            }
+
+        targetTile.setType(TileType.SEED);
+        targetTile.setMaterial(seed);
+        return new Result(true, seedName + " planted!");
+    }
+
+    public Result ShowPlant(Matcher matcher) {
+        Map map = App.getCurrentGame().getMainMap();
+        int x = 0, y = 0;
+        Player player = App.getCurrentGame().getActivePlayer();
+        try {
+            x = Integer.parseInt(matcher.group("X"));
+            y = Integer.parseInt(matcher.group("Y"));
+        } catch (Exception e) {
+            return new Result(false, e.getMessage());
+        }
+        if (player.getFarm().getRectangle().contains(x,y)) {
+            return new Result(false, "You do not have access to another farm.");
+        }
+        Tile tile = map.getMainMap(x, y);
+        if (tile.getType() == TileType.SEED) {
+            Material material = tile.getMaterial();
+            if (material instanceof Seed seed) {
+                return new Result(true, seed.getPlantInfo());
+            }
+        } 
+        return new Result(false, "No seeds were found here.");
+
+    }
+
+    public static Seed findCropBySeed(String seedName) {
         Seeds seedType = Seeds.getByName(seedName);
-        if (seedType == null) return null;
-        Seed seed=  new Seed(seedType);
+        if (seedType == null)
+            return null;
+        Seed seed = new Seed(seedType);
         return seed;
 
-
-     }
-
+    }
 
     public static void integrateFarmsIntoMainMap(Map map, Farm f1, Farm f2, Farm f3, Farm f4) {
         Tile[][] m1 = f1.getMainMap();
@@ -407,6 +454,5 @@ public class GameMenuController {
                 .flatMap(Arrays::stream)
                 .allMatch(tile -> tile.getType() == TileType.EMPTY);
     }
-
 
 }
