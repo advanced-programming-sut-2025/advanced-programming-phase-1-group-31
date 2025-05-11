@@ -145,6 +145,7 @@ public class Player {
     public Energy getEnergy() {
         return energy;
     }
+    
 
     public void setPlace(Point place) {
         this.place = place;

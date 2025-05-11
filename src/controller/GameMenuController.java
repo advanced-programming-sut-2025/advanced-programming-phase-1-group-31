@@ -24,6 +24,7 @@ import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 import model.Map;
 
+
 public class GameMenuController {
     private static final GameMenuController instance = new GameMenuController();
 
@@ -165,31 +166,78 @@ public class GameMenuController {
     }
 
     public Result walk(Matcher matcher) {
-        int x = 0, y = 0;
-        Point place = App.getCurrentGame().getActivePlayer().getPlace();
+        int destX, destY;
         try {
-            x = Integer.parseInt(matcher.group("X"));
-            y = Integer.parseInt(matcher.group("Y"));
+            destX = Integer.parseInt(matcher.group("X"));
+            destY = Integer.parseInt(matcher.group("Y"));
         } catch (Exception e) {
-            return new Result(false, e.getMessage());
+            return new Result(false, "Invalid coordinates: " + e.getMessage());
         }
-        if (App.getCurrentGame().getActivePlayer().getFarm().getRectangle().contains(place)
-                && !App.getCurrentGame().getActivePlayer().getFarm().getRectangle().contains(new Point(x, y))) {
-            return new Result(false, "you are in your farm please use the door");
+
+        Player player = App.getCurrentGame().getActivePlayer();
+        Point start = player.getPlace();
+        Point dest = new Point(destX, destY);
+        Tile[][] map = App.getCurrentGame().getMainMap().getMainMap();
+
+        if (!inBounds(dest, map) || map[destX][destY].getType() != TileType.EMPTY)
+            return new Result(false, "Destination is blocked.");
+
+        for (Player p : App.getCurrentGame().getPlayers()) {
+            if (!p.equals(player) && p.getFarm().getRectangle().contains(dest))
+                return new Result(false, "Can't enter other player's farm.");
         }
-        if (App.getCurrentGame().getMainMap().getMainMap()[x][y].getType() != TileType.EMPTY) {
-            System.out.println("Tile at (" + x + "," + y + ") type: "
-                    + App.getCurrentGame().getMainMap().getMainMap()[x][y].getType());
-            return new Result(false, "gtg");
+
+        List<Point> path = bfs(start, dest, map);
+        if (path == null)
+            return new Result(false, "No path found.");
+
+        map[start.x][start.y].setType(TileType.EMPTY);
+        map[dest.x][dest.y].setType(player.getType());
+        player.setPlace(dest);
+
+        double energyLoss = path.size() / 20.0;
+        player.getEnergy().changeEnergy(-energyLoss);
+
+        return new Result(true, "Moved to: (" + dest.x + "," + dest.y + ")");
+    }
+
+    private boolean inBounds(Point p, Tile[][] map) {
+        return p.x >= 0 && p.y >= 0 && p.x < map.length && p.y < map[0].length;
+    }
+
+    private List<Point> bfs(Point start, Point dest, Tile[][] map) {
+        int[][] dirs = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+        HashMap<Point, Point> parent = new HashMap<>();
+        Queue<Point> queue = new LinkedList<>();
+        Set<Point> visited = new HashSet<>();
+
+        queue.add(start);
+        visited.add(start);
+
+        while (!queue.isEmpty()) {
+            Point current = queue.poll();
+            if (current.equals(dest))
+                break;
+
+            for (int[] d : dirs) {
+                Point next = new Point(current.x + d[0], current.y + d[1]);
+                if (inBounds(next, map) && !visited.contains(next) && map[next.x][next.y].getType() == TileType.EMPTY) {
+                    queue.add(next);
+                    visited.add(next);
+                    parent.put(next, current);
+                }
+            }
         }
-        App.getCurrentGame().getMainMap().getMainMap()[place.x][place.y].setType(TileType.EMPTY);
-        App.getCurrentGame().getMainMap().getMainMap()[x][y].setType(App.getCurrentGame().getActivePlayer().getType());
-        App.getCurrentGame().getActivePlayer().getEnergy()
-                .setEnergyAmount(App.getCurrentGame().getActivePlayer().getEnergy().getEnergyAmount()
-                        - (place.distance(x, y) / 20));
-        place.move(x, y);
-        App.getCurrentGame().getActivePlayer().setPlace(place);
-        return new Result(true, "موقعیت کنونی بازیکن: (" + place.x + "," + place.y + ")");
+
+        if (!parent.containsKey(dest))
+            return null;
+
+        List<Point> path = new ArrayList<>();
+        for (Point at = dest; at != null; at = parent.get(at)) {
+            path.add(at);
+        }
+        Collections.reverse(path);
+        return path;
     }
 
     public Result showEnergy(Matcher matcher) {
@@ -246,18 +294,18 @@ public class GameMenuController {
         Seed seed = findCropBySeed(seedName);
         if (seed == null)
             return new Result(false, "Invalid seed!");
-            Crops crops = seed.getCorrespondingCrop();
-            if (crops!=null) {
-                if (!crops.getSeasons().contains(App.getCurrentGame().getTimeAndDate().getSeason())) {
-                    return new Result(false, "This crop cannot be planted in this season.");
-                }
+        Crops crops = seed.getCorrespondingCrop();
+        if (crops != null) {
+            if (!crops.getSeasons().contains(App.getCurrentGame().getTimeAndDate().getSeason())) {
+                return new Result(false, "This crop cannot be planted in this season.");
             }
+        }
         Trees trees = seed.getCorrespondingTrees();
-            if (trees!=null) {
-                if (!trees.getSeasons().contains(App.getCurrentGame().getTimeAndDate().getSeason())) {
-                    return new Result(false, "This tree cannot be planted in this season.");
-                }
+        if (trees != null) {
+            if (!trees.getSeasons().contains(App.getCurrentGame().getTimeAndDate().getSeason())) {
+                return new Result(false, "This tree cannot be planted in this season.");
             }
+        }
 
         targetTile.setType(TileType.SEED);
         targetTile.setMaterial(seed);
@@ -274,7 +322,7 @@ public class GameMenuController {
         } catch (Exception e) {
             return new Result(false, e.getMessage());
         }
-        if (player.getFarm().getRectangle().contains(x,y)) {
+        if (player.getFarm().getRectangle().contains(x, y)) {
             return new Result(false, "You do not have access to another farm.");
         }
         Tile tile = map.getMainMap(x, y);
@@ -283,7 +331,7 @@ public class GameMenuController {
             if (material instanceof Seed seed) {
                 return new Result(true, seed.getPlantInfo());
             }
-        } 
+        }
         return new Result(false, "No seeds were found here.");
 
     }
