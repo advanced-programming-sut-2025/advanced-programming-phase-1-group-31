@@ -9,29 +9,27 @@ import model.materials.Foraging.ForagingTree;
 import model.materials.Material;
 
 public enum TileType {
-    EMPTY(".", "\u001B[40m", null),
-    FORAGING_TREE("T", "\u001B[42m", new ForagingTree()),
-    FORAGING_CROPS("F", "\u001B[102m", new ForagingCrop()),
-    FORAGING_SEED("F", "\u001B[102m", new ForagingSeed()),
-    FORAGING_MINERAL("S", "\u001B[47m", new ForagingMineral()),
-    LAKE("L", "\u001B[44m", null),
-    HOUSE("H", "\u001B[45m", null),
-    GREENHOUSE("G", "\u001B[46m", null),
-    MINE("M", "\u001B[41m", null),
-    WALL("w", "\u001B[48;5;94m", null),
-    QUARRY("Q", "\u001B[47m", null),
-    SHOP("S", "\u001B[45m", new Shop()),
-    NPC("N", "\u001B[46m", new NPC());
+    EMPTY(".", "\u001B[40m"),
+    FORAGING_TREE("T", "\u001B[42m"),
+    FORAGING_CROPS("F", "\u001B[102m"),
+    FORAGING_SEED("F", "\u001B[102m"),
+    FORAGING_MINERAL("S", "\u001B[47m"),
+    LAKE("L", "\u001B[44m"),
+    HOUSE("H", "\u001B[45m"),
+    GREENHOUSE("G", "\u001B[46m"),
+    MINE("M", "\u001B[41m"),
+    WALL("w", "\u001B[48;5;94m"),
+    QUARRY("Q", "\u001B[47m"),
+    SHOP("S", "\u001B[45m"),
+    NPC("N", "\u001B[46m");
 
 
     private final String symbol;
     private final String color;
-    private final Material material;
 
-    TileType(String symbol, String color, Material material) {
+    TileType(String symbol, String color) {
         this.symbol = symbol;
         this.color = color;
-        this.material = material;
     }
 
     public String getSymbol() {
@@ -40,9 +38,5 @@ public enum TileType {
 
     public String getColor() {
         return color;
-    }
-
-    public Material getMaterial() {
-        return material;
     }
 }

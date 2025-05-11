@@ -1,8 +1,6 @@
 package model.enums.toolTypes;
 
-import model.materials.MaterialType;
-
-public enum BackpackType implements MaterialType {
+public enum BackpackType {
     Initial(12),
     Large(24),
     Deluxe(Integer.MAX_VALUE);

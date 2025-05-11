@@ -12,6 +12,10 @@ public class Game {
     private static Player adminPlayer;
     private static Player activePlayer;
     private static TimeAndDate time;
+    public static ArrayList<Player> players = new ArrayList<>();
+    public static ArrayList<Shops> shops = new ArrayList<>();
+
+
 
     public static TimeAndDate getTimeAndDate() {
         return timeAndDate;
@@ -25,8 +29,6 @@ public class Game {
         Game.playerLoggedIn = playerLoggedIn;
     }
 
-    public static ArrayList<Player> players = new ArrayList<>();
-    public static ArrayList<Shops> shops = new ArrayList<>();
     public static Player getActivePlayer() {
         return activePlayer;
     }

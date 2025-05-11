@@ -1,11 +1,10 @@
 package model.enums.plantable;
 
 import model.enums.general.Seasons;
-import model.materials.MaterialType;
 
 import java.util.List;
 
-public enum Trees implements MaterialType {
+public enum Trees {
     Apricot("Apricot Tree", Seeds.ApricotSapling, List.of(7, 7, 7, 7), 28, Fruits.Apricot,
             1,
             59, true, 38, List.of(Seasons.Spring)),

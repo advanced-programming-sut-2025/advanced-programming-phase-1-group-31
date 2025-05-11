@@ -1,8 +1,6 @@
 package model.enums.toolTypes;
 
-import model.materials.MaterialType;
-
-public enum TrashCanType implements MaterialType {
+public enum TrashCanType {
     Initial(0),
     Copper(15),
     Iron(30),

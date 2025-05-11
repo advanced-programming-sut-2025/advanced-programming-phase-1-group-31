@@ -1,8 +1,6 @@
 package model.enums.plantable;
 
-import model.materials.MaterialType;
-
-public enum Fruits implements MaterialType {
+public enum Fruits {
     Apricot("Apricot"),
     Cherry("Cherry"),
     Banana("Banana"),

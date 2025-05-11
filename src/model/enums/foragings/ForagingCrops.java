@@ -1,11 +1,10 @@
 package model.enums.foragings;
 
 import model.enums.general.Seasons;
-import model.materials.MaterialType;
 
 import java.util.List;
 
-public enum ForagingCrops implements MaterialType {
+public enum ForagingCrops {
     CommonMushroom("Common Mushroom", List.of(Seasons.Spring, Seasons.Summer, Seasons.Fall, Seasons.Winter),
             40, 38),
     Daffodil("Daffodil", List.of(Seasons.Spring), 30, 0),

@@ -5,6 +5,10 @@ import model.enums.plantable.Crops;
 public class Crop {
     private Crops crop;
 
+    public Crop(Crops crop) {
+        this.crop = crop;
+    }
+
     public Crops getCrop() {
         return crop;
     }

@@ -61,20 +61,27 @@ public class GameMenuController {
     private Result thunderCheating(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("X").trim());
         int y = Integer.parseInt(matcher.group("Y").trim());
-        // must be in range check it
-        if ()
-        Game.getTimeAndDate().thunder(new Point(x, y));
+        if (x < 0 || x >= 55 || y < 0 || y >= 35){
+            return new Result(false, "It is out of range.");
+        }
+        Game.getTimeAndDate().thunder(new Point(x, y), Game.getActivePlayer().getFarm().getMainMap());
         return new Result(true, "Thunder...!");
     }
 
     private Result dateCheating(Matcher matcher) {
         int number = Integer.parseInt(matcher.group("number").trim());
+        if (number <= 0){
+            return new Result(false, "Please enter positive number");
+        }
         Game.getTimeAndDate().addDay(number);
         return showDate();
     }
 
     private Result timeCheating(Matcher matcher) {
         int number = Integer.parseInt(matcher.group("number").trim());
+        if (number <= 0){
+            return new Result(false, "Please enter positive number");
+        }
         Game.getTimeAndDate().addHour(number);
         return showTime();
     }

@@ -1,8 +1,6 @@
 package model.enums.toolTypes;
 
-import model.materials.MaterialType;
-
-public enum AxePickHoeType implements MaterialType {
+public enum AxePickHoeType {
     Initial(5),
     Copper(4),
     Iron(3),

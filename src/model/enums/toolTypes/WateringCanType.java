@@ -1,10 +1,8 @@
 package model.enums.toolTypes;
 
-import model.materials.MaterialType;
-
 public enum
 
-WateringCanType implements MaterialType {
+WateringCanType {
     Initial(40),
     Copper(55),
     Iron(70),

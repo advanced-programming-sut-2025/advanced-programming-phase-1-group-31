@@ -2,7 +2,6 @@ package model.materials.Foraging;
 
 import model.enums.foragings.ForagingCrops;
 import model.materials.Material;
-import model.materials.MaterialType;
 
 public class ForagingCrop implements Material {
     private ForagingCrops foragingCrop;
@@ -15,8 +14,5 @@ public class ForagingCrop implements Material {
         this.foragingCrop = foragingCrop;
     }
 
-    @Override
-    public MaterialType getType() {
-        return foragingCrop;
-    }
+
 }

@@ -1,11 +1,10 @@
 package model.enums.foragings;
 
 import model.enums.general.Seasons;
-import model.materials.MaterialType;
 
 import java.util.List;
 
-public enum ForagingSeeds implements MaterialType {
+public enum ForagingSeeds {
     Acorns("Acorns", List.of(Seasons.Spring, Seasons.Summer, Seasons.Fall, Seasons.Winter)),
     MapleSeeds("Maple Seeds", List.of(Seasons.Spring, Seasons.Summer, Seasons.Fall, Seasons.Winter)),
     PineCones("Pine Cones", List.of(Seasons.Spring, Seasons.Summer, Seasons.Fall, Seasons.Winter)),

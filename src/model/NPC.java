@@ -2,7 +2,6 @@ package model;
 
 import model.enums.npc.NPCs;
 import model.materials.Material;
-import model.materials.MaterialType;
 
 public class NPC implements Material {
     private NPCs NPCType;
@@ -16,9 +15,4 @@ public class NPC implements Material {
         this.NPCType = NPCType;
     }
 
-
-    @Override
-    public MaterialType getType() {
-        return NPCType;
-    }
 }

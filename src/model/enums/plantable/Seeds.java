@@ -1,8 +1,6 @@
 package model.enums.plantable;
 
-import model.materials.MaterialType;
-
-public enum Seeds implements MaterialType {
+public enum Seeds {
     JazzSeeds("Jazz Seeds"),
     CarrotSeeds("Carrot Seeds"),
     CauliflowerSeeds("Cauliflower Seeds"),

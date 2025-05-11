@@ -1,8 +1,6 @@
 package model.enums.npc;
 
-import model.materials.MaterialType;
-
-public enum Shops implements MaterialType {
+public enum Shops {
     //to be added
     ;
 }

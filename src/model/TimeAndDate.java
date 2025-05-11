@@ -1,7 +1,12 @@
 package model;
 
+import model.enums.foragings.ForagingMinerals;
 import model.enums.general.Seasons;
+import model.enums.general.TileType;
 import model.enums.general.Weather;
+import model.materials.Crop;
+import model.materials.Foraging.ForagingMineral;
+import model.materials.Foraging.ForagingTree;
 
 import java.awt.*;
 import java.time.DayOfWeek;
@@ -55,8 +60,10 @@ public class TimeAndDate {
                 default -> Weather.Sunny;
             };
         }
-        for (int i = 0; i < addDay; i++){
+        for (int i = 0; i < addDay; i++) {
             if (weather.equals(Weather.Stormy)) thunder();
+            changeForagingAndCrops();
+            //amirabbas
         }
     }
 
@@ -113,14 +120,23 @@ public class TimeAndDate {
         return dayOfWeek;
     }
 
-    private void thunder(){
-        // amirabbas
-
-
+    private void thunder() {
+        for (Player player : Game.players) {
+            for (int i = 0; i < 3; i++) {
+                int x = random.nextInt(55);
+                int y = random.nextInt(35);
+                thunder(new Point(x, y), player.getFarm().getMainMap());
+            }
+        }
 
     }
 
-    public void thunder(Point point){
+    public void thunder(Point point, Tile[][] farmMap) {
+        Tile tile = farmMap[point.x][point.y];
+        if (tile.getMaterial() instanceof Tree || tile.getMaterial() instanceof ForagingTree) {
+            tile.setType(TileType.FORAGING_CROPS);
+            tile.setMaterial(new ForagingMineral(ForagingMinerals.Coal));
+        } else if (tile.getMaterial())
 
     }
 }

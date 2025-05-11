@@ -2,7 +2,6 @@ package model;
 
 import model.enums.npc.Shops;
 import model.materials.Material;
-import model.materials.MaterialType;
 
 public class Shop implements Material {
     private Shops shopName;
@@ -15,8 +14,4 @@ public class Shop implements Material {
         this.shopName = shopName;
     }
 
-    @Override
-    public MaterialType getType() {
-        return shopName;
-    }
 }
