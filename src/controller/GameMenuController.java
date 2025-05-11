@@ -12,7 +12,9 @@ import model.enums.general.Direction;
 import model.enums.general.Menus;
 import model.enums.general.TileType;
 import model.enums.plantable.Crops;
+import model.enums.plantable.Seeds;
 import model.materials.Material;
+import model.materials.Seed;
 import model.enums.commands.GameMenuCommand;
 
 import java.awt.Point;
@@ -221,22 +223,31 @@ public class GameMenuController {
         energy.setMaxEnergy(Double.POSITIVE_INFINITY);
         return new Result(false , "your energy set to unlimited");
     }
-    public Result handlePlantCommand(Player player, String seedName, String direction) {
-    Point pos = player.getPlace();
-    Point target = Direction.fromString(direction).apply(pos);
+     public Result handlePlantCommand(Player player, String seedName, String direction) {
+     Point pos = player.getPlace();
+     Point target = Direction.fromString(direction).apply(pos);
 
-    Tile[][] map = player.getFarm().getMainMap();
-    Tile targetTile = map[target.x][target.y];
+     Tile[][] map = player.getFarm().getMainMap();
+     Tile targetTile = map[target.x][target.y];
 
-    if (targetTile.getType()!=TileType.EMPTY) return new Result(false, "Soil is not tilled!");
-    // if (!targetTile.isPlantable()) return new Result(false, "Can't plant here!");
+     if (targetTile.getType()!=TileType.EMPTY) return new Result(false, "Soil is not tilled!");
+     // if (!targetTile.isPlantable()) return new Result(false, "Can't plant here!");
 
-    Material crop = findCropBySeed(seedName);
-    if (crop == null) return new Result(false, "Invalid seed!");
+     Seed seed = findCropBySeed(seedName);
+     if (seed == null) return new Result(false, "Invalid seed!");
 
-    targetTile.getType().getMaterial() = crop;
-    return new Result(true, crop.getDisplayName() + " planted!");
-}
+     targetTile.setType(TileType.SEED);
+     targetTile.setMaterial(seed);
+     return new Result(true, seedName + " planted!");
+ }
+     public static Seed findCropBySeed(String seedName){
+        Seeds seedType = Seeds.getByName(seedName);
+        if (seedType == null) return null;
+        Seed seed=  new Seed(seedType);
+        return seed;
+
+
+     }
 
 
     public static void integrateFarmsIntoMainMap(Map map, Farm f1, Farm f2, Farm f3, Farm f4) {
@@ -396,5 +407,6 @@ public class GameMenuController {
                 .flatMap(Arrays::stream)
                 .allMatch(tile -> tile.getType() == TileType.EMPTY);
     }
+
 
 }

@@ -3,12 +3,16 @@ package model.materials;
 import model.enums.plantable.Crops;
 
 
-public class Crop {
+public class Crop implements Material{
     private Crops crop;
     private int currentStage = 0;
     private int daysInStage = 0;
 
     public void PlantedCrop(Crops crop) {
+        this.crop = crop;
+    }
+
+    public Crop(Crops crop) {
         this.crop = crop;
     }
 
@@ -48,5 +52,10 @@ public class Crop {
             currentStage = crop.getStages().size() - 1;
             daysInStage = 0;
         }
+    }
+
+    @Override
+    public MaterialType getType() {
+        return crop;
     }
 }

@@ -12,7 +12,7 @@ import model.enums.general.TileType;
 
 public class Farm {
    private Rectangle rectangle ;
-    public Tile[][] mainMap ;
+    private Tile[][] mainMap ;
 
 
     public Farm(Point size) {

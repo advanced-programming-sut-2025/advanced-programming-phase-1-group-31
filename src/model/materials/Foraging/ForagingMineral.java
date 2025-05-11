@@ -7,6 +7,10 @@ import model.materials.MaterialType;
 public class ForagingMineral implements Material {
     private ForagingMinerals foragingMineral;
 
+    public ForagingMineral(ForagingMinerals foragingMineral) {
+        this.foragingMineral = foragingMineral;
+    }
+
     public ForagingMinerals getForagingMineral() {
         return foragingMineral;
     }

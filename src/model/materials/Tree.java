@@ -6,6 +6,10 @@ import model.enums.plantable.Trees;
 public class Tree implements Material{
     private Trees treeType;
 
+    public Tree(Trees treeType) {
+        this.treeType = treeType;
+    }
+
     public Trees getTreeType() {
         return treeType;
     }

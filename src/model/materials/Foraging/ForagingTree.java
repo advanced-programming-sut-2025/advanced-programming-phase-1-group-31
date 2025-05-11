@@ -7,6 +7,9 @@ import model.materials.MaterialType;
 public class ForagingTree implements Material {
     private ForagingTrees foragingTree;
 
+    public ForagingTree(ForagingTrees foragingTree) {
+        this.foragingTree = foragingTree;
+    }
 
     public ForagingTrees getForagingTree() {
         return foragingTree;

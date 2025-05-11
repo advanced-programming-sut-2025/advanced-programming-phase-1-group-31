@@ -9,6 +9,7 @@ public class Tile {
    private TileType type;
    private Point point = new Point();
     private Material material;
+    
 
     public TileType getType() {
         return type;

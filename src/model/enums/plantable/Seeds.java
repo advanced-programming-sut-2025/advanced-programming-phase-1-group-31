@@ -68,4 +68,13 @@ public enum Seeds implements MaterialType {
     public String getName() {
         return name;
     }
+        public static Seeds getByName(String inputName) {
+        for (Seeds seed : values()) {
+            if (seed.getName().equals(inputName)) {
+                return seed;
+            }
+        }
+        return null; 
+    }
+
 }

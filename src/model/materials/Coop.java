@@ -7,7 +7,6 @@ public class Coop implements Material {
 
     @Override
     public MaterialType getType() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getType'");
     }
 
