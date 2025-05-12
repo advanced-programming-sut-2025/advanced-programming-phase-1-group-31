@@ -2,16 +2,27 @@ package model;
 
 import model.enums.npc.Shops;
 import model.materials.Material;
+import model.materials.MaterialType;
 
 public class Shop implements Material {
-    private Shops shopName;
+    private Shops shopType;
 
     public Shops getShopName() {
-        return shopName;
+        return shopType;
     }
 
     public void setShopName(Shops shopName) {
-        this.shopName = shopName;
+        this.shopType = shopName;
+    }
+
+    @Override
+    public MaterialType getType() {
+        return shopType;
+    }
+
+    @Override
+    public String getName() {
+        return shopType.getName();
     }
 
 }

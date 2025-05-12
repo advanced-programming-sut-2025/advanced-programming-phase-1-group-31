@@ -11,7 +11,6 @@ import java.util.Map;
 public class Player {
     // maybe delete
     private boolean gender;// IMPORTANT!!!!!!!!!! : false is male, true is female
-     private Tool inHand;
     private Farm farm;
     private Map<String, String> backup;
     private Skill skills;
@@ -34,8 +33,10 @@ public class Player {
     private int gold;
     private static Menus currentMenu = Menus.MainMenu;
     private TileType type;
-    private final Backpack inventory = new Backpack();
 
+
+    // backpack------------------------------------------------------
+    private final Backpack inventory = new Backpack();
 
     public Backpack getInventory() {
         return inventory;
@@ -44,6 +45,20 @@ public class Player {
     public void setEnergy(Energy energy) {
         this.energy = energy;
     }
+    //---------------------------------------------------------------
+
+
+    // tool inHand------------------------------------------------------
+    private Tool inHand;
+
+    public Tool getInHand() {
+        return inHand;
+    }
+
+    public void setInHand(Tool inHand) {
+        this.inHand = inHand;
+    }
+    //---------------------------------------------------------------
 
 
     public Player(String username,
@@ -91,10 +106,6 @@ public class Player {
 
     public boolean isGender() {
         return gender;
-    }
-
-    public Tool getInHand() {
-        return inHand;
     }
 
     public Farm getFarm() {
@@ -154,10 +165,6 @@ public class Player {
         this.gender = gender;
     }
 
-    // public void setInHand(Tools inHand) {
-    //     this.inHand = inHand;
-    // }
-
     public void setFarm(Farm farm) {
         this.farm = farm;
     }
@@ -166,13 +173,6 @@ public class Player {
         this.backup = backup;
     }
 
-    // public void setCraftingRecipes(HashMap<Craftable, Boolean> craftingRecipes) {
-    //     this.craftingRecipes = craftingRecipes;
-    // }
-
-    // public void setCookingRecipes(HashMap<Food, Boolean> cookingRecipes) {
-    //     this.cookingRecipes = cookingRecipes;
-    // }
 
     public static Menus getCurrentMenu() {
         return currentMenu;
