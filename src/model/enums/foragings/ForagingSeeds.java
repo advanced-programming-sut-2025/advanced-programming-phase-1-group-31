@@ -3,7 +3,9 @@ package model.enums.foragings;
 import model.enums.general.Seasons;
 import model.materials.MaterialType;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public enum ForagingSeeds implements MaterialType {
     Acorns("Acorns", List.of(Seasons.Spring, Seasons.Summer, Seasons.Fall, Seasons.Winter)),
@@ -25,8 +27,19 @@ public enum ForagingSeeds implements MaterialType {
         return displayName;
     }
 
+
     public List<Seasons> getGrowSeasons() {
         return growSeasons;
+    }
+    public static ForagingSeeds getRandomBySeason(Seasons season) {
+        List<ForagingSeeds> filtered = new ArrayList<>();
+        for (ForagingSeeds seed : values()) {
+            if (seed.growSeasons.contains(season)) {
+                filtered.add(seed);
+            }
+        }
+        if (filtered.isEmpty()) return null;
+        return filtered.get(ThreadLocalRandom.current().nextInt(filtered.size()));
     }
 
     @Override

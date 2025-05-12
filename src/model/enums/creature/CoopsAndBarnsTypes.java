@@ -1,5 +1,12 @@
 package model.enums.creature;
 
-public enum CoopsAndBarnsTypes {
+import model.materials.MaterialType;
 
+public enum CoopsAndBarnsTypes implements MaterialType {
+    ;
+
+    public String getName() {
+
+        return "";
+    }
 }

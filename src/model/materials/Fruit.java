@@ -21,4 +21,9 @@ public class Fruit implements Material {
         return fruit;
     }
 
+    @Override
+    public String getName() {
+        return fruit.getName();
+    }
+
 }

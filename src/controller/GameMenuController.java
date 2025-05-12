@@ -1,13 +1,7 @@
 package controller;
 
-import model.App;
-import model.Energy;
-import model.Farm;
-import model.FarmFactory;
-import model.Game;
-import model.Player;
-import model.Result;
-import model.Tile;
+import model.*;
+import model.Map;
 import model.enums.general.Direction;
 import model.enums.general.Menus;
 import model.enums.general.TileType;
@@ -22,8 +16,6 @@ import java.awt.Point;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
-import model.Map;
-
 
 public class GameMenuController {
     private static final GameMenuController instance = new GameMenuController();
@@ -49,6 +41,8 @@ public class GameMenuController {
             return unlimitedEnergy(matcher);
         } else if ((matcher = GameMenuCommand.PLANT_SEED.getMatcher(input)) != null) {
             return handlePlantCommand(matcher);
+        } else if ((matcher = GameMenuCommand.BUILD_GREENHOUSE.getMatcher(input)) != null) {
+            return buildGreenhouse(matcher);
         }
 
         return new Result(false, "Invalid command.");
@@ -287,9 +281,17 @@ public class GameMenuController {
         Tile[][] map = player.getFarm().getMainMap();
         Tile targetTile = map[target.x][target.y];
 
-        if (targetTile.getType() != TileType.EMPTY)
+        if (targetTile.getType() != TileType.PLANTINGSOIL && targetTile.getType() != TileType.GREENHOUSE_BUILT)
             return new Result(false, "Soil is not tilled!");
         // if (!targetTile.isPlantable()) return new Result(false, "Can't plant here!");
+        if (targetTile.getType() != TileType.GREENHOUSE_BUILT) {
+            Seed seed = findCropBySeed(seedName);
+        if (seed == null)
+            return new Result(false, "Invalid seed!");
+            targetTile.setType(TileType.SEED);
+        targetTile.setMaterial(seed);
+        return new Result(true, seedName + " planted!");
+        }
 
         Seed seed = findCropBySeed(seedName);
         if (seed == null)
@@ -334,6 +336,17 @@ public class GameMenuController {
         }
         return new Result(false, "No seeds were found here.");
 
+    }
+
+    public static Result buildGreenhouse(Matcher matcher) {
+        GreenHouse greenHouse = App.getCurrentGame().getActivePlayer().getFarm().getGreenhouse();
+        if (greenHouse.isHasBeenMade()) {
+            return new Result(false, "You have already made a greenhouse.");
+        }
+        greenHouse.setHasBeenMade( true);
+        FarmFactory.setTileTypeGreenHouseBuilt(TileType.GREENHOUSE_BUILT, greenHouse.getRectangle(),
+                App.getCurrentGame().getActivePlayer().getFarm());
+        return new Result(true, "You have been made a greenhouse.");
     }
 
     public static Seed findCropBySeed(String seedName) {

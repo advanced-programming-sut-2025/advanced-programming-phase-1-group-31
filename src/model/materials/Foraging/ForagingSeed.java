@@ -7,9 +7,18 @@ import model.materials.MaterialType;
 public class ForagingSeed implements Material {
     private ForagingSeeds foragingSeed;
 
+    public ForagingSeed(ForagingSeeds foragingSeed) {
+        this.foragingSeed = foragingSeed;
+    }
+
     @Override
     public MaterialType getType() {
         return foragingSeed;
+    }
+
+    @Override
+    public String getName() {
+        return foragingSeed.getDisplayName();
     }
 
     public ForagingSeeds getForagingSeed() {

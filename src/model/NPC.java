@@ -21,4 +21,9 @@ public class NPC implements Material {
     public MaterialType getType() {
         return NPCType;
     }
+
+    @Override
+    public String getName() {
+        return "";
+    }
 }

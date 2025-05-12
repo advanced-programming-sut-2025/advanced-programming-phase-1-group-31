@@ -80,7 +80,6 @@ public class Seed implements Material {
 
     public void grow() {
         daysInStage++;
-        daysWithoutWater++;
         if (daysWithoutWater >= 2) {
             System.out.println("The plant has died due to lack of water for two consecutive days.");
             this.sourceName = null;
@@ -147,6 +146,11 @@ public class Seed implements Material {
     @Override
     public MaterialType getType() {
         return sourceName;
+    }
+
+    @Override
+    public String getName() {
+        return sourceName.getName();
     }
 
     public String getPlantInfo() {

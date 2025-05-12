@@ -22,4 +22,9 @@ public class Tree implements Material{
     public MaterialType getType() {
         return treeType;
     }
+
+    @Override
+    public String getName() {
+        return treeType.getName();
+    }
 }

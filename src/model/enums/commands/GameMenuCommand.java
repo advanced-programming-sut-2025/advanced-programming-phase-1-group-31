@@ -23,7 +23,7 @@ public enum GameMenuCommand implements Command {
     SHOW_WEATHER("^weather\\s*$"),
     FORECAST_WEATHER("^weather\\s+forecast\\s*$"),
     CHEAT_CHANGE_WEATHER("^cheat\\s+set\\s+weather\\s+(?<weather>\\S+)$"),
-    BUILD_GREENHOUSE("^greenhouse\\s+build$"),
+    BUILD_GREENHOUSE("\\s*greenhouse\\s+build\\s*"),
     CHOOSE_FARM("^choose\\s+farm\\s+-u(?<username>\\S+)\\s+-f(?<farmId>\\d+)\\s*$"),
     WALK("\\s*walk\\s+-l\\s+(?<X>\\d+)\\s+(?<Y>\\d+)\\s*"),
      PRINT_MAP("\\s*print\\s+map\\s+-l\\s+(?<X>\\d+)\\s+(?<Y>\\d+)\\s+-s\\s+(?<size>\\d+)\\s*$"),

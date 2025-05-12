@@ -19,4 +19,9 @@ public class Shop implements Material {
     public MaterialType getType() {
         return shopName;
     }
+
+    @Override
+    public String getName() {
+        return "";
+    }
 }

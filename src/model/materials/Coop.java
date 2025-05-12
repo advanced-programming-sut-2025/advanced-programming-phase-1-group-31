@@ -10,4 +10,9 @@ public class Coop implements Material {
         throw new UnsupportedOperationException("Unimplemented method 'getType'");
     }
 
+    @Override
+    public String getName() {
+        return "Coop";
+    }
+
 }

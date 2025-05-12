@@ -11,4 +11,9 @@ public class FishProducts implements Material {
         throw new UnsupportedOperationException("Unimplemented method 'getType'");
     }
 
+    @Override
+    public String getName() {
+        return "";
+    }
+
 }

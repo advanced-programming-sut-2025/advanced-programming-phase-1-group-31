@@ -3,7 +3,9 @@ package model.enums.foragings;
 import model.enums.general.Seasons;
 import model.materials.MaterialType;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public enum ForagingCrops implements MaterialType {
     CommonMushroom("Common Mushroom", List.of(Seasons.Spring, Seasons.Summer, Seasons.Fall, Seasons.Winter),
@@ -41,6 +43,17 @@ public enum ForagingCrops implements MaterialType {
         this.seasons = seasons;
         this.baseSellPrice = baseSellPrice;
         this.energy = energy;
+    }
+
+    public static ForagingCrops getRandomBySeason(Seasons season) {
+        List<ForagingCrops> filtered = new ArrayList<>();
+        for (ForagingCrops crop : values()) {
+            if (crop.getSeasons().contains(season)) {
+                filtered.add(crop);
+            }
+        }
+        if (filtered.isEmpty()) return null;
+        return filtered.get(ThreadLocalRandom.current().nextInt(filtered.size()));
     }
 
     public String getDisplayName() {

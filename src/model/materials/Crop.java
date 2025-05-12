@@ -58,4 +58,9 @@ public class Crop implements Material{
     public MaterialType getType() {
         return crop;
     }
+
+    @Override
+    public String getName() {
+        return crop.getDisplayName();
+    }
 }

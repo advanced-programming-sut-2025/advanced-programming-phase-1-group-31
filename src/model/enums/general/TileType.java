@@ -6,13 +6,15 @@ public enum TileType {
     SEED("s", "\u001B[42m"),             // سبز تیره
     TREE("t", "\u001B[42m"),             // سبز تیره
     CROPS("c", "\u001B[102m"),           // سبز روشن
-    FORAGING_TREE("f", "\u001B[42m"),    // f = foraging tree
+    FORAGING_TREE("f", "\u001B[48;5;22m"),    // f = foraging tree
     FORAGING_CROPS("g", "\u001B[102m"),  // g = foraging crops
     FORAGING_SEED("h", "\u001B[102m"),   // h = foraging seed
     FORAGING_MINERAL("m", "\u001B[47m"),// سفید خاکستری
     LAKE("L", "\u001B[44m"),
     HOUSE("H", "\u001B[45m"),
-    GREENHOUSE("G", "\u001B[46m"),
+    GREENHOUSE_BUILT("G", "\u001B[46m"),
+    GREENHOUSE_BROKEN("G", "\u001B[48;5;7m"),
+    PLANTINGSOIL("P", "\u001B[48;5;94m"),
     MINE("M", "\u001B[41m"),
     WALL("w", "\u001B[48;5;94m"),
     QUARRY("Q", "\u001B[47m"),

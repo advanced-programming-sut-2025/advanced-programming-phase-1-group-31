@@ -1,6 +1,8 @@
 package model;
 
+import model.enums.foragings.ForagingCrops;
 import model.enums.foragings.ForagingMinerals;
+import model.enums.foragings.ForagingSeeds;
 import model.enums.general.Seasons;
 import model.enums.general.TileType;
 import model.enums.general.Weather;
@@ -8,12 +10,15 @@ import model.materials.Crop;
 import model.materials.Material;
 import model.materials.Seed;
 import model.materials.Tree;
+import model.materials.Foraging.ForagingCrop;
 import model.materials.Foraging.ForagingMineral;
+import model.materials.Foraging.ForagingSeed;
 import model.materials.Foraging.ForagingTree;
 
 import java.awt.*;
 import java.time.DayOfWeek;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 //cheat code for changing weather must be added.
 
@@ -144,17 +149,17 @@ public class TimeAndDate {
     }
 
     public void changeForagingAndCrops() {
-        Map map = App.getCurrentGame().getMainMap(); 
-        for (int i = 0; i < map.getMainMap().length; i++) {
-            for (int j = 0; j < map.getMainMap()[i].length; j++) {
-                Tile tile = map.getMainMap(i, j);
-                if (tile.getType()==TileType.SEED) {
-                    Material material = tile.getMaterial();
-                      if (material instanceof Seed seed) {
-                    seed.grow(); 
+        Map map = App.getCurrentGame().getMainMap();
+        Tile[][] tiles = map.getMainMap();
+
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles[i].length; j++) {
+                Tile tile = tiles[i][j];
+                if (tile.getType() == TileType.SEED && tile.getMaterial() instanceof Seed seed) {
+
                     if (seed.getDaysWithoutWater() >= 2) {
-                        tile.setType(TileType.EMPTY); 
-                        tile.setMaterial(null); 
+                        tile.setType(TileType.EMPTY);
+                        tile.setMaterial(null);
                     } else if (seed.isFullyGrown()) {
                         if (seed.getCorrespondingCrop() != null) {
                             tile.setType(TileType.CROPS);
@@ -162,13 +167,52 @@ public class TimeAndDate {
                         } else if (seed.getCorrespondingTrees() != null) {
                             tile.setType(TileType.TREE);
                             tile.setMaterial(new Tree(seed.getCorrespondingTrees()));
+                        }
+                    }
+                    if (seed.getDaysWithoutWater() == 0) {
+                        seed.grow();
+                    }
+                    seed.setDaysWithoutWater(seed.getDaysWithoutWater()+1);
 
+
+                }
+            }
+        }
+
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles[i].length; j++) {
+                Tile tile = tiles[i][j];
+
+                double chance = ThreadLocalRandom.current().nextDouble();
+                if (chance <= 0.01 && (tile.getType() == TileType.EMPTY || tile.getType() == TileType.PLANTINGSOIL)) {
+                    Seasons season = App.getCurrentGame().getTimeAndDate().getSeason();
+
+                    int type = ThreadLocalRandom.current().nextInt(3);
+                    switch (type) {
+                        case 0 -> {
+                            if (tile.getType() == TileType.EMPTY && tile.getMaterial() == null) {
+                                ForagingCrops crop = ForagingCrops.getRandomBySeason(season);
+                                tile.setType(TileType.FORAGING_CROPS);
+                                tile.setMaterial(new ForagingCrop(crop));
+                            }
+
+                        }
+                        case 1 -> {
+                            if (tile.getType() == TileType.PLANTINGSOIL && tile.getMaterial() == null) {
+                                ForagingSeeds seed = ForagingSeeds.getRandomBySeason(season);
+                                tile.setType(TileType.SEED);
+                                tile.setMaterial(new ForagingSeed(seed));
+                            }
+                        }
+                        case 2 -> {
+                            // ForagingMinerals mineral = ForagingMinerals.getRandom();
+                            // tile.setType(TileType.FORAGING_MINERAL);
+                            // tile.setMaterial(new ForagingMineral(mineral));
                         }
                     }
                 }
-                // updateTile(tile);
             }
         }
     }
-}
+
 }

@@ -41,11 +41,11 @@ public class FarmFactory {
             }
         }
 
-        // for (int i = 0; i < trashCount; i++) {
-        // if (!tryPlace(marketFarm, TileType.TRASH_BIN, 4, 4)) {
-        // System.out.println("⚠ Could not place Trash Bin #" + i);
-        // }
-        // }
+        for (int i = 0; i < trashCount; i++) {
+            if (!tryPlace(marketFarm, TileType.TRASH_BIN, 4, 4)) {
+                System.out.println("⚠ Could not place Trash Bin #" + i);
+            }
+        }
         return marketFarm;
     }
 
@@ -53,7 +53,7 @@ public class FarmFactory {
         Farm farm = new Farm(new Point(55, 35));
         addWall(farm);
         placeBuilding(farm, TileType.HOUSE, new Rectangle(1, 1, 7, 7));
-        placeBuilding(farm, TileType.GREENHOUSE, new Rectangle(10, 10, 5, 6));
+        placeBuilding(farm, TileType.GREENHOUSE_BROKEN, new Rectangle(10, 10, 6, 7));
         placeBuilding(farm, TileType.QUARRY, new Rectangle(farm.getRectangle().width - 6, 1, 4, 4));
         placeBuilding(farm, TileType.LAKE,
                 new Rectangle(farm.getRectangle().width / 3, farm.getRectangle().height - 6, 5, 5));
@@ -64,7 +64,7 @@ public class FarmFactory {
         Farm farm = new Farm(new Point(55, 35));
         addWall(farm);
         placeBuilding(farm, TileType.HOUSE, new Rectangle(1, 1, 7, 7));
-        placeBuilding(farm, TileType.GREENHOUSE, new Rectangle(farm.getRectangle().width - 15, 1, 5, 6));
+        placeBuilding(farm, TileType.GREENHOUSE_BROKEN, new Rectangle(farm.getRectangle().width - 15, 1, 6, 7));
         placeBuilding(farm, TileType.QUARRY, new Rectangle(farm.getRectangle().width - 6, 1, 4, 4));
         placeBuilding(farm, TileType.LAKE,
                 new Rectangle(farm.getRectangle().width / 3, farm.getRectangle().height - 6, 5, 5));
@@ -77,7 +77,7 @@ public class FarmFactory {
         Farm farm = new Farm(new Point(55, 35));
         addWall(farm);
         placeBuilding(farm, TileType.HOUSE, new Rectangle(1, 1, 6, 6));
-        placeBuilding(farm, TileType.GREENHOUSE, new Rectangle(15, 1, 5, 5));
+        placeBuilding(farm, TileType.GREENHOUSE_BROKEN, new Rectangle(15, 1, 6, 7));
         placeBuilding(farm, TileType.QUARRY, new Rectangle(1, 15, 5, 5));
         placeBuilding(farm, TileType.LAKE, new Rectangle(15, 15, 5, 5));
         placeBuilding(farm, TileType.LAKE, new Rectangle(8, 1, 5, 10));
@@ -89,8 +89,8 @@ public class FarmFactory {
         Farm farm = new Farm(new Point(55, 35));
         addWall(farm);
         placeBuilding(farm, TileType.HOUSE, new Rectangle(10, 5, 6, 6));
-        placeBuilding(farm, TileType.GREENHOUSE, new Rectangle(5, 5, 4, 4));
-        placeBuilding(farm, TileType.GREENHOUSE, new Rectangle(17, 5, 4, 4));
+        placeBuilding(farm, TileType.GREENHOUSE_BROKEN, new Rectangle(5, 5, 4, 4));
+        placeBuilding(farm, TileType.GREENHOUSE_BROKEN, new Rectangle(17, 5, 4, 4));
         placeBuilding(farm, TileType.QUARRY, new Rectangle(5, 15, 4, 4));
         placeBuilding(farm, TileType.QUARRY, new Rectangle(17, 15, 4, 4));
         placeBuilding(farm, TileType.LAKE, new Rectangle(10, 10, 6, 6));
@@ -105,7 +105,8 @@ public class FarmFactory {
                 cottage.setRectangle(area);
                 farm.setCottage(cottage);
             }
-            case GREENHOUSE -> {
+            case GREENHOUSE_BROKEN -> {
+                setTileTypeGreenHouseBroken(type, area, farm);
                 GreenHouse greenhouse = new GreenHouse();
                 greenhouse.setRectangle(area);
                 farm.setGreenhouse(greenhouse);
@@ -143,6 +144,38 @@ public class FarmFactory {
         }
     }
 
+    private static void setTileTypeGreenHouseBroken(TileType type, Rectangle rectangle, Farm farm) {
+        Tile[][] tiles = farm.getMainMap();
+        for (int i = rectangle.x; i < rectangle.x + rectangle.width; i++) {
+            for (int j = rectangle.y; j < rectangle.y + rectangle.height; j++) {
+                tiles[i][j].setType(type);
+            }
+        }
+        placeBuilding(farm, TileType.WALL, new Rectangle(rectangle.x, rectangle.y, rectangle.width, 1));
+        placeBuilding(farm, TileType.WALL,
+                new Rectangle(rectangle.x, rectangle.y + rectangle.height - 1, rectangle.width, 1));
+        placeBuilding(farm, TileType.WALL, new Rectangle(rectangle.x, rectangle.y, 1, rectangle.height));
+        placeBuilding(farm, TileType.WALL,
+                new Rectangle(rectangle.x + rectangle.width - 1, rectangle.y, 1, rectangle.height));
+    }
+    public static void setTileTypeGreenHouseBuilt(TileType type, Rectangle greenhouseArea, Farm farm) {
+
+        for (int i = greenhouseArea.x + 1; i < greenhouseArea.x + greenhouseArea.width - 1; i++) {
+            for (int j = greenhouseArea.y + 1; j < greenhouseArea.y + greenhouseArea.height - 1; j++) {
+                farm.getMainMap()[i][j].setType(TileType.GREENHOUSE_BUILT);
+            }
+        }
+
+        placeBuilding(farm, TileType.WALL, new Rectangle(greenhouseArea.x, greenhouseArea.y, greenhouseArea.width, 1));
+        placeBuilding(farm, TileType.WALL, new Rectangle(greenhouseArea.x, greenhouseArea.y + greenhouseArea.height - 1, greenhouseArea.width, 1));
+        placeBuilding(farm, TileType.WALL, new Rectangle(greenhouseArea.x, greenhouseArea.y, 1, greenhouseArea.height));
+        placeBuilding(farm, TileType.WALL, new Rectangle(greenhouseArea.x + greenhouseArea.width - 1, greenhouseArea.y, 1, greenhouseArea.height));
+
+        int midX = greenhouseArea.x + (greenhouseArea.width / 2);
+        farm.getMainMap()[midX][greenhouseArea.y].setType(TileType.LAKE);
+    }
+    
+
     public static void randomGenerateFarm(Farm farm) {
 
         ForagingTrees[] treeTypes = ForagingTrees.values();
@@ -178,6 +211,7 @@ public class FarmFactory {
             tile.setMaterial(new ForagingCrop(type));
         }
     }
+
     private static <T> T randomEnum(T[] values) {
         return values[ThreadLocalRandom.current().nextInt(values.length)];
     }
