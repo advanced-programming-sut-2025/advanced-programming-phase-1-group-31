@@ -1,9 +1,14 @@
 package model.Tools;
 
+import model.enums.general.Direction;
 import model.enums.toolTypes.WateringCanType;
 
 public class WateringCan implements Tool {
-    private WateringCanType wateringCanType = WateringCanType.Initial;
+    private WateringCanType wateringCanType;
+
+    public WateringCan(WateringCanType wateringCanType) {
+        this.wateringCanType = wateringCanType;
+    }
 
 
     public WateringCanType getWateringCanType() {
@@ -14,8 +19,8 @@ public class WateringCan implements Tool {
         this.wateringCanType = wateringCanType;
     }
 
-    public void work() {
+    @Override
+    public void work(Direction direction) {
 
     }
-
 }

@@ -36,8 +36,14 @@ public class GameMenuController {
             return forecastWeather();
         else if ((matcher = GameMenuCommand.CHEAT_CHANGE_WEATHER.getMatcher(input)) != null)
             return weatherCheating(matcher);
+        else if (GameMenuCommand.SHOW_INVENTORY.getMatcher(input) != null)
+            return showInventory();
 
         return new Result(false, "Invalid command.");
+    }
+
+    private Result showInventory() {
+        return Game.getActivePlayer().getInventory().showBackPack();
     }
 
     private Result weatherCheating(Matcher matcher) {

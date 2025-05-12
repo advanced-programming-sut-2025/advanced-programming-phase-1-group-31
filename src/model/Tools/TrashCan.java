@@ -1,9 +1,14 @@
 package model.Tools;
 
+import model.enums.general.Direction;
 import model.enums.toolTypes.TrashCanType;
 
 public class TrashCan implements Tool {
-    private TrashCanType trashCanType = TrashCanType.Initial;
+    private TrashCanType trashCanType;
+
+    public TrashCan(TrashCanType trashCanType) {
+        this.trashCanType = trashCanType;
+    }
 
     public TrashCanType getTrashCanType() {
         return trashCanType;
@@ -12,8 +17,9 @@ public class TrashCan implements Tool {
     public void setTrashCanType(TrashCanType trashCanType) {
         this.trashCanType = trashCanType;
     }
-    public void work() {
+
+    @Override
+    public void work(Direction direction) {
 
     }
-
 }

@@ -24,4 +24,9 @@ public class ForagingSeed implements Material {
     public MaterialType getType() {
         return foragingSeed;
     }
+
+    @Override
+    public String getName() {
+        return foragingSeed.getDisplayName();
+    }
 }

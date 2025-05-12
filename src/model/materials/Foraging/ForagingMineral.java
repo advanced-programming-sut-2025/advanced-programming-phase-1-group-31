@@ -23,4 +23,9 @@ public class ForagingMineral implements Material {
     public MaterialType getType() {
         return foragingMineral;
     }
+
+    @Override
+    public String getName() {
+        return foragingMineral.getDisplayName();
+    }
 }

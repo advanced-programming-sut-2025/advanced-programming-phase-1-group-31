@@ -5,8 +5,12 @@ import model.enums.general.Seasons;
 import model.enums.general.TileType;
 import model.enums.general.Weather;
 import model.materials.Crop;
+import model.materials.Foraging.ForagingCrop;
 import model.materials.Foraging.ForagingMineral;
+import model.materials.Foraging.ForagingSeed;
 import model.materials.Foraging.ForagingTree;
+import model.materials.Material;
+import model.materials.Seed;
 
 import java.awt.*;
 import java.time.DayOfWeek;
@@ -35,6 +39,11 @@ public class TimeAndDate {
             addDay(countOfDay);
         }
         hour += 8;
+        for (int i = 0; i < addHour; i++) {
+            if (weather.equals(Weather.Stormy)) thunder();
+            changeForagingAndCrops();
+            //ilia
+        }
     }
 
     public void addDay(int addDay) {
@@ -63,7 +72,7 @@ public class TimeAndDate {
         for (int i = 0; i < addDay; i++) {
             if (weather.equals(Weather.Stormy)) thunder();
             changeForagingAndCrops();
-            //amirabbas
+            //amirAbbas
         }
     }
 
@@ -86,10 +95,6 @@ public class TimeAndDate {
             case Fall -> season = Seasons.Winter;
             case Winter -> season = Seasons.Spring;
         }
-    }
-
-    public void changeSeason(Seasons seasons) {
-        this.season = seasons;
     }
 
     public void setTomorrowWeather(Weather tomorrowWeather) {
@@ -133,10 +138,20 @@ public class TimeAndDate {
 
     public void thunder(Point point, Tile[][] farmMap) {
         Tile tile = farmMap[point.x][point.y];
-        if (tile.getMaterial() instanceof Tree || tile.getMaterial() instanceof ForagingTree) {
-            tile.setType(TileType.FORAGING_CROPS);
-            tile.setMaterial(new ForagingMineral(ForagingMinerals.Coal));
-        } else if ()
 
+        if (Game.getActivePlayer().getFarm().getGreenhouse().getRectangle().contains(point)) {
+            return;
+        }
+
+        Material material = tile.getMaterial();
+
+        if (material instanceof Tree || material instanceof ForagingTree) {
+            tile.setType(TileType.FORAGING_MINERAL);
+            tile.setMaterial(new ForagingMineral(ForagingMinerals.Coal));
+        } else if (material instanceof Crop || material instanceof Seed ||
+                material instanceof ForagingSeed || material instanceof ForagingCrop) {
+            tile.setType(TileType.EMPTY);
+            tile.setMaterial(null);
+        }
     }
 }

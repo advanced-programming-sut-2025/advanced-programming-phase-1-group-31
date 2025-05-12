@@ -3,36 +3,11 @@ package model.enums.toolTypes;
 import model.materials.MaterialType;
 
 public enum AxePickHoeType implements MaterialType {
-    Initial(5){
-        @Override
-        public void work() {
-
-        }
-    },
-    Copper(4){
-        @Override
-        public void work() {
-
-        }
-    },
-    Iron(3){
-        @Override
-        public void work() {
-
-        }
-    },
-    Gold(2){
-        @Override
-        public void work() {
-
-        }
-    },
-    Iridium(1){
-        @Override
-        public void work() {
-
-        }
-    };
+    Initial(5),
+    Copper(4),
+    Iron(3),
+    Gold(2),
+    Iridium(1);
 
     private final int energyConsumption;
 
@@ -43,6 +18,4 @@ public enum AxePickHoeType implements MaterialType {
     public int getEnergyConsumption() {
         return energyConsumption;
     }
-
-    public abstract void work();
 }

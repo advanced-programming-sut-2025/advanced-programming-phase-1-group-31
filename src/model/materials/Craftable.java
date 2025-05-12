@@ -1,15 +1,19 @@
-package model;
+package model.materials;
 
 import model.enums.crafting.Craftables;
-import model.materials.Material;
-import model.materials.MaterialType;
 
 public class Craftable implements Material {
     private Craftables craftableType;
     private final int energyConsumption = 2;
 
+
     @Override
-    public MaterialType getType() {
+    public Craftables getType() {
         return craftableType;
+    }
+
+    @Override
+    public String getName() {
+        return craftableType.name();
     }
 }

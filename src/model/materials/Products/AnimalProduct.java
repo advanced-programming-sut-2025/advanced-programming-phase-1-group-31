@@ -16,5 +16,9 @@ public class AnimalProduct implements Material {
         return animalProducts;
     }
 
+    @Override
+    public String getName() {
+        return animalProducts.name();
+    }
 
 }

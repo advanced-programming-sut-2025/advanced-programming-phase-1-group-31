@@ -16,6 +16,11 @@ public class Fruit implements Material {
 
     @Override
     public MaterialType getType() {
-        return null;
+        return fruit;
+    }
+
+    @Override
+    public String getName() {
+        return fruit.getName();
     }
 }

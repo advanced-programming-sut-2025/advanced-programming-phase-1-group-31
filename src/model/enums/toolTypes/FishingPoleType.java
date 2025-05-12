@@ -3,30 +3,10 @@ package model.enums.toolTypes;
 import model.materials.MaterialType;
 
 public enum FishingPoleType implements MaterialType {
-    Training(8, false){
-        @Override
-        public void work() {
-
-        }
-    },
-    Bamboo(8, true){
-        @Override
-        public void work() {
-
-        }
-    },
-    Fiberglass(6, true){
-        @Override
-        public void work() {
-
-        }
-    },
-    Iridium(4, true){
-        @Override
-        public void work() {
-
-        }
-    };
+    Training(8, false),
+    Bamboo(8, true),
+    Fiberglass(6, true),
+    Iridium(4, true);
 
     private final int energyConsumption;
     private final boolean canCatchAllFishes;
@@ -43,6 +23,4 @@ public enum FishingPoleType implements MaterialType {
     public int getEnergyConsumption() {
         return energyConsumption;
     }
-
-    public abstract void work();
 }

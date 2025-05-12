@@ -20,4 +20,9 @@ public class ForagingCrop implements Material {
     public MaterialType getType() {
         return foragingCrop;
     }
+
+    @Override
+    public String getName() {
+        return foragingCrop.getDisplayName();
+    }
 }

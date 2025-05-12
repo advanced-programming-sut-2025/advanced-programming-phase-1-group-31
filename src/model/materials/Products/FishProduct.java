@@ -15,4 +15,9 @@ public class FishProduct implements Material {
     public MaterialType getType() {
         return fishTypes;
     }
+
+    @Override
+    public String getName() {
+        return fishTypes.name();
+    }
 }

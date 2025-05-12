@@ -1,9 +1,14 @@
 package model.Tools;
 
+import model.enums.general.Direction;
 import model.enums.toolTypes.AxePickHoeType;
 
 public class Hoe implements Tool{
-    private AxePickHoeType hoeType = AxePickHoeType.Initial;
+    private AxePickHoeType hoeType;
+
+    public Hoe(AxePickHoeType hoeType) {
+        this.hoeType = hoeType;
+    }
 
     public void setHoeType(AxePickHoeType hoeType) {
         this.hoeType = hoeType;
@@ -13,4 +18,8 @@ public class Hoe implements Tool{
         return hoeType;
     }
 
+    @Override
+    public void work(Direction direction) {
+
+    }
 }

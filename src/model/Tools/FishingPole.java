@@ -1,10 +1,14 @@
 package model.Tools;
 
+import model.enums.general.Direction;
 import model.enums.toolTypes.FishingPoleType;
 
 public class FishingPole implements Tool {
-    private FishingPoleType fishingPoleType = FishingPoleType.Training;
+    private FishingPoleType fishingPoleType;
 
+    public FishingPole(FishingPoleType fishingPoleType) {
+        this.fishingPoleType = fishingPoleType;
+    }
 
     public void setFishingPoleType(FishingPoleType fishingPoleType) {
         this.fishingPoleType = fishingPoleType;
@@ -14,4 +18,8 @@ public class FishingPole implements Tool {
         return fishingPoleType;
     }
 
+    @Override
+    public void work(Direction direction) {
+
+    }
 }

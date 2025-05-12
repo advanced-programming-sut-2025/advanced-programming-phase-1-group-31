@@ -9,4 +9,9 @@ public class Fertilizer implements Material {
     public MaterialType getType() {
         return fertilizerType;
     }
+
+    @Override
+    public String getName() {
+        return fertilizerType.name();
+    }
 }

@@ -11,4 +11,9 @@ public class Food implements Material {
     public MaterialType getType() {
         return foodType;
     }
+
+    @Override
+    public String getName() {
+        return foodType.name();
+    }
 }
