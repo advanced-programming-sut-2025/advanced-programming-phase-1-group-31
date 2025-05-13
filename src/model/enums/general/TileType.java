@@ -3,6 +3,7 @@ package model.enums.general;
 
 public enum TileType {
     EMPTY(".", "\u001B[40m"),
+    DOOR("D", "\u001B[43m"),
     Wood("W", "\u001B[48;5;130m"),
     Craftable("C", "\u001B[48;5;12m"),
     SEED("s", "\u001B[42m"),             // سبز تیره

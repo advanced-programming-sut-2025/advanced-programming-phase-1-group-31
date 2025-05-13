@@ -41,7 +41,7 @@ public class Scythe implements Tool {
         Tile tile = map[point.x][point.y];
         Material material = tile.getMaterial();
         if (tile.getType() == TileType.CROPS && material instanceof Crop crop) {
-            player.getInventory().addElementToBackpack(material, crop.getAmount());
+            player.getInventory().addElementToBackpack(crop, crop.getAmount());
             if (crop.getCrop().isOneTime()) {
                 tile.setType(TileType.EMPTY);
                 tile.setMaterial(null);
@@ -49,9 +49,7 @@ public class Scythe implements Tool {
             player.getEnergy().changeEnergy(-energyConsumption);
 return new Result(true , "You successfully harvested from the crops.");
         } else if (tile.getType() == TileType.TREE && material instanceof Tree tree) {
-            player.getInventory().addElementToBackpack(material, 1);
-                tile.setType(TileType.EMPTY);
-                tile.setMaterial(null);
+            player.getInventory().addElementToBackpack(tree, tree.getAmount());
             return new Result(true , "You successfully harvested from the tree.");
         }
         player.getEnergy().changeEnergy(-energyConsumption);

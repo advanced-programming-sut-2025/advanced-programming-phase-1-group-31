@@ -23,6 +23,7 @@ public class FishingPole implements Tool {
 
     @Override
     public Result work(Direction direction) {
+        return null;
 
     }
 

@@ -10,6 +10,7 @@ public class Shear implements Tool {
 
     @Override
     public Result work(Direction direction) {
+        return null;
 
     }
 

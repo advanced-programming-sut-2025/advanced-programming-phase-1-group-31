@@ -10,6 +10,7 @@ public class MilkPail implements Tool {
 
     @Override
     public Result work(Direction direction) {
+        return null;
 
     }
 

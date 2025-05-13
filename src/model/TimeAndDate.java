@@ -177,6 +177,8 @@ public class TimeAndDate {
 
                 } else if(tile.getType() == TileType.CROPS && tile.getMaterial() instanceof Crop crop) {
                     crop.nextDay();
+                } else if(tile.getType() == TileType.TREE && tile.getMaterial() instanceof Tree tree) {
+                    tree.nextDay();
                 }
             }
         }

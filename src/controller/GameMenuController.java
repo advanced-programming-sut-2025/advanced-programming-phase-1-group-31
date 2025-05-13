@@ -47,9 +47,8 @@ public class GameMenuController {
         } else if ((matcher = GameMenuCommand.SHOW_CRAFT_INFO.getMatcher(input)) != null) {
             return showPlant(matcher);
         } else if ((matcher = GameMenuCommand.USE_TOOL.getMatcher(input)) != null) {
-            return use
-        }
-        else if ((matcher = GameMenuCommand.BUILD_GREENHOUSE.getMatcher(input)) != null) {
+            return useTool(matcher);
+        } else if ((matcher = GameMenuCommand.BUILD_GREENHOUSE.getMatcher(input)) != null) {
             return buildGreenhouse(matcher);
         }
 
@@ -296,9 +295,9 @@ public class GameMenuController {
         if (seed == null)
             return new Result(false, "Invalid seed!");
         if (targetTile.getType() != TileType.GREENHOUSE_BUILT) {
-        targetTile.setType(TileType.SEED);
-        targetTile.setMaterial(seed);
-        return new Result(true, seedName + " planted!");
+            targetTile.setType(TileType.SEED);
+            targetTile.setMaterial(seed);
+            return new Result(true, seedName + " planted!");
         }
         Crops crops = seed.getCorrespondingCrop();
         if (crops != null) {
@@ -315,14 +314,13 @@ public class GameMenuController {
         Seeds seeds = getCorrespondingMixedSeasons(seedName);
         if (seeds != null) {
             for (MixedSeedSeasons mixedSeed : MixedSeedSeasons.values()) {
-                if (mixedSeed.getName().equals(seedName) ) {
+                if (mixedSeed.getName().equals(seedName)) {
                     if (mixedSeed.getSeason() != App.getCurrentGame().getTimeAndDate().getSeason()) {
                         return new Result(false, "This mixed season cannot be planted in this season.");
                     }
                 }
             }
         }
-        
 
         targetTile.setType(TileType.SEED);
         targetTile.setMaterial(seed);
@@ -358,25 +356,21 @@ public class GameMenuController {
         if (greenHouse.isHasBeenMade()) {
             return new Result(false, "You have already made a greenhouse.");
         }
-        Result result = App.getCurrentGame().getActivePlayer().getInventory().removeElementFromBackpack(new ForagingMineral(ForagingMinerals.Wood), 1000);
+        Result result = App.getCurrentGame().getActivePlayer().getInventory()
+                .removeElementFromBackpack(new ForagingMineral(ForagingMinerals.Wood), 1000);
         // + کم شدن پول + پول کم بود ارور مناسب
-        if (result.Success()){
-            greenHouse.setHasBeenMade( true);
+        if (result.Success()) {
+            greenHouse.setHasBeenMade(true);
             FarmFactory.setTileTypeGreenHouseBuilt(TileType.GREENHOUSE_BUILT, greenHouse.getRectangle(),
                     App.getCurrentGame().getActivePlayer().getFarm());
             return new Result(true, "You have been made a greenhouse.");
         }
         return result;
     }
-    private Result useTool(Matcher matcher) {
-        String direction = matcher.group("direction");
-        Player player = App.getCurrentGame().getActivePlayer();
-        Point pos = player.getPlace();
-        Point target = Direction.fromString(direction).apply(pos);
 
-        Tile[][] map = player.getFarm().getMainMap();
-        Tile targetTile = map[target.x][target.y];
-        return App.getCurrentGame().getActivePlayer().getInHand().work(targetTile);
+    private Result useTool(Matcher matcher) {
+        Direction direction = Direction.fromString(matcher.group("direction").trim());
+        return App.getCurrentGame().getActivePlayer().getInHand().work(direction);
     }
 
     public static Seed findCropBySeed(String seedName) {
@@ -387,9 +381,10 @@ public class GameMenuController {
         return seed;
 
     }
+
     public Seeds getCorrespondingMixedSeasons(String season) {
         for (MixedSeedSeasons mixedSeed : MixedSeedSeasons.values()) {
-            if (mixedSeed.getName().equals(season) ) {
+            if (mixedSeed.getName().equals(season)) {
                 return mixedSeed.getRandomSeed();
             }
         }
@@ -412,7 +407,12 @@ public class GameMenuController {
             }
         }
         if (!isEmptyFarm(f1)) {
-
+            System.out.printf("F1 door at: (%d, %d)\n",
+                    f1.getRectangle().x + f1.getRectangle().width - 1,
+                    f1.getRectangle().y + f1.getRectangle().height / 2);
+            map.getMainMap()[f1.getRectangle().x
+                    + f1.getRectangle().width / 2][f1.getRectangle().y + f1.getRectangle().height - 1]
+                    .setType(TileType.DOOR);
         }
 
         for (int x = 0; x < farmWidth; x++) {
@@ -428,6 +428,8 @@ public class GameMenuController {
             f2.getLakeInFarm().forEach(l -> l.getRectangle().translate(85, 0));
             f2.getQuarryInFarm().forEach(q -> q.getRectangle().translate(85, 0));
             f2.getRectangle().translate(85, 0);
+            map.getMainMap()[f2.getRectangle().x
+                    + f2.getRectangle().width / 2][f2.getRectangle().y + f2.getRectangle().height - 1].setType(TileType.DOOR);
         }
 
         for (int x = 0; x < farmWidth; x++) {
@@ -442,6 +444,8 @@ public class GameMenuController {
             f3.getLakeInFarm().forEach(l -> l.getRectangle().translate(0, 65));
             f3.getQuarryInFarm().forEach(q -> q.getRectangle().translate(0, 65));
             f3.getRectangle().translate(0, 65);
+            map.getMainMap()[f3.getRectangle().x + f3.getRectangle().width / 2][f3.getRectangle().y]
+                    .setType(TileType.DOOR);
 
         }
 
@@ -457,6 +461,8 @@ public class GameMenuController {
             f4.getLakeInFarm().forEach(l -> l.getRectangle().translate(85, 65));
             f4.getQuarryInFarm().forEach(q -> q.getRectangle().translate(85, 65));
             f4.getRectangle().translate(85, 65);
+            map.getMainMap()[f4.getRectangle().x + f4.getRectangle().width / 2][f4.getRectangle().y]
+                    .setType(TileType.DOOR);
 
         }
         Farm marketFarm = FarmFactory.generateStors();

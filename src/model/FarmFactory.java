@@ -25,8 +25,17 @@ public class FarmFactory {
     }
 
     public static Farm generateStors() {
+
         Farm marketFarm = new Farm(new Point(60, 20));
         addWall(marketFarm);
+        int width = marketFarm.getMainMap().length;
+        int height = marketFarm.getMainMap()[0].length;
+
+        marketFarm.getMainMap()[width / 2][0].setType(TileType.DOOR);
+        marketFarm.getMainMap()[width / 2][height - 1].setType(TileType.DOOR);
+        marketFarm.getMainMap()[0][height / 2].setType(TileType.DOOR);
+        marketFarm.getMainMap()[width - 1][height / 2].setType(TileType.DOOR);
+
         int storeCount = 7, npcCount = 5, trashCount = 4;
 
         for (int i = 0; i < storeCount; i++) {
@@ -158,6 +167,7 @@ public class FarmFactory {
         placeBuilding(farm, TileType.WALL,
                 new Rectangle(rectangle.x + rectangle.width - 1, rectangle.y, 1, rectangle.height));
     }
+
     public static void setTileTypeGreenHouseBuilt(TileType type, Rectangle greenhouseArea, Farm farm) {
 
         for (int i = greenhouseArea.x + 1; i < greenhouseArea.x + greenhouseArea.width - 1; i++) {
@@ -167,14 +177,15 @@ public class FarmFactory {
         }
 
         placeBuilding(farm, TileType.WALL, new Rectangle(greenhouseArea.x, greenhouseArea.y, greenhouseArea.width, 1));
-        placeBuilding(farm, TileType.WALL, new Rectangle(greenhouseArea.x, greenhouseArea.y + greenhouseArea.height - 1, greenhouseArea.width, 1));
+        placeBuilding(farm, TileType.WALL,
+                new Rectangle(greenhouseArea.x, greenhouseArea.y + greenhouseArea.height - 1, greenhouseArea.width, 1));
         placeBuilding(farm, TileType.WALL, new Rectangle(greenhouseArea.x, greenhouseArea.y, 1, greenhouseArea.height));
-        placeBuilding(farm, TileType.WALL, new Rectangle(greenhouseArea.x + greenhouseArea.width - 1, greenhouseArea.y, 1, greenhouseArea.height));
+        placeBuilding(farm, TileType.WALL,
+                new Rectangle(greenhouseArea.x + greenhouseArea.width - 1, greenhouseArea.y, 1, greenhouseArea.height));
 
-        int midX = greenhouseArea.x + (greenhouseArea.width / 2);
-        farm.getMainMap()[midX][greenhouseArea.y].setType(TileType.LAKE);
+        int midY = greenhouseArea.y + (greenhouseArea.height / 2);
+        farm.getMainMap()[greenhouseArea.x][midY].setType(TileType.LAKE);
     }
-    
 
     public static void randomGenerateFarm(Farm farm) {
 
