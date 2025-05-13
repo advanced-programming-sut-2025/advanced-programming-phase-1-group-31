@@ -20,6 +20,7 @@ public enum ForagingMinerals implements MaterialType {
     Copper("Copper", "A common ore that can be smelted into bars.", 5),
     Iron("Iron", "A fairly common ore that can be smelted into bars.", 10),
     Gold("Gold", "A precious ore that can be smelted into bars.", 25),
+    Wood("Wood", "It is taken from a tree.", 4),
     Stone("Stone", "Common Stone", 2),
     Iridium("Iridium", "An exotic ore with many curious properties. Can be smelted into bars.",
             100),

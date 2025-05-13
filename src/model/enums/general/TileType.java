@@ -21,7 +21,9 @@ public enum TileType {
     WALL("w", "\u001B[48;5;94m"),
     QUARRY("Q", "\u001B[47m"),
     SHOP("S", "\u001B[45m"),
+    PLANTINGSOIL("P", "\u001B[48;5;94m"),
     NPC("N", "\u001B[46m");
+
 
 
     private final String symbol;

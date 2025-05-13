@@ -1,5 +1,6 @@
 package model.Tools;
 
+import model.Result;
 import model.enums.general.Direction;
 import model.enums.toolTypes.WateringCanType;
 
@@ -22,7 +23,7 @@ public class WateringCan implements Tool {
     }
 
     @Override
-    public void work(Direction direction) {
+    public Result work(Direction direction) {
 
     }
 

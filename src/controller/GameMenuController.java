@@ -1,10 +1,16 @@
 package controller;
 
 import model.Game;
+import model.Player;
 import model.Result;
 import model.TimeAndDate;
+import model.Tools.Tool;
 import model.enums.commands.GameMenuCommand;
+import model.enums.foragings.ForagingMinerals;
+import model.enums.general.Direction;
 import model.enums.general.Weather;
+import model.enums.toolTypes.ToolTypes;
+import model.materials.Foraging.ForagingMineral;
 
 import java.awt.*;
 import java.util.Scanner;
@@ -38,8 +44,45 @@ public class GameMenuController {
             return weatherCheating(matcher);
         else if (GameMenuCommand.SHOW_INVENTORY.getMatcher(input) != null)
             return showInventory();
+        else if ((matcher = GameMenuCommand.EQUIP_TOOL.getMatcher(input)) != null)
+            return equipTool(matcher);
+        else if (GameMenuCommand.SHOW_CURRENT_TOOL.getMatcher(input) != null)
+            return showCurrentTool();
+        else if (GameMenuCommand.SHOW_AVAILABLE_TOOLS.getMatcher(input) != null)
+            return showAvailableTools();
+        else if ((matcher = GameMenuCommand.USE_TOOL.getMatcher(input)) != null)
+            return useTool(matcher);
 
         return new Result(false, "Invalid command.");
+    }
+
+    private Result useTool(Matcher matcher) {
+        Direction direction = Direction.fromString(matcher.group("direction").trim());
+        return Game.getActivePlayer().getInHand().work(direction);
+    }
+
+    private Result showAvailableTools() {
+        return Game.getActivePlayer().getInventory().showTools();
+    }
+
+    private Result showCurrentTool() {
+        Tool tool = Game.getActivePlayer().getInHand();
+        if (tool == null) {
+            return new Result(false, "You don't have anything in hand.");
+        }
+        return new Result(true, "You are now holding: " + tool.getName());
+    }
+
+    private Result equipTool(Matcher matcher) {
+        String tool1 = matcher.group("toolname").trim();
+        Tool tool = ToolTypes.fromString(tool1);
+        Player player = Game.getActivePlayer();
+        tool = player.getInventory().isExistToolOrNull(tool);
+        if (tool == null){
+            return new Result(false, "You haven't " + tool1);
+        }
+        player.setInHand(tool);
+        return new Result(true, tool1 + " equipped successfully!");
     }
 
     private Result showInventory() {

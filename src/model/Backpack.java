@@ -98,4 +98,12 @@ public class Backpack {
         }
         return new Result(true, result.toString());
     }
+
+    public Result showTools() {
+        StringBuilder result = new StringBuilder("Your Tools:");
+        for (Tool tool : tools) {
+            result.append("\n").append(tool.getName());
+        }
+        return new Result(true, result.toString());
+    }
 }
