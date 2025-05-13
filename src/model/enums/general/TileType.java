@@ -22,6 +22,8 @@ public enum TileType {
     QUARRY("Q", "\u001B[47m"),
     SHOP("S", "\u001B[45m"),
     PLANTINGSOIL("P", "\u001B[48;5;94m"),
+    Wood("W", "\u001B[48;5;130m"),
+    Craftable("C", "\u001B[48;5;12m"),
     NPC("N", "\u001B[46m");
 
 

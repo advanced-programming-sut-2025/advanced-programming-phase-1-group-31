@@ -40,4 +40,7 @@ public class Game {
     }
 
 
+    public static Map getMainMap() {
+        return mainMap;
+    }
 }

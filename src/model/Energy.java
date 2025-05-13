@@ -1,23 +1,23 @@
 package model;
 
 public class Energy {
-    private int energyAmount;
-    private int maxEnergy = 200;
+    private Double energyAmount;
+    private Double maxEnergy = 200.0;
 
-    public void setMaxEnergy(int maxEnergy) {
+    public void setMaxEnergy(Double maxEnergy) {
         this.maxEnergy = maxEnergy;
     }
 
-    public int getEnergyAmount() {
+    public double getEnergyAmount() {
         return energyAmount;
     }
 
-    public int getMaxEnergy() {
+    public Double getMaxEnergy() {
         return maxEnergy;
     }
 
     // For CheatCode
-    public void setEnergyAmount(int energyAmount) {
+    public void setEnergyAmount(Double energyAmount) {
         this.energyAmount = energyAmount;
         if (energyAmount > maxEnergy)
             energyAmount = maxEnergy;
@@ -26,7 +26,7 @@ public class Energy {
         }
     }
 
-    public void changeEnergy(int changeEnergyAmount) {
+    public void changeEnergy(Double changeEnergyAmount) {
         energyAmount += changeEnergyAmount;
         if (energyAmount > maxEnergy)
             energyAmount = maxEnergy;
