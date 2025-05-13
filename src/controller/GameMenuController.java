@@ -2,12 +2,15 @@ package controller;
 
 import model.*;
 import model.Map;
+import model.enums.foragings.ForagingMinerals;
 import model.enums.general.Direction;
 import model.enums.general.Menus;
 import model.enums.general.TileType;
 import model.enums.plantable.Crops;
+import model.enums.plantable.MixedSeedSeasons;
 import model.enums.plantable.Seeds;
 import model.enums.plantable.Trees;
+import model.materials.Foraging.ForagingMineral;
 import model.materials.Material;
 import model.materials.Seed;
 import model.enums.commands.GameMenuCommand;
@@ -41,7 +44,12 @@ public class GameMenuController {
             return unlimitedEnergy(matcher);
         } else if ((matcher = GameMenuCommand.PLANT_SEED.getMatcher(input)) != null) {
             return handlePlantCommand(matcher);
-        } else if ((matcher = GameMenuCommand.BUILD_GREENHOUSE.getMatcher(input)) != null) {
+        } else if ((matcher = GameMenuCommand.SHOW_CRAFT_INFO.getMatcher(input)) != null) {
+            return showPlant(matcher);
+        } else if ((matcher = GameMenuCommand.USE_TOOL.getMatcher(input)) != null) {
+            return use
+        }
+        else if ((matcher = GameMenuCommand.BUILD_GREENHOUSE.getMatcher(input)) != null) {
             return buildGreenhouse(matcher);
         }
 
@@ -272,7 +280,7 @@ public class GameMenuController {
     }
 
     public Result handlePlantCommand(Matcher matcher) {
-        String seedName = matcher.group("usernames");
+        String seedName = matcher.group("seed");
         String direction = matcher.group("direction");
         Player player = App.getCurrentGame().getActivePlayer();
         Point pos = player.getPlace();
@@ -284,18 +292,14 @@ public class GameMenuController {
         if (targetTile.getType() != TileType.PLANTINGSOIL && targetTile.getType() != TileType.GREENHOUSE_BUILT)
             return new Result(false, "Soil is not tilled!");
         // if (!targetTile.isPlantable()) return new Result(false, "Can't plant here!");
-        if (targetTile.getType() != TileType.GREENHOUSE_BUILT) {
-            Seed seed = findCropBySeed(seedName);
-        if (seed == null)
-            return new Result(false, "Invalid seed!");
-            targetTile.setType(TileType.SEED);
-        targetTile.setMaterial(seed);
-        return new Result(true, seedName + " planted!");
-        }
-
         Seed seed = findCropBySeed(seedName);
         if (seed == null)
             return new Result(false, "Invalid seed!");
+        if (targetTile.getType() != TileType.GREENHOUSE_BUILT) {
+        targetTile.setType(TileType.SEED);
+        targetTile.setMaterial(seed);
+        return new Result(true, seedName + " planted!");
+        }
         Crops crops = seed.getCorrespondingCrop();
         if (crops != null) {
             if (!crops.getSeasons().contains(App.getCurrentGame().getTimeAndDate().getSeason())) {
@@ -308,13 +312,24 @@ public class GameMenuController {
                 return new Result(false, "This tree cannot be planted in this season.");
             }
         }
+        Seeds seeds = getCorrespondingMixedSeasons(seedName);
+        if (seeds != null) {
+            for (MixedSeedSeasons mixedSeed : MixedSeedSeasons.values()) {
+                if (mixedSeed.getName().equals(seedName) ) {
+                    if (mixedSeed.getSeason() != App.getCurrentGame().getTimeAndDate().getSeason()) {
+                        return new Result(false, "This mixed season cannot be planted in this season.");
+                    }
+                }
+            }
+        }
+        
 
         targetTile.setType(TileType.SEED);
         targetTile.setMaterial(seed);
         return new Result(true, seedName + " planted!");
     }
 
-    public Result ShowPlant(Matcher matcher) {
+    public Result showPlant(Matcher matcher) {
         Map map = App.getCurrentGame().getMainMap();
         int x = 0, y = 0;
         Player player = App.getCurrentGame().getActivePlayer();
@@ -343,10 +358,25 @@ public class GameMenuController {
         if (greenHouse.isHasBeenMade()) {
             return new Result(false, "You have already made a greenhouse.");
         }
-        greenHouse.setHasBeenMade( true);
-        FarmFactory.setTileTypeGreenHouseBuilt(TileType.GREENHOUSE_BUILT, greenHouse.getRectangle(),
-                App.getCurrentGame().getActivePlayer().getFarm());
-        return new Result(true, "You have been made a greenhouse.");
+        Result result = App.getCurrentGame().getActivePlayer().getInventory().removeElementFromBackpack(new ForagingMineral(ForagingMinerals.Wood), 1000);
+        // + کم شدن پول + پول کم بود ارور مناسب
+        if (result.Success()){
+            greenHouse.setHasBeenMade( true);
+            FarmFactory.setTileTypeGreenHouseBuilt(TileType.GREENHOUSE_BUILT, greenHouse.getRectangle(),
+                    App.getCurrentGame().getActivePlayer().getFarm());
+            return new Result(true, "You have been made a greenhouse.");
+        }
+        return result;
+    }
+    private Result useTool(Matcher matcher) {
+        String direction = matcher.group("direction");
+        Player player = App.getCurrentGame().getActivePlayer();
+        Point pos = player.getPlace();
+        Point target = Direction.fromString(direction).apply(pos);
+
+        Tile[][] map = player.getFarm().getMainMap();
+        Tile targetTile = map[target.x][target.y];
+        return App.getCurrentGame().getActivePlayer().getInHand().work(targetTile);
     }
 
     public static Seed findCropBySeed(String seedName) {
@@ -356,6 +386,14 @@ public class GameMenuController {
         Seed seed = new Seed(seedType);
         return seed;
 
+    }
+    public Seeds getCorrespondingMixedSeasons(String season) {
+        for (MixedSeedSeasons mixedSeed : MixedSeedSeasons.values()) {
+            if (mixedSeed.getName().equals(season) ) {
+                return mixedSeed.getRandomSeed();
+            }
+        }
+        return null;
     }
 
     public static void integrateFarmsIntoMainMap(Map map, Farm f1, Farm f2, Farm f3, Farm f4) {

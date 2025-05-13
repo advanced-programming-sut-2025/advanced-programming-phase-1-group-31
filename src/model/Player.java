@@ -1,5 +1,6 @@
 package model;
 
+import model.Tools.Tool;
 import model.enums.general.Menus;
 import model.enums.general.TileType;
 
@@ -91,9 +92,15 @@ public class Player {
         return gender;
     }
 
-    // public Tools getInHand() {
-    // return inHand;
-    // }
+    private Tool inHand;
+
+    public Tool getInHand() {
+        return inHand;
+    }
+
+    public void setInHand(Tool inHand) {
+        this.inHand = inHand;
+    }
 
     public Farm getFarm() {
         return farm;
@@ -166,6 +173,14 @@ public class Player {
     // public void setInHand(Tools inHand) {
     // this.inHand = inHand;
     // }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
 
     public void setFarm(Farm farm) {
         this.farm = farm;

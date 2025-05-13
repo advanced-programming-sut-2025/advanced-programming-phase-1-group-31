@@ -175,6 +175,8 @@ public class TimeAndDate {
                     seed.setDaysWithoutWater(seed.getDaysWithoutWater()+1);
 
 
+                } else if(tile.getType() == TileType.CROPS && tile.getMaterial() instanceof Crop crop) {
+                    crop.nextDay();
                 }
             }
         }

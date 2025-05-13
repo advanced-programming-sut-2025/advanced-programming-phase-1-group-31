@@ -1,5 +1,6 @@
 package model.Tools;
 
+import model.Result;
 import model.enums.general.Direction;
 import model.enums.toolTypes.TrashCanType;
 
@@ -21,7 +22,7 @@ public class TrashCan implements Tool {
     }
 
     @Override
-    public void work(Direction direction) {
+    public Result work(Direction direction) {
 
     }
 

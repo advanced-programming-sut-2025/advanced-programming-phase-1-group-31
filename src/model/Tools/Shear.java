@@ -1,5 +1,6 @@
 package model.Tools;
 
+import model.Result;
 import model.enums.general.Direction;
 
 import java.util.Objects;
@@ -8,7 +9,7 @@ public class Shear implements Tool {
     private int energyConsumption = 4;
 
     @Override
-    public void work(Direction direction) {
+    public Result work(Direction direction) {
 
     }
 

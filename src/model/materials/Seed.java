@@ -1,5 +1,6 @@
 package model.materials;
 
+import model.enums.plantable.MixedSeedSeasons;
 import model.enums.plantable.Seeds;
 import model.enums.plantable.Trees;
 
@@ -133,6 +134,8 @@ public class Seed implements Material {
         }
         return null;
     }
+
+
 
     public Trees getCorrespondingTrees() {
         for (Trees tree : Trees.values()) {
