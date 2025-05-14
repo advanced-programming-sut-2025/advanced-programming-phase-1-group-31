@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 import model.Map;
+import model.enums.creature.Animals;
 import model.enums.foragings.ForagingMinerals;
 import model.enums.general.Direction;
 import model.enums.general.Menus;
@@ -10,15 +11,18 @@ import model.enums.plantable.Crops;
 import model.enums.plantable.MixedSeedSeasons;
 import model.enums.plantable.Seeds;
 import model.enums.plantable.Trees;
+import model.materials.*;
 import model.materials.Foraging.ForagingMineral;
-import model.materials.Material;
-import model.materials.Seed;
 import model.enums.commands.GameMenuCommand;
+import model.enums.creature.CoopsAndBarnsTypes;
 
+import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GameMenuController {
     private static final GameMenuController instance = new GameMenuController();
@@ -50,6 +54,16 @@ public class GameMenuController {
             return useTool(matcher);
         } else if ((matcher = GameMenuCommand.BUILD_GREENHOUSE.getMatcher(input)) != null) {
             return buildGreenhouse(matcher);
+        } else if ((matcher = GameMenuCommand.BUILD_BARN.getMatcher(input)) != null) {
+            return buildStructure(matcher);
+        } else if ((matcher = GameMenuCommand.BUY_ANIMAL.getMatcher(input)) != null) {
+            return buyAnimal(matcher);
+        } else if ((matcher = GameMenuCommand.PET_ANIMAL.getMatcher(input)) != null) {
+            return petAnimalByName(matcher);
+        } else if ((matcher = GameMenuCommand.SHOW_ANIMALS.getMatcher(input)) != null) {
+            return showAnimals();
+        }else if ((matcher = GameMenuCommand.CHEAT_SET_FRIENDSHIP.getMatcher(input)) != null) {
+            return cheatSetFriendship(matcher);
         }
 
         return new Result(false, "Invalid command.");
@@ -150,15 +164,29 @@ public class GameMenuController {
         Point pos = new Point(x, y);
         int startX = pos.x;
         int startY = pos.y;
-        int endX = Math.min(140, pos.x + size + 1);
-        int endY = Math.min(100, pos.y + size + 1);
+        int endX = Math.min(140, pos.x + size);
+        int endY = Math.min(100, pos.y + size);
 
         System.out.println("موقعیت بازیکن: (" + pos.x + "," + pos.y + ")");
 
+        Tile[][] mainMap = App.getCurrentGame().getMainMap().getMainMap();
+
         for (int i = startX; i < endX; i++) {
             for (int j = startY; j < endY; j++) {
-                Tile tile = App.getCurrentGame().getMainMap().getMainMap()[i][j];
-                System.out.print(tile.getType().getColor() + tile.getType().getSymbol() + "\u001B[0m");
+                Point current = new Point(i, j);
+                Player playerAtPos = App.getCurrentGame().getPlayers()
+                        .stream()
+                        .filter(p -> p.getPlace().equals(current))
+                        .findFirst()
+                        .orElse(null);
+
+                if (playerAtPos != null) {
+                    System.out
+                            .print(playerAtPos.getType().getColor() + playerAtPos.getType().getSymbol() + "\u001B[0m");
+                } else {
+                    Tile tile = mainMap[i][j];
+                    System.out.print(tile.getType().getColor() + tile.getType().getSymbol() + "\u001B[0m");
+                }
             }
             System.out.println();
         }
@@ -179,8 +207,11 @@ public class GameMenuController {
         Point start = player.getPlace();
         Point dest = new Point(destX, destY);
         Tile[][] map = App.getCurrentGame().getMainMap().getMainMap();
-
-        if (!inBounds(dest, map) || map[destX][destY].getType() != TileType.EMPTY)
+        Tile prevTile = map[start.x][start.y];
+        TileType prevType = prevTile.getType();
+        if (!inBounds(dest, map) || (map[destX][destY].getType() != TileType.EMPTY
+                && map[destX][destY].getType() != TileType.GREENHOUSE_BUILT
+                && map[destX][destY].getType() != TileType.PLANTINGSOIL))
             return new Result(false, "Destination is blocked.");
 
         for (Player p : App.getCurrentGame().getPlayers()) {
@@ -192,8 +223,7 @@ public class GameMenuController {
         if (path == null)
             return new Result(false, "No path found.");
 
-        map[start.x][start.y].setType(TileType.EMPTY);
-        map[dest.x][dest.y].setType(player.getType());
+        map[start.x][start.y].setType(prevType);
         player.setPlace(dest);
 
         double energyLoss = path.size() / 20.0;
@@ -222,7 +252,10 @@ public class GameMenuController {
 
             for (int[] d : dirs) {
                 Point next = new Point(current.x + d[0], current.y + d[1]);
-                if (inBounds(next, map) && !visited.contains(next) && map[next.x][next.y].getType() == TileType.EMPTY) {
+                if (inBounds(next, map) && !visited.contains(next)
+                        && (map[next.x][next.y].getType() == TileType.EMPTY
+                                || map[next.x][next.y].getType() != TileType.GREENHOUSE_BUILT
+                                || map[next.x][next.y].getType() != TileType.PLANTINGSOIL)) {
                     queue.add(next);
                     visited.add(next);
                     parent.put(next, current);
@@ -373,6 +406,235 @@ public class GameMenuController {
         return App.getCurrentGame().getActivePlayer().getInHand().work(direction);
     }
 
+    public static Result buildStructure(Matcher matcher) {
+        String buildingName = matcher.group("buildingname").trim();
+        int x = 0, y = 0;
+        try {
+            x = Integer.parseInt(matcher.group("X"));
+            y = Integer.parseInt(matcher.group("Y"));
+        } catch (Exception e) {
+            return new Result(false, e.getMessage());
+        }
+        Point origin = new Point(x, y);
+        Farm farm = App.getCurrentGame().getActivePlayer().getFarm();
+        CoopsAndBarnsTypes type = CoopsAndBarnsTypes.fromName(buildingName);
+        if (type == null)
+            return new Result(false, "Invalid building type.");
+        if (farm.getBarns().stream().anyMatch(barn -> barn.getType().equals(type)))
+            return new Result(false, "You have already made this barn.");
+        if (farm.getCoops().stream().anyMatch(coop -> coop.getType().equals(type))) {
+            return new Result(false, "You have already made this coop.");
+        }
+
+        Dimension size = getOptimalDimension(type.getCapacity());
+        Rectangle area = new Rectangle(origin.x, origin.y, size.width, size.height);
+
+        if (!farm.getRectangle().contains(area))
+            return new Result(false, "Out of farm bounds.");
+        if (!isAreaEmpty(farm, area))
+            return new Result(false, "Not enough free space.");
+
+        // Player player = App.getCurrentGame().getActivePlayer();
+        // if (player.getMoney() < type.getCost()) return new Result(false, "Not enough
+        // money.");
+
+        // player.setMoney(player.getMoney() - type.getCost());
+        setStructure(farm, area, type);
+
+        return new Result(true, buildingName + " built successfully at (" + origin.x + "," + origin.y + ")");
+    }
+
+    private static Result buyAnimal(Matcher matcher) {
+        String animalName = matcher.group("animal").trim();
+        String givenName = matcher.group("name").trim();
+        Animals animalType;
+
+        try {
+            animalType = Animals.fromName(animalName);
+        } catch (IllegalArgumentException e) {
+            return new Result(false, "Invalid animal type: " + animalName);
+        }
+
+        Player player = App.getCurrentGame().getActivePlayer();
+        Tile[][] map = App.getCurrentGame().getMainMap().getMainMap();
+        Animal newAnimal = new Animal(givenName, animalType);
+        boolean duplicateName = Stream.concat(
+                player.getFarm().getCoops().stream()
+                        .flatMap(c -> c.getAnimals().stream()),
+                player.getFarm().getBarns().stream()
+                        .flatMap(b -> b.getAnimals().stream()))
+                .anyMatch(a -> a.getName().equals(givenName));
+
+        if (duplicateName) {
+            return new Result(false, "An animal with this name already exists.");
+        }
+        // Check Coops
+        boolean addedToCoop = player.getFarm().getCoops().stream()
+                .filter(coop -> coop.getCoopType() == animalType.getHousingType())
+                .filter(Coop::hasSpace)
+                .findFirst()
+                .map(coop -> {
+                    coop.addAnimal(newAnimal, map);
+                    return true;
+                })
+                .orElse(false);
+
+        if (addedToCoop) {
+            return new Result(true, givenName + " the " + animalName + " was added to a Coop.");
+        }
+
+        // Check Barns
+        boolean addedToBarn = player.getFarm().getBarns().stream()
+                .filter(barn -> barn.getType() == animalType.getHousingType())
+                .filter(Barn::hasSpace)
+                .findFirst()
+                .map(barn -> {
+                    barn.addAnimal(newAnimal, map);
+                    return true;
+                })
+                .orElse(false);
+
+        if (addedToBarn) {
+            return new Result(true, givenName + " the " + animalName + " was added to a Barn.");
+        }
+
+        return new Result(false, "No available housing with free space for this animal.");
+
+    }
+
+    private static Result petAnimalByName(Matcher matcher) {
+        String name = matcher.group("name").trim();
+        Player player = App.getCurrentGame().getActivePlayer();
+        Point playerPos = player.getPlace();
+        Tile[][] map = App.getCurrentGame().getMainMap().getMainMap();
+
+        Optional<Animal> foundAnimal = Stream.concat(
+                player.getFarm().getCoops().stream().flatMap(coop -> coop.getAnimals().stream()),
+                player.getFarm().getBarns().stream().flatMap(barn -> barn.getAnimals().stream()))
+                .filter(animal -> name.equals(animal.getName()))
+                .findFirst();
+
+        if (foundAnimal.isEmpty()) {
+            return new Result(false, "No animal with this name found.");
+        }
+
+        Animal animal = foundAnimal.get();
+        Point animalPos = animal.getLocation();
+        if (isAdjacent(playerPos, animalPos)) {
+            animal.getAnimalFriendship().pet();
+            return new Result(true, "You petted " + animal.getName() + ". Friendship is now "
+                    + animal.getAnimalFriendship().getFriendshipPoints());
+        } else {
+            return new Result(false, "You must be adjacent to the animal to pet it.");
+        }
+    }
+
+    private static Result cheatSetFriendship(Matcher matcher) {
+        String name = matcher.group("name").trim();
+        int amount;
+        try {
+            amount = Integer.parseInt(matcher.group("amount"));
+        } catch (NumberFormatException e) {
+            return new Result(false, "Invalid amount");
+        }
+
+        Player player = App.getCurrentGame().getActivePlayer();
+
+        return Stream.concat(
+                player.getFarm().getCoops().stream()
+                        .flatMap(coop -> coop.getAnimals().stream()),
+                player.getFarm().getBarns().stream()
+                        .flatMap(barn -> barn.getAnimals().stream()))
+                .filter(animal -> animal.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .map(animal -> {
+                    animal.getAnimalFriendship().setFriendshipPoints(amount);
+                    return new Result(true, "Friendship set to " + amount + " for " + name);
+                })
+                .orElse(new Result(false, "No animal named " + name + " found."));
+    }
+
+    private static Result showAnimals() {
+        Player player = App.getCurrentGame().getActivePlayer();
+
+        List<String> infoList = Stream.concat(
+                player.getFarm().getCoops().stream()
+                        .flatMap(coop -> coop.getAnimals().stream()),
+                player.getFarm().getBarns().stream()
+                        .flatMap(barn -> barn.getAnimals().stream()))
+                .map(animal -> {
+                    AnimalFriendship f = animal.getAnimalFriendship();
+                    Animals animals = (Animals) animal.getType();
+                    return String.format("Name: %s | Type: %s | Friendship: %d | Petted: %b | Fed: %b | Outside: %b",
+                            animal.getName(), animals.getName(), f.getFriendshipPoints(),
+                            f.isWasPettedToday(), f.isWasFedToday(), f.isStayedOutsideTonight());
+                })
+                .toList();
+
+        if (infoList.isEmpty()) {
+            return new Result(false, "No animals found.");
+        }
+
+        infoList.forEach(System.out::println);
+        return new Result(true, "Animals listed.");
+    }
+
+    private static boolean isAdjacent(Point a, Point b) {
+        int dx = Math.abs(a.x - b.x);
+        int dy = Math.abs(a.y - b.y);
+        return dx <= 1 && dy <= 1 && !(dx == 0 && dy == 0);
+    }
+
+    private static Dimension getOptimalDimension(int capacity) {
+        int bestWidth = 1, bestHeight = capacity, minDiff = Integer.MAX_VALUE;
+        for (int w = 1; w <= capacity; w++) {
+            int h = (int) Math.ceil((double) capacity / w);
+            if (w * h >= capacity) {
+                int diff = Math.abs(w - h);
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    bestWidth = w;
+                    bestHeight = h;
+                }
+            }
+        }
+        return new Dimension(bestWidth, bestHeight);
+    }
+
+    private static boolean isAreaEmpty(Farm farm, Rectangle area) {
+        Tile[][] map = farm.getMainMap();
+        for (int i = area.x; i < area.x + area.width; i++) {
+            for (int j = area.y; j < area.y + area.height; j++) {
+                if (map[i][j].getType() != TileType.EMPTY)
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    private static void setStructure(Farm farm, Rectangle area, CoopsAndBarnsTypes type) {
+        Tile[][] map = farm.getMainMap();
+        TileType tileType = type.isBarn() ? TileType.BARN : TileType.COOP;
+        Material material = type.isBarn() ? new Barn(type) : new Coop(type);
+
+        for (int i = area.x; i < area.x + area.width; i++) {
+            for (int j = area.y; j < area.y + area.height; j++) {
+                map[i][j].setType(tileType);
+                map[i][j].setMaterial(material);
+            }
+        }
+
+        if (type.isBarn()) {
+            Barn barn = new Barn(type);
+            barn.setArea(area);
+            farm.getBarns().add(barn);
+        } else {
+            Coop coop = new Coop(type);
+            coop.setArea(area);
+            farm.getCoops().add(coop);
+        }
+    }
+
     public static Seed findCropBySeed(String seedName) {
         Seeds seedType = Seeds.getByName(seedName);
         if (seedType == null)
@@ -429,7 +691,8 @@ public class GameMenuController {
             f2.getQuarryInFarm().forEach(q -> q.getRectangle().translate(85, 0));
             f2.getRectangle().translate(85, 0);
             map.getMainMap()[f2.getRectangle().x
-                    + f2.getRectangle().width / 2][f2.getRectangle().y + f2.getRectangle().height - 1].setType(TileType.DOOR);
+                    + f2.getRectangle().width / 2][f2.getRectangle().y + f2.getRectangle().height - 1]
+                    .setType(TileType.DOOR);
         }
 
         for (int x = 0; x < farmWidth; x++) {
@@ -550,7 +813,6 @@ public class GameMenuController {
             player.setType(symbol);
             player.setEnergy(new Energy());
             player.getEnergy().setEnergyAmount(player.getEnergy().getMaxEnergy());
-            App.getCurrentGame().getMainMap().getMainMap()[startPoint.x][startPoint.y].setType(symbol);
         }
     }
 

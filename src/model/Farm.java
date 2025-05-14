@@ -1,14 +1,13 @@
 package model;
 
-//import model.materials.Barn;
-//import model.materials.Coop;
-//import model.materials.Crop;
-//import model.materials.FruitTrees;
+
 
 import java.awt.*;
 import java.util.ArrayList;
 
 import model.enums.general.TileType;
+import model.materials.Barn;
+import model.materials.Coop;
 
 public class Farm {
    private Rectangle rectangle ;
@@ -32,8 +31,8 @@ public class Farm {
 
     private GreenHouse greenhouse;
 
-//    private Coop coop;
-//    private Barn barn;
+    private ArrayList<Coop> coops = new ArrayList<>();
+    private ArrayList<Barn> barns = new ArrayList<>();
     private Cottage cottage;
     private ArrayList<Quarry> quarryInFarm = new ArrayList<>();
     private ArrayList<Lake> lakeInFarm = new ArrayList<>();
@@ -91,5 +90,21 @@ public class Farm {
 
     public void setLakeInFarm(ArrayList<Lake> lakeInFarm) {
         this.lakeInFarm = lakeInFarm;
+    }
+
+    public ArrayList<Coop> getCoops() {
+        return coops;
+    }
+
+    public void setCoops(ArrayList<Coop> coops) {
+        this.coops = coops;
+    }
+
+    public ArrayList<Barn> getBarns() {
+        return barns;
+    }
+
+    public void setBarns(ArrayList<Barn> barns) {
+        this.barns = barns;
     }
 }

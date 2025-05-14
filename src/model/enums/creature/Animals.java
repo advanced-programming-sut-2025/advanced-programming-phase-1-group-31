@@ -1,8 +1,11 @@
 package model.enums.creature;
 
+import model.materials.Material;
+import model.materials.MaterialType;
+
 import java.util.List;
 
-public enum Animals {
+public enum Animals implements MaterialType {
     // Coop Animals
     CHICKEN("Chicken", 800, CoopsAndBarnsTypes.COOP, List.of(AnimalProducts.EGG, AnimalProducts.LARGE_EGG), 1),
     DUCK("Duck", 1200, CoopsAndBarnsTypes.LARGE_COOP, List.of(AnimalProducts.DUCK_EGG, AnimalProducts.DUCK_FEATHER), 2),
@@ -63,5 +66,13 @@ public enum Animals {
 
     public boolean needsToGoOutside() {
         return this == PIG;
+    }
+    public static Animals fromName(String name) {
+        for (Animals type : values()) {
+            if (type.name.equalsIgnoreCase(name)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("No enum constant with name: " + name);
     }
 }

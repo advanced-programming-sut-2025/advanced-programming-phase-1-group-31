@@ -6,10 +6,7 @@ import model.enums.foragings.ForagingSeeds;
 import model.enums.general.Seasons;
 import model.enums.general.TileType;
 import model.enums.general.Weather;
-import model.materials.Crop;
-import model.materials.Material;
-import model.materials.Seed;
-import model.materials.Tree;
+import model.materials.*;
 import model.materials.Foraging.ForagingCrop;
 import model.materials.Foraging.ForagingMineral;
 import model.materials.Foraging.ForagingSeed;
@@ -17,6 +14,7 @@ import model.materials.Foraging.ForagingTree;
 
 import java.awt.*;
 import java.time.DayOfWeek;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -172,12 +170,11 @@ public class TimeAndDate {
                     if (seed.getDaysWithoutWater() == 0) {
                         seed.grow();
                     }
-                    seed.setDaysWithoutWater(seed.getDaysWithoutWater()+1);
+                    seed.setDaysWithoutWater(seed.getDaysWithoutWater() + 1);
 
-
-                } else if(tile.getType() == TileType.CROPS && tile.getMaterial() instanceof Crop crop) {
+                } else if (tile.getType() == TileType.CROPS && tile.getMaterial() instanceof Crop crop) {
                     crop.nextDay();
-                } else if(tile.getType() == TileType.TREE && tile.getMaterial() instanceof Tree tree) {
+                } else if (tile.getType() == TileType.TREE && tile.getMaterial() instanceof Tree tree) {
                     tree.nextDay();
                 }
             }
@@ -188,7 +185,11 @@ public class TimeAndDate {
                 Tile tile = tiles[i][j];
 
                 double chance = ThreadLocalRandom.current().nextDouble();
-                if (chance <= 0.01 && (tile.getType() == TileType.EMPTY || tile.getType() == TileType.PLANTINGSOIL)) {
+                int finalI = i;
+                int finalJ = j;
+                if (chance <= 0.01 && (tile.getType() == TileType.EMPTY || tile.getType() == TileType.PLANTINGSOIL)
+                        && App.getCurrentGame().getPlayers().stream()
+                                .noneMatch(p -> (p.getPlace().x == finalI || p.getPlace().y == finalJ))) {
                     Seasons season = App.getCurrentGame().getTimeAndDate().getSeason();
 
                     int type = ThreadLocalRandom.current().nextInt(3);
@@ -215,6 +216,21 @@ public class TimeAndDate {
                         }
                     }
                 }
+            }
+        }
+    }
+    public static void updateAnimalOutdoorsStatus(ArrayList<Coop> coops, ArrayList<Barn> barns) {
+        for (Coop coop : coops) {
+            for (Animal animal : coop.getAnimals()) {
+                boolean inside = coop.getArea().contains(animal.getLocation());
+                animal.getAnimalFriendship().setStayedOutsideTonight(!inside);
+            }
+        }
+
+        for (Barn barn : barns) {
+            for (Animal animal : barn.getAnimals()) {
+                boolean inside = barn.getArea().contains(animal.getLocation());
+                animal.getAnimalFriendship().setStayedOutsideTonight(!inside);
             }
         }
     }

@@ -27,7 +27,11 @@ public enum TileType {
     PLAYER1("P", "\u001B[34m"),
     PLAYER2("P", "\u001B[31m"),
     PLAYER3("P", "\u001B[33m"),
-    PLAYER4("P", "\u001B[32m");
+    PLAYER4("P", "\u001B[32m"),
+    COOP("C", "\u001B[48;5;7m" ),
+    BARN("B", "\u001B[48;5;7m" ),
+    ANIMAL("A","\u001B[102m" );
+
 
 
     private final String symbol;

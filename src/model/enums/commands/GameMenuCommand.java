@@ -60,7 +60,17 @@ public enum GameMenuCommand implements Command {
     GIFT_NPC("^gift\\s+NPC\\s+(?<npcName>\\S+)\\s+-i\\s+(?<item>\\S+)\\s*$"),
     LIST_NPC_FRIENDSHIPS("^friendship\\s+NPC\\s+list\\s*$"),
     LIST_QUESTS("^quests\\s+list\\s*$"),
-    COMPLETE_QUEST("^quests\\s+finish\\s+-i\\s+(?<index>\\d+)\\s*$");
+    COMPLETE_QUEST("^quests\\s+finish\\s+-i\\s+(?<index>\\d+)\\s*$"),
+    BUILD_BARN("\\s*build\\s+-a\\s+(?<buildingname>[a-zA-Z ]+)\\s+-l\\s+(?<X>\\d+)\\s+(?<Y>\\d+)\\s*"),
+    BUY_ANIMAL("\\s*buy\\s+animal\\s+-a\\s+(?<animal>\\S+)\\s+-n\\s+(?<name>\\S+)\\s*"),
+    PET_ANIMAL("\\s*pet\\s+-n\\s+(?<name>\\S+)\\s*"),
+    CHEAT_SET_FRIENDSHIP("\\s*cheat\\s+set\\s+friendship\\s+-n\\s+(?<animal_name>\\S+)\\s+-c\\s+(?<amount>\\d+)\\s*"),
+    SHOW_ANIMALS("\\s*animals\\s*"),
+    SHEPHERD_ANIMALS("\\s*shepherd\\s+animals\\s+-n\\s+(?<animal_name>\\S+)\\s+-l\\s+(?<x>\\d+)\\s*,\\s*(?<y>\\d+)\\s*"),
+    FEED_HAY("\\s*feed\\s+hay\\s+-n\\s+(?<animal_name>\\S+)\\s*"),
+    SHOW_PRODUCES("\\s*produces\\s*"),
+    COLLECT_PRODUCE("\\s*collect\\s+produce\\s+-n\\s+(?<name>\\S+)\\s*"),
+    SELL_ANIMAL("\\s*sell\\s+animal\\s+-n\\s+(?<name>\\S+)\\s*");
 
     private final String pattern;
 

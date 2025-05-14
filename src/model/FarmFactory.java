@@ -185,6 +185,8 @@ public class FarmFactory {
 
         int midY = greenhouseArea.y + (greenhouseArea.height / 2);
         farm.getMainMap()[greenhouseArea.x][midY].setType(TileType.LAKE);
+        int midX = greenhouseArea.x + (greenhouseArea.width / 2);
+        farm.getMainMap()[midX][greenhouseArea.y].setType(TileType.DOOR);
     }
 
     public static void randomGenerateFarm(Farm farm) {
