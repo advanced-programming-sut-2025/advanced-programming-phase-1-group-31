@@ -1,14 +1,14 @@
 package model.materials.Products;
 
+import model.enums.creature.AnimalProducts;
 import model.materials.Material;
 import model.materials.MaterialType;
 
-public class AnimalProducts implements Material {
-
+public class AnimalProduct implements Material {
+    AnimalProducts animalProducts;
     @Override
     public MaterialType getType() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getType'");
+    return animalProducts;
     }
 
     @Override
