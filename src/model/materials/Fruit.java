@@ -27,6 +27,11 @@ public class Fruit implements Material {
     }
 
     @Override
+    public int baseSellPrice() {
+        return fruit.getBaseSellPrice();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Material tool)) return false;

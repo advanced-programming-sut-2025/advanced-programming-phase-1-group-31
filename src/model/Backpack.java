@@ -40,46 +40,53 @@ public class Backpack {
             return new Result(false, "Something went wrong! Please try again.");
         }
 
-        for (Map.Entry<Material, Integer> entry : elements.entrySet()) {
-            if (entry.getKey().equals(material)) {
-                elements.put(entry.getKey(), entry.getValue() + amount);
-                return new Result(true, "It successfully added to backpack.");
-            }
+        if (elements.containsKey(material)) {
+            int updatedAmount = elements.get(material) + amount;
+            elements.put(material, updatedAmount);
+            return new Result(true, "It successfully added to backpack.");
         }
 
         if (elements.size() < backpackType.getCapacity()) {
             elements.put(material, amount);
             return new Result(true, "It successfully added to backpack.");
         }
+
         return new Result(false, "You don't have enough capacity to carry more items.");
     }
 
+
     public Result removeElementFromBackpack(Material material, int amount) {
-        if (material == null || material.getType() == null || amount <= 0) {
+        if (material == null || material.getType() == null) {
             return new Result(false, "Something went wrong! Please try again.");
         }
 
-        for (Map.Entry<Material, Integer> entry : elements.entrySet()) {
-            if (entry.getKey().equals(material)) {
-                int currentAmount = entry.getValue();
-                if (amount < currentAmount) {
-                    elements.put(entry.getKey(), currentAmount - amount);
-                    return new Result(true,
-                            "Picked up " + amount + " of this item from the backpack.");
-                } else if (amount == currentAmount) {
-                    elements.remove(entry.getKey());
-                    return new Result(true, "All of this item was picked up from the backpack.");
-                } else {
-                    return new Result(false, "You don't have enough of this item.");
-                }
-            }
+        if (!elements.containsKey(material)) {
+            return new Result(false, "You don't have this item in your backpack.");
         }
-        return new Result(false, "You don't have this item in your backpack.");
+
+        int currentAmount = elements.get(material);
+
+        if (amount == -1 || amount == currentAmount) {
+            elements.remove(material);
+            return new Result(true, "All of this item was picked up from the backpack.");
+        } else if (amount < currentAmount) {
+            elements.put(material, currentAmount - amount);
+            return new Result(true, "Picked up " + amount + " of this item from the backpack.");
+        } else {
+            return new Result(false, "You don't have enough of this item.");
+        }
     }
 
     public Material isExistInBackpackOrNull(Material material) {
         for (Material material1 : elements.keySet()) {
             if (material1.equals(material)) return material1;
+        }
+        return null;
+    }
+
+    public Material isExistInBackpackOrNull(String name) {
+        for (Material material1 : elements.keySet()) {
+            if (material1.getName().equalsIgnoreCase(name)) return material1;
         }
         return null;
     }

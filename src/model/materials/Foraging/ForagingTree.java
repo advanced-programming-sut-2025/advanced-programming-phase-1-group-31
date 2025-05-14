@@ -29,4 +29,9 @@ public class ForagingTree implements Material {
     public String getName() {
         return foragingTree.getName();
     }
+
+    @Override
+    public int baseSellPrice() {
+        return 0;
+    }
 }

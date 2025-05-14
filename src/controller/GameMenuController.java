@@ -1,18 +1,16 @@
 package controller;
 
-import model.Game;
-import model.Player;
-import model.Result;
-import model.TimeAndDate;
+import model.*;
 import model.Tools.Tool;
+import model.Tools.TrashCan;
 import model.enums.commands.GameMenuCommand;
-import model.enums.foragings.ForagingMinerals;
 import model.enums.general.Direction;
 import model.enums.general.Weather;
 import model.enums.toolTypes.ToolTypes;
-import model.materials.Foraging.ForagingMineral;
+import model.enums.toolTypes.TrashCanType;
 
 import java.awt.*;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -52,8 +50,22 @@ public class GameMenuController {
             return showAvailableTools();
         else if ((matcher = GameMenuCommand.USE_TOOL.getMatcher(input)) != null)
             return useTool(matcher);
+        else if ((matcher = GameMenuCommand.DISCARD_ITEM.getMatcher(input)) != null)
+            return deleteFromBackpack(matcher);
 
         return new Result(false, "Invalid command.");
+    }
+
+    private Result deleteFromBackpack(Matcher matcher) {
+        String name = matcher.group("itemname").trim();
+        int amount = -1;
+        if (matcher.group("number") != null){
+            amount = Integer.parseInt(matcher.group("number").trim());
+        }
+
+        TrashCan trashCan = (TrashCan) Game.getActivePlayer().getInventory()
+                .isExistToolOrNull(new TrashCan(TrashCanType.Initial));
+        return trashCan.work(name, amount);
     }
 
     private Result useTool(Matcher matcher) {

@@ -62,7 +62,8 @@ public class Pickaxe implements Tool {
             tile.setType(TileType.EMPTY);
             tile.setMaterial(null);
             int amount = new Random().nextInt(20) + 10;
-            player.getInventory().addElementToBackpack(material, amount);
+            Result result = player.getInventory().addElementToBackpack(material, amount);
+            if (!result.isSuccessful()) return result;
             player.getEnergy().changeEnergy(-energyConsumption);
             return new Result(true, "You have successfully collected " + amount + " minerals");
         }
@@ -70,7 +71,8 @@ public class Pickaxe implements Tool {
         if (tile.getType() == TileType.Craftable) {
             tile.setType(TileType.EMPTY);
             tile.setMaterial(null);
-            player.getInventory().addElementToBackpack(material, 1);
+            Result result = player.getInventory().addElementToBackpack(material, 1);
+            if (!result.isSuccessful()) return result;
             player.getEnergy().changeEnergy(-energyConsumption);
             return new Result(true, "You collected one craftable item.");
         }
@@ -79,7 +81,6 @@ public class Pickaxe implements Tool {
         player.getEnergy().changeEnergy(-energyConsumption);
         return new Result(false, "You can't use the PickAxe here. Your energy was wasted!");
     }
-
 
     @Override
     public String getName() {

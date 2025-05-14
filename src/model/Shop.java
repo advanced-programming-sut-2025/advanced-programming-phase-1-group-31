@@ -25,4 +25,9 @@ public class Shop implements Material {
         return shopType.getName();
     }
 
+    @Override
+    public int baseSellPrice() {
+        return 0;
+    }
+
 }

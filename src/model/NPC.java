@@ -28,4 +28,9 @@ public class NPC implements Material {
         return NPCType.getName();
     }
 
+    @Override
+    public int baseSellPrice() {
+        return 0;
+    }
+
 }

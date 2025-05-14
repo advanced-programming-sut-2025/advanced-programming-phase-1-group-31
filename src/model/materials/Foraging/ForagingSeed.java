@@ -33,6 +33,11 @@ public class ForagingSeed implements Material {
     }
 
     @Override
+    public int baseSellPrice() {
+        return 0;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Material tool)) return false;

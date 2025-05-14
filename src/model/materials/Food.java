@@ -20,6 +20,11 @@ public class Food implements Material {
     }
 
     @Override
+    public int baseSellPrice() {
+        return foodType.getBasePrice();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Material tool)) return false;

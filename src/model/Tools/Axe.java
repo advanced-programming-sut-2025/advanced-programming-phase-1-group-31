@@ -68,10 +68,14 @@ public class Axe implements Tool {
             int wood = new Random().nextInt(100) + 60;
             tile.setType(TileType.EMPTY);
             tile.setMaterial(null);
-            player.getInventory().addElementToBackpack(material, wood);
+            Result result = player.getInventory().addElementToBackpack(material, wood);
+            if (!result.isSuccessful()) return result;
             player.getEnergy().changeEnergy(-energyConsumption);
             return new Result(true, "You collected " + wood + " wood.");
         }
+
+        pickUpFruits
+                //amirAbbas
 
         // Default: failed attempt, still costs energy
         player.getEnergy().changeEnergy(-energyConsumption);

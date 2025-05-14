@@ -32,6 +32,11 @@ public class ForagingMineral implements Material {
     }
 
     @Override
+    public int baseSellPrice() {
+        return foragingMineral.getSellPrice();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Material tool)) return false;

@@ -31,7 +31,7 @@ public enum GameMenuCommand implements Command {
     CHEAT_CHANGE_ENERGY("^energy\\s+set\\-v\\s+(?<value>\\d+)\\s*$"),
     UNLIMITED_ENERGY("^energy\\s+unlimited\\s*$"),
     SHOW_INVENTORY("^inventory\\s+show\\s*$"),
-    DISCARD_ITEM("^inventory\\s+trash\\s+-i\\s+(<itemname>\\S+)(?:\\s+-n\\s+(?<number>\\d+))?\\s*$"),
+    DISCARD_ITEM("^inventory\\s+trash\\s+-i\\s+(?<itemname>\\S+)(?:\\s+-n\\s+(?<number>\\d+))?\\s*$"),
     EQUIP_TOOL("^tools\\s+equip\\s+(?<toolname>\\S+)\\s*$"),
     SHOW_CURRENT_TOOL("^tools\\s+show\\s+current\\s*$"),
     SHOW_AVAILABLE_TOOLS("^tools\\s+show\\s+available\\s*$"),

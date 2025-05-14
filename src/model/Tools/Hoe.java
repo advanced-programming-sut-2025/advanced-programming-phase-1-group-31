@@ -53,7 +53,7 @@ public class Hoe implements Tool {
 
         // change the tile type if be empty
         if (tile.getType() == TileType.EMPTY) {
-            tile.setType(TileType.PLANTINGSOIL);
+            tile.setType(TileType.PLANTING_SOIL);
             tile.setMaterial(null);
             player.getEnergy().changeEnergy(-energyConsumption);
             return new Result(true, "The soil is now ready for planting.");

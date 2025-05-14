@@ -24,4 +24,9 @@ public class MixedSeed implements Material{
     public String getName() {
         return mixedSeed.name();
     }
+
+    @Override
+    public int baseSellPrice() {
+        return 0;
+    }
 }
