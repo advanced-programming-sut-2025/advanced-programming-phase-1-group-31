@@ -6,6 +6,7 @@ import model.enums.general.TileType;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Coop implements Material {
     private CoopsAndBarnsTypes coopType;
@@ -52,6 +53,27 @@ public class Coop implements Material {
         }
 
         throw new IllegalStateException("No free space inside the coop area");
+    }
+    public void removeAnimalByName(String name, Tile[][] map) {
+        Iterator<Animal> iterator = animals.iterator();
+        while (iterator.hasNext()) {
+            Animal animal = iterator.next();
+            if (animal.getName().equalsIgnoreCase(name)) {
+                Point p = animal.getLocation();
+                Tile tile = map[p.x][p.y];
+
+                if (area.contains(p)) {
+                    tile.setType(TileType.COOP);
+                    tile.setMaterial(this);
+                } else {
+                    tile.setType(TileType.EMPTY);
+                    tile.setMaterial(null);
+                }
+
+                iterator.remove();
+                return;
+            }
+        }
     }
 
     public Rectangle getArea() {

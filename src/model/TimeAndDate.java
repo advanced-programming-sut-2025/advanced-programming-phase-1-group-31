@@ -68,6 +68,7 @@ public class TimeAndDate {
             if (weather.equals(Weather.Stormy))
                 thunder();
             App.getCurrentGame().getMainMap();
+            updateAnimalOutdoorsStatus();
             changeForagingAndCrops();
             // amirabbas
         }
@@ -173,9 +174,19 @@ public class TimeAndDate {
                     seed.setDaysWithoutWater(seed.getDaysWithoutWater() + 1);
 
                 } else if (tile.getType() == TileType.CROPS && tile.getMaterial() instanceof Crop crop) {
+                    if (crop.getDaysWithoutWater() >= 2) {
+                        tile.setType(TileType.EMPTY);
+                        tile.setMaterial(null);
+                    }
                     crop.nextDay();
+                    crop.setDaysWithoutWater(crop.getDaysWithoutWater() + 1);
                 } else if (tile.getType() == TileType.TREE && tile.getMaterial() instanceof Tree tree) {
+                    if (tree.getDaysWithoutWater() >= 2) {
+                        tile.setType(TileType.EMPTY);
+                        tile.setMaterial(null);
+                    }
                     tree.nextDay();
+                    tree.setDaysWithoutWater(tree.getDaysWithoutWater() + 1);
                 }
             }
         }
@@ -219,18 +230,18 @@ public class TimeAndDate {
             }
         }
     }
-    public static void updateAnimalOutdoorsStatus(ArrayList<Coop> coops, ArrayList<Barn> barns) {
-        for (Coop coop : coops) {
+    public static void updateAnimalOutdoorsStatus() {
+        for (Coop coop : App.getCurrentGame().getPlayers().stream().flatMap(player -> player.getFarm().getCoops().stream()).toList()) {
             for (Animal animal : coop.getAnimals()) {
-                boolean inside = coop.getArea().contains(animal.getLocation());
-                animal.getAnimalFriendship().setStayedOutsideTonight(!inside);
+                animal.generateProduct();
+                animal.getAnimalFriendship().endDay();
             }
         }
 
-        for (Barn barn : barns) {
+        for (Barn barn : App.getCurrentGame().getPlayers().stream().flatMap(player -> player.getFarm().getBarns().stream()).toList()) {
             for (Animal animal : barn.getAnimals()) {
-                boolean inside = barn.getArea().contains(animal.getLocation());
-                animal.getAnimalFriendship().setStayedOutsideTonight(!inside);
+                animal.generateProduct();
+                animal.getAnimalFriendship().endDay();
             }
         }
     }

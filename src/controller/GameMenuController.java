@@ -4,11 +4,9 @@ import model.*;
 import model.Map;
 import model.enums.creature.AnimalProducts;
 import model.enums.creature.Animals;
+import model.enums.creature.FishTypes;
 import model.enums.foragings.ForagingMinerals;
-import model.enums.general.Direction;
-import model.enums.general.Menus;
-import model.enums.general.TileType;
-import model.enums.general.Weather;
+import model.enums.general.*;
 import model.enums.plantable.Crops;
 import model.enums.plantable.MixedSeedSeasons;
 import model.enums.plantable.Seeds;
@@ -16,8 +14,10 @@ import model.enums.plantable.Trees;
 import model.materials.*;
 import model.materials.Foraging.ForagingMineral;
 import model.materials.Products.AnimalProduct;
+import model.materials.Animal;
 import model.enums.commands.GameMenuCommand;
 import model.enums.creature.CoopsAndBarnsTypes;
+import model.materials.Products.FishProducts;
 
 import java.awt.Dimension;
 import java.awt.Point;
@@ -75,7 +75,9 @@ public class GameMenuController {
             listUncollectedProducts();
         } else if ((matcher = GameMenuCommand.COLLECT_PRODUCE.getMatcher(input)) != null) {
             return collectProduct(matcher);
-        }
+        } else if ((matcher = GameMenuCommand.SELL_ANIMAL.getMatcher(input)) != null) {
+            return sellAnimal(matcher);
+        } 
 
         return new Result(false, "Invalid command.");
     }
@@ -677,6 +679,7 @@ public class GameMenuController {
             destTile.setMaterial(animal);
             animal.setLocation(destination);
             animal.getAnimalFriendship().setStayedOutsideTonight(true);
+            animal.getAnimalFriendship().setWasFedToday(true);
             return new Result(true, name + " moved outside.");
         }
 
@@ -709,14 +712,10 @@ public class GameMenuController {
         if (animal.getAnimalFriendship().isWasFedToday()) {
             return new Result(false, animalName + " has already been fed today.");
         }
-        if (!animal.getAnimalFriendship().isStayedOutsideTonight()) {
             animal.getAnimalFriendship().feed(false);
-            return new Result(true, animalName + " was successfully fed with hay.");
             // false: fed inside, but isOutside = true
             // return new Result(false, animalName + " must be outside the barn/coop to eat
             // hay.");
-        }
-        animal.getAnimalFriendship().feed(true);
         return new Result(true, animalName + " was successfully fed with hay.");
     }
 
@@ -767,6 +766,123 @@ public class GameMenuController {
                 "Successfully collected " + collectedProduct.getName() +
                         " from " + animalName + " (Quality: " + collectedProduct.getQuality() + ")");
     }
+    private static Result sellAnimal(Matcher matcher) {
+        String animalName = matcher.group("name").trim();
+        Player player = App.getCurrentGame().getActivePlayer();
+        Tile[][] map = player.getFarm().getMainMap();
+
+        List<Animal> allAnimals = player.getFarm().getBarns().stream()
+                .flatMap(b -> b.getAnimals().stream())
+                .filter(a -> a.getName().equalsIgnoreCase(animalName))
+                .toList();
+
+        if (allAnimals.isEmpty()) {
+            allAnimals = player.getFarm().getCoops().stream()
+                    .flatMap(c -> c.getAnimals().stream())
+                    .filter(a -> a.getName().equalsIgnoreCase(animalName))
+                    .toList();
+        }
+
+        if (allAnimals.isEmpty()) {
+            return new Result(false, "No animal with name '" + animalName + "' found.");
+        }
+
+        Animal animal = allAnimals.get(0);
+//        double multiplier = (animal.getAnimalFriendship().getFriendshipPercentage()) + 0.3;
+//        int price = (int) (multiplier * animal.getAnimalType().getPurchasePrice());
+//        player.changeMoney(price);
+
+        // Remove from its pen
+        if (animal.getAnimalType().getHousingType().isBarn()) {
+            player.getFarm().getBarns().forEach(b -> b.removeAnimalByName(animalName, map));
+        } else {
+            player.getFarm().getCoops().forEach(c -> c.removeAnimalByName(animalName, map));
+        }
+        return new Result(true, animalName + " sold for " + "g.");
+
+//        return new Result(true, animalName + " sold for " + price + "g.");
+    }
+    public static Result fish(Matcher matcher) {
+        Player player = App.getCurrentGame().getActivePlayer();
+        if (!isNearWater(player)) {
+            return new Result(false, "You need to be near water to fish!");
+        }
+        String pole = matcher.group("pole").trim();
+        double poleMultiplier = ProductQualityCalculator.getPoleMultiplier(pole);
+        Weather weather = App.getCurrentGame().getTimeAndDate().getWeather();
+        Seasons season = App.getCurrentGame().getTimeAndDate().getSeason();
+        Random random = new Random();
+        int skill = player.getSkills().getFishingLevel();
+        double M = ProductQualityCalculator.getSeasonalMultiplier(weather);
+        double R = random.nextDouble();
+
+        int count = (int) Math.min(6, Math.ceil((skill + 2) * M * Math.ceil(R * 7 - M)));
+
+        List<FishTypes> validFish = Arrays.stream(FishTypes.values())
+                .filter(f -> !f.isLegendary() && f.getSeason() == season)
+                .collect(Collectors.toList());
+
+        // اگر مهارت کافی باشد، ماهی‌های افسانه‌ای اضافه می‌شوند
+        if (skill >= 4) {
+            List<FishTypes> legendary = Arrays.stream(FishTypes.values())
+                    .filter(f -> f.isLegendary() && f.getSeason() == season)
+                    .toList();
+            validFish.addAll(legendary);
+        }
+
+        if (validFish.isEmpty()) {
+            return new Result(false, "No fish available to catch in this season!");
+        }
+
+        List<FishProducts> caughtFish = new ArrayList<>();
+        StringBuilder fishDetails = new StringBuilder();
+
+        for (int i = 0; i < count; i++) {
+            FishTypes selected = validFish.get(random.nextInt(validFish.size()));
+            double qualityScore = random.nextDouble() * (skill + 2) * poleMultiplier / (7 - M);
+            var quality = ProductQualityCalculator.calculateQualityScore(qualityScore);
+            FishProducts fish = new FishProducts(selected, quality, 1);
+            caughtFish.add(fish);
+            fishDetails.append("- ").append(fish.getName())
+                    .append(" | Quality: ").append(fish.getQuality())
+                    .append("\n");
+            App.getCurrentGame().getActivePlayer().getInventory().addElementToBackpack(fish , 1);
+        }
+
+        if (caughtFish.isEmpty()) {
+            return new Result(false, "You didn't catch any fish this time!");
+        }
+
+        String message = "Fishing successful! You caught:\n" + fishDetails.toString();
+        return new Result(true, message);
+    }
+
+
+    public static boolean isNearWater(Player player) {
+        int FISHING_DISTANCE = 1;
+        Point playerLocation = player.getPlace();
+        Farm farm = player.getFarm();
+
+        if (farm == null || farm.getLakeInFarm() == null) return false;
+
+        for (Lake lake : farm.getLakeInFarm()) {
+            Rectangle area = lake.getRectangle();
+            Rectangle expanded = new Rectangle(
+                    area.x - FISHING_DISTANCE,
+                    area.y - FISHING_DISTANCE,
+                    area.width + 2 * FISHING_DISTANCE,
+                    area.height + 2 * FISHING_DISTANCE
+            );
+
+            if (expanded.contains(playerLocation)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
 
     private static List<Animal> getAllAnimals(Player player) {
         List<Animal> animals = new ArrayList<>();

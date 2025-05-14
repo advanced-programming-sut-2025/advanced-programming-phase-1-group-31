@@ -6,6 +6,7 @@ import model.enums.general.TileType;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Objects;
 
 public class Barn implements Material {
@@ -66,6 +67,27 @@ public class Barn implements Material {
 
     public void setArea(Rectangle area) {
         this.area = area;
+    }
+    public void removeAnimalByName(String name, Tile[][] map) {
+        Iterator<Animal> iterator = animals.iterator();
+        while (iterator.hasNext()) {
+            Animal animal = iterator.next();
+            if (animal.getName().equalsIgnoreCase(name)) {
+                Point p = animal.getLocation();
+                Tile tile = map[p.x][p.y];
+
+                if (area.contains(p)) {
+                    tile.setType(TileType.BARN);
+                    tile.setMaterial(this);
+                } else {
+                    tile.setType(TileType.EMPTY);
+                    tile.setMaterial(null);
+                }
+
+                iterator.remove();
+                return;
+            }
+        }
     }
 
     @Override

@@ -6,6 +6,7 @@ import model.enums.plantable.Crops;
 public class Crop implements Material{
     private Crops crop;
     private int daysInStage = 0;
+    private int daysWithoutWater = 0;
     private int amount = 1;
 
     public void PlantedCrop(Crops crop) {
@@ -40,7 +41,13 @@ public class Crop implements Material{
         return crop;
     }
 
+    public int getDaysWithoutWater() {
+        return daysWithoutWater;
+    }
 
+    public void setDaysWithoutWater(int daysWithoutWater) {
+        this.daysWithoutWater = daysWithoutWater;
+    }
 
     public int getDaysInStage() {
         return daysInStage;

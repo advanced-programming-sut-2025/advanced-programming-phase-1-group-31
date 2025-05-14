@@ -5,6 +5,7 @@ import model.enums.plantable.Trees;
 
 public class Tree implements Material{
     private Trees treeType;
+    private int daysWithoutWater = 0;
     private int daysInStage = 0;
     private int amount = 1;
     public int getAmount() {
@@ -13,6 +14,14 @@ public class Tree implements Material{
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public int getDaysWithoutWater() {
+        return daysWithoutWater;
+    }
+
+    public void setDaysWithoutWater(int daysWithoutWater) {
+        this.daysWithoutWater = daysWithoutWater;
     }
 
     public void nextDay() {
