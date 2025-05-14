@@ -1,21 +1,62 @@
+// File: model/materials/Products/AnimalProduct.java
 package model.materials.Products;
 
 import model.enums.creature.AnimalProducts;
 import model.materials.Material;
 import model.materials.MaterialType;
+import model.ProductQualityCalculator.ProductQuality;
 
 public class AnimalProduct implements Material {
-    AnimalProducts animalProducts;
+    private AnimalProducts animalProducts;
+    private  ProductQuality quality;
+    private  int quantity;
+
+    public AnimalProduct(AnimalProducts animalProducts, ProductQuality quality, int quantity) {
+        this.animalProducts = animalProducts;
+        this.quality = quality;
+        this.quantity = quantity;
+    }
+
+    public AnimalProducts getAnimalProducts() {
+        return animalProducts;
+    }
+
+    public ProductQuality getQuality() {
+        return quality;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuality(ProductQuality quality) {
+        this.quality = quality;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setAnimalProducts(AnimalProducts animalProducts) {
+        this.animalProducts = animalProducts;
+    }
+
     @Override
     public MaterialType getType() {
-    return animalProducts;
+        return animalProducts;
     }
 
     @Override
     public String getName() {
-        return "";
+        return animalProducts.getEnglishName();
     }
-    // علت جدا کردن محصولات حیوانی و ماهی این است که نوع هر محصول مختص خود ان است
 
+    public double getTotalPrice() {
+        return animalProducts.getPrice() * quality.getPriceMultiplier() * quantity;
+    }
 
+    @Override
+    public String toString() {
+        return quantity + "x " + quality.name() + " " + animalProducts.getEnglishName() + " (" + getTotalPrice() + "g)";
+    }
 }

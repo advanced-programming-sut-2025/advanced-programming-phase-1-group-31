@@ -50,6 +50,14 @@ public enum Animals implements MaterialType {
         return products;
     }
 
+    public AnimalProducts getFirstProduct() {
+        return products.get(0);
+    }
+
+    public AnimalProducts getSecondProduct() {
+        return products.size() > 1 ? products.get(1) : null;
+    }
+
     public int getDaysBetweenProductions() {
         return daysBetweenProductions;
     }
@@ -67,6 +75,7 @@ public enum Animals implements MaterialType {
     public boolean needsToGoOutside() {
         return this == PIG;
     }
+
     public static Animals fromName(String name) {
         for (Animals type : values()) {
             if (type.name.equalsIgnoreCase(name)) {
@@ -75,4 +84,5 @@ public enum Animals implements MaterialType {
         }
         throw new IllegalArgumentException("No enum constant with name: " + name);
     }
+
 }

@@ -1,6 +1,8 @@
 package model.enums.creature;
 
-public enum AnimalProducts {
+import model.materials.MaterialType;
+
+public enum AnimalProducts implements MaterialType {
         EGG("Egg", 50),
         LARGE_EGG("Large Egg", 95),
         DUCK_EGG("Duck Egg", 95),

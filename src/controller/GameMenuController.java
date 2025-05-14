@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 import model.Map;
+import model.enums.creature.AnimalProducts;
 import model.enums.creature.Animals;
 import model.enums.foragings.ForagingMinerals;
 import model.enums.general.Direction;
@@ -14,6 +15,7 @@ import model.enums.plantable.Seeds;
 import model.enums.plantable.Trees;
 import model.materials.*;
 import model.materials.Foraging.ForagingMineral;
+import model.materials.Products.AnimalProduct;
 import model.enums.commands.GameMenuCommand;
 import model.enums.creature.CoopsAndBarnsTypes;
 
@@ -70,7 +72,9 @@ public class GameMenuController {
         } else if ((matcher = GameMenuCommand.FEED_HAY.getMatcher(input)) != null) {
             return feedHayToAnimal(matcher);
         } else if ((matcher = GameMenuCommand.SHOW_PRODUCES.getMatcher(input)) != null) {
-
+            listUncollectedProducts();
+        } else if ((matcher = GameMenuCommand.COLLECT_PRODUCE.getMatcher(input)) != null) {
+            return collectProduct(matcher);
         }
 
         return new Result(false, "Invalid command.");
@@ -680,6 +684,7 @@ public class GameMenuController {
 
     private record AnimalLocationContext(Animal animal, Material housing) {
     }
+
     private static Result feedHayToAnimal(Matcher matcher) {
         String animalName = matcher.group("name").trim();
         Player player = App.getCurrentGame().getActivePlayer();
@@ -708,40 +713,67 @@ public class GameMenuController {
             animal.getAnimalFriendship().feed(false);
             return new Result(true, animalName + " was successfully fed with hay.");
             // false: fed inside, but isOutside = true
-//            return new Result(false, animalName + " must be outside the barn/coop to eat hay.");
+            // return new Result(false, animalName + " must be outside the barn/coop to eat
+            // hay.");
         }
         animal.getAnimalFriendship().feed(true);
         return new Result(true, animalName + " was successfully fed with hay.");
     }
+
     public static Result listUncollectedProducts() {
         Player player = App.getCurrentGame().getActivePlayer();
+        List<Animal> animals = getAllAnimals(player);
+        List<String> uncollected = new ArrayList<>();
 
-        List<Animal> animalsWithProduct = getAllAnimals(player).stream()
-                .filter(a -> a.hasProduct())
-                .collect(Collectors.toList());
-
-        if (animalsWithProduct.isEmpty())
-            return new Result(false, "No uncollected products available.");
-
-        StringBuilder sb = new StringBuilder("Animals with uncollected products:\n");
-        for (Animal animal : animalsWithProduct) {
-            Product p = animal.getProduct();
-            ProductQuality q = animal.getProductQuality();
-            sb.append("Name: ").append(animal.getName())
-                    .append(", Product: ").append(p.getName())
-                    .append(", Quality: ").append(q.name())
-                    .append("\n");
+        for (Animal animal : animals) {
+            if (animal.hasProduct()) {
+                AnimalProduct product = animal.getTodayProduct();
+                uncollected.add("- " + animal.getName() + " => " +
+                        product.getAnimalProducts().name() +
+                        ", Quality: " + product.getQuality());
+            }
         }
 
-        return new Result(true, sb.toString());
+        if (uncollected.isEmpty()) {
+            return new Result(false, "No uncollected products found.");
+        } else {
+            String message = "Uncollected products:\n" + String.join("\n", uncollected);
+            return new Result(true, message);
+        }
     }
+
+    public static Result collectProduct(Matcher matcher) {
+        Player player = App.getCurrentGame().getActivePlayer();
+        String animalName = matcher.group("name").trim();
+
+        Animal animal = getAllAnimals(player)
+                .stream()
+                .filter(a -> a.getName().equals(animalName))
+                .findFirst()
+                .orElse(null);
+
+        if (animal == null) {
+            return new Result(false, "Animal not found: " + animalName);
+        }
+
+        if (!animal.hasProduct()) {
+            return new Result(false, animalName + " has no product to collect.");
+        }
+
+        AnimalProduct collectedProduct = animal.collectProduct();
+        player.getInventory().addElementToBackpack(collectedProduct, animal.getTodayProduct().getQuantity());
+
+        return new Result(true,
+                "Successfully collected " + collectedProduct.getName() +
+                        " from " + animalName + " (Quality: " + collectedProduct.getQuality() + ")");
+    }
+
     private static List<Animal> getAllAnimals(Player player) {
         List<Animal> animals = new ArrayList<>();
         player.getFarm().getCoops().forEach(coop -> animals.addAll(coop.getAnimals()));
         player.getFarm().getBarns().forEach(barn -> animals.addAll(barn.getAnimals()));
         return animals;
     }
-
 
     private static boolean isAdjacent(Point a, Point b) {
         int dx = Math.abs(a.x - b.x);
