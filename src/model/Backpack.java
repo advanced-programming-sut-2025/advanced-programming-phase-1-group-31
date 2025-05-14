@@ -56,7 +56,7 @@ public class Backpack {
 
 
     public Result removeElementFromBackpack(Material material, int amount) {
-        if (material == null || material.getType() == null) {
+        if (material == null || material.getType() == null || amount < -1) {
             return new Result(false, "Something went wrong! Please try again.");
         }
 

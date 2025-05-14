@@ -5,24 +5,25 @@ import model.materials.MaterialType;
 public enum
 
 WateringCanType implements MaterialType {
-    Initial(40),
-    Copper(55),
-    Iron(70),
-    Gold(85),
-    Iridium(100);
+    Initial(40, 5),
+    Copper(55, 4),
+    Iron(70, 3),
+    Gold(85, 2),
+    Iridium(100, 1);
 
-    private int capacity;
+    private final int capacity;
+    private final int energyConsumption;
 
-    WateringCanType(int capacity) {
+    WateringCanType(int capacity, int energyConsumption) {
         this.capacity = capacity;
+        this.energyConsumption = energyConsumption;
     }
 
     public int getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
+    public int getEnergyConsumption() {
+        return energyConsumption;
     }
-
 }
