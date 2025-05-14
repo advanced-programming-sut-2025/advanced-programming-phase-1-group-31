@@ -28,4 +28,14 @@ public enum ForagingTrees implements MaterialType {
     public List<Seasons> getSeasons() {
         return seasons;
     }
+
+    public static ForagingTrees findByName(String name) {
+        for (ForagingTrees tree : ForagingTrees.values()) {
+            if (tree.getName().equalsIgnoreCase(name)) {
+                return tree;
+            }
+        }
+        return null;
+    }
+
 }

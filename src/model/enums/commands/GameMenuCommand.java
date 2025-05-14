@@ -59,6 +59,11 @@ public enum GameMenuCommand implements Command {
     GIFT_NPC("^gift\\s+NPC\\s+(?<npcName>\\S+)\\s+-i\\s+(?<item>\\S+)\\s*$"),
     LIST_NPC_FRIENDSHIPS("^friendship\\s+NPC\\s+list\\s*$"),
     LIST_QUESTS("^quests\\s+list\\s*$"),
+    TREE_INFO("^\\s*tree\\s+info\\s+(?<name>\\S+)\\s*$"),
+    CROP_INFO("^\\s*crop\\s+info\\s+(?<name>\\S+)\\s*$"),
+    FORAGING_CROP_INFO("^\\s*foraging\\s+crop\\s+info\\s+(?<name>\\S+)\\s*$"),
+    FORAGING_TREE_INFO("^\\s*foraging\\s+tree\\s+info\\s+(?<name>\\S+)\\s*$"),
+    FRUITS_INFO("^\\s*fruit\\s+info\\s+(?<name>\\S+)\\s*$"),
     COMPLETE_QUEST("^quests\\s+finish\\s+-i\\s+(?<index>\\d+)\\s*$");
 
     private final String pattern;

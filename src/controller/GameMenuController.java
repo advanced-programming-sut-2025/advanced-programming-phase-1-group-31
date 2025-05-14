@@ -4,13 +4,17 @@ import model.*;
 import model.Tools.Tool;
 import model.Tools.TrashCan;
 import model.enums.commands.GameMenuCommand;
+import model.enums.foragings.ForagingCrops;
+import model.enums.foragings.ForagingTrees;
 import model.enums.general.Direction;
 import model.enums.general.Weather;
+import model.enums.plantable.Crops;
+import model.enums.plantable.Fruits;
+import model.enums.plantable.Trees;
 import model.enums.toolTypes.ToolTypes;
 import model.enums.toolTypes.TrashCanType;
 
 import java.awt.*;
-import java.util.Locale;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -52,8 +56,82 @@ public class GameMenuController {
             return useTool(matcher);
         else if ((matcher = GameMenuCommand.DISCARD_ITEM.getMatcher(input)) != null)
             return deleteFromBackpack(matcher);
+        else if ((matcher = GameMenuCommand.CROP_INFO.getMatcher(input)) != null)
+            return cropInfo(matcher);
+        else if ((matcher = GameMenuCommand.FORAGING_CROP_INFO.getMatcher(input)) != null)
+            return foragingCropInfo(matcher);
+        else if ((matcher = GameMenuCommand.TREE_INFO.getMatcher(input)) != null)
+            return treeInfo(matcher);
+        else if ((matcher = GameMenuCommand.FORAGING_TREE_INFO.getMatcher(input)) != null)
+            return foragingTreeInfo(matcher);
+        else if ((matcher = GameMenuCommand.FRUITS_INFO.getMatcher(input)) != null)
+            return fruitInfo(matcher);
+
 
         return new Result(false, "Invalid command.");
+    }
+
+    private Result cropInfo(Matcher matcher) {
+        String name = matcher.group("name").trim();
+        Crops crops = Crops.findByName(name);
+        if (crops == null) return new Result(false, name + " doesn't exist");
+        String result = "Name: " + crops.getDisplayName() + "\n" +
+                "Source: " + crops.getSource().getName() + "\n" +
+                "Stages: " + crops.getStages() + "\n" +
+                "Total Harvest Time: " + crops.getTotalHarvestTime() + "\n" +
+                "One Time: " + crops.isOneTime() + "\n" +
+                "Regrowth Time: " + crops.getRegrowthTime() + "\n" +
+                "Base Sell Price: " + crops.getBaseSellPrice() + "\n" +
+                "Is Edible: " + crops.isEdible() + "\n" +
+                "Base Energy: " + crops.getEnergy() + "\n" +
+                "Season: " + crops.getSeasons() + "\n" +
+                "Can Become Giant: " + crops.isCanBecomeGiant();
+        return new Result(true, result);
+    }
+
+    private Result foragingCropInfo(Matcher matcher) {
+        String name = matcher.group("name").trim();
+        ForagingCrops crops = ForagingCrops.findByName(name);
+        if (crops == null) return new Result(false, name + " doesn't exist");
+        String result = "Name: " + crops.getDisplayName() + ":\n" +
+                "Base Sell Price: " + crops.getBaseSellPrice() + "\n" +
+                "Base Energy: " + crops.getEnergy() + "\n" +
+                "Season: " + crops.getSeasons() + "\n";
+        return new Result(true, result);
+    }
+
+    private Result treeInfo(Matcher matcher) {
+        String name = matcher.group("name").trim();
+        Trees trees = Trees.findByName(name);
+        if (trees == null) return new Result(false, name + " doesn't exist");
+        String result = "Name: " + trees.getName() + "\n" +
+                "Source: " + trees.getSource().getName() + "\n" +
+                "Stages: " + trees.getStages() + "\n" +
+                "Total Harvest Time: " + trees.getTotalHarvestTime() + "\n" +
+                "Fruit Name: " + trees.getFruit().getName() + "\n" +
+                "Harvest Cycle: " + trees.getHarvestCycle() + "\n";
+        return new Result(true, result);
+    }
+
+    private Result foragingTreeInfo(Matcher matcher) {
+        String name = matcher.group("name").trim();
+        ForagingTrees tree = ForagingTrees.findByName(name);
+        if (tree == null) return new Result(false, name + " doesn't exist");
+        String result = "Name: " + tree.getName() + ":\n" +
+                "Season: " + tree.getSeasons() + "\n";
+        return new Result(true, result);
+    }
+
+    private Result fruitInfo(Matcher matcher) {
+        String name = matcher.group("name").trim();
+        Fruits fruit = Fruits.findByName(name);
+        if (fruit == null) return new Result(false, name + " doesn't exist");
+        String result = "Name: " + fruit.getName() + "\n" +
+                "Base Sell Price: " + fruit.getBaseSellPrice() + "\n" +
+                "Is Edible: " + fruit.isEdible() + "\n" +
+                "Base Energy: " + fruit.getEnergy() + "\n" +
+                "Season: " + fruit.getHarvestSeasons() + "\n";
+        return new Result(true, result);
     }
 
     private Result deleteFromBackpack(Matcher matcher) {
@@ -181,5 +259,4 @@ public class GameMenuController {
     private Result showSeason() {
         return new Result(true, Game.getTimeAndDate().getSeason().name());
     }
-
 }

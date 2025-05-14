@@ -1,33 +1,38 @@
 package model.enums.plantable;
 
+import model.enums.general.Seasons;
 import model.materials.MaterialType;
 
+import java.util.List;
+
 public enum Fruits implements MaterialType {
-    Apricot("Apricot", 50, true, 38),
-    Cherry("Cherry", 80, true, 38),
-    Banana("Banana", 150, true, 75),
-    Mango("Mango", 130, true, 100),
-    Orange("Orange", 100, true, 38),
-    Peach("Peach", 140, true, 38),
-    Apple("Apple", 100, true, 38),
-    Pomegranate("Pomegranate", 140, true, 38),
-    OakResin("Oak Resin", 150, false, null),
-    MapleSyrup("Maple Syrup", 200, false, null),
-    PineTar("Pine Tar", 100, false, null),
-    Sap("Sap", 2, true, null),
-    CommonMushroom("Common Mushroom", 40, true, 38),
-    MysticSyrup("Mystic Syrup", 1000, true, 500);
+    Apricot("Apricot", 50, true, 38, List.of(Seasons.Spring)),
+    Cherry("Cherry", 80, true, 38, List.of(Seasons.Spring)),
+    Banana("Banana", 150, true, 75, List.of(Seasons.Summer)),
+    Mango("Mango", 130, true, 100, List.of(Seasons.Summer)),
+    Orange("Orange", 100, true, 38, List.of(Seasons.Summer)),
+    Peach("Peach", 140, true, 38, List.of(Seasons.Summer)),
+    Apple("Apple", 100, true, 38, List.of(Seasons.Fall)),
+    Pomegranate("Pomegranate", 140, true, 38, List.of(Seasons.Fall)),
+    OakResin("Oak Resin", 150, false, null, List.of(Seasons.values())),
+    MapleSyrup("Maple Syrup", 200, false, null, List.of(Seasons.values())),
+    PineTar("Pine Tar", 100, false, null, List.of(Seasons.values())),
+    Sap("Sap", 2, true, null, List.of(Seasons.values())),
+    CommonMushroom("Common Mushroom", 40, true, 38, List.of(Seasons.values())),
+    MysticSyrup("Mystic Syrup", 1000, true, 500, List.of(Seasons.values()));
 
     private final String name;
     private final int baseSellPrice;
     private final boolean isEdible;
     private final Integer energy;
+    private final List<Seasons> harvestSeasons;
 
-    Fruits(String name, int baseSellPrice, boolean isEdible, Integer energy) {
+    Fruits(String name, int baseSellPrice, boolean isEdible, Integer energy, List<Seasons> harvestSeasons) {
         this.name = name;
         this.baseSellPrice = baseSellPrice;
         this.isEdible = isEdible;
         this.energy = energy;
+        this.harvestSeasons = harvestSeasons;
     }
 
     public String getName() {
@@ -45,4 +50,18 @@ public enum Fruits implements MaterialType {
     public Integer getEnergy() {
         return energy;
     }
+
+    public List<Seasons> getHarvestSeasons() {
+        return harvestSeasons;
+    }
+
+    public static Fruits findByName(String name) {
+        for (Fruits fruit : Fruits.values()) {
+            if (fruit.getName().equalsIgnoreCase(name)) {
+                return fruit;
+            }
+        }
+        return null;
+    }
+
 }

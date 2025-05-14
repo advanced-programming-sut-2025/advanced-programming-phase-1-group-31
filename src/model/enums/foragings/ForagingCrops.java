@@ -1,9 +1,12 @@
 package model.enums.foragings;
 
 import model.enums.general.Seasons;
+import model.enums.plantable.Crops;
 import model.materials.MaterialType;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public enum ForagingCrops implements MaterialType {
     CommonMushroom("Common Mushroom", List.of(Seasons.Spring, Seasons.Summer, Seasons.Fall, Seasons.Winter),
@@ -67,4 +70,17 @@ public enum ForagingCrops implements MaterialType {
     public String toString() {
         return displayName;
     }
+
+    private static final Map<String, ForagingCrops> nameCrop = new HashMap<>();
+
+    static {
+        for (ForagingCrops crop : values()) {
+            nameCrop.put(crop.getDisplayName().toLowerCase(), crop);
+        }
+    }
+
+    public static ForagingCrops findByName(String name) {
+        return nameCrop.get(name.toLowerCase());
+    }
+
 }

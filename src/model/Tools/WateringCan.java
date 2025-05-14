@@ -66,6 +66,7 @@ public class WateringCan implements Tool {
             }
             return new Result(true, "Your Watering Can was already full");
         } else if (material instanceof ?????){
+            waterAmount --;
             return // آب خورد گیاهت
 
         } else {

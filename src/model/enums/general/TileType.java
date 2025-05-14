@@ -17,7 +17,6 @@ public enum TileType {
     LAKE("L", "\u001B[44m"),
     HOUSE("H", "\u001B[45m"),
     GREENHOUSE("G", "\u001B[46m"),
-    GREENHOUSE_WALL("G", "\u001B[48;5;12m"),
     MINE("M", "\u001B[41m"),
     WALL("w", "\u001B[48;5;94m"),
     QUARRY("Q", "\u001B[47m"),
