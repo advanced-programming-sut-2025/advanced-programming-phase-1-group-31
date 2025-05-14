@@ -62,7 +62,7 @@ public class GameMenuController {
             return petAnimalByName(matcher);
         } else if ((matcher = GameMenuCommand.SHOW_ANIMALS.getMatcher(input)) != null) {
             return showAnimals();
-        }else if ((matcher = GameMenuCommand.CHEAT_SET_FRIENDSHIP.getMatcher(input)) != null) {
+        } else if ((matcher = GameMenuCommand.CHEAT_SET_FRIENDSHIP.getMatcher(input)) != null) {
             return cheatSetFriendship(matcher);
         }
 
@@ -171,8 +171,8 @@ public class GameMenuController {
 
         Tile[][] mainMap = App.getCurrentGame().getMainMap().getMainMap();
 
-        for (int i = startX; i < endX; i++) {
-            for (int j = startY; j < endY; j++) {
+        for (int j = startY; j < endY; j++) {
+            for (int i = startX; i < endX; i++) {
                 Point current = new Point(i, j);
                 Player playerAtPos = App.getCurrentGame().getPlayers()
                         .stream()
@@ -765,26 +765,26 @@ public class GameMenuController {
         System.out.println("map1\t\tmap2\t\tmap3\t\tmap4");
         System.out.println("--------------------------------------------------");
 
-        for (int x = 0; x < map1.length; x++) {
-            for (int y = 0; y < map1[0].length; y++) {
+        for (int y = 0; y < map1[0].length; y++) {
+            for (int x = 0; x < map1.length; x++) {
                 System.out.print(
                         map1[x][y].getType().getColor() + " " + map1[x][y].getType().getSymbol() + " " + "\u001B[0m");
             }
             System.out.print("\t");
 
-            for (int y = 0; y < map2[0].length; y++) {
+            for (int x = 0; x < map2.length; x++) {
                 System.out.print(
                         map2[x][y].getType().getColor() + " " + map2[x][y].getType().getSymbol() + " " + "\u001B[0m");
             }
             System.out.print("\t");
 
-            for (int y = 0; y < map3[0].length; y++) {
+            for (int x = 0; x < map3.length; x++) {
                 System.out.print(
                         map3[x][y].getType().getColor() + " " + map3[x][y].getType().getSymbol() + " " + "\u001B[0m");
             }
             System.out.print("\t");
 
-            for (int y = 0; y < map4[0].length; y++) {
+            for (int x = 0; x < map4.length; x++) {
                 System.out.print(
                         map4[x][y].getType().getColor() + " " + map4[x][y].getType().getSymbol() + " " + "\u001B[0m");
             }
