@@ -7,6 +7,7 @@ import model.enums.foragings.ForagingMinerals;
 import model.enums.general.Direction;
 import model.enums.general.Menus;
 import model.enums.general.TileType;
+import model.enums.general.Weather;
 import model.enums.plantable.Crops;
 import model.enums.plantable.MixedSeedSeasons;
 import model.enums.plantable.Seeds;
@@ -64,6 +65,12 @@ public class GameMenuController {
             return showAnimals();
         } else if ((matcher = GameMenuCommand.CHEAT_SET_FRIENDSHIP.getMatcher(input)) != null) {
             return cheatSetFriendship(matcher);
+        } else if ((matcher = GameMenuCommand.SHEPHERD_ANIMALS.getMatcher(input)) != null) {
+            return shepherdAnimal(matcher);
+        } else if ((matcher = GameMenuCommand.FEED_HAY.getMatcher(input)) != null) {
+            return feedHayToAnimal(matcher);
+        } else if ((matcher = GameMenuCommand.SHOW_PRODUCES.getMatcher(input)) != null) {
+
         }
 
         return new Result(false, "Invalid command.");
@@ -579,6 +586,163 @@ public class GameMenuController {
         return new Result(true, "Animals listed.");
     }
 
+    public static Result shepherdAnimal(Matcher matcher) {
+        Player player = App.getCurrentGame().getActivePlayer();
+        Tile[][] map = App.getCurrentGame().getMainMap().getMainMap();
+        String name = matcher.group("name").trim();
+        int x = 0, y = 0;
+        try {
+            x = Integer.parseInt(matcher.group("X"));
+            y = Integer.parseInt(matcher.group("Y"));
+        } catch (Exception e) {
+            return new Result(false, e.getMessage());
+        }
+        Point destination = new Point(x, y);
+        Optional<AnimalLocationContext> contextOpt = Stream.concat(
+                player.getFarm().getBarns().stream()
+                        .flatMap(b -> b.getAnimals().stream().map(a -> new AnimalLocationContext(a, b))),
+                player.getFarm().getCoops().stream()
+                        .flatMap(c -> c.getAnimals().stream().map(a -> new AnimalLocationContext(a, c))))
+                .filter(ctx -> ctx.animal().getName().equals(name)).findFirst();
+
+        if (contextOpt.isEmpty())
+            return new Result(false, "Animal not found.");
+        if (!player.getFarm().getRectangle().contains(destination)) {
+            return new Result(false, "You cannot take your animal outside your farm.");
+        }
+
+        AnimalLocationContext ctx = contextOpt.get();
+        Animal animal = ctx.animal();
+        Material housing = ctx.housing();
+        Point current = animal.getLocation();
+        Tile currentTile = map[current.x][current.y];
+        Tile destTile = map[destination.x][destination.y];
+        Rectangle area = (housing instanceof Barn b) ? b.getArea() : ((Coop) housing).getArea();
+        boolean isGoingInside = area.contains(destination);
+        boolean isCurrentlyInside = area.contains(current);
+        if (destination.x == current.x && destination.y == current.y) {
+            return new Result(false, "You are already where you want to go.");
+        }
+        Weather currentWeather = App.getCurrentGame().getTimeAndDate().getWeather();
+        if (EnumSet.of(Weather.Rainy, Weather.Snowy, Weather.Stormy).contains(currentWeather)) {
+            return new Result(false, "You cannot take your animal outside in bad weather");
+        }
+
+        if (isGoingInside) {
+            // returning to housing
+            Animals animals = (Animals) animal.getType();
+            boolean typeMatch = (housing instanceof Barn barn && barn.getType() == animals.getHousingType()) ||
+                    (housing instanceof Coop coop && coop.getCoopType() == animals.getHousingType());
+            if (!typeMatch)
+                return new Result(false, "Invalid housing type.");
+
+            TileType housingType = housing instanceof Barn ? TileType.BARN : TileType.COOP;
+            if (destTile.getType() != housingType || destTile.getMaterial() != housing)
+                return new Result(false, "Destination not empty.");
+
+            if (!isCurrentlyInside) {
+                currentTile.setType(TileType.EMPTY);
+                currentTile.setMaterial(null);
+            } else {
+                // moving inside housing
+                currentTile.setType(housingType);
+                currentTile.setMaterial(housing);
+            }
+            destTile.setType(TileType.ANIMAL);
+            destTile.setMaterial(animal);
+            animal.setLocation(destination);
+            animal.getAnimalFriendship().setStayedOutsideTonight(false);
+            return new Result(true, name + " moved inside.");
+
+        } else {
+            // going outside
+            if ((destTile.getType() != TileType.EMPTY || destTile.getMaterial() != null))
+                return new Result(false, "Destination not empty.");
+
+            TileType housingType = housing instanceof Barn ? TileType.BARN : TileType.COOP;
+
+            if (isCurrentlyInside) {
+                currentTile.setType(housingType);
+                currentTile.setMaterial(housing);
+            } else {
+                currentTile.setType(TileType.EMPTY);
+                currentTile.setMaterial(null);
+            }
+
+            destTile.setType(TileType.ANIMAL);
+            destTile.setMaterial(animal);
+            animal.setLocation(destination);
+            animal.getAnimalFriendship().setStayedOutsideTonight(true);
+            return new Result(true, name + " moved outside.");
+        }
+
+    }
+
+    private record AnimalLocationContext(Animal animal, Material housing) {
+    }
+    private static Result feedHayToAnimal(Matcher matcher) {
+        String animalName = matcher.group("name").trim();
+        Player player = App.getCurrentGame().getActivePlayer();
+
+        Optional<Animal> optionalAnimal = player.getFarm().getBarns().stream()
+                .flatMap(barn -> barn.getAnimals().stream())
+                .filter(animal -> animal.getName().equalsIgnoreCase(animalName))
+                .findFirst();
+
+        if (optionalAnimal.isEmpty()) {
+            optionalAnimal = player.getFarm().getCoops().stream()
+                    .flatMap(coop -> coop.getAnimals().stream())
+                    .filter(animal -> animal.getName().equalsIgnoreCase(animalName))
+                    .findFirst();
+        }
+
+        if (optionalAnimal.isEmpty()) {
+            return new Result(false, "No animal with the name '" + animalName + "' found.");
+        }
+
+        Animal animal = optionalAnimal.get();
+        if (animal.getAnimalFriendship().isWasFedToday()) {
+            return new Result(false, animalName + " has already been fed today.");
+        }
+        if (!animal.getAnimalFriendship().isStayedOutsideTonight()) {
+            animal.getAnimalFriendship().feed(false);
+            return new Result(true, animalName + " was successfully fed with hay.");
+            // false: fed inside, but isOutside = true
+//            return new Result(false, animalName + " must be outside the barn/coop to eat hay.");
+        }
+        animal.getAnimalFriendship().feed(true);
+        return new Result(true, animalName + " was successfully fed with hay.");
+    }
+    public static Result listUncollectedProducts() {
+        Player player = App.getCurrentGame().getActivePlayer();
+
+        List<Animal> animalsWithProduct = getAllAnimals(player).stream()
+                .filter(a -> a.hasProduct())
+                .collect(Collectors.toList());
+
+        if (animalsWithProduct.isEmpty())
+            return new Result(false, "No uncollected products available.");
+
+        StringBuilder sb = new StringBuilder("Animals with uncollected products:\n");
+        for (Animal animal : animalsWithProduct) {
+            Product p = animal.getProduct();
+            ProductQuality q = animal.getProductQuality();
+            sb.append("Name: ").append(animal.getName())
+                    .append(", Product: ").append(p.getName())
+                    .append(", Quality: ").append(q.name())
+                    .append("\n");
+        }
+
+        return new Result(true, sb.toString());
+    }
+    private static List<Animal> getAllAnimals(Player player) {
+        List<Animal> animals = new ArrayList<>();
+        player.getFarm().getCoops().forEach(coop -> animals.addAll(coop.getAnimals()));
+        player.getFarm().getBarns().forEach(barn -> animals.addAll(barn.getAnimals()));
+        return animals;
+    }
+
+
     private static boolean isAdjacent(Point a, Point b) {
         int dx = Math.abs(a.x - b.x);
         int dy = Math.abs(a.y - b.y);
@@ -625,11 +789,13 @@ public class GameMenuController {
         }
 
         if (type.isBarn()) {
-            Barn barn = new Barn(type);
+            assert material instanceof Barn;
+            Barn barn = (Barn) material;
             barn.setArea(area);
             farm.getBarns().add(barn);
         } else {
-            Coop coop = new Coop(type);
+            assert material instanceof Coop;
+            Coop coop = (Coop) material;
             coop.setArea(area);
             farm.getCoops().add(coop);
         }
