@@ -61,4 +61,11 @@ public class Game {
     public void setShops(ArrayList<Shops> shops) {
         this.shops = shops;
     }
+    public void changeTurn(){
+        int playerIndex = this.players.indexOf(this.activePlayer) + 1;
+        if(playerIndex >= this.players.size())
+            playerIndex = 0;
+        this.activePlayer = this.players.get(playerIndex);
+    }
+
 }

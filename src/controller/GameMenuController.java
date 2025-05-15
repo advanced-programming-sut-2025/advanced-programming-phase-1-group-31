@@ -80,6 +80,8 @@ public class GameMenuController {
             return sellAnimal(matcher);
         } else if ((matcher = GameMenuCommand.FISHING.getMatcher(input)) != null) {
             return fish(matcher);
+        } else if ((matcher = GameMenuCommand.CHANGE_TURN.getMatcher(input)) != null) {
+            return changeTurn();
         }
 
         return new Result(false, "Invalid command.");
@@ -901,6 +903,10 @@ animal.getAnimalFriendship().milkOrShear();
         }
 
         return false;
+    }
+    private static Result changeTurn(){
+        App.getCurrentGame().changeTurn();
+        return new Result(true , "You have changed the turn!");
     }
 
 
