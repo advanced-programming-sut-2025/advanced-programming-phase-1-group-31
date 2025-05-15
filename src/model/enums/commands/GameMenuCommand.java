@@ -1,7 +1,5 @@
 package model.enums.commands;
 
-import java.util.regex.Pattern;
-
 public enum GameMenuCommand implements Command {
     GAME_NEW_PATTERN("^\\s*game\\s+new\\s+-u\\s+(?<usernames>(\\w+\\s*){1,3})\\s*$"),
     MAP_SELECT_PATTERN("^game\\s+map\\s+(?<number>\\d+)$"),
@@ -64,7 +62,13 @@ public enum GameMenuCommand implements Command {
     FORAGING_CROP_INFO("^\\s*foraging\\s+crop\\s+info\\s+(?<name>\\S+)\\s*$"),
     FORAGING_TREE_INFO("^\\s*foraging\\s+tree\\s+info\\s+(?<name>\\S+)\\s*$"),
     FRUITS_INFO("^\\s*fruit\\s+info\\s+(?<name>\\S+)\\s*$"),
-    COMPLETE_QUEST("^quests\\s+finish\\s+-i\\s+(?<index>\\d+)\\s*$");
+    COMPLETE_QUEST("^quests\\s+finish\\s+-i\\s+(?<index>\\d+)\\s*$"),
+    SELECT_PRODUCTS_AVAILABLE("\\s*show\\s+all\\s+available\\s+products\\s*"),
+    SELECT_PRODUCTS_ALL("\\s*show\\s+all\\s+products\\s*"),
+    SELECT_PURCHASE("\\s*purchase\\s+(?<productName>\\S+)\\s+-n\\s+(?<count>\\S+)\\s*"),
+    SELECT_ADD_DOLLARS("\\s*cheat\\s+add\\s+(?<count>\\S+)\\s+dollars\\s+"),
+    SELECT_SELL("\\s*sell\\s+(?<productName>\\S+)\\s+-n\\s+(?<count>\\S+)\\s*");
+
 
     private final String pattern;
 

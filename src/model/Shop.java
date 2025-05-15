@@ -7,6 +7,10 @@ import model.materials.MaterialType;
 public class Shop implements Material {
     private Shops shopType;
 
+    public Shop(Shops shopType) {
+        this.shopType = shopType;
+    }
+
     public Shops getShopName() {
         return shopType;
     }

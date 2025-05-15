@@ -24,6 +24,7 @@ public enum TileType {
     PLANTING_SOIL("P", "\u001B[48;5;94m"),
     Wood("W", "\u001B[48;5;130m"),
     Craftable("C", "\u001B[48;5;28m"),
+    TRASH_BIN("T", "\u001B[41m"),
     NPC("N", "\u001B[46m");
 
 

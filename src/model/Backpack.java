@@ -91,6 +91,10 @@ public class Backpack {
         return null;
     }
 
+    public int howManyInBackpack(Material material){
+        return elements.get(material);
+    }
+
     public Tool isExistToolOrNull(Tool tool) {
         for (Tool tool1 : tools) {
             if (tool1.equals(tool)) return tool1;

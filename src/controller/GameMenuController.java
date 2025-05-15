@@ -4,6 +4,7 @@ import model.*;
 import model.Tools.Tool;
 import model.Tools.TrashCan;
 import model.enums.commands.GameMenuCommand;
+import model.enums.commands.GameMenuCommand;
 import model.enums.foragings.ForagingCrops;
 import model.enums.foragings.ForagingTrees;
 import model.enums.general.Direction;
@@ -13,6 +14,7 @@ import model.enums.plantable.Fruits;
 import model.enums.plantable.Trees;
 import model.enums.toolTypes.ToolTypes;
 import model.enums.toolTypes.TrashCanType;
+import model.materials.ShoppingBin;
 
 import java.awt.*;
 import java.util.Scanner;
@@ -66,8 +68,17 @@ public class GameMenuController {
             return foragingTreeInfo(matcher);
         else if ((matcher = GameMenuCommand.FRUITS_INFO.getMatcher(input)) != null)
             return fruitInfo(matcher);
-
-
+        else if ((matcher = GameMenuCommand.SELECT_PRODUCTS_AVAILABLE.getMatcher(input)) != null) {
+            return showAllAvailableProducts(matcher);
+        } else if ((matcher = GameMenuCommand.SELECT_PRODUCTS_ALL.getMatcher(input)) != null) {
+            return showAllProducts(matcher);
+        } else if ((matcher = GameMenuCommand.SELECT_PURCHASE.getMatcher(input)) != null) {
+            return purchaseProduct(matcher);
+        } else if ((matcher = GameMenuCommand.SELECT_ADD_DOLLARS.getMatcher(input)) != null) {
+            return addDollars(matcher);
+        } else if ((matcher = GameMenuCommand.SELECT_SELL.getMatcher(input)) != null) {
+            return sellProduct(matcher);
+        }
         return new Result(false, "Invalid command.");
     }
 
@@ -259,4 +270,33 @@ public class GameMenuController {
     private Result showSeason() {
         return new Result(true, Game.getTimeAndDate().getSeason().name());
     }
+
+    private Result showAllAvailableProducts(Matcher matcher) {
+        return new Result(true, "Showing all available products.");
+    }
+
+    private Result showAllProducts(Matcher matcher) {
+        return new Result(true, "Showing all products.");
+    }
+
+    private Result purchaseProduct(Matcher matcher) {
+        String productName = matcher.group("productName");
+        String count = matcher.group("count");
+        return new Result(true, "Purchased " + count + " of " + productName);
+    }
+
+    private Result addDollars(Matcher matcher) {
+        String count = matcher.group("count");
+        return new Result(true, "Added " + count + " dollars to account.");
+    }
+
+    private Result sellProduct(Matcher matcher) {
+        String productName = matcher.group("productName");
+        int amount = -1;
+        if (matcher.group("count") != null){
+            amount = Integer.parseInt(matcher.group("count").trim());
+        }
+        return Game.getShoppingBin().work(productName, amount);
+    }
 }
+
