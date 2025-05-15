@@ -6,6 +6,8 @@ import model.enums.creature.Animals;
 import model.materials.Products.AnimalProduct;
 import model.ProductQualityCalculator;
 import model.ProductQualityCalculator.ProductQuality;
+import java.util.concurrent.ThreadLocalRandom;
+
 
 import java.awt.*;
 import java.util.Random;
@@ -58,14 +60,17 @@ public class Animal implements Material {
 
         Random rand = new Random();
         double friendship = animalFriendship.getFriendshipPoints();
-        double randomChance = ((rand.nextDouble() * 0.5) + 0.5) * (150 + friendship) / 1500.0;
+        double randomNum = ThreadLocalRandom.current().nextDouble(0.5, 1.5);
+        double randomChance = (randomNum * 150) + ( friendship) / 1500.0;
 
         AnimalProducts productType = animalType.getFirstProduct();
         if (friendship >= 100 && rand.nextDouble() < randomChance) {
             productType = animalType.getSecondProduct();
         }
+        double randomNumQuality = ThreadLocalRandom.current().nextDouble(0, 1);
+        double randomQuality = ((randomNumQuality * 0.5) + 0.5) * (animalFriendship.getFriendshipPercentage()) ;
 
-        ProductQuality quality = ProductQualityCalculator.calculateQuality(animalFriendship.getFriendshipPercentage());
+        ProductQuality quality = ProductQualityCalculator.calculateQuality(randomQuality);
         todayProduct = new AnimalProduct(productType, quality, 1);
     }
 

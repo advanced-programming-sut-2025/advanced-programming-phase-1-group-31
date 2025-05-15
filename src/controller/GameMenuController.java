@@ -23,6 +23,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -77,7 +78,9 @@ public class GameMenuController {
             return collectProduct(matcher);
         } else if ((matcher = GameMenuCommand.SELL_ANIMAL.getMatcher(input)) != null) {
             return sellAnimal(matcher);
-        } 
+        } else if ((matcher = GameMenuCommand.FISHING.getMatcher(input)) != null) {
+            return fish(matcher);
+        }
 
         return new Result(false, "Invalid command.");
     }
@@ -91,6 +94,7 @@ public class GameMenuController {
         if (Arrays.asList(usernames).contains(App.getPlayerLoggedIn().getUsername())) {
             return new Result(false, "you can not chose own");
         }
+
 
         if (usernames.length > 3)
             return new Result(false, "A maximum of 3 usernames is allowed.");
@@ -744,28 +748,42 @@ public class GameMenuController {
     public static Result collectProduct(Matcher matcher) {
         Player player = App.getCurrentGame().getActivePlayer();
         String animalName = matcher.group("name").trim();
+        Optional<AnimalLocationContext> contextOpt = Stream.concat(
+                        player.getFarm().getBarns().stream()
+                                .flatMap(b -> b.getAnimals().stream().map(a -> new AnimalLocationContext(a, b))),
+                        player.getFarm().getCoops().stream()
+                                .flatMap(c -> c.getAnimals().stream().map(a -> new AnimalLocationContext(a, c))))
+                .filter(ctx -> ctx.animal().getName().equals(animalName)).findFirst();
 
-        Animal animal = getAllAnimals(player)
-                .stream()
-                .filter(a -> a.getName().equals(animalName))
-                .findFirst()
-                .orElse(null);
+        if (contextOpt.isEmpty())
+            return new Result(false, "Animal not found.");
 
-        if (animal == null) {
-            return new Result(false, "Animal not found: " + animalName);
-        }
 
-        if (!animal.hasProduct()) {
-            return new Result(false, animalName + " has no product to collect.");
-        }
+        AnimalLocationContext ctx = contextOpt.get();
+        Animal animal = ctx.animal();
+        Material housing = ctx.housing();
 
-        AnimalProduct collectedProduct = animal.collectProduct();
-        player.getInventory().addElementToBackpack(collectedProduct, animal.getTodayProduct().getQuantity());
 
-        return new Result(true,
-                "Successfully collected " + collectedProduct.getName() +
-                        " from " + animalName + " (Quality: " + collectedProduct.getQuality() + ")");
+        Animals type = animal.getAnimalType();
+
+        // شرط ابزار خاص
+
+        Rectangle area = (housing instanceof Barn b) ? b.getArea() : ((Coop) housing).getArea();
+    if (type.needsToGoOutside() && area.contains(animal.getLocation())) {
+        return new Result(false, "Pig must be outside to collect truffle.");
     }
+
+            if (!animal.hasProduct()) {
+        return new Result(false, animalName + " has no product to collect.");
+    }
+
+AnimalProduct collectedProduct = animal.collectProduct();
+                player.getInventory().addElementToBackpack(collectedProduct, collectedProduct.getQuantity());
+animal.getAnimalFriendship().milkOrShear();
+        return new Result(true,
+                                  "Collected " + collectedProduct.getName() +
+        " from " + animalName + " (Quality: " + collectedProduct.getQuality() + ")");
+        }
     private static Result sellAnimal(Matcher matcher) {
         String animalName = matcher.group("name").trim();
         Player player = App.getCurrentGame().getActivePlayer();
@@ -788,8 +806,8 @@ public class GameMenuController {
         }
 
         Animal animal = allAnimals.get(0);
-//        double multiplier = (animal.getAnimalFriendship().getFriendshipPercentage()) + 0.3;
-//        int price = (int) (multiplier * animal.getAnimalType().getPurchasePrice());
+        double multiplier = (animal.getAnimalFriendship().getFriendshipPercentage()) + 0.3;
+        int price = (int) (multiplier * animal.getAnimalType().getPurchasePrice());
 //        player.changeMoney(price);
 
         // Remove from its pen
@@ -814,9 +832,10 @@ public class GameMenuController {
         Random random = new Random();
         int skill = player.getSkills().getFishingLevel();
         double M = ProductQualityCalculator.getSeasonalMultiplier(weather);
-        double R = random.nextDouble();
+        double R = ThreadLocalRandom.current().nextDouble(0, 1);
 
-        int count = (int) Math.min(6, Math.ceil((skill + 2) * M * Math.ceil(R * 7 - M)));
+
+        int count = (int) Math.min(6, R * M * (skill+ 2));
 
         List<FishTypes> validFish = Arrays.stream(FishTypes.values())
                 .filter(f -> !f.isLegendary() && f.getSeason() == season)
@@ -833,12 +852,14 @@ public class GameMenuController {
         if (validFish.isEmpty()) {
             return new Result(false, "No fish available to catch in this season!");
         }
+//        int count = (int) Math.min(6, Math.ceil((skill + 2) * M * Math.ceil(R * 7 - M)));
 
         List<FishProducts> caughtFish = new ArrayList<>();
         StringBuilder fishDetails = new StringBuilder();
 
         for (int i = 0; i < count; i++) {
             FishTypes selected = validFish.get(random.nextInt(validFish.size()));
+
             double qualityScore = random.nextDouble() * (skill + 2) * poleMultiplier / (7 - M);
             var quality = ProductQualityCalculator.calculateQualityScore(qualityScore);
             FishProducts fish = new FishProducts(selected, quality, 1);
