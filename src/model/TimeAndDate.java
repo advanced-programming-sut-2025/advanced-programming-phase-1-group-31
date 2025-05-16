@@ -70,6 +70,7 @@ public class TimeAndDate {
             App.getCurrentGame().getMainMap();
             updateAnimalOutdoorsStatus();
             changeForagingAndCrops();
+            App.getCurrentGame().getPlayers().forEach(player -> player.getEnergy().onNewDay());
             // amirabbas
         }
     }

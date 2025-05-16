@@ -66,6 +66,9 @@ public class Game {
         if(playerIndex >= this.players.size())
             playerIndex = 0;
         this.activePlayer = this.players.get(playerIndex);
+        if (this.activePlayer.getEnergy().getEnergyAmount() <= 0){
+            changeTurn();
+        }
     }
 
 }

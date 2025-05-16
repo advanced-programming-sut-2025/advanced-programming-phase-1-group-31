@@ -34,10 +34,23 @@ public class Energy {
             faint();
         }
     }
+        private void faint() {
+        // Player player = App.getCurrentGame().getActivePlayer();
 
-    private void faint() {
-        //to be added
+            // player.setLocation(player.getLastPositionBeforeFaint());
+
+        // player.setLastPositionBeforeFaint(player.getLocation());
+
+        App.getCurrentGame().changeTurn();
     }
 
+    public void onNewDay() {
+        if (this.energyAmount<=0) {
+            this.energyAmount = maxEnergy * 0.75;
+            // player.setLocation(player.getLastPositionBeforeFaint());
+        } else {
+            this.energyAmount = maxEnergy;
+        }
+    }
 
 }
