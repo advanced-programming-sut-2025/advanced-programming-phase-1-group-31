@@ -17,43 +17,93 @@ public class Player {
     private String email;
     private Energy energy;
     private Point place;
-    private int gold;
-    private Refrigerator refrigerator;
+    private String backupQuestion;
+    private String backupAnswer;
+    private boolean stayLoggedIn = false;
     private Menus currentMenu = Menus.MainMenu;
     private TileType type;
+    private final ArrayList<SMS> SMSs = new ArrayList<>();
+    private final ArrayList<Friendship> friendships = new ArrayList<>();
+    private Tool inHand;
     private final Backpack inventory = new Backpack();
+    private final ArrayList<Gift> gifts = new ArrayList<>();
+
+    public ArrayList<Gift> getGifts() {
+        return gifts;
+    }
+
+    public void addGift(Gift gift){
+        gifts.add(gift);
+    }
 
     public Backpack getInventory() {
         return inventory;
     }
 
+    public ArrayList<Friendship> getFriendships() {
+        return friendships;
+    }
+
+    public ArrayList<SMS> getSMSs() {
+        return SMSs;
+    }
+
+    public void addSMS(SMS sms){
+        SMSs.add(sms);
+    }
+
+
     public void setEnergy(Energy energy) {
         this.energy = energy;
     }
-
     // maybe delete
     private boolean gender;// IMPORTANT!!!!!!!!!! : false is male, true is female
     // private Tools inHand;
     private Farm farm;
-
     private Map<String, String> backup;
+
     private Skill skills;
-    public ArrayList<Friendship> friendships = new ArrayList<>();
     public ArrayList<FriendshipWithNPC> NPCFriendships = new ArrayList<>();
     public ArrayList<Trade> tradeHistory = new ArrayList<>();
+    private double money = 0;
     // details of the Crafting recipes must be determined
     // private HashMap<Craftable, Boolean> craftingRecipes;
     // //details of the Cooking recipes must be determined
     // private HashMap<Food, Boolean> cookingRecipes;
 
-    public Player(String username, String password, String nickname, String email, boolean gender,
-            Map<String, String> backup) {
+
+    public Player(String username, String password, String nickname, String email, boolean gender, String question, String answer){
         this.username = username;
         this.password = password;
         this.nickname = nickname;
         this.email = email;
         this.gender = gender;
-        this.backup = backup;
+        this.backupQuestion = question;
+        this.backupAnswer = answer;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public boolean deductMoney(double amount) {
+        if (amount < 0) throw new IllegalArgumentException("Amount cannot be negative");
+        if (money < amount) return false;
+        money -= amount;
+        return true;
+    }
+
+    public void addMoney(double amount) {
+        if (amount < 0) throw new IllegalArgumentException("Amount cannot be negative");
+        money += amount;
+    }
+
+    public boolean hasEnoughMoney(double amount) {
+        return money >= amount;
+    }
+    public void setMoney(double money) {
+        if (money < 0) throw new IllegalArgumentException("Money cannot be negative");
+        this.money = money;
     }
 
     public int getHighScore() {
@@ -84,15 +134,10 @@ public class Player {
         return place;
     }
 
-    public Refrigerator getRefrigerator() {
-        return refrigerator;
-    }
-
-    public boolean isGender() {
+    public boolean getGender() {
         return gender;
     }
 
-    private Tool inHand;
 
     public Tool getInHand() {
         return inHand;
@@ -113,13 +158,12 @@ public class Player {
     public Skill getSkills() {
         return skills;
     }
-
     // public HashMap<Craftable, Boolean> getCraftingRecipes() {
+
 
     public TileType getType() {
         return type;
     }
-
     public void setType(TileType type) {
         this.type = type;
     }
@@ -129,6 +173,7 @@ public class Player {
     // public HashMap<Food, Boolean> getCookingRecipes() {
     // return cookingRecipes;
     // }
+
 
     public void setHighScore(int highScore) {
         this.highScore = highScore;
@@ -162,25 +207,13 @@ public class Player {
         this.place = place;
     }
 
-    public void setRefrigerator(Refrigerator refrigerator) {
-        this.refrigerator = refrigerator;
-    }
-
     public void setGender(boolean gender) {
         this.gender = gender;
     }
-
     // public void setInHand(Tools inHand) {
     // this.inHand = inHand;
     // }
 
-    public int getGold() {
-        return gold;
-    }
-
-    public void setGold(int gold) {
-        this.gold = gold;
-    }
 
     public void setFarm(Farm farm) {
         this.farm = farm;
@@ -189,7 +222,6 @@ public class Player {
     public void setBackup(Map<String, String> backup) {
         this.backup = backup;
     }
-
     // public void setCraftingRecipes(HashMap<Craftable, Boolean> craftingRecipes) {
     // this.craftingRecipes = craftingRecipes;
     // }
@@ -204,5 +236,28 @@ public class Player {
 
     public void setCurrentMenu(Menus menu) {
         this.currentMenu = menu;
+    }
+    public String getBackupQuestion() {
+        return backupQuestion;
+    }
+
+    public void setBackupQuestion(String backupQuestion) {
+        this.backupQuestion = backupQuestion;
+    }
+
+    public String getBackupAnswer() {
+        return backupAnswer;
+    }
+
+    public void setBackupAnswer(String backupAnswer) {
+        this.backupAnswer = backupAnswer;
+    }
+
+    public boolean isStayLoggedIn() {
+        return stayLoggedIn;
+    }
+
+    public void setStayLoggedIn(boolean stayLoggedIn) {
+        this.stayLoggedIn = stayLoggedIn;
     }
 }

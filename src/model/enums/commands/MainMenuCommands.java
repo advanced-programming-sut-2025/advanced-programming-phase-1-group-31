@@ -1,14 +1,12 @@
 package model.enums.commands;
 
-public enum MainMenuCommands implements Command {
-    MENU_ENTER("\\s*menu\\s+enter\\s+(?<menuName>\\S+)\\s*"),
-    LOGOUT("^user\\s+logout\\s*$"),
-    CHANGE_USERNAME("^change\\s+username\\s+-u\\s+(?<username>\\S+)\\s*$"),
-    CHANGE_NICKNAME("^change\\s+nickname\\s+-u\\s+(?<nickname>\\S+)\\s*$"),
-    CHANGE_EMAIL("^change\\s+email\\s+-e\\s+(?<email>\\S+)\\s*$"),
-    CHANGE_PASSWORD("^change\\s+password\\s+-p\\s+(?<newPassword>\\S+)\\s+-o\\s+(?<oldPassword>\\S+)\\s*$"),
-    SHOW_INFO("^user\\s+info\\s*$");
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
+public enum MainMenuCommands implements Command{
+    LOGOUT("^user\\s+logout\\s*$"),
+    SHOW_CURRENT_MENU("show\\s+current\\s+menu\\s*"),//fix this
+    CHANGE_MENU("^change\\s+menu\\s+to\\s+(?<menuName>\\S+)\\s*$");
 
     private final String pattern;
 
@@ -20,5 +18,4 @@ public enum MainMenuCommands implements Command {
     public String getPattern() {
         return pattern;
     }
-    
 }

@@ -1,34 +1,27 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
-import model.Result;
+import java.util.stream.Collectors;
+import model.Hasher;
+import model.*;
 import model.enums.general.Menus;
 import model.enums.commands.LoginMenuCommands;
-import model.Player;
-import model.App;
-import model.BackupQuestions;
 
 public class LoginMenuController {
     public Result run(Scanner scanner){
         String line = scanner.nextLine();
         Matcher matcher;
 
-        if((matcher = LoginMenuCommands.REGISTER.getMatcher(line))!= null){
+        if((matcher = LoginMenuCommands.REGISTER.getMatcher(line)) != null){
             return register(matcher, scanner);
-        } else if((matcher = LoginMenuCommands.LOGIN.getMatcher(line))!= null){
+        } else if((matcher = LoginMenuCommands.LOGIN.getMatcher(line)) != null){
             return login(matcher);
-        } else if(LoginMenuCommands.SHOW_CURRENT_MENU.getMatcher(line)!= null){
+        } else if(LoginMenuCommands.SHOW_CURRENT_MENU.getMatcher(line) != null){
             return showCurrentMenu();
-        } else if((matcher = LoginMenuCommands.PASSWORD_RECOVERY.getMatcher(line))!= null){
+        } else if((matcher = LoginMenuCommands.PASSWORD_RECOVERY.getMatcher(line)) != null){
             return recoverPassword(matcher, scanner);
-        } else if(LoginMenuCommands.EXIT_MENU.getMatcher(line)!= null){
+        } else if(LoginMenuCommands.EXIT_MENU.getMatcher(line) != null){
             return exitMenu();
         } else{
             return new Result(false, "Invalid command!");
@@ -55,21 +48,21 @@ public class LoginMenuController {
 
         while (true) {
             if (!isUsernameValid(username)) {
-                System.out.println("Please enter new username (or type 'stop' to cancel registration):");
+                System.out.println("Please enter new username:\nEnter 'stop' to cancel");
                 username = scanner.nextLine().trim();
                 if (username.equalsIgnoreCase("stop")) {
                     return new Result(false, "Registration unsuccessful.");
                 }
                 continue;
             }
-        
+
             if (!isUsernameUnique(username)) {
                 String newUsername = generateUsernames(username, scanner);
                 if (newUsername != null) {
                     username = newUsername;
                     continue;
                 } else {
-                    System.out.println("Please enter new username (or type 'stop' to cancel registration):");
+                    System.out.println("Please enter new username\nEnter 'stop' to cancel");
                     username = scanner.nextLine().trim();
                     if (username.equalsIgnoreCase("stop")) {
                         return new Result(false, "Registration unsuccessful.");
@@ -79,12 +72,12 @@ public class LoginMenuController {
             }
             break;
         }
-        
+
         while (!isEmailValid(email)) {
-            System.out.println("Please enter new email (or type 'stop' to cancel registration):");
+            System.out.println("Please enter new email:\nEnter 'stop' to cancel");
             email = scanner.nextLine().trim();
             if(email.equalsIgnoreCase("stop"))
-               return new Result(false, "Registration unsuccessful.");
+                return new Result(false, "Registration unsuccessful.");
         }
 
         while (true) {
@@ -102,25 +95,36 @@ public class LoginMenuController {
             if (isPasswordValid(password, passwordConfirmation)) {
                 break;
             }
-        
-            System.out.println("Please enter new password and repeat it: (or enter 'random' for random password)");
-            String[] passwordParts = scanner.nextLine().split("\\s+");
-        
-            if (password.equalsIgnoreCase("random")) {
-                generateRandomPass = true;
-                continue;
-            }
 
-            if (isPasswordValid(passwordParts[0], passwordParts[1])) {
-                break;
+            System.out.println("Please enter new password and repeat it: \nEnter 'random' for random password\nEnter 'stop' to cancel");
+            String[] passwordParts = scanner.nextLine().split("\\s+");
+
+            try {
+                if (password.equalsIgnoreCase("random")) {
+                    generateRandomPass = true;
+                    continue;
+                }
+
+                if(password.equalsIgnoreCase("stop")){
+                    return new Result(false, "Registration unsuccessful.");
+                }
+
+                if (isPasswordValid(passwordParts[0], passwordParts[1])) {
+                    break;
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("Please try again.");
             }
         }
 
         while (!isNicknameValid(nickname)) {
-            System.out.println("Please enter new nickname (or type 'stop' to cancel registration):");
+            System.out.println("Please enter new nickname:\nEnter 'stop' to cancel");
             nickname = scanner.nextLine().trim();
+            if(nickname.equalsIgnoreCase("stop")){
+                return new Result(false, "Registration unsuccessful.");
+            }
         }
-        
+
         if(!gender.matches("^(female|male)$")){
             return new Result(false, "Only valid genders are male and female (and stainless steel but we didn't have the budget for a third one).");
         }// maaaaaaybe make this not crash the program
@@ -129,12 +133,11 @@ public class LoginMenuController {
         questions.print();
         String question = null;
         String answer = null;
-        Map<String, String> backup = new HashMap<>();
 
         while(question == null){
             try{
                 int choice = Integer.parseInt(scanner.nextLine().trim());
-    
+
                 if(choice == 1){
                     question = questions.Q1;
                 } else if(choice == 2){
@@ -153,24 +156,22 @@ public class LoginMenuController {
             answer = scanner.nextLine().toLowerCase();
         }
 
-        backup.put(question, answer);
-
-        Player player = new Player(username, password, nickname, email, gender.equals("female"), backup);
+        Player player = new Player(username, Hasher.Hash(password), nickname, email, gender.equals("female"), question, answer);
         App.addRegisteredPlayer(player);
-        App.addRegisteredUsername(username);
         return new Result(true, "Successfully registered user!");
     }
     private Result login(Matcher matcher) {
         String username = matcher.group("username");
         String password = matcher.group("password");
-        boolean stayLoggedIn = matcher.group("flag") != null && matcher.group("flag").trim().equals("-stay-logged-in");// figure this out
+        boolean stayLoggedIn = matcher.group("flag") != null && matcher.group("flag").trim().equals("-stay-logged-in");
 
         for(Player player : App.getRegisteredPlayers()){
             if(player.getUsername().equals(username)){
-                if(player.getPassword().equals(password)){
+                if(player.getPassword().equals(Hasher.Hash(password))){
                     App.setPlayerLoggedIn(player);
+                    ChangeManager.updatePlayer(App.getPlayerLoggedIn(), p -> p.setStayLoggedIn(stayLoggedIn));
                     App.setCurrentMenu(Menus.MainMenu);
-                    return new Result(true, "Welcome back " + username);
+                    return new Result(true, "Welcome back " + username + "!");
                 } else{
                     return new Result(false, "Incorrect password.");
                 }
@@ -193,15 +194,58 @@ public class LoginMenuController {
         if(playerInQuestion == null){
             return new Result(false, "Username doesn't exist.");
         } else{
-            System.out.println(playerInQuestion.getBackup().keySet());
+            System.out.println(playerInQuestion.getBackupQuestion());
         }
 
         while (answer == null) {
             answer = scanner.nextLine().toLowerCase();
         }
-        
-        if(playerInQuestion.getBackup().containsValue(answer)){
-            return new Result(true, "Your password is: " + playerInQuestion.getPassword());
+
+        if(playerInQuestion.getBackupAnswer().equals(answer)){
+            boolean generateRandomPass = false;
+            String password = null;
+            while (true) {
+                if (generateRandomPass) {
+                    String newPassword = generatePassword(scanner);
+                    if (newPassword != null) {
+                        password = newPassword;
+                        break;
+                    } else {
+                        generateRandomPass = false;
+                        continue;
+                    }
+                }
+
+                System.out.println("Please enter new password and repeat it: \nEnter 'random' for random password\nEnter 'stop' to cancel");
+                String[] passwordParts = scanner.nextLine().split("\\s+");
+
+                try {
+                    if (passwordParts[0].equalsIgnoreCase("random")) {
+                        generateRandomPass = true;
+                        continue;
+                    }
+
+                    if(passwordParts[0].equalsIgnoreCase("stop")){
+                        return new Result(false, "Recovery unsuccessful.");
+                    }
+
+                    if (isPasswordValid(passwordParts[0], passwordParts[1])) {
+                        break;
+                    }
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    System.out.println("Please try again.");
+                }
+            }
+
+            final String finalPass = password;
+
+            for(Player player : App.getRegisteredPlayers()){
+                if(player.getUsername().equals(username)){
+                    ChangeManager.updatePlayer(player, p -> p.setPassword(Hasher.Hash(finalPass)));
+                }//fix this bit
+            }
+
+            return new Result(true, "Your new password is: " + password);
         } else{
             return new Result(false, "Incorrect answer");
         }
@@ -216,10 +260,13 @@ public class LoginMenuController {
     }
 
     private boolean isUsernameUnique(String username){
-        if(App.getRegisteredUsernames().contains(username)){
-            System.out.println("Username already exists.");
-            return false;
+        for(Player player : App.getRegisteredPlayers()) {
+            if(player.getUsername().equals(username)){
+                System.out.println("Username already exists.");
+                return false;
+            }
         }
+
         return true;
     }
 
@@ -245,9 +292,9 @@ public class LoginMenuController {
         String topLevel = email.substring(email.lastIndexOf(".") + 1);
 
         if(!userEmail.matches("^(?!.*\\.\\.)[A-Za-z0-9][A-Za-z0-9._-]*[A-Za-z0-9]$")){
-            System.out.println("Email username must start " + 
-            " with numbers or any letter, it must only include numbers, any letter or these symbols(._-)" +
-            " also, no consecutive dots.");
+            System.out.println("Email username must start " +
+                    " with numbers or any letter, it must only include numbers, any letter or these symbols(._-)" +
+                    " also, no consecutive dots.");
             return false;
         }
 
@@ -255,7 +302,7 @@ public class LoginMenuController {
             System.out.println("Email domain must only include letters and a single dot somewhere in the middle.");
             return false;
         }
-        
+
         if(!topLevel.matches("^[a-z]{2,}$")){
             System.out.println("TLD must be at least two letters long.");
             return false;
@@ -272,7 +319,7 @@ public class LoginMenuController {
 
         if(!password.matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*?~])[A-Za-z0-9!@#$%^&*?~]{8,}$")){
             System.out.println("Password must include capital letter" +
-            " lowercase letter, number and special symbol(!@#$%^&*?~).");
+                    " lowercase letter, number and special symbol(!@#$%^&*?~).");
             return false;
         }
 
@@ -299,8 +346,10 @@ public class LoginMenuController {
     }
 
     private String generateUsernames(String username, Scanner scanner){
-        ArrayList<String> inUse = App.getRegisteredUsernames();
-        String[] options = new String[3];
+        List<String> inUse = App.getRegisteredPlayers().stream()
+                .map(Player::getUsername)
+                .collect(Collectors.toList());
+        ArrayList<String> options = new ArrayList<>();
         Random random = new Random();
 
         for(int i = 0, retries = 0; i < 3 && retries < 20; i++, retries++){
@@ -309,38 +358,40 @@ public class LoginMenuController {
             if(addNum){
                 int number = random.nextInt(10000);
                 String newUsername = username + number;
-                if(inUse.contains(newUsername)){
+                if(inUse.contains(newUsername) || options.contains(newUsername)){
                     i--;
                     continue;
                 }
-                options[i] = username + number;
+                options.add(username + number);
             } else{
                 int insertPosition = random.nextInt(username.length() - 2) + 1;
                 String before = username.substring(0, insertPosition);
                 String after = username.substring(insertPosition);
                 String newUsername = before + "-" + after;
-                if(inUse.contains(newUsername)){
+                if(inUse.contains(newUsername) || options.contains(newUsername)){
                     i--;
                     continue;
                 }
-                options[i] = newUsername;
+                options.add(newUsername);
             }
         }
-        System.out.println("1- " + options[0]);
-        System.out.println("2- " + options[1]);
-        System.out.println("3- " + options[2]);
+
+        System.out.println("Choose your username:");
+        for(int i = 0; i < 3; i++){
+            System.out.println((i + 1) + "- " + options.get(i));
+        }
         System.out.println("4- Generate more.");
         System.out.println("5- Add a new username yourself.");
         while(true){
             try{
                 int choice = Integer.parseInt(scanner.nextLine().trim());
-    
+
                 if(choice == 1){
-                    return options[0];
+                    return options.get(0);
                 } else if(choice == 2){
-                    return options[1];
+                    return options.get(1);
                 } else if(choice == 3){
-                    return options[2];
+                    return options.get(2);
                 } else if(choice == 4){
                     return generateUsernames(username, scanner);
                 } else if(choice == 5){
@@ -362,7 +413,7 @@ public class LoginMenuController {
         final String specials = "?><,\"';:\\/|][}{+=)(*&^%$#!";
         final String all = uppercase + lowercase + numbers + specials;
 
-        String[] options = new String[3];
+        ArrayList<String> options = new ArrayList<>();
 
         for(int i = 0, retries = 0; i < 3 && retries < 20; i++, retries++){
             int length = random.nextInt(13) + 8;// max 20 chars, min 8
@@ -384,24 +435,25 @@ public class LoginMenuController {
                 stringBuilder.append(c);
             }
 
-            options[i] = stringBuilder.toString();
+            options.add(stringBuilder.toString());
         }
 
-        System.out.println("1- " + options[0]);
-        System.out.println("2- " + options[1]);
-        System.out.println("3- " + options[2]);
+        System.out.println("Choose your password:");
+        for(int i = 0; i < 3; i++){
+            System.out.println((i + 1) + "- " + options.get(i));
+        }
         System.out.println("4- Generate more");
         System.out.println("5- Add a new password yourself");
         while(true){
             try{
                 int choice = Integer.parseInt(scanner.nextLine().trim());
-    
+
                 if(choice == 1){
-                    return options[0];
+                    return options.get(0);
                 } else if(choice == 2){
-                    return options[1];
+                    return options.get(1);
                 } else if(choice == 3){
-                    return options[2];
+                    return options.get(2);
                 } else if(choice == 4){
                     return generatePassword(scanner);
                 } else if(choice == 5){

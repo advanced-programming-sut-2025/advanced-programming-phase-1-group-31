@@ -1,7 +1,5 @@
 package view;
 
-import controller.ShopMenuController;
-
 import java.util.Scanner;
 
 public class ShopMenu implements Menu{

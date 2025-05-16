@@ -15,8 +15,8 @@ public enum AnimalProducts implements MaterialType {
         GOAT_MILK("Goat Milk", 225),
         LARGE_GOAT_MILK("Large Goat Milk", 345),
         TRUFFLE("Truffle", 625),
-        TRUFFLE_OIL("Truffle Oil", 0), // Weight not specified
-        CLOTH("Cloth", 0); // Weight not specified
+        TRUFFLE_OIL("Truffle Oil", 0),
+        CLOTH("Cloth", 0);
 
         private final String englishName;
         private final int price;

@@ -1,10 +1,6 @@
 package model.Tools;
 
-import model.App;
-import model.Game;
-import model.Player;
-import model.Result;
-import model.Tile;
+import model.*;
 import model.enums.general.Direction;
 import model.enums.general.TileType;
 import model.enums.toolTypes.AxePickHoeType;
@@ -54,7 +50,7 @@ public class Hoe implements Tool {
 
         // change the tile type if be empty
         if (tile.getType() == TileType.EMPTY) {
-            tile.setType(TileType.PLANTINGSOIL);
+            tile.setType(TileType.PLANTING_SOIL);
             tile.setMaterial(null);
             player.getEnergy().changeEnergy(-energyConsumption);
             return new Result(true, "The soil is now ready for planting.");

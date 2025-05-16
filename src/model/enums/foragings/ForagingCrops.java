@@ -4,7 +4,9 @@ import model.enums.general.Seasons;
 import model.materials.MaterialType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public enum ForagingCrops implements MaterialType {
@@ -75,5 +77,17 @@ public enum ForagingCrops implements MaterialType {
     @Override
     public String toString() {
         return displayName;
+    }
+
+    private static final Map<String, ForagingCrops> nameCrop = new HashMap<>();
+
+    static {
+        for (ForagingCrops crop : values()) {
+            nameCrop.put(crop.getDisplayName().toLowerCase(), crop);
+        }
+    }
+
+    public static ForagingCrops findByName(String name) {
+        return nameCrop.get(name.toLowerCase());
     }
 }

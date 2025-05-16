@@ -1,6 +1,6 @@
 package model;
 
-import model.enums.Shops;
+import model.materials.ShoppingBin;
 
 import java.util.ArrayList;
 
@@ -8,15 +8,22 @@ public class Game {
     private Map mainMap;
     private Player adminPlayer;
     private Player activePlayer;
-    private static final TimeAndDate timeAndDate = new TimeAndDate();
-    private static TimeAndDate time;
+    private final TimeAndDate timeAndDate = new TimeAndDate();
+    private TimeAndDate time;
+    private final ShoppingBin shoppingBin = new ShoppingBin();
 
-    public static TimeAndDate getTimeAndDate() {
+
+    public TimeAndDate getTimeAndDate() {
         return timeAndDate;
     }
 
+
+    public ShoppingBin getShoppingBin(){
+        return shoppingBin;
+    }
+
     private ArrayList<Player> players = new ArrayList<>();
-    private ArrayList<Shops> shops = new ArrayList<>();
+//    private ArrayList<Shops> shops = new ArrayList<>();
 
     public Game(ArrayList<Player> players) {
         this.players = players;
@@ -54,13 +61,14 @@ public class Game {
         this.players = players;
     }
 
-    public ArrayList<Shops> getShops() {
-        return shops;
-    }
+//    public ArrayList<Shops> getShops() {
+//        return shops;
+//    }
+//
+//    public void setShops(ArrayList<Shops> shops) {
+//        this.shops = shops;
+//    }
 
-    public void setShops(ArrayList<Shops> shops) {
-        this.shops = shops;
-    }
     public void changeTurn(){
         int playerIndex = this.players.indexOf(this.activePlayer) + 1;
         if(playerIndex >= this.players.size())
@@ -69,6 +77,24 @@ public class Game {
         if (this.activePlayer.getEnergy().getEnergyAmount() <= 0){
             changeTurn();
         }
+    }
+
+    public Player findPlayerByUsername(String name){
+        for (Player player : players){
+            if (player.getUsername().equals(name)) return player;
+        }
+        return null;
+    }
+
+
+    public void addFriendShip() {
+        players.forEach(player ->
+                players.stream()
+                        .filter(other -> !player.equals(other))
+                        .filter(other -> player.getFriendships().stream()
+                                .noneMatch(f -> f.getFriend().equals(other)))
+                        .forEach(other -> player.getFriendships().add(new Friendship(other)))
+        );
     }
 
 }

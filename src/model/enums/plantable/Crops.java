@@ -3,7 +3,9 @@ package model.enums.plantable;
 import model.enums.general.Seasons;
 import model.materials.MaterialType;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public enum Crops implements MaterialType {
     Blue_Jazz("Blue Jazz", Seeds.JazzSeeds, List.of(1, 2, 2, 2), 7, true, null, 50, true, 45, List.of(Seasons.Spring), false),
@@ -122,5 +124,17 @@ public enum Crops implements MaterialType {
     @Override
     public String toString() {
         return displayName;
+    }
+
+    private static final Map<String, Crops> nameCrop = new HashMap<>();
+
+    static {
+        for (Crops crop : values()) {
+            nameCrop.put(crop.getDisplayName().toLowerCase(), crop);
+        }
+    }
+
+    public static Crops findByName(String name) {
+        return nameCrop.get(name.toLowerCase());
     }
 }

@@ -30,6 +30,7 @@ public enum TileType {
     PLAYER4("P", "\u001B[32m"),
     COOP("C", "\u001B[48;5;7m" ),
     BARN("B", "\u001B[48;5;7m" ),
+    PLANTING_SOIL("P", "\u001B[48;5;94m"),
     ANIMAL("A","\u001B[102m" );
 
 

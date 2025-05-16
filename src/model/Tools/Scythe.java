@@ -47,10 +47,10 @@ public class Scythe implements Tool {
                 tile.setMaterial(null);
             }
             player.getEnergy().changeEnergy(-energyConsumption);
-return new Result(true , "You successfully harvested from the crops.");
+            return new Result(true, "You successfully harvested from the crops.");
         } else if (tile.getType() == TileType.TREE && material instanceof Tree tree) {
             player.getInventory().addElementToBackpack(tree, tree.getAmount());
-            return new Result(true , "You successfully harvested from the tree.");
+            return new Result(true, "You successfully harvested from the tree.");
         }
         player.getEnergy().changeEnergy(-energyConsumption);
         return new Result(false, "You can't use the Scythe here. Your energy was wasted!");
