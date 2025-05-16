@@ -107,13 +107,20 @@ public class Player {
 
     public boolean hasMarriageRequestFrom(String username){
         for (SMS sms : SMSs){
-            if (sms.isForMarriage() && sms)
+            if (sms.isForMarriage() && sms.getSender().equals(username)){
+                return true;
+            }
         }
+        return false;
     }
+
+    public void removeMarriageRequestFrom(String username) {
+        SMSs.removeIf(sms -> sms.isForMarriage() && sms.getSender().equals(username));
+    }
+
     //--------------------------------------------------------------
-
-
     // Gift----------------------------------------------------
+
     private final ArrayList<Gift> gifts = new ArrayList<>();
 
     public ArrayList<Gift> getGifts() {
@@ -193,46 +200,46 @@ public class Player {
 
     //--------------------------------------------------------------
 
-
     // FriendShip----------------------------------------------------
+
     private final ArrayList<Friendship> friendships = new ArrayList<>();
 
     public ArrayList<Friendship> getFriendships() {
         return friendships;
     }
-
     public Friendship friendshipWithPlayer(String name){
         for (Friendship friendship : friendships){
             if (friendship.getFriend().username.equals(name)) return friendship;
         }
         return null;
     }
+
     //--------------------------------------------------------------
 
-
     // backpack------------------------------------------------------
+
     private final Backpack inventory = new Backpack();
 
     public Backpack getInventory() {
         return inventory;
     }
-
     public void setEnergy(Energy energy) {
         this.energy = energy;
     }
+
     //---------------------------------------------------------------
 
-
     // tool inHand------------------------------------------------------
+
     private Tool inHand;
 
     public Tool getInHand() {
         return inHand;
     }
-
     public void setInHand(Tool inHand) {
         this.inHand = inHand;
     }
+
     //---------------------------------------------------------------
 
 
@@ -355,5 +362,9 @@ public class Player {
 
     public static void setCurrentMenu(Menus menu) {
         currentMenu = menu;
+    }
+
+    public void marry(Player player2) {
+        // nothing now
     }
 }

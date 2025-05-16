@@ -476,10 +476,44 @@ public class GameMenuController {
     }
 
     private Result respondToMarriage(Matcher matcher) {
-//        String username = matcher.group("username");
-//        String respond = matcher.group("respond");
-//        Player player = Game.getActivePlayer();
-//        for ()
+        String username = matcher.group("username");
+        String respond = matcher.group("respond");
+        Player player1 = Game.getActivePlayer();
+        Player player2 = Game.findPlayerByUsername(username);
+
+        if (player2 == null)
+            return new Result(false, "Player not found.");
+
+        if (!player1.hasMarriageRequestFrom(username))
+            return new Result(false, "You have no marriage request from " + username + ".");
+
+        if ("reject".equalsIgnoreCase(respond)) {
+            player1.friendshipWithPlayer(username).addFriendshipLevel(-3000);
+            player2.friendshipWithPlayer(player1.getUsername()).addFriendshipLevel(-3000);
+            player1.removeMarriageRequestFrom(username);
+            return new Result(true, "You rejected the marriage request from " + username + ".");
+        }
+        else if ("accept".equalsIgnoreCase(respond)) {
+            Material ring = player2.getInventory().isExistInBackpackOrNull("Ring");
+            if (ring == null)
+                return new Result(false, username + " doesn't have any Ring.");
+
+            player2.getInventory().removeElementFromBackpack(ring, 1);
+
+            Result result = player1.getInventory().addElementToBackpack(ring, 1);
+            if (!result.isSuccessful()) return result;
+
+            player1.friendshipWithPlayer(username).addFriendshipLevel(3000);
+            player2.friendshipWithPlayer(player1.getUsername()).addFriendshipLevel(3000);
+
+            player1.marry(player2);
+            player1.removeMarriageRequestFrom(username);
+
+            return new Result(true, "Congratulations! You are now married to " + username + ".");
+        }
+        else {
+            return new Result(false, "Please respond with 'accept' or 'reject'.");
+        }
     }
 
     // uncompleted
