@@ -7,7 +7,6 @@ import model.enums.commands.GameMenuCommand;
 import model.enums.foragings.ForagingCrops;
 import model.enums.foragings.ForagingTrees;
 import model.enums.general.Direction;
-import model.enums.general.TileType;
 import model.enums.general.Weather;
 import model.enums.plantable.Crops;
 import model.enums.plantable.Fruits;
@@ -17,6 +16,7 @@ import model.enums.toolTypes.TrashCanType;
 import model.materials.Material;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -321,8 +321,8 @@ public class GameMenuController {
         Friendship friendship1 = player1.friendshipWithPlayer(username);
         Friendship friendship2 = player2.friendshipWithPlayer(player1.getUsername());
         if (!isNextToPlayer(player2)) return new Result(false, "You aren't next to the " + username);
-        player1.addSMS(new SMS(message, true, player1.getUsername(), player2.getUsername()));
-        player2.addSMS(new SMS(message, false, player1.getUsername(), player2.getUsername()));
+        player1.addSMS(new SMS(message, true, player1.getUsername(), player2.getUsername(), false));
+        player2.addSMS(new SMS(message, false, player1.getUsername(), player2.getUsername(), false));
         friendship1.addFriendshipLevel(20);
         friendship2.addFriendshipLevel(20);
         return new Result(true, "Message successfully sent.");
@@ -355,6 +355,7 @@ public class GameMenuController {
         Player player1 = Game.getActivePlayer();
         Player player2 = Game.findPlayerByUsername(username);
         if (player2 == null) return new Result(false, "The player not found");
+        if (!isNextToPlayer(player2)) return new Result(false, "You aren't next to the " + username);
         if (player1.friendshipWithPlayer(player2.getUsername()).getFriendshipLevel() < 1) {
             return new Result(false, "Your friendship is not enough to give gifts.");
         }
@@ -379,6 +380,7 @@ public class GameMenuController {
     private Result rateGift(Matcher matcher) {
         int giftNumber = Integer.parseInt(matcher.group("giftNumber"));
         int rate = Integer.parseInt(matcher.group("rate"));
+        if (rate < 1 || rate > 5) return new Result(false, "Please rate between 1-5");
         Player player = Game.getActivePlayer();
         Gift gift = player.getGiftOrNull(giftNumber);
         if (gift == null) return new Result(false, "Gift not found with this number");
@@ -395,6 +397,89 @@ public class GameMenuController {
     private Result showGiftHistory(Matcher matcher) {
         String username = matcher.group("username");
         return new Result(true, Game.getActivePlayer().showGiftsWith(username));
+    }
+
+    private Result sendHug(Matcher matcher) {
+        String username = matcher.group("username");
+        Player player1 = Game.getActivePlayer();
+        Player player2 = Game.findPlayerByUsername(username);
+        if (player2 == null) return new Result(false, "Player not found");
+        if (!isNextToPlayer(player2)) return new Result(false, "You aren't next to the " + username);
+        if (player1.friendshipWithPlayer(player2.getUsername()).getFriendshipLevel() < 2) {
+            return new Result(false, "Your friendship is not enough to hug each other.");
+        }
+        player1.friendshipWithPlayer(player2.getUsername()).addFriendshipLevel(60);
+        player2.friendshipWithPlayer(player1.getUsername()).addFriendshipLevel(60);
+        return new Result(true, "You hug each other!");
+    }
+
+    private Result showFriendships(Matcher matcher) {
+        Player player = Game.getActivePlayer();
+        StringBuilder result = new StringBuilder();
+        result.append("Show all friendships:");
+        for (Friendship friendship : player.getFriendships()){
+            result.
+                    append("\n").
+                    append(friendship.getFriend().
+                            getUsername()).
+                    append(" --→ ").
+                    append(friendship.getFriendshipLevel()).append("\n------");
+        }
+        return new Result(true, result.toString());
+    }
+
+    private Result sendFlower(Matcher matcher) {
+        String username = matcher.group("username");
+        Player player1 = Game.getActivePlayer();
+        Player player2 = Game.findPlayerByUsername(username);
+        if (player2 == null) return new Result(false, "Player not found");
+        if (!isNextToPlayer(player2)) return new Result(false, "You aren't next to the " + username);
+        Friendship friendship1 = player1.friendshipWithPlayer(username);
+        if (friendship1.getFriendshipLevel() < 2 || friendship1.getFriendshipUnit() < 300)
+            return new Result(false, "Your friendship isn't enough to send Flower");
+
+        if (friendship1.hasFlower())
+            return new Result(false, "You have already sent a Flower to this player.");
+
+        Material material = player1.getInventory().isExistInBackpackOrNull("Bouquet");
+        if (material == null) return new Result(false, "You haven't any Bouquet in your backpack");
+        player1.getInventory().removeElementFromBackpack(material, 1);
+        Result result1 = player2.getInventory().addElementToBackpack(material, 1);
+        if (!result1.isSuccessful()) {
+            player1.getInventory().addElementToBackpack(material, 1);
+            return new Result(false, "You can't sent flower to " + username);
+        }
+        friendship1.setFlower(true);
+        player2.friendshipWithPlayer(player1.getUsername()).setFlower(true);
+        friendship1.addFriendshipLevel(1);
+        player2.friendshipWithPlayer(player1.getUsername()).addFriendshipLevel(1);
+        return new Result(true, "Your flower is successfully sent to " + username);
+
+    }
+
+    private Result askForMarriage(Matcher matcher) {
+        String username = matcher.group("username");
+        String ring = matcher.group("ring");
+        Player player1 = Game.getActivePlayer();
+        Player player2 = Game.findPlayerByUsername(username);
+        if (player2 == null) return new Result(false, "Player not found");
+        if (!isNextToPlayer(player2)) return new Result(false, "You aren't next to the " + username);
+        if (player1.getGender() == player2.getGender())
+            return new Result(false, "You can't request to same gender");
+        Friendship friendship1 = player1.friendshipWithPlayer(player2.getUsername());
+        if (friendship1.getFriendshipLevel() < 3)
+            return new Result(false, "Your friendship isn't enough to send Marriage request");
+
+        Material material = player1.getInventory().isExistInBackpackOrNull("Ring");
+        if (material == null) return new Result(false, "You haven't any Ring in your backpack");
+        return new Result(true, "Your Marriage request is successfully sent to " + username);
+    }
+
+    private Result respondToMarriage(Matcher matcher) {
+//        String username = matcher.group("username");
+//        String respond = matcher.group("respond");
+//        Player player = Game.getActivePlayer();
+//        for ()
     }
 
     // uncompleted
@@ -416,32 +501,6 @@ public class GameMenuController {
     private Result addDollars(Matcher matcher) {
         String count = matcher.group("count");
         return new Result(true, "Added " + count + " dollars to account.");
-    }
-
-    private Result showFriendships(Matcher matcher) {
-        return new Result(true, "Showing friendships.");
-    }
-
-    private Result sendHug(Matcher matcher) {
-        String username = matcher.group("username");
-        return new Result(true, "Sent a hug to " + username);
-    }
-
-    private Result sendFlower(Matcher matcher) {
-        String username = matcher.group("username");
-        return new Result(true, "Sent a flower to " + username);
-    }
-
-    private Result askForMarriage(Matcher matcher) {
-        String username = matcher.group("username");
-        String ring = matcher.group("ring");
-        return new Result(true, "Asked " + username + " to marry with a " + ring);
-    }
-
-    private Result respondToMarriage(Matcher matcher) {
-        String username = matcher.group("username");
-        String respond = matcher.group("respond");
-        return new Result(true, "Marriage response to " + username + ": " + respond);
     }
 
     private Result startTrade(Matcher matcher) {

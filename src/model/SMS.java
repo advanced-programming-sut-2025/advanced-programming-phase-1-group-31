@@ -5,12 +5,14 @@ public class SMS {
     private boolean isRead;
     private final String sender;
     private final String receiver;
+    private final boolean isForMarriage;
 
-    public SMS(String message, boolean isRead, String sender, String receiver) {
+    public SMS(String message, boolean isRead, String sender, String receiver, boolean isForMarriage) {
         this.message = message;
         this.isRead = isRead;
         this.sender = sender;
         this.receiver = receiver;
+        this.isForMarriage = isForMarriage;
     }
 
     public String getMessage() {
@@ -31,5 +33,9 @@ public class SMS {
 
     public void setRead(boolean read) {
         isRead = read;
+    }
+
+    public boolean isForMarriage() {
+        return isForMarriage;
     }
 }

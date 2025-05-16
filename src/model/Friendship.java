@@ -57,17 +57,11 @@ public class Friendship {
         return friendshipUnit;
     }
 
-    public void giveGift() {
-        // give material to the friend
+    public void setFlower(boolean flower) {
+        this.flower = flower;
     }
 
-    public void giveBouquet() {
-        flower = true;
+    public boolean hasFlower() {
+        return flower;
     }
-
-    public void hug() {
-        //hug the friend <3
-    }
-
-
 }

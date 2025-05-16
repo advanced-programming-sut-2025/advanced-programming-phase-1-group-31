@@ -62,7 +62,7 @@ public class Player {
                 String senderDisplay = sms.getSender().equals(username) ? "You" : sms.getSender();
                 String receiverDisplay = sms.getReceiver().equals(username) ? "You" : sms.getReceiver();
 
-                result.append("From: ").append(senderDisplay).append(" → ")
+                result.append("From: ").append(senderDisplay).append(" --→ ")
                         .append("To: ").append(receiverDisplay).append("\n")
                         .append("Message: ").append(sms.getMessage()).append("\n------------\n");
 
@@ -104,6 +104,12 @@ public class Player {
 
         return result.toString();
     }
+
+    public boolean hasMarriageRequestFrom(String username){
+        for (SMS sms : SMSs){
+            if (sms.isForMarriage() && sms)
+        }
+    }
     //--------------------------------------------------------------
 
 
@@ -141,7 +147,7 @@ public class Player {
                 String senderDisplay = gift.getSender().equals(username) ? "You" : gift.getSender();
                 String receiverDisplay = gift.getReceiver().equals(username) ? "You" : gift.getReceiver();
 
-                result.append("From: ").append(senderDisplay).append(" → ")
+                result.append("From: ").append(senderDisplay).append(" --→ ")
                         .append("To: ").append(receiverDisplay).append("\n")
                         .append("Gift: ").append(gift.getAmount()).append(" of ").
                         append(gift.getMaterial().getName()).append("\n")
@@ -273,7 +279,7 @@ public class Player {
         return place;
     }
 
-    public boolean isGender() {
+    public boolean getGender() {
         return gender;
     }
 
