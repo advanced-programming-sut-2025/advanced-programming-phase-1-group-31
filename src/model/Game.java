@@ -55,4 +55,16 @@ public class Game {
         }
         return null;
     }
+
+    public static void addFriendShip() {
+        Game.players.forEach(player ->
+                Game.players.stream()
+                        .filter(other -> !player.equals(other))
+                        .filter(other -> player.getFriendships().stream()
+                                .noneMatch(f -> f.getFriend().equals(other)))
+                        .forEach(other -> player.getFriendships().add(new Friendship(other)))
+        );
+    }
+
+
 }

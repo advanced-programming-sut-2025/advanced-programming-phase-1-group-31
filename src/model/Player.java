@@ -14,9 +14,9 @@ public class Player {
     private Farm farm;
     private Map<String, String> backup;
     private Skill skills;
-    public ArrayList<Friendship> friendships = new ArrayList<>();
     public ArrayList<FriendshipWithNPC> NPCFriendships = new ArrayList<>();
     public ArrayList<Trade> tradeHistory = new ArrayList<>();
+
     //details of the Crafting recipes must be determined
     // private HashMap<Craftable, Boolean> craftingRecipes;
     // //details of the Cooking recipes must be determined
@@ -33,6 +33,175 @@ public class Player {
     private int gold;
     private static Menus currentMenu = Menus.MainMenu;
     private TileType type;
+
+
+    // SMS----------------------------------------------------
+    private final ArrayList<SMS> SMSs = new ArrayList<>();
+
+    public ArrayList<SMS> getSMSs() {
+        return SMSs;
+    }
+
+    public void addSMS(SMS sms){
+        SMSs.add(sms);
+    }
+
+    public String showConversationWith(String otherName) {
+        StringBuilder result = new StringBuilder();
+        boolean hasAny = false;
+
+        result.append("Conversation between You and ").append(otherName).append(":\n");
+
+        for (SMS sms : SMSs) {
+            boolean sentByActive = sms.getSender().equals(username) && sms.getReceiver().equals(otherName);
+            boolean receivedByActive = sms.getReceiver().equals(username) && sms.getSender().equals(otherName);
+
+            if (sentByActive || receivedByActive) {
+                hasAny = true;
+
+                String senderDisplay = sms.getSender().equals(username) ? "You" : sms.getSender();
+                String receiverDisplay = sms.getReceiver().equals(username) ? "You" : sms.getReceiver();
+
+                result.append("From: ").append(senderDisplay).append(" → ")
+                        .append("To: ").append(receiverDisplay).append("\n")
+                        .append("Message: ").append(sms.getMessage()).append("\n------------\n");
+
+                if (!sms.isRead() && sms.getReceiver().equals(username)) {
+                    sms.setRead(true);
+                }
+            }
+        }
+
+        if (!hasAny) {
+            return "You have no messages with " + otherName + ".";
+        }
+
+        return result.toString();
+    }
+
+    public String showUnreadMessages() {
+        StringBuilder result = new StringBuilder();
+        boolean hasUnread = false;
+
+        result.append("Your Unread Messages:\n");
+
+        for (SMS sms : SMSs) {
+            if (!sms.isRead() && sms.getReceiver().equals(username)) {
+                hasUnread = true;
+
+                String senderDisplay = sms.getSender().equals(username) ? "You" : sms.getSender();
+
+                result.append("From: ").append(senderDisplay).append("\n")
+                        .append("Message: ").append(sms.getMessage()).append("\n------------\n");
+
+                sms.setRead(true);
+            }
+        }
+
+        if (!hasUnread) {
+            return "You don't have any unread messages.";
+        }
+
+        return result.toString();
+    }
+    //--------------------------------------------------------------
+
+
+    // Gift----------------------------------------------------
+    private final ArrayList<Gift> gifts = new ArrayList<>();
+
+    public ArrayList<Gift> getGifts() {
+        return gifts;
+    }
+
+    public void addGift(Gift gift){
+        gifts.add(gift);
+    }
+
+    public Gift getGiftOrNull(int Id){
+        for (Gift gift : gifts){
+            if (gift.getId() == Id) return gift;
+        }
+        return null;
+    }
+
+    public String showGiftsWith(String otherName) {
+        StringBuilder result = new StringBuilder();
+        boolean hasAny = false;
+
+        result.append("Gifts between You and ").append(otherName).append(":\n");
+
+        for (Gift gift : gifts) {
+            boolean sentByYou = gift.getSender().equals(username) && gift.getReceiver().equals(otherName);
+            boolean receivedByYou = gift.getReceiver().equals(username) && gift.getSender().equals(otherName);
+
+            if (sentByYou || receivedByYou) {
+                hasAny = true;
+
+                String senderDisplay = gift.getSender().equals(username) ? "You" : gift.getSender();
+                String receiverDisplay = gift.getReceiver().equals(username) ? "You" : gift.getReceiver();
+
+                result.append("From: ").append(senderDisplay).append(" → ")
+                        .append("To: ").append(receiverDisplay).append("\n")
+                        .append("Gift: ").append(gift.getAmount()).append(" of ").
+                        append(gift.getMaterial().getName()).append("\n")
+                        .append("Rate: ").append(gift.getRate()).append("/5\n------------\n");
+            }
+        }
+
+        if (!hasAny) {
+            return "You have no gift with " + otherName + ".";
+        }
+
+        return result.toString();
+    }
+
+    public String showUnratedGifts() {
+        StringBuilder result = new StringBuilder();
+        int tempId = 1;
+        boolean hasUnrated = false;
+
+        result.append("Your Unrated Gifts:\n");
+
+        for (Gift gift : gifts) {
+            if (gift.getRate() == 0 && gift.getReceiver().equals(username)) {
+                hasUnrated = true;
+
+                result.append("Gift ID: ").append(tempId).append("\n")
+                        .append("From: ").append(gift.getSender()).append("\n")
+                        .append("Gift: ").append(gift.getAmount()).append(" of ").
+                        append(gift.getMaterial().getName()).append("\n")
+                        .append("------------\n");
+
+                gift.setId(tempId);
+                tempId++;
+            }
+        }
+
+        if (!hasUnrated) {
+            return "You don't have any unrated gifts.";
+        }
+
+        return result.toString();
+    }
+
+    //--------------------------------------------------------------
+
+
+    // FriendShip----------------------------------------------------
+    private final ArrayList<Friendship> friendships = new ArrayList<>();
+
+    public ArrayList<Friendship> getFriendships() {
+        return friendships;
+    }
+
+    public Friendship friendshipWithPlayer(String name){
+        for (Friendship friendship : friendships){
+            if (friendship.getFriend().username.equals(name)) return friendship;
+        }
+        return null;
+    }
+    //--------------------------------------------------------------
 
 
     // backpack------------------------------------------------------

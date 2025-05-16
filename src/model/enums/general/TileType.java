@@ -25,6 +25,10 @@ public enum TileType {
     Wood("W", "\u001B[48;5;130m"),
     Craftable("C", "\u001B[48;5;28m"),
     TRASH_BIN("T", "\u001B[41m"),
+    PLAYER1("P", "\u001B[34m"),
+    PLAYER2("P", "\u001B[31m"),
+    PLAYER3("P", "\u001B[33m"),
+    PLAYER4("P", "\u001B[32m"),
     NPC("N", "\u001B[46m");
 
 
