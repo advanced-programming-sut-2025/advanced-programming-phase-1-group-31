@@ -5,9 +5,12 @@ import model.enums.foragings.ForagingCrops;
 import model.enums.foragings.ForagingMinerals;
 import model.enums.foragings.ForagingTrees;
 import model.enums.general.TileType;
+import model.enums.npc.Shops;
 import model.materials.Foraging.ForagingCrop;
 import model.materials.Foraging.ForagingMineral;
 import model.materials.Foraging.ForagingTree;
+import model.materials.Material;
+import model.materials.Shop;
 
 import java.awt.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -36,23 +39,24 @@ public class FarmFactory {
         marketFarm.getMainMap()[0][height / 2].setType(TileType.DOOR);
         marketFarm.getMainMap()[width - 1][height / 2].setType(TileType.DOOR);
 
-        int storeCount = 7, npcCount = 5, trashCount = 3;
+        int storeCount = Shops.values().length;
+        int npcCount = 5, trashCount = 3;
 
         for (int i = 0; i < storeCount; i++) {
-            if (!tryPlace(marketFarm, TileType.SHOP, 6, 6)) {
-                System.out.println("⚠ Could not place Store #" + i);
+            if (!tryPlace(marketFarm, TileType.SHOP, 6, 6, new Shop(Shops.values()[i]))) {
+                System.out.println("⚠️ Could not place Store #" + i);
             }
         }
 
         for (int i = 0; i < npcCount; i++) {
-            if (!tryPlace(marketFarm, TileType.NPC, 1, 1)) {
-                System.out.println("⚠ Could not place NPC #" + i);
+            if (!tryPlace(marketFarm, TileType.NPC, 1, 1, null)) {
+                System.out.println("⚠️ Could not place NPC #" + i);
             }
         }
 
         for (int i = 0; i < trashCount; i++) {
-            if (!tryPlace(marketFarm, TileType.TRASH_BIN, 4, 4)) {
-                System.out.println("⚠ Could not place Trash Bin #" + i);
+            if (!tryPlace(marketFarm, TileType.TRASH_BIN, 4, 4, null)) {
+                System.out.println("⚠️ Could not place Trash Bin #" + i);
             }
         }
         return marketFarm;
@@ -253,14 +257,14 @@ public class FarmFactory {
         return farm;
     }
 
-    public static boolean tryPlace(Farm farm, TileType type, int width, int height) {
+    public static boolean tryPlace(Farm farm, TileType type, int w, int h, Material material) {
         for (int attempt = 0; attempt < 100; attempt++) {
-            int x = ThreadLocalRandom.current().nextInt(farm.getRectangle().width - width);
-            int y = ThreadLocalRandom.current().nextInt(farm.getRectangle().height - height);
-            boolean canPlace = true;
+            int x = ThreadLocalRandom.current().nextInt(farm.getRectangle().width - w);
+            int y = ThreadLocalRandom.current().nextInt(farm.getRectangle().height - h);
 
-            for (int i = x; i < x + width && canPlace; i++) {
-                for (int j = y; j < y + height; j++) {
+            boolean canPlace = true;
+            for (int i = x; i < x + w && canPlace; i++) {
+                for (int j = y; j < y + h; j++) {
                     if (farm.getMainMap()[i][j].getType() != TileType.EMPTY) {
                         canPlace = false;
                         break;
@@ -269,9 +273,10 @@ public class FarmFactory {
             }
 
             if (canPlace) {
-                for (int i = x; i < x + width; i++) {
-                    for (int j = y; j < y + height; j++) {
+                for (int i = x; i < x + w; i++) {
+                    for (int j = y; j < y + h; j++) {
                         farm.getMainMap()[i][j].setType(type);
+                        if (material != null) farm.getMainMap()[i][j].setMaterial(material);
                     }
                 }
                 return true;
