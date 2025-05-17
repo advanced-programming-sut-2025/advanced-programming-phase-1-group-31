@@ -36,7 +36,7 @@ public class FarmFactory {
         marketFarm.getMainMap()[0][height / 2].setType(TileType.DOOR);
         marketFarm.getMainMap()[width - 1][height / 2].setType(TileType.DOOR);
 
-        int storeCount = 7, npcCount = 5, trashCount = 4;
+        int storeCount = 7, npcCount = 5, trashCount = 3;
 
         for (int i = 0; i < storeCount; i++) {
             if (!tryPlace(marketFarm, TileType.SHOP, 6, 6)) {
