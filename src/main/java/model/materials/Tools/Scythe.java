@@ -48,9 +48,11 @@ public class Scythe implements Tool, Material {
                 tile.setMaterial(null);
             }
             player.getEnergy().changeEnergy(-energyConsumption);
+            player.getSkills().setFarmingLevel(40);
             return new Result(true, "You successfully harvested from the crops.");
         } else if (tile.getType() == TileType.TREE && material instanceof Tree tree) {
             player.getInventory().addElementToBackpack(tree, tree.getAmount());
+            player.getSkills().setFarmingLevel(40);
             return new Result(true, "You successfully harvested from the tree.");
         }
         player.getEnergy().changeEnergy(-energyConsumption);

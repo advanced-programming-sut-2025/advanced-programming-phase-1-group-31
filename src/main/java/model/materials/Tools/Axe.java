@@ -62,6 +62,7 @@ public class Axe implements Tool, Material {
             tile.setType(TileType.Wood);
             tile.setMaterial(new ForagingMineral(ForagingMinerals.Wood));
             player.getEnergy().changeEnergy(-energyConsumption);
+            player.getSkills().setForagingLevel(40);
             return new Result(true, "You have successfully chopped the tree.");
         }
 

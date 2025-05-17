@@ -12,13 +12,9 @@ import java.util.Objects;
 
 public class Hoe implements Tool, Material {
 
-    private AxePickHoeType hoeType;
+    private final AxePickHoeType hoeType;
 
     public Hoe(AxePickHoeType hoeType) {
-        this.hoeType = hoeType;
-    }
-
-    public void setHoeType(AxePickHoeType hoeType) {
         this.hoeType = hoeType;
     }
 
@@ -55,6 +51,7 @@ public class Hoe implements Tool, Material {
             tile.setType(TileType.PLANTING_SOIL);
             tile.setMaterial(null);
             player.getEnergy().changeEnergy(-energyConsumption);
+            player.getSkills().setFarmingLevel(40);
             return new Result(true, "The soil is now ready for planting.");
         } else {
             player.getEnergy().changeEnergy(-energyConsumption); // Still consumes energy

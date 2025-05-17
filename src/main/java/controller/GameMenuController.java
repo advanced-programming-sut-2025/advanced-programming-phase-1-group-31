@@ -4,9 +4,7 @@ import model.*;
 import model.Map;
 import model.enums.npc.Shops;
 import model.enums.toolTypes.FishingPoleType;
-import model.materials.Tools.FishingPole;
-import model.materials.Tools.Tool;
-import model.materials.Tools.TrashCan;
+import model.materials.Tools.*;
 import model.enums.creature.Animals;
 import model.enums.creature.FishTypes;
 import model.enums.foragings.ForagingCrops;
@@ -169,10 +167,21 @@ public class GameMenuController {
             return showTradeHistory(matcher);
         } else if (GameMenuCommand.SHOW_LEGEND.getMatcher(input) != null) {
             return getLegendAsResult();
+        } else if (GameMenuCommand.SHOW_SKILL.getMatcher(input) != null) {
+            return showSkill();
         }
 
 
         return new Result(false, "Invalid command.");
+    }
+
+    private Result showSkill() {
+        Skill s = App.getCurrentGame().getActivePlayer().getSkills();
+        String result = "Farming: " + s.getFarmingLevel() +
+                "\nForaging: " + s.getForagingLevel() +
+                "\nMining: " + s.getMiningLevel() +
+                "\nFishing: " + s.getFishingLevel();
+        return new Result(true, result);
     }
 
     public Result getLegendAsResult() {
@@ -879,7 +888,9 @@ public class GameMenuController {
 
         Animals type = animal.getAnimalType();
 
-        // شرط ابزار خاص
+        Shear shear = (Shear) player.getInventory().isExistToolOrNull(new Shear());
+
+        if (shear == null) return new Result(false, "You haven't Shear.");
 
         Rectangle area = (housing instanceof Barn b) ? b.getArea() : ((Coop) housing).getArea();
         if (type.needsToGoOutside() && area.contains(animal.getLocation())) {
@@ -1001,6 +1012,7 @@ public class GameMenuController {
         }
 
         player.getEnergy().changeEnergy((-1 * fishingPole.getFishingPoleType().getEnergyConsumption()));
+        player.getSkills().setFishingLevel(40);
         String message = "Fishing successful! You caught:\n" + fishDetails.toString();
         return new Result(true, message);
     }
@@ -1902,19 +1914,51 @@ public class GameMenuController {
 
     // uncompleted
 
-//    private Result purchaseProduct(Matcher matcher) {
-//        String productName = matcher.group("productName");
-//        int amount = -1;
-//        if (matcher.group("number") != null) {
-//            amount = Integer.parseInt(matcher.group("number").trim());
-//        }
-//        Shop shop = (Shop) whichShopIsPlayer();
-//        if (shop == null) return new Result(false, "You aren't near a shop");
-//        MaterialInShop material = materialIsInTheShop(shop, productName);
-//        if (material == null) return new Result(false, "This item isn't in this shop.");
-//        if (amount > material.getDailyLimit()) return new Result(false, "Your amount is higher than daily limit");
-//
+    private Result purchaseProduct(Matcher matcher) {
+        String productName = matcher.group("productName");
+        int amount = -1;
+        if (matcher.group("number") != null) {
+            amount = Integer.parseInt(matcher.group("number").trim());
+        }
+        Player player = App.getCurrentGame().getActivePlayer();
+        Shop shop = (Shop) whichShopIsPlayer();
+        if (shop == null) return new Result(false, "You aren't near a shop");
+        MaterialInShop material = materialIsInTheShop(shop, productName);
+        if (material == null) return new Result(false, "This item isn't in this shop.");
+        if (amount > material.getDailyLimit()) return new Result(false, "Your amount is higher than daily limit");
+        if (amount == -1){
+            amount = material.getDailyLimit();
+        }
+        int total = 0;
+        if (material.getSeasons() == null ||
+                material.getSeasons().equals(App.getCurrentGame().getTimeAndDate().getSeason())){
+            total += material.getOrdinaryPrice() * amount;
+            if (total > player.getMoney()) return new Result(false, "You haven't enough money.");
+        }
+        else  {
+            total += material.getOutOfSeasonPrice() * amount;
+            if (total > player.getMoney()) return new Result(false, "You haven't enough money.");
+        }
+        player.deductMoney(total);
+        if (material.getMaterial() instanceof Tool tool){
+            boolean replaced = false;
+            for (int i = 0; i < player.getInventory().getTools().size(); i++) {
+                if (player.getInventory().getTools().get(i).getClass() == tool.getClass()) {
+                    player.getInventory().getTools().set(i, tool);
+                    replaced = true;
+                    break;
+                }
+            }
+            if (!replaced) {
+                player.getInventory().getTools().add(tool);
+            }
 
+            return new Result(true, "Your " + tool.getName() + " has been updated");
+        } else {
+            Result result = player.getInventory().addElementToBackpack(material.getMaterial(), amount);
+            if (!result.Success()) return result;
+            return new Result(true, "Purchased " + amount + " × " + material.getMaterial().getName());
+        }
     }
 
     private Result startTrade(Matcher matcher) {
