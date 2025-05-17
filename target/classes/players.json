@@ -1,0 +1,152 @@
+[
+  {
+    "highScore": 0,
+    "gameCount": 0,
+    "username": "amir123",
+    "password": "c2c3a0a88fe96947cb167054da5ab885f45d43c0be0e2974e234229e4adf4a25",
+    "nickname": "amirabbas",
+    "email": "john.doe-123@example.domain.com",
+    "backupQuestion": "What is your favorite toy\u0027s name?",
+    "backupAnswer": "sdsds",
+    "stayLoggedIn": false,
+    "currentMenu": "MainMenu",
+    "SMSs": [],
+    "friendships": [],
+    "inventory": {
+      "backpackType": "Initial",
+      "elements": {},
+      "tools": [
+        {
+          "hoeType": "Initial"
+        },
+        {
+          "pickaxeType": "Initial"
+        },
+        {
+          "axeType": "Initial"
+        },
+        {
+          "wateringCanType": "Initial"
+        },
+        {
+          "trashCanType": "Initial"
+        }
+      ]
+    },
+    "gifts": [],
+    "gender": false,
+    "skills": {
+      "farmingLevel": 0,
+      "miningLevel": 0,
+      "foragingLevel": 0,
+      "fishingLevel": 0,
+      "farmingUnit": 0,
+      "miningUnit": 0,
+      "foragingUnit": 0,
+      "fishingUnit": 0
+    },
+    "NPCFriendships": [],
+    "tradeHistory": [],
+    "money": 0.0
+  },
+  {
+    "highScore": 0,
+    "gameCount": 0,
+    "username": "ali123",
+    "password": "ceca3261f9480b08cfa1a96ce19d52d1f58c9ad01c9d8aabf2e332681eb7aa92",
+    "nickname": "ali",
+    "email": "john.doe-123@example.domain.com",
+    "backupQuestion": "What is your favorite toy\u0027s name?",
+    "backupAnswer": "sdsds",
+    "stayLoggedIn": false,
+    "currentMenu": "MainMenu",
+    "SMSs": [],
+    "friendships": [],
+    "inventory": {
+      "backpackType": "Initial",
+      "elements": {},
+      "tools": [
+        {
+          "hoeType": "Initial"
+        },
+        {
+          "pickaxeType": "Initial"
+        },
+        {
+          "axeType": "Initial"
+        },
+        {
+          "wateringCanType": "Initial"
+        },
+        {
+          "trashCanType": "Initial"
+        }
+      ]
+    },
+    "gifts": [],
+    "gender": false,
+    "skills": {
+      "farmingLevel": 0,
+      "miningLevel": 0,
+      "foragingLevel": 0,
+      "fishingLevel": 0,
+      "farmingUnit": 0,
+      "miningUnit": 0,
+      "foragingUnit": 0,
+      "fishingUnit": 0
+    },
+    "NPCFriendships": [],
+    "tradeHistory": [],
+    "money": 0.0
+  },
+  {
+    "highScore": 0,
+    "gameCount": 0,
+    "username": "shan123",
+    "password": "ceca3261f9480b08cfa1a96ce19d52d1f58c9ad01c9d8aabf2e332681eb7aa92",
+    "nickname": "ali",
+    "email": "john.doe-123@example.domain.com",
+    "backupQuestion": "What is your favorite toy\u0027s name?",
+    "backupAnswer": "sdsds",
+    "stayLoggedIn": false,
+    "currentMenu": "MainMenu",
+    "SMSs": [],
+    "friendships": [],
+    "inventory": {
+      "backpackType": "Initial",
+      "elements": {},
+      "tools": [
+        {
+          "hoeType": "Initial"
+        },
+        {
+          "pickaxeType": "Initial"
+        },
+        {
+          "axeType": "Initial"
+        },
+        {
+          "wateringCanType": "Initial"
+        },
+        {
+          "trashCanType": "Initial"
+        }
+      ]
+    },
+    "gifts": [],
+    "gender": false,
+    "skills": {
+      "farmingLevel": 0,
+      "miningLevel": 0,
+      "foragingLevel": 0,
+      "fishingLevel": 0,
+      "farmingUnit": 0,
+      "miningUnit": 0,
+      "foragingUnit": 0,
+      "fishingUnit": 0
+    },
+    "NPCFriendships": [],
+    "tradeHistory": [],
+    "money": 0.0
+  }
+]
