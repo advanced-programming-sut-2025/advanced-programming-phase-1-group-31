@@ -26,7 +26,8 @@
           "axeType": "Initial"
         },
         {
-          "wateringCanType": "Initial"
+          "wateringCanType": "Initial",
+          "much": 40
         },
         {
           "trashCanType": "Initial"
@@ -76,7 +77,8 @@
           "axeType": "Initial"
         },
         {
-          "wateringCanType": "Initial"
+          "wateringCanType": "Initial",
+          "much": 40
         },
         {
           "trashCanType": "Initial"
@@ -126,7 +128,8 @@
           "axeType": "Initial"
         },
         {
-          "wateringCanType": "Initial"
+          "wateringCanType": "Initial",
+          "much": 40
         },
         {
           "trashCanType": "Initial"

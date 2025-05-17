@@ -23,7 +23,8 @@ public class Backpack {
                     new Pickaxe(AxePickHoeType.Initial),
                     new Axe(AxePickHoeType.Initial),
                     new WateringCan(WateringCanType.Initial),
-                    new TrashCan(TrashCanType.Initial)
+                    new TrashCan(TrashCanType.Initial),
+                    new Scythe()
             )
     );
 
