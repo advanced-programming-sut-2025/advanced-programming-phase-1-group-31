@@ -950,14 +950,12 @@ public class GameMenuController {
         double M = ProductQualityCalculator.getSeasonalMultiplier(weather);
         double R = ThreadLocalRandom.current().nextDouble(0, 1);
 
-
         int count = (int) Math.min(6, R * M * (skill + 2));
 
         List<FishTypes> validFish = Arrays.stream(FishTypes.values())
                 .filter(f -> !f.isLegendary() && f.getSeason() == season)
                 .collect(Collectors.toList());
 
-        // اگر مهارت کافی باشد، ماهی‌های افسانه‌ای اضافه می‌شوند
         if (skill >= 4) {
             List<FishTypes> legendary = Arrays.stream(FishTypes.values())
                     .filter(f -> f.isLegendary() && f.getSeason() == season)
