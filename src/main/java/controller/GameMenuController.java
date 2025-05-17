@@ -1049,6 +1049,10 @@ public class GameMenuController {
         player.addMoney(count);
         return new Result(true, count + " gold added to your wallet. New balance: " + (int) player.getMoney());
     }
+    public Result showMoney(){
+        return new Result(true , "you have :" + (int)App.getCurrentGame().getActivePlayer().getMoney());
+    }
+
 
     private static List<Animal> getAllAnimals(Player player) {
         List<Animal> animals = new ArrayList<>();
