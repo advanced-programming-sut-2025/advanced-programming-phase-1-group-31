@@ -4,6 +4,8 @@ import model.enums.npc.NPCs;
 import model.materials.Material;
 import model.materials.MaterialType;
 
+import java.util.Objects;
+
 public class NPC implements Material {
     private NPCs NPCType;
 
@@ -24,6 +26,24 @@ public class NPC implements Material {
 
     @Override
     public String getName() {
-        return "";
+        return "NPC";
+    }
+
+    @Override
+    public int baseSellPrice() {
+        return 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Material tool)) return false;
+        return this.getClass().equals(tool.getClass()) &&
+                this.getType().equals(tool.getType());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getClass(), getType());
     }
 }
