@@ -17,14 +17,19 @@ public enum ForagingMinerals implements MaterialType {
     Diamond("Diamond", "A rare and valuable gem.", 750),
     PrismaticShard("Prismatic Shard", "A very rare and powerful substance with unknown origins.",
             2000),
-    Copper("Copper", "A common ore that can be smelted into bars.", 5),
-    Iron("Iron", "A fairly common ore that can be smelted into bars.", 10),
-    Gold("Gold", "A precious ore that can be smelted into bars.", 25),
     Wood("Wood", "It is taken from a tree.", 4),
     Stone("Stone", "Common Stone", 2),
-    Iridium("Iridium", "An exotic ore with many curious properties. Can be smelted into bars.",
+    Copper_Ore("Copper Ore", "A common ore that can be smelted into bars.", 5),
+    Iron_Ore("Iron Ore", "A fairly common ore that can be smelted into bars.", 10),
+    Gold_Ore("Gold Ore", "A precious ore that can be smelted into bars.", 25),
+    Iridium_Ore("Iridium Ore", "An exotic ore with many curious properties. Can be smelted into bars.",
             100),
-    Coal("Coal", "A combustible rock that is useful for crafting and smelting.", 15);
+    //-----------------------------------------------------------------------------------
+    Coal("Coal", "A combustible rock that is useful for crafting and smelting.", 15),
+    Copper_Bar("Copper Bar", "Copper Bar.", 100),
+    Iron_Bar("Iron Bar", "Iron Bar.", 200),
+    Gold_Bar("Gold Bar", "Gold Bar.", 500),
+    Iridium_Bar("Iridium Bar", "Iridium Bar", 2000);
 
     private final String displayName;
     private final String description;

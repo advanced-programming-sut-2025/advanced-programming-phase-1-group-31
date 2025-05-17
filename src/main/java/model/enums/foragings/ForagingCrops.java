@@ -33,6 +33,7 @@ public enum ForagingCrops implements MaterialType {
     CrystalFruit("Crystal Fruit", List.of(Seasons.Winter), 150, 63),
     Holly("Holly", List.of(Seasons.Winter), 80, -37),
     SnowYam("Snow Yam", List.of(Seasons.Winter), 100, 30),
+    Hey("Hey (For Animals)", List.of(Seasons.Spring, Seasons.Summer, Seasons.Fall, Seasons.Winter), 10, 1),
     WinterRoot("Winter Root", List.of(Seasons.Winter), 70, 25);
 
     private final String displayName;

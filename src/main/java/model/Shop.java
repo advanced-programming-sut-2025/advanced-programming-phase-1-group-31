@@ -7,14 +7,14 @@ import model.materials.MaterialType;
 import java.util.Objects;
 
 public class Shop implements Material {
-    private Shops shopName;
+    private final Shops shopName;
+
+    public Shop(Shops shopName) {
+        this.shopName = shopName;
+    }
 
     public Shops getShopName() {
         return shopName;
-    }
-
-    public void setShopName(Shops shopName) {
-        this.shopName = shopName;
     }
 
     @Override
