@@ -35,6 +35,16 @@
     },
     "gifts": [],
     "gender": false,
+    "skills": {
+      "farmingLevel": 0,
+      "miningLevel": 0,
+      "foragingLevel": 0,
+      "fishingLevel": 0,
+      "farmingUnit": 0,
+      "miningUnit": 0,
+      "foragingUnit": 0,
+      "fishingUnit": 0
+    },
     "NPCFriendships": [],
     "tradeHistory": [],
     "money": 0.0
@@ -75,6 +85,16 @@
     },
     "gifts": [],
     "gender": false,
+    "skills": {
+      "farmingLevel": 0,
+      "miningLevel": 0,
+      "foragingLevel": 0,
+      "fishingLevel": 0,
+      "farmingUnit": 0,
+      "miningUnit": 0,
+      "foragingUnit": 0,
+      "fishingUnit": 0
+    },
     "NPCFriendships": [],
     "tradeHistory": [],
     "money": 0.0
@@ -115,6 +135,16 @@
     },
     "gifts": [],
     "gender": false,
+    "skills": {
+      "farmingLevel": 0,
+      "miningLevel": 0,
+      "foragingLevel": 0,
+      "fishingLevel": 0,
+      "farmingUnit": 0,
+      "miningUnit": 0,
+      "foragingUnit": 0,
+      "fishingUnit": 0
+    },
     "NPCFriendships": [],
     "tradeHistory": [],
     "money": 0.0

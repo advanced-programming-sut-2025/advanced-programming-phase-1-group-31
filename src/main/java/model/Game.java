@@ -74,6 +74,7 @@ public class Game {
         if(playerIndex >= this.players.size())
             playerIndex = 0;
         this.activePlayer = this.players.get(playerIndex);
+        timeAndDate.addHour(1);
         if (this.activePlayer.getEnergy().getEnergyAmount() <= 0){
             changeTurn();
         }

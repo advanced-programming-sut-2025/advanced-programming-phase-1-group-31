@@ -2,48 +2,51 @@ package model;
 
 import model.materials.Material;
 
-import java.util.HashMap;
-
 public class Trade {
-    private int id;
-    private Player tradePartner;
-    private Material materialToSell;
-    private int amountToSell;
-    //1:offer 0:Request
-    private boolean isOffer;
-    //1:accept 0:reject
-    private boolean isAccepted;
-    //one of the variables below should be null
-    private int price;
-    private Material materialToReceive;
-    private int amountToReceive;
+    private final int id;
+    private final Player sender;
+    private final Player receiver;
+    private final Material materialToSell;
+    private final int amountToSell;
+    /** true = offer, false = request */
+    private final boolean isOffer;
+    /** true = accepted, false = rejected (initially false) */
+    private boolean isAccepted = false;
 
-    //trade money with material
+    private Integer price;               // null if material-for-material
+
+    private Material materialToReceive;  // null if money-for-material
+    private Integer amountToReceive;     // null if money-for-material
+
+    // ========== Constructors ==========
+
     public Trade(int id,
-                 Player tradePartner,
+                 Player sender,
+                 Player receiver,
                  Material materialToSell,
                  int amountToSell,
                  boolean isOffer,
                  int price) {
         this.id = id;
-        this.tradePartner = tradePartner;
+        this.sender = sender;
+        this.receiver = receiver;
         this.materialToSell = materialToSell;
         this.amountToSell = amountToSell;
         this.isOffer = isOffer;
         this.price = price;
     }
 
-    //trade material with material
-
     public Trade(int id,
-                 Player tradePartner,
+                 Player sender,
+                 Player receiver,
                  Material materialToSell,
                  int amountToSell,
                  boolean isOffer,
                  Material materialToReceive,
                  int amountToReceive) {
         this.id = id;
-        this.tradePartner = tradePartner;
+        this.sender = sender;
+        this.receiver = receiver;
         this.materialToSell = materialToSell;
         this.amountToSell = amountToSell;
         this.isOffer = isOffer;
@@ -51,13 +54,26 @@ public class Trade {
         this.amountToReceive = amountToReceive;
     }
 
-    //for completing NPC quests
-
-    public Trade(Material materialToSell, int amountToSell) {
+    public Trade(Player sender,
+                 Material materialToSell,
+                 int amountToSell) {
+        this.id = -1;
+        this.sender = sender;
+        this.receiver = null;
         this.materialToSell = materialToSell;
         this.amountToSell = amountToSell;
+        this.isOffer = true;
     }
-}
-//this is to store the details of every trade done
-//each trade has to be added to both players
 
+    public int getId() { return id; }
+    public Player getSender() { return sender; }
+    public Player getReceiver() { return receiver; }
+    public Material getMaterialToSell() { return materialToSell; }
+    public int getAmountToSell() { return amountToSell; }
+    public boolean isOffer() { return isOffer; }
+    public boolean isAccepted() { return isAccepted; }
+    public void setAccepted(boolean accepted) { isAccepted = accepted; }
+    public Integer getPrice() { return price; }
+    public Material getMaterialToReceive() { return materialToReceive; }
+    public Integer getAmountToReceive() { return amountToReceive; }
+}

@@ -1,18 +1,14 @@
 package model.Tools;
 
 import model.App;
-import model.Game;
 import model.Player;
 import model.Result;
 import model.Tile;
-import model.enums.foragings.ForagingMinerals;
 import model.enums.general.Direction;
 import model.enums.general.TileType;
 import model.enums.toolTypes.AxePickHoeType;
 import model.materials.Foraging.ForagingMineral;
-import model.materials.Foraging.ForagingTree;
 import model.materials.Material;
-import model.materials.Tree;
 
 import java.awt.*;
 import java.util.Objects;

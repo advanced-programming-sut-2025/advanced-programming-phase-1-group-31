@@ -48,7 +48,7 @@ public class GameMenuController {
             return unlimitedEnergy();
         } else if ((matcher = GameMenuCommand.PLANT_SEED.getMatcher(input)) != null) {
             return handlePlantCommand(matcher);
-        } else if ((matcher = GameMenuCommand.SHOW_CRAFT_INFO.getMatcher(input)) != null) {
+        } else if ((matcher = GameMenuCommand.SHOW_PLANT.getMatcher(input)) != null) {
             return showPlant(matcher);
         } else if (GameMenuCommand.BUILD_GREENHOUSE.getMatcher(input) != null) {
             return buildGreenhouse();
@@ -219,7 +219,9 @@ public class GameMenuController {
         App.addGames(game);
         App.setCurrentGame(game);
         gameMap(matchedPlayers);
-        return new Result(true, "Game started with " + matchedPlayers.size() + " new player(s).");
+        game.addFriendShip();
+        return new Result(true, "Game started with " + matchedPlayers.size()
+                + " new player(s)." + "\n" + "It's " + App.getCurrentGame().getActivePlayer().getUsername() + " turn.");
     }
 
     public void gameMap(ArrayList<Player> players) {
@@ -343,7 +345,7 @@ public class GameMenuController {
         map[start.x][start.y].setType(prevType);
         player.setPlace(dest);
 
-        double energyLoss = path.size() / 20.0;
+        double energyLoss = path.size() / 10.0;
         player.getEnergy().changeEnergy(-energyLoss);
 
         return new Result(true, "Moved to: (" + dest.x + "," + dest.y + ")");
@@ -1019,7 +1021,9 @@ public class GameMenuController {
 
     private static Result changeTurn() {
         App.getCurrentGame().changeTurn();
-        return new Result(true, "You have changed the turn!");
+        String result = "You have changed the turn!\n" +
+                "It's " + App.getCurrentGame().getActivePlayer().getUsername() + " turn";
+        return new Result(true, result);
     }
 
     public static Result cheatAddDollars(Matcher matcher) {
@@ -1851,7 +1855,8 @@ public class GameMenuController {
     }
 
     private Result startTrade(Matcher matcher) {
-        return new Result(true, "Trade started.");
+        App.setCurrentMenu(Menus.TradeMenu);
+        return new Result(true, "Your are now in Trade menu.");
     }
 
     private Result processTrade(Matcher matcher) {

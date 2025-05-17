@@ -1,7 +1,10 @@
 package controller;
 
+import model.App;
 import model.Result;
 import model.enums.commands.TradeMenuCommand;
+import model.enums.general.Menus;
+
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -16,29 +19,7 @@ public class TradeMenuController {
         String input = scanner.nextLine();
         Matcher matcher;
 
-        if ((matcher = TradeMenuCommand.SELECT_FRIENDSHIPS.getMatcher(input)) != null) {
-            return showFriendships(matcher);
-        } else if ((matcher = TradeMenuCommand.SELECT_TALK.getMatcher(input)) != null) {
-            return sendMessage(matcher);
-        } else if ((matcher = TradeMenuCommand.SELECT_TALK_HISTORY.getMatcher(input)) != null) {
-            return showTalkHistory(matcher);
-        } else if ((matcher = TradeMenuCommand.SELECT_GIFT.getMatcher(input)) != null) {
-            return sendGift(matcher);
-        } else if ((matcher = TradeMenuCommand.SELECT_LIST_GIFT.getMatcher(input)) != null) {
-            return listGifts(matcher);
-        } else if ((matcher = TradeMenuCommand.SELECT_RATE_GIFT.getMatcher(input)) != null) {
-            return rateGift(matcher);
-        } else if ((matcher = TradeMenuCommand.SELECT_GIFT_HISTORY.getMatcher(input)) != null) {
-            return showGiftHistory(matcher);
-        } else if ((matcher = TradeMenuCommand.SELECT_HUG.getMatcher(input)) != null) {
-            return sendHug(matcher);
-        } else if ((matcher = TradeMenuCommand.SELECT_FLOWER.getMatcher(input)) != null) {
-            return sendFlower(matcher);
-        } else if ((matcher = TradeMenuCommand.SELECT_MARRIAGE_ASK.getMatcher(input)) != null) {
-            return askForMarriage(matcher);
-        } else if ((matcher = TradeMenuCommand.SELECT_MARRIAGE_RESPOND.getMatcher(input)) != null) {
-            return respondToMarriage(matcher);
-        } else if ((matcher = TradeMenuCommand.SELECT_TRADE_START.getMatcher(input)) != null) {
+        if ((matcher = TradeMenuCommand.SELECT_TRADE_START.getMatcher(input)) != null) {
             return startTrade(matcher);
         } else if ((matcher = TradeMenuCommand.SELECT_TRADE.getMatcher(input)) != null) {
             return processTrade(matcher);
@@ -48,9 +29,16 @@ public class TradeMenuController {
             return respondToTrade(matcher);
         } else if ((matcher = TradeMenuCommand.SELECT_TRADE_HISTORY.getMatcher(input)) != null) {
             return showTradeHistory(matcher);
+        }else if ((matcher = TradeMenuCommand.Exit_From_TradeManu.getMatcher(input)) != null) {
+            return exitTradeMenu(matcher);
         } else {
             return new Result(false, "Invalid command!");
         }
+    }
+
+    private Result exitTradeMenu(Matcher matcher) {
+        App.setCurrentMenu(Menus.GameMenu);
+        return new Result(true, "Your are now in Game menu.");
     }
 
     private Result showFriendships(Matcher matcher) {

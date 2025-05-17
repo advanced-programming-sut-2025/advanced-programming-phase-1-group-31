@@ -1,7 +1,6 @@
 package model.Tools;
 
 import model.App;
-import model.Game;
 import model.Player;
 import model.Result;
 import model.Tile;

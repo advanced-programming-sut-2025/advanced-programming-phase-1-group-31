@@ -2,7 +2,6 @@ package model.Tools;
 
 import model.App;
 import model.Backpack;
-import model.Game;
 import model.Result;
 import model.enums.general.Direction;
 import model.enums.toolTypes.TrashCanType;
