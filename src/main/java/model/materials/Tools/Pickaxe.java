@@ -62,6 +62,7 @@ public class Pickaxe implements Tool, Material {
             int amount = new Random().nextInt(20) + 10;
             player.getInventory().addElementToBackpack(material, amount);
             player.getEnergy().changeEnergy(-energyConsumption);
+            player.getSkills().setMiningLevel(40);
             return new Result(true, "You have successfully collected " + amount + " minerals");
         }
 

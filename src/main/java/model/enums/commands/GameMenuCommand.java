@@ -93,6 +93,7 @@ public enum GameMenuCommand implements Command {
     SHOW_PRODUCES("^\\s*produces\\s*$"),
     COLLECT_PRODUCE("^\\s*collect\\s+produce\\s+-n\\s+(?<name>\\S+)\\s*$"),
     SELL_ANIMAL("^\\s*sell\\s+animal\\s+-n\\s+(?<name>\\S+)\\s*$"),
+    SHOW_SKILL("^\\s*show\\s+skill\\s*$"),
     FISHING("^\\s*fishing\\s+-p\\s+(?<pole>[a-zA-Z ]+)\\s*$");
 
     private final String pattern;

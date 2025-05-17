@@ -117,4 +117,12 @@ public class Backpack {
         }
         return new Result(true, result.toString());
     }
+
+    public HashMap<Material, Integer> getElements() {
+        return elements;
+    }
+
+    public ArrayList<Tool> getTools() {
+        return tools;
+    }
 }

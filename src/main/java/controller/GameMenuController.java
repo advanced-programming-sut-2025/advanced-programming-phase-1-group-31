@@ -4,7 +4,6 @@ import model.*;
 import model.Map;
 import model.enums.npc.Shops;
 import model.enums.toolTypes.FishingPoleType;
-import model.materials.Foraging.ForagingCrop;
 import model.materials.Tools.FishingPole;
 import model.materials.Tools.Tool;
 import model.materials.Tools.TrashCan;
@@ -171,11 +170,18 @@ public class GameMenuController {
             return showTradeHistory(matcher);
         } else if (GameMenuCommand.SHOW_LEGEND.getMatcher(input) != null) {
             return getLegendAsResult();
-        } else if (GameMenuCommand.SHOW_WATER_LEFT.getMatcher(input) != null) {
-            return howMouchWater();
         }
 
         return new Result(false, "Invalid command.");
+    }
+
+    private Result showSkill() {
+        Skill s = App.getCurrentGame().getActivePlayer().getSkills();
+        String result = "Farming: " + s.getFarmingLevel() +
+                "\nForaging: " + s.getForagingLevel() +
+                "\nMining: " + s.getMiningLevel() +
+                "\nFishing: " + s.getFishingLevel();
+        return new Result(true, result);
     }
 
     public Result howMouchWater() {
@@ -887,10 +893,8 @@ public class GameMenuController {
         Material housing = ctx.housing();
 
         Animals type = animal.getAnimalType();
-        if (type == Animals.COW || type == Animals.GOAT || type == Animals.SHEEP) {
-            
-        }
 
+        // شرط ابزار خاص
 
         Rectangle area = (housing instanceof Barn b) ? b.getArea() : ((Coop) housing).getArea();
         if (type.needsToGoOutside() && area.contains(animal.getLocation())) {
@@ -1014,6 +1018,7 @@ public class GameMenuController {
         }
 
         player.getEnergy().changeEnergy((-1 * fishingPole.getFishingPoleType().getEnergyConsumption()));
+        player.getSkills().setFishingLevel(40);
         String message = "Fishing successful! You caught:\n" + fishDetails.toString();
         return new Result(true, message);
     }
@@ -1925,22 +1930,20 @@ public class GameMenuController {
 
     // uncompleted
 
-    // private Result purchaseProduct(Matcher matcher) {
-    // String productName = matcher.group("productName");
-    // int amount = -1;
-    // if (matcher.group("number") != null) {
-    // amount = Integer.parseInt(matcher.group("number").trim());
-    // }
-    // Shop shop = (Shop) whichShopIsPlayer();
-    // if (shop == null) return new Result(false, "You aren't near a shop");
-    // MaterialInShop material = materialIsInTheShop(shop, productName);
-    // if (material == null) return new Result(false, "This item isn't in this
-    // shop.");
-    // if (amount > material.getDailyLimit()) return new Result(false, "Your amount
-    // is higher than daily limit");
-    //
+//    private Result purchaseProduct(Matcher matcher) {
+//        String productName = matcher.group("productName");
+//        int amount = -1;
+//        if (matcher.group("number") != null) {
+//            amount = Integer.parseInt(matcher.group("number").trim());
+//        }
+//        Shop shop = (Shop) whichShopIsPlayer();
+//        if (shop == null) return new Result(false, "You aren't near a shop");
+//        MaterialInShop material = materialIsInTheShop(shop, productName);
+//        if (material == null) return new Result(false, "This item isn't in this shop.");
+//        if (amount > material.getDailyLimit()) return new Result(false, "Your amount is higher than daily limit");
+//
 
-    // }
+    }
 
     private Result startTrade(Matcher matcher) {
         App.setCurrentMenu(Menus.TradeMenu);
