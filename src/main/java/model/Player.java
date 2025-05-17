@@ -63,14 +63,16 @@ public class Player {
     private Map<String, String> backup;
 
     private final Skill skills = new Skill();
-    public ArrayList<FriendshipWithNPC> NPCFriendships = new ArrayList<>();
-    public ArrayList<Trade> tradeHistory = new ArrayList<>();
+    private final ArrayList<Trade> tradeHistory = new ArrayList<>();
     private double money = 0;
-    // details of the Crafting recipes must be determined
-    // private HashMap<Craftable, Boolean> craftingRecipes;
-    // //details of the Cooking recipes must be determined
-    // private HashMap<Food, Boolean> cookingRecipes;
 
+    public ArrayList<Trade> getTradeHistory() {
+        return tradeHistory;
+    }
+
+    public void addTrade(Trade trade){
+        tradeHistory.add(trade);
+    }
 
     public Player(String username, String password, String nickname, String email, boolean gender, String question, String answer){
         this.username = username;
