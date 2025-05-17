@@ -6,6 +6,7 @@ import model.enums.general.TileType;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class ShoppingBin implements Material{
     private final HashMap<String, HashMap<Material, Integer>> materialForSell = new HashMap<>();
@@ -59,7 +60,21 @@ public class ShoppingBin implements Material{
         return "Trash Bin No No";
     }
 
+    @Override
     public int baseSellPrice() {
         return 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Material tool)) return false;
+        return this.getClass().equals(tool.getClass()) &&
+                this.getType().equals(tool.getType());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getClass(), getType());
     }
 }

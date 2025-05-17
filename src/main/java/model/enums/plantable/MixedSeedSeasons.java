@@ -15,7 +15,8 @@ public enum MixedSeedSeasons implements MaterialType {
                     Seeds.JazzSeeds,     // Blue Jazz
                     Seeds.TulipBulb
             ),
-            Seasons.Spring),
+            Seasons.Spring,
+            75),  // base sell price
 
     Summer("Summer Mixed Seed",
             List.of(
@@ -27,7 +28,8 @@ public enum MixedSeedSeasons implements MaterialType {
                     Seeds.SunflowerSeeds,
                     Seeds.SpangleSeeds   // Summer Spangle
             ),
-            Seasons.Summer),
+            Seasons.Summer,
+            85),  // base sell price
 
     Fall("Fall Mixed Seed",
             List.of(
@@ -38,22 +40,26 @@ public enum MixedSeedSeasons implements MaterialType {
                     Seeds.SunflowerSeeds,
                     Seeds.FairySeeds     // Fairy Rose
             ),
-            Seasons.Fall),
+            Seasons.Fall,
+            80),  // base sell price
 
     Winter("Winter Mixed Seed",
             List.of(
                     Seeds.PowderMelonSeeds
             ),
-            Seasons.Winter);
+            Seasons.Winter,
+            90);  // base sell price
 
     private final String name;
     private final List<Seeds> seeds;
     private final Seasons season;
+    private final int baseSellPrice;
 
-    MixedSeedSeasons(String name, List<Seeds> seeds, Seasons season) {
+    MixedSeedSeasons(String name, List<Seeds> seeds, Seasons season, int baseSellPrice) {
         this.name = name;
         this.seeds = seeds;
         this.season = season;
+        this.baseSellPrice = baseSellPrice;
     }
 
     public String getName() {
@@ -72,4 +78,7 @@ public enum MixedSeedSeasons implements MaterialType {
         return seeds.get(random.nextInt(seeds.size()));
     }
 
+    public int getBaseSellPrice() {
+        return baseSellPrice;
+    }
 }

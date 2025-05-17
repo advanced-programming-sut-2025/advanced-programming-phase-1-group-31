@@ -104,4 +104,9 @@ public class Barn implements Material {
     public String getName() {
         return barnType.getDisplayName();
     }
+
+    @Override
+    public int baseSellPrice() {
+        return 0;
+    }
 }

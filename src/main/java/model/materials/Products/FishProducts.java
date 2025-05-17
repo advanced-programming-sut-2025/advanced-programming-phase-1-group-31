@@ -5,6 +5,8 @@ import model.ProductQualityCalculator.ProductQuality;
 import model.materials.Material;
 import model.materials.MaterialType;
 
+import java.util.Objects;
+
 public class FishProducts implements Material {
     private FishTypes fishType;
     private ProductQuality quality;
@@ -40,6 +42,11 @@ public class FishProducts implements Material {
         this.quantity = quantity;
     }
 
+    public double getTotalPrice() {
+        return fishType.getBasePrice() * quality.getPriceMultiplier() * quantity;
+    }
+
+
     @Override
     public MaterialType getType() {
         return fishType;
@@ -53,6 +60,24 @@ public class FishProducts implements Material {
     @Override
     public String toString() {
         return quantity + "x " + quality.name() + " " + fishType.name();
+    }
+
+    @Override
+    public int baseSellPrice() {
+        return (int) getTotalPrice();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Material tool)) return false;
+        return this.getClass().equals(tool.getClass()) &&
+                this.getType().equals(tool.getType());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getClass(), getType());
     }
 }
 

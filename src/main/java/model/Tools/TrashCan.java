@@ -29,7 +29,8 @@ public class TrashCan implements Tool {
         Material material = backpack.isExistInBackpackOrNull(name);
         Result result = backpack.removeElementFromBackpack(material, amount);
         if (!result.Success()) return result;
-//        addingMoney();
+//      addingMoney();
+
         if (amount == -1) return  new Result(true, "All of " + name + " have been deleted");
         return new Result(true, amount + " of " + name + " have been deleted");
     }
