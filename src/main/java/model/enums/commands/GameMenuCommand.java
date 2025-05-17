@@ -36,7 +36,7 @@ public enum GameMenuCommand implements Command {
     UPGRADE_TOOL("^\\s*tools\\s+upgrade\\s+(?<toolname>\\S+)\\s*$"),
     USE_TOOL("^\\s*tools\\s+use\\s+-d\\s+(?<direction>\\S+)\\s*$"),
     SHOW_CRAFT_INFO("^\\s*craftinfo\\s+-n\\s+(?<craft-name>\\S+)\\s*$"),
-    PLANT_SEED("^\\s*plant\\s+-s\\s+(?<seed>\\S+)\\s+-d\\s+(?<direction>\\d)\\s*$"),
+    PLANT_SEED("^\\s*plant\\s+-s\\s+(?<seed>[A-Za-z ]+)\\s+-d\\s+(?<direction>\\S+)\\s*$"),
     SHOW_PLANT("^\\s*showplant\\s+-l\\s+(?<X>\\d+)\\s+(?<Y>\\d+)\\s*$"),
     FERTILIZE("^\\s*fertilize\\s+-f\\s+(?<fertilizer>\\S+)\\s+(?<direction>\\d)\\s*$"),
     SHOW_WATER_LEFT("^\\s*how\\s*much\\s+water\\s*$"),
