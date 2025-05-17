@@ -170,7 +170,7 @@ public class GameMenuController {
         return new Result(false, "Invalid command.");
     }
 
-    public static Result getLegendAsResult() {
+    public Result getLegendAsResult() {
         StringBuilder sb = new StringBuilder();
         sb.append("===== Map Reading Help =====\n");
         for (TileType type : TileType.values()) {
@@ -503,7 +503,7 @@ public class GameMenuController {
 
     }
 
-    public static Result buildGreenhouse() {
+    public Result buildGreenhouse() {
         GreenHouse greenHouse = App.getCurrentGame().getActivePlayer().getFarm().getGreenhouse();
         if (greenHouse.isHasBeenMade()) {
             return new Result(false, "You have already made a greenhouse.");
@@ -524,7 +524,7 @@ public class GameMenuController {
         return App.getCurrentGame().getActivePlayer().getInHand().work(direction);
     }
 
-    public static Result buildStructure(Matcher matcher) {
+    public Result buildStructure(Matcher matcher) {
         String buildingName = matcher.group("buildingname").trim();
         int x = 0, y = 0;
         try {
@@ -563,7 +563,7 @@ public class GameMenuController {
                 origin.x + "," + origin.y + ")");
     }
 
-    private static Result buyAnimal(Matcher matcher) {
+    private Result buyAnimal(Matcher matcher) {
         String animalName = matcher.group("animal").trim();
         String givenName = matcher.group("name").trim();
         Animals animalType;
@@ -625,7 +625,7 @@ public class GameMenuController {
 
     }
 
-    private static Result petAnimalByName(Matcher matcher) {
+    private Result petAnimalByName(Matcher matcher) {
         String name = matcher.group("name").trim();
         Player player = App.getCurrentGame().getActivePlayer();
         Point playerPos = player.getPlace();
@@ -652,7 +652,7 @@ public class GameMenuController {
         }
     }
 
-    private static Result cheatSetFriendship(Matcher matcher) {
+    private Result cheatSetFriendship(Matcher matcher) {
         String name = matcher.group("name").trim();
         int amount;
         try {
@@ -677,7 +677,7 @@ public class GameMenuController {
                 .orElse(new Result(false, "No animal named " + name + " found."));
     }
 
-    private static Result showAnimals() {
+    private Result showAnimals() {
         Player player = App.getCurrentGame().getActivePlayer();
 
         List<String> infoList = Stream.concat(
@@ -702,7 +702,7 @@ public class GameMenuController {
         return new Result(true, "Animals listed.");
     }
 
-    public static Result shepherdAnimal(Matcher matcher) {
+    public Result shepherdAnimal(Matcher matcher) {
         Player player = App.getCurrentGame().getActivePlayer();
         Tile[][] map = App.getCurrentGame().getMainMap().getMainMap();
         String name = matcher.group("name").trim();
@@ -798,7 +798,7 @@ public class GameMenuController {
     private record AnimalLocationContext(Animal animal, Material housing) {
     }
 
-    private static Result feedHayToAnimal(Matcher matcher) {
+    private Result feedHayToAnimal(Matcher matcher) {
         String animalName = matcher.group("name").trim();
         Player player = App.getCurrentGame().getActivePlayer();
 
@@ -829,7 +829,7 @@ public class GameMenuController {
         return new Result(true, animalName + " was successfully fed with hay.");
     }
 
-    public static Result listUncollectedProducts() {
+    public Result listUncollectedProducts() {
         Player player = App.getCurrentGame().getActivePlayer();
         List<Animal> animals = getAllAnimals(player);
         List<String> uncollected = new ArrayList<>();
@@ -851,7 +851,7 @@ public class GameMenuController {
         }
     }
 
-    public static Result collectProduct(Matcher matcher) {
+    public Result collectProduct(Matcher matcher) {
         Player player = App.getCurrentGame().getActivePlayer();
         String animalName = matcher.group("name").trim();
         Optional<AnimalLocationContext> contextOpt = Stream.concat(
@@ -894,7 +894,7 @@ public class GameMenuController {
                         " from " + animalName + " (Quality: " + collectedProduct.getQuality() + ")");
     }
 
-    private static Result sellAnimal(Matcher matcher) {
+    private Result sellAnimal(Matcher matcher) {
         String animalName = matcher.group("name").trim();
         Player player = App.getCurrentGame().getActivePlayer();
         Tile[][] map = player.getFarm().getMainMap();
@@ -932,7 +932,7 @@ public class GameMenuController {
 //        return new Result(true, animalName + " sold for " + price + "g.");
     }
 
-    public static Result fish(Matcher matcher) {
+    public Result fish(Matcher matcher) {
         Player player = App.getCurrentGame().getActivePlayer();
         if (!isNearWater(player)) {
             return new Result(false, "You need to be near water to fish!");
@@ -995,7 +995,7 @@ public class GameMenuController {
         return new Result(true, message);
     }
 
-    public static boolean isNearWater(Player player) {
+    public boolean isNearWater(Player player) {
         int FISHING_DISTANCE = 1;
         Point playerLocation = player.getPlace();
         Farm farm = player.getFarm();
@@ -1019,14 +1019,16 @@ public class GameMenuController {
         return false;
     }
 
-    private static Result changeTurn() {
+    private Result changeTurn() {
         App.getCurrentGame().changeTurn();
         String result = "You have changed the turn!\n" +
                 "It's " + App.getCurrentGame().getActivePlayer().getUsername() + " turn";
-        return new Result(true, result);
+
+        String result1 = showUnreadMessages(App.getCurrentGame().getActivePlayer());
+        return new Result(true, result + "\n" + result1);
     }
 
-    public static Result cheatAddDollars(Matcher matcher) {
+    public Result cheatAddDollars(Matcher matcher) {
         String countStr = matcher.group("count");
         Player player = App.getCurrentGame().getActivePlayer();
 
@@ -1044,20 +1046,20 @@ public class GameMenuController {
         return new Result(true, count + " gold added to your wallet. New balance: " + player.getMoney());
     }
 
-    private static List<Animal> getAllAnimals(Player player) {
+    private List<Animal> getAllAnimals(Player player) {
         List<Animal> animals = new ArrayList<>();
         player.getFarm().getCoops().forEach(coop -> animals.addAll(coop.getAnimals()));
         player.getFarm().getBarns().forEach(barn -> animals.addAll(barn.getAnimals()));
         return animals;
     }
 
-    private static boolean isAdjacent(Point a, Point b) {
+    private boolean isAdjacent(Point a, Point b) {
         int dx = Math.abs(a.x - b.x);
         int dy = Math.abs(a.y - b.y);
         return dx <= 1 && dy <= 1 && !(dx == 0 && dy == 0);
     }
 
-    private static Dimension getOptimalDimension(int capacity) {
+    private Dimension getOptimalDimension(int capacity) {
         int bestWidth = 1, bestHeight = capacity, minDiff = Integer.MAX_VALUE;
         for (int w = 1; w <= capacity; w++) {
             int h = (int) Math.ceil((double) capacity / w);
@@ -1073,7 +1075,7 @@ public class GameMenuController {
         return new Dimension(bestWidth, bestHeight);
     }
 
-    private static boolean isAreaEmpty(Farm farm, Rectangle area) {
+    private boolean isAreaEmpty(Farm farm, Rectangle area) {
         Tile[][] map = farm.getMainMap();
         for (int i = area.x; i < area.x + area.width; i++) {
             for (int j = area.y; j < area.y + area.height; j++) {
@@ -1084,7 +1086,7 @@ public class GameMenuController {
         return true;
     }
 
-    private static void setStructure(Farm farm, Rectangle area, CoopsAndBarnsTypes type) {
+    private void setStructure(Farm farm, Rectangle area, CoopsAndBarnsTypes type) {
         Tile[][] map = farm.getMainMap();
         TileType tileType = type.isBarn() ? TileType.BARN : TileType.COOP;
         Material material = type.isBarn() ? new Barn(type) : new Coop(type);
@@ -1109,7 +1111,7 @@ public class GameMenuController {
         }
     }
 
-    public static Seed findCropBySeed(String seedName) {
+    public Seed findCropBySeed(String seedName) {
         Seeds seedType = Seeds.getByName(seedName);
         if (seedType == null)
             return null;
@@ -1127,7 +1129,7 @@ public class GameMenuController {
         return null;
     }
 
-    public static void integrateFarmsIntoMainMap(Map map, Farm f1, Farm f2, Farm f3, Farm f4) {
+    public void integrateFarmsIntoMainMap(Map map, Farm f1, Farm f2, Farm f3, Farm f4) {
         Tile[][] m1 = f1.getMainMap();
         Tile[][] m2 = f2.getMainMap();
         Tile[][] m3 = f3.getMainMap();
@@ -1227,7 +1229,7 @@ public class GameMenuController {
 
     }
 
-    public static void displayFourMaps() {
+    public void displayFourMaps() {
         Tile[][] map1 = FarmFactory.getPreset(1).getMainMap();
         Tile[][] map2 = FarmFactory.getPreset(2).getMainMap();
         Tile[][] map3 = FarmFactory.getPreset(3).getMainMap();
@@ -1287,7 +1289,7 @@ public class GameMenuController {
         }
     }
 
-    public static boolean isEmptyFarm(Farm farm) {
+    public boolean isEmptyFarm(Farm farm) {
         return farm.getMainMap() == null || Arrays.stream(farm.getMainMap())
                 .flatMap(Arrays::stream)
                 .allMatch(tile -> tile.getType() == TileType.EMPTY);
@@ -1636,7 +1638,6 @@ public class GameMenuController {
 
     private Result askForMarriage(Matcher matcher) {
         String username = matcher.group("username");
-        String ring = matcher.group("ring");
         Player player1 = App.getCurrentGame().getActivePlayer();
         Player player2 = App.getCurrentGame().findPlayerByUsername(username);
         if (player2 == null) return new Result(false, "Player not found");
@@ -1724,7 +1725,7 @@ public class GameMenuController {
         return result.toString();
     }
 
-    public String showUnreadMessages(Player player) {
+    private String showUnreadMessages(Player player) {
         StringBuilder result = new StringBuilder();
         boolean hasUnread = false;
 

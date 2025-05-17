@@ -260,4 +260,6 @@ public class Player {
     public void setStayLoggedIn(boolean stayLoggedIn) {
         this.stayLoggedIn = stayLoggedIn;
     }
+
+
 }

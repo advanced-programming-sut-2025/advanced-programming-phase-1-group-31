@@ -6,6 +6,8 @@ import model.enums.creature.Animals;
 import model.materials.Products.AnimalProduct;
 import model.ProductQualityCalculator;
 import model.ProductQualityCalculator.ProductQuality;
+
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -90,4 +92,23 @@ public class Animal implements Material {
     public String getName() {
         return name;
     }
+
+    @Override
+    public int baseSellPrice() {
+        return animalType.getPurchasePrice();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Material tool)) return false;
+        return this.getClass().equals(tool.getClass()) &&
+                this.getType().equals(tool.getType());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getClass(), getType());
+    }
+
 }
