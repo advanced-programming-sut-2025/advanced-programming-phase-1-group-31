@@ -1849,7 +1849,7 @@ public class GameMenuController {
     }
 
     private Result showAllAvailableProducts(Matcher matcher) {
-        Shop shop = whichShopIsPlayer();
+        Shop shop = (Shop) whichShopIsPlayer();
         if (shop == null) return new Result(false, "You aren't near a shop");
         StringBuilder result = new StringBuilder();
         result.append("All Available Products:");
@@ -1900,7 +1900,7 @@ public class GameMenuController {
     private Result purchaseProduct(Matcher matcher) {
         String productName = matcher.group("productName");
         String count = matcher.group("count");
-        return new Result(true, "Purchased " + count + " of " + productName);
+        return new Result(false, "sds");
     }
 
     private Result startTrade(Matcher matcher) {
