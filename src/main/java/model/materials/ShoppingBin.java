@@ -8,6 +8,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 
 public class ShoppingBin implements Material{
     private final HashMap<String, HashMap<Material, Integer>> materialForSell = new HashMap<>();
@@ -55,7 +56,9 @@ public class ShoppingBin implements Material{
 
         double totalGold = 0;
         for (var e : basket.entrySet()) {
-            totalGold += e.getKey().baseSellPrice() * e.getValue();
+            Random random = new Random();
+            double percentage = random.nextInt(85) + 15;
+            totalGold += e.getKey().baseSellPrice() * e.getValue() * percentage / 100;
         }
 
         player.addMoney(totalGold);

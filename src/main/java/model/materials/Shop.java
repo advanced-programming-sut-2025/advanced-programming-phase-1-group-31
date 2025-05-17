@@ -1,4 +1,4 @@
-package model;
+package model.materials;
 
 import model.enums.npc.Shops;
 import model.materials.Material;

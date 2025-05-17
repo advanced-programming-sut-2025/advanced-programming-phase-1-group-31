@@ -26,7 +26,7 @@ public class Energy {
         }
     }
 
-    public void changeEnergy(Double changeEnergyAmount) {
+    public void changeEnergy(double changeEnergyAmount) {
         energyAmount += changeEnergyAmount;
         if (energyAmount > maxEnergy)
             energyAmount = maxEnergy;

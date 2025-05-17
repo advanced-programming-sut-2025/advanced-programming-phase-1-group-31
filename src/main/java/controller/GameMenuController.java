@@ -3,6 +3,8 @@ package controller;
 import model.*;
 import model.Map;
 import model.enums.npc.Shops;
+import model.enums.toolTypes.FishingPoleType;
+import model.materials.Tools.FishingPole;
 import model.materials.Tools.Tool;
 import model.materials.Tools.TrashCan;
 import model.enums.creature.Animals;
@@ -942,8 +944,10 @@ public class GameMenuController {
         if (!isNearWater(player)) {
             return new Result(false, "You need to be near water to fish!");
         }
-        String pole = matcher.group("pole").trim();
-        double poleMultiplier = ProductQualityCalculator.getPoleMultiplier(pole);
+//        String pole = matcher.group("pole").trim();
+        FishingPole fishingPole = (FishingPole) player.getInventory().isExistToolOrNull(new FishingPole(FishingPoleType.Training));
+        if (fishingPole == null) return new Result(false, "You can't fishing because you haven't pole.");
+        double poleMultiplier = ProductQualityCalculator.getPoleMultiplier(fishingPole.getFishingPoleType());
         Weather weather = App.getCurrentGame().getTimeAndDate().getWeather();
         Seasons season = App.getCurrentGame().getTimeAndDate().getSeason();
         Random random = new Random();
@@ -996,6 +1000,7 @@ public class GameMenuController {
             return new Result(false, "You didn't catch any fish this time!");
         }
 
+        player.getEnergy().changeEnergy((-1 * fishingPole.getFishingPoleType().getEnergyConsumption()));
         String message = "Fishing successful! You caught:\n" + fishDetails.toString();
         return new Result(true, message);
     }
@@ -1897,10 +1902,19 @@ public class GameMenuController {
 
     // uncompleted
 
-    private Result purchaseProduct(Matcher matcher) {
-        String productName = matcher.group("productName");
-        String count = matcher.group("count");
-        return new Result(false, "sds");
+//    private Result purchaseProduct(Matcher matcher) {
+//        String productName = matcher.group("productName");
+//        int amount = -1;
+//        if (matcher.group("number") != null) {
+//            amount = Integer.parseInt(matcher.group("number").trim());
+//        }
+//        Shop shop = (Shop) whichShopIsPlayer();
+//        if (shop == null) return new Result(false, "You aren't near a shop");
+//        MaterialInShop material = materialIsInTheShop(shop, productName);
+//        if (material == null) return new Result(false, "This item isn't in this shop.");
+//        if (amount > material.getDailyLimit()) return new Result(false, "Your amount is higher than daily limit");
+//
+
     }
 
     private Result startTrade(Matcher matcher) {
@@ -1939,6 +1953,15 @@ public class GameMenuController {
         Tile tile = App.getCurrentGame().getMainMap().getMainMap()[player.getPlace().x][player.getPlace().y];
         if (tile.getType().equals(TileType.SHOP)){
             return tile.getMaterial();
+        }
+        return null;
+    }
+
+    public MaterialInShop materialIsInTheShop(Shop shop, String name){
+        for (MaterialInShop material : shop.getShopName().getMaterials()){
+            if (material.getMaterial().getName().equalsIgnoreCase(name)){
+                return material;
+            }
         }
         return null;
     }

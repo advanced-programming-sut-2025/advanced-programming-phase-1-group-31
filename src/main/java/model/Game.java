@@ -1,11 +1,8 @@
 package model;
 
 import model.enums.npc.Shops;
-import model.enums.toolTypes.AxePickHoeType;
-import model.enums.toolTypes.TrashCanType;
-import model.enums.toolTypes.WateringCanType;
+import model.materials.Shop;
 import model.materials.ShoppingBin;
-import model.materials.Tools.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
