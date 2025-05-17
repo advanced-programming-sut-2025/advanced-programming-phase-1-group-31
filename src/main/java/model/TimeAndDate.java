@@ -199,7 +199,7 @@ public class TimeAndDate {
                 double chance = ThreadLocalRandom.current().nextDouble();
                 int finalI = i;
                 int finalJ = j;
-                if (chance <= 0.01 && (tile.getType() == TileType.EMPTY || tile.getType() == TileType.PLANTING_SOIL)
+                if (chance <= 0.005 && (tile.getType() == TileType.EMPTY || tile.getType() == TileType.PLANTING_SOIL)
                         && App.getCurrentGame().getPlayers().stream()
                                 .noneMatch(p -> (p.getPlace().x == finalI || p.getPlace().y == finalJ))) {
                     Seasons season = App.getCurrentGame().getTimeAndDate().getSeason();
@@ -222,9 +222,9 @@ public class TimeAndDate {
                             }
                         }
                         case 2 -> {
-                            // ForagingMinerals mineral = ForagingMinerals.getRandom();
-                            // tile.setType(TileType.FORAGING_MINERAL);
-                            // tile.setMaterial(new ForagingMineral(mineral));
+//                             ForagingMinerals mineral = ForagingMinerals.getRandom();
+//                             tile.setType(TileType.FORAGING_MINERAL);
+//                             tile.setMaterial(new ForagingMineral(mineral));
                         }
                     }
                 }
