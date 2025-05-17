@@ -1,17 +1,32 @@
 package model;
 
+import model.enums.npc.Shops;
+import model.enums.toolTypes.AxePickHoeType;
+import model.enums.toolTypes.TrashCanType;
+import model.enums.toolTypes.WateringCanType;
 import model.materials.ShoppingBin;
+import model.materials.Tools.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Game {
     private Map mainMap;
     private Player adminPlayer;
     private Player activePlayer;
     private final TimeAndDate timeAndDate = new TimeAndDate();
-    private TimeAndDate time;
     private final ShoppingBin shoppingBin = new ShoppingBin();
-
+    private final ArrayList<Shop> shops = new ArrayList<>(
+            Arrays.asList(
+                    new Shop(Shops.BlackSmith),
+                    new Shop(Shops.MarnieRanch),
+                    new Shop(Shops.CarpenterShop),
+                    new Shop(Shops.StardropSaloon),
+                    new Shop(Shops.Jojamart),
+                    new Shop(Shops.PierreGeneralStore),
+                    new Shop(Shops.FishShop)
+            )
+    );
 
     public TimeAndDate getTimeAndDate() {
         return timeAndDate;
@@ -23,7 +38,6 @@ public class Game {
     }
 
     private ArrayList<Player> players = new ArrayList<>();
-//    private ArrayList<Shops> shops = new ArrayList<>();
 
     public Game(ArrayList<Player> players) {
         this.players = players;
@@ -57,18 +71,6 @@ public class Game {
         return players;
     }
 
-    public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
-    }
-
-//    public ArrayList<Shops> getShops() {
-//        return shops;
-//    }
-//
-//    public void setShops(ArrayList<Shops> shops) {
-//        this.shops = shops;
-//    }
-
     public void changeTurn(){
         int playerIndex = this.players.indexOf(this.activePlayer) + 1;
         if(playerIndex >= this.players.size())
@@ -96,6 +98,10 @@ public class Game {
                                 .noneMatch(f -> f.getFriend().equals(other)))
                         .forEach(other -> player.getFriendships().add(new Friendship(other)))
         );
+    }
+
+    public ArrayList<Shop> getShops() {
+        return shops;
     }
 
 }

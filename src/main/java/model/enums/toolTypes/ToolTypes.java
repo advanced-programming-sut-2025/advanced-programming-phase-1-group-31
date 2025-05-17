@@ -1,6 +1,6 @@
 package model.enums.toolTypes;
 
-import model.Tools.*;
+import model.materials.Tools.*;
 
 public enum ToolTypes {
     AXE(new Axe(AxePickHoeType.Initial), "Axe"),

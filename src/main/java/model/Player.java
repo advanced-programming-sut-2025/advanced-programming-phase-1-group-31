@@ -1,6 +1,6 @@
 package model;
 
-import model.Tools.Tool;
+import model.materials.Tools.Tool;
 import model.enums.general.Menus;
 import model.enums.general.TileType;
 

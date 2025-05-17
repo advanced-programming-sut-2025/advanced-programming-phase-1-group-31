@@ -2,8 +2,9 @@ package controller;
 
 import model.*;
 import model.Map;
-import model.Tools.Tool;
-import model.Tools.TrashCan;
+import model.enums.npc.Shops;
+import model.materials.Tools.Tool;
+import model.materials.Tools.TrashCan;
 import model.enums.creature.Animals;
 import model.enums.creature.FishTypes;
 import model.enums.foragings.ForagingCrops;
@@ -1845,15 +1846,54 @@ public class GameMenuController {
         player.getSMSs().removeIf(sms -> sms.isForMarriage() && sms.getSender().equals(username));
     }
 
-    // uncompleted
-
     private Result showAllAvailableProducts(Matcher matcher) {
-        return new Result(true, "Showing all available products.");
+        Shop shop = whichShopIsPlayer();
+        if (shop == null) return new Result(false, "You aren't near a shop");
+        StringBuilder result = new StringBuilder();
+        result.append("All Available Products:");
+        for (MaterialInShop material : shop.getShopName().getMaterials()){
+            if (material.getSeasons() == null ||
+                    material.getSeasons().equals(App.getCurrentGame().getTimeAndDate().getSeason())){
+                result.
+                        append("\n").
+                        append("Name: ").append(material.getMaterial().getName()).
+                        append("Price: ").append(material.getOrdinaryPrice()).
+                        append("Daily limit: ").append(material.getDailyLimit()).
+                        append("\n-------");
+            }
+            if (shop.getShopName().equals(Shops.PierreGeneralStore) &&
+                    !material.getSeasons().equals(App.getCurrentGame().getTimeAndDate().getSeason())){
+                result.
+                        append("\n").
+                        append("Name: ").append(material.getMaterial().getName()).
+                        append("Price: ").append(material.getOutOfSeasonPrice()).
+                        append("Daily limit: ").append(material.getDailyLimit()).
+                        append("\n-------");
+            }
+        }
+
+        return new Result(true, result.toString());
     }
 
     private Result showAllProducts(Matcher matcher) {
-        return new Result(true, "Showing all products.");
+        Shop shop = (Shop) whichShopIsPlayer();
+        if (shop == null) return new Result(false, "You aren't near a shop");
+        StringBuilder result = new StringBuilder();
+        result.append("All Products:");
+        for (MaterialInShop material : shop.getShopName().getMaterials()){
+            result.
+                    append("\n").
+                    append("Name: ").append(material.getMaterial().getName()).
+                    append("Daily limit: ").append(material.getDailyLimit()).
+                    append("Season: ").append(material.getSeasons()).
+                    append("Price: ").append(material.getOrdinaryPrice()).
+                    append("\n-------");
+        }
+
+        return new Result(true, result.toString());
     }
+
+    // uncompleted
 
     private Result purchaseProduct(Matcher matcher) {
         String productName = matcher.group("productName");
@@ -1892,4 +1932,12 @@ public class GameMenuController {
         return new Result(true, "Showing trade history.");
     }
 
+    public Material whichShopIsPlayer(){
+        Player player = App.getCurrentGame().getActivePlayer();
+        Tile tile = App.getCurrentGame().getMainMap().getMainMap()[player.getPlace().x][player.getPlace().y];
+        if (tile.getType().equals(TileType.SHOP)){
+            return tile.getMaterial();
+        }
+        return null;
+    }
 }

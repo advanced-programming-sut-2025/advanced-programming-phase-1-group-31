@@ -21,7 +21,7 @@ public class LoginMenuController {
             return showCurrentMenu();
         } else if((matcher = LoginMenuCommands.PASSWORD_RECOVERY.getMatcher(line)) != null){
             return recoverPassword(matcher, scanner);
-        } else if(LoginMenuCommands.EXIT_MENU.getMatcher(line).matches()){
+        } else if(LoginMenuCommands.EXIT_MENU.getMatcher(line) != null){
             return exitMenu();
         } else{
             return new Result(false, "Invalid command!");

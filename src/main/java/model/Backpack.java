@@ -1,11 +1,11 @@
 package model;
 
-import model.Tools.*;
 import model.enums.toolTypes.AxePickHoeType;
 import model.enums.toolTypes.BackpackType;
 import model.enums.toolTypes.TrashCanType;
 import model.enums.toolTypes.WateringCanType;
 import model.materials.Material;
+import model.materials.Tools.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;

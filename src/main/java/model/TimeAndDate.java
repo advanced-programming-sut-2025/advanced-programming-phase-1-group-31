@@ -14,7 +14,6 @@ import model.materials.Foraging.ForagingTree;
 
 import java.awt.*;
 import java.time.DayOfWeek;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -65,13 +64,14 @@ public class TimeAndDate {
             };
         }
         for (int i = 0; i < addDay; i++) {
-            if (weather.equals(Weather.Stormy))
-                thunder();
+            if (weather.equals(Weather.Stormy)) thunder();
             App.getCurrentGame().getMainMap();
             updateAnimalOutdoorsStatus();
             changeForagingAndCrops();
             App.getCurrentGame().getPlayers().forEach(player -> player.getEnergy().onNewDay());
-            // amirabbas
+            for (Player player : App.getCurrentGame().getPlayers()){
+                App.getCurrentGame().getShoppingBin().addMoney(player);
+            }
         }
     }
 
@@ -94,10 +94,6 @@ public class TimeAndDate {
             case Fall -> season = Seasons.Winter;
             case Winter -> season = Seasons.Spring;
         }
-    }
-
-    public void changeSeason(Seasons seasons) {
-        this.season = seasons;
     }
 
     public void setTomorrowWeather(Weather tomorrowWeather) {
@@ -152,9 +148,8 @@ public class TimeAndDate {
         Map map = App.getCurrentGame().getMainMap();
         Tile[][] tiles = map.getMainMap();
 
-        for (int i = 0; i < tiles.length; i++) {
-            for (int j = 0; j < tiles[i].length; j++) {
-                Tile tile = tiles[i][j];
+        for (Tile[] value : tiles) {
+            for (Tile tile : value) {
                 if (tile.getType() == TileType.SEED && tile.getMaterial() instanceof Seed seed) {
 
                     if (seed.getDaysWithoutWater() >= 2) {

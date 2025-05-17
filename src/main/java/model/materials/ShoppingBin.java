@@ -6,6 +6,7 @@ import model.enums.general.TileType;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class ShoppingBin implements Material{
@@ -19,17 +20,46 @@ public class ShoppingBin implements Material{
         Player player = App.getCurrentGame().getActivePlayer();
         Backpack backpack = player.getInventory();
         Material material = backpack.isExistInBackpackOrNull(name);
-        Result result = backpack.removeElementFromBackpack(material, amount);
-        if (!result.Success()) return result;
-        if (amount == -1) {
-            int mainAmount = backpack.howManyInBackpack(material);
-            materialForSell.putIfAbsent(player.getUsername(), new HashMap<>());
-            materialForSell.get(player.getUsername()).put(material, mainAmount);
-            return  new Result(true, "All of " + name + " have been left into Trash Bin.");
+        if (material == null) {
+            return new Result(false, "No such material '" + name + "' in your inventory.");
         }
-        materialForSell.putIfAbsent(player.getUsername(), new HashMap<>());
-        materialForSell.get(player.getUsername()).put(material, amount);
-        return new Result(true, amount + " of " + name + " have been left into Trash Bin.");
+
+        int qtyToSell;
+        if (amount == -1) {
+            qtyToSell = backpack.howManyInBackpack(material);
+        } else {
+            qtyToSell = amount;
+        }
+
+        Result removal = backpack.removeElementFromBackpack(material, qtyToSell);
+        if (!removal.Success()) {
+            return removal;
+        }
+
+        materialForSell
+                .computeIfAbsent(player.getUsername(), k -> new HashMap<>())
+                .merge(material, qtyToSell, Integer::sum);
+
+        String msg = (amount == -1)
+                ? "All of " + name + " (" + qtyToSell + ") left in the Trash Bin."
+                : qtyToSell + " of " + name + " left in the Trash Bin.";
+        return new Result(true, msg);
+    }
+
+    public void addMoney(Player player) {
+        String user = player.getUsername();
+        Map<Material,Integer> basket = materialForSell.get(user);
+        if (basket == null || basket.isEmpty()) {
+            return;
+        }
+
+        double totalGold = 0;
+        for (var e : basket.entrySet()) {
+            totalGold += e.getKey().baseSellPrice() * e.getValue();
+        }
+
+        player.addMoney(totalGold);
+        materialForSell.remove(user);
     }
 
 
