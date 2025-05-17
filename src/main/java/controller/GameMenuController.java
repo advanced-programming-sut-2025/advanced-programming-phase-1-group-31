@@ -5,9 +5,7 @@ import model.Map;
 import model.enums.npc.Shops;
 import model.enums.toolTypes.FishingPoleType;
 import model.materials.Foraging.ForagingCrop;
-import model.materials.Tools.FishingPole;
-import model.materials.Tools.Tool;
-import model.materials.Tools.TrashCan;
+import model.materials.Tools.*;
 import model.enums.creature.Animals;
 import model.enums.creature.FishTypes;
 import model.enums.foragings.ForagingCrops;
@@ -24,7 +22,6 @@ import model.materials.Animal;
 import model.enums.commands.GameMenuCommand;
 import model.enums.creature.CoopsAndBarnsTypes;
 import model.materials.Products.FishProducts;
-import model.materials.Tools.WateringCan;
 
 import java.awt.Dimension;
 import java.awt.Point;
@@ -569,7 +566,7 @@ public class GameMenuController {
         if (type == null)
             return new Result(false, "Invalid building type.");
 
-            Player player = App.getCurrentGame().getActivePlayer();
+        Player player = App.getCurrentGame().getActivePlayer();
         Shop shop = (Shop) whichShopIsPlayer();
         if (shop == null)
             return new Result(false, "You aren't near a shop");
@@ -680,9 +677,7 @@ public class GameMenuController {
                 })
                 .orElse(false);
 
-        if (player.deductMoney(animalType.getPurchasePrice())) {
-            return new Result(false, "not enough money.");
-        }
+        
         if (addedToBarn) {
             return new Result(true, givenName + " the " + animalName + " was added to a Barn.");
         }

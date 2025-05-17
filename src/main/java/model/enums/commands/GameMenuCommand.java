@@ -64,7 +64,7 @@ public enum GameMenuCommand implements Command {
     COMPLETE_QUEST("^\\s*quests\\s+finish\\s+-i\\s+(?<index>\\d+)\\s*$"),
     SELECT_PRODUCTS_AVAILABLE("^\\s*show\\s+all\\s+available\\s+products\\s*$"),
     SELECT_PRODUCTS_ALL("^\\s*show\\s+all\\s+products\\s*$"),
-    SELECT_PURCHASE("^\\s*purchase\\s+(?<productName>\\S+)\\s+(?:\\s+-n\\s+(?<number>\\d+))?\\s*$"),
+    SELECT_PURCHASE("\\s*purchase\\s+(?<productName>[A-Za-z ]+)(?:\\s+-n\\s+(?<number>[1-9]\\d*))?\\s*"),
     SELECT_ADD_DOLLARS("^\\s*cheat\\s+add\\s+(?<count>\\S+)\\s+dollars\\s*$"),
     SELECT_FRIENDSHIPS("^\\s*friendships\\s*$"),
     SELECT_TALK("^\\s*talk\\s+-u\\s+(?<username>\\S+)\\s+-m\\s+(?<message>[A-Za-z ]+)\\s*$"),
