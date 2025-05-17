@@ -31,6 +31,9 @@
         },
         {
           "trashCanType": "Initial"
+        },
+        {
+          "energyConsumption": 2
         }
       ]
     },
@@ -46,7 +49,6 @@
       "foragingUnit": 0,
       "fishingUnit": 0
     },
-    "NPCFriendships": [],
     "tradeHistory": [],
     "money": 0.0
   },
@@ -82,6 +84,9 @@
         },
         {
           "trashCanType": "Initial"
+        },
+        {
+          "energyConsumption": 2
         }
       ]
     },
@@ -97,7 +102,6 @@
       "foragingUnit": 0,
       "fishingUnit": 0
     },
-    "NPCFriendships": [],
     "tradeHistory": [],
     "money": 0.0
   },
@@ -133,6 +137,9 @@
         },
         {
           "trashCanType": "Initial"
+        },
+        {
+          "energyConsumption": 2
         }
       ]
     },
@@ -148,7 +155,6 @@
       "foragingUnit": 0,
       "fishingUnit": 0
     },
-    "NPCFriendships": [],
     "tradeHistory": [],
     "money": 0.0
   }
