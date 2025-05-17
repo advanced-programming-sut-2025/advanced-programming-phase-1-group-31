@@ -1,6 +1,8 @@
 package model;
 
 import model.enums.general.Weather;
+import model.enums.toolTypes.FishingPoleType;
+import model.materials.Tools.FishingPole;
 
 import java.util.Random;
 
@@ -30,13 +32,12 @@ public class ProductQualityCalculator {
             default -> 1.0;
         };
     }
-    public static double getPoleMultiplier(String poleType) {
-        return switch (poleType.toLowerCase()) {
-            case "training rod" -> 0.1;
-            case "bamboo pole" -> 0.5;
-            case "fiberglass rod" -> 0.9;
-            case "iridium rod" -> 1.2;
-            default -> 0.5;
+    public static double getPoleMultiplier(FishingPoleType fishingPoleType) {
+        return switch (fishingPoleType) {
+            case Training -> 0.1;
+            case Bamboo -> 0.5;
+            case Fiberglass -> 0.9;
+            case Iridium -> 1.2;
         };
     }
 
