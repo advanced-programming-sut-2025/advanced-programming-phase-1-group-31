@@ -190,10 +190,17 @@ public class TimeAndDate {
         for (int i = 0; i < tiles.length; i++) {
             for (int j = 0; j < tiles[i].length; j++) {
                 Tile tile = tiles[i][j];
-
+                 if (tile.getType()==TileType.QUARRY) {
+                    
+                 }
                 double chance = ThreadLocalRandom.current().nextDouble();
                 int finalI = i;
                 int finalJ = j;
+                if (chance <= 0.01 &&tile.getType()==TileType.QUARRY) {
+                     ForagingMinerals mineral = ForagingMinerals.getRandom();
+                            tile.setType(TileType.FORAGING_MINERAL);
+                            tile.setMaterial(new ForagingMineral(mineral));
+                 }
                 if (chance <= 0.005 && (tile.getType() == TileType.EMPTY || tile.getType() == TileType.PLANTING_SOIL)
                         && App.getCurrentGame().getPlayers().stream()
                                 .noneMatch(p -> (p.getPlace().x == finalI || p.getPlace().y == finalJ))) {
@@ -217,9 +224,9 @@ public class TimeAndDate {
                             }
                         }
                         case 2 -> {
-//                             ForagingMinerals mineral = ForagingMinerals.getRandom();
-//                             tile.setType(TileType.FORAGING_MINERAL);
-//                             tile.setMaterial(new ForagingMineral(mineral));
+                            // ForagingMinerals mineral = ForagingMinerals.getRandom();
+                            // tile.setType(TileType.FORAGING_MINERAL);
+                            // tile.setMaterial(new ForagingMineral(mineral));
                         }
                     }
                 }

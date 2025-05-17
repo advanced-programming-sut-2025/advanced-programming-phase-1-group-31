@@ -1,5 +1,7 @@
 package model.enums.foragings;
 
+import java.util.Random;
+
 import model.materials.MaterialType;
 
 public enum ForagingMinerals implements MaterialType {
@@ -40,7 +42,12 @@ public enum ForagingMinerals implements MaterialType {
         this.description = description;
         this.sellPrice = sellPrice;
     }
+        private static final Random RANDOM = new Random();
 
+     public static ForagingMinerals getRandom() {
+        ForagingMinerals[] values = ForagingMinerals.values();
+        return values[RANDOM.nextInt(values.length)];
+    }
     public String getDisplayName() {
         return displayName;
     }
