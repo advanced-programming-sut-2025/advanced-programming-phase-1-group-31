@@ -8,6 +8,7 @@ public enum GameMenuCommand implements Command {
     EXIT_GAME("^\\s*exit\\s+game\\s*$"),
     TERMINATE_GAME("^\\s*terminate\\s+game\\s*$"),
     CHANGE_TURN("^\\s*next\\s+turn\\s*$"),
+    SHOW_MONEY("\\s*money\\s*"),
     SHOW_TIME("^\\s*time\\s*$"),
     SHOW_DATE("^\\s*date\\s*$"),
     SHOW_DATE_AND_TIME("^\\s*datetime\\s*$"),

@@ -78,6 +78,8 @@ public class GameMenuController {
             return changeTurn();
         } else if ((matcher = GameMenuCommand.SELECT_ADD_DOLLARS.getMatcher(input)) != null) {
             return cheatAddDollars(matcher);
+        } else if ((matcher = GameMenuCommand.SHOW_MONEY.getMatcher(input)) != null) {
+            return showMoney();
         } else if (GameMenuCommand.SHOW_SEASON.getMatcher(input) != null)
             return showSeason();
         else if (GameMenuCommand.SHOW_DATE.getMatcher(input) != null)
@@ -1025,7 +1027,9 @@ public class GameMenuController {
                 "It's " + App.getCurrentGame().getActivePlayer().getUsername() + " turn";
         return new Result(true, result);
     }
-
+public static Result showMoney(){
+        return new Result(true, "you have :"+ (int)App.getCurrentGame().getActivePlayer().getMoney());
+}
     public static Result cheatAddDollars(Matcher matcher) {
         String countStr = matcher.group("count");
         Player player = App.getCurrentGame().getActivePlayer();
@@ -1041,7 +1045,7 @@ public class GameMenuController {
         }
 
         player.addMoney(count);
-        return new Result(true, count + " gold added to your wallet. New balance: " + player.getMoney());
+        return new Result(true, count + " gold added to your wallet. New balance: " + (int) player.getMoney());
     }
 
     private static List<Animal> getAllAnimals(Player player) {
