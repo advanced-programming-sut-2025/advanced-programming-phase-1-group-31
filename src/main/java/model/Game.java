@@ -1,5 +1,6 @@
 package model;
 
+import model.enums.npc.NPCs;
 import model.enums.npc.Shops;
 import model.materials.Shop;
 import model.materials.ShoppingBin;
@@ -22,6 +23,16 @@ public class Game {
                     new Shop(Shops.Jojamart),
                     new Shop(Shops.PierreGeneralStore),
                     new Shop(Shops.FishShop)
+            )
+    );
+
+    private final ArrayList<NPC> NPCs = new ArrayList<>(
+            Arrays.asList(
+                    new NPC(model.enums.npc.NPCs.SEBASTIAN),
+                    new NPC(model.enums.npc.NPCs.ABIGAIL),
+                    new NPC(model.enums.npc.NPCs.HARVEY),
+                    new NPC(model.enums.npc.NPCs.LEAH),
+                    new NPC(model.enums.npc.NPCs.ROBIN)
             )
     );
 
@@ -86,7 +97,6 @@ public class Game {
         return null;
     }
 
-
     public void addFriendShip() {
         players.forEach(player ->
                 players.stream()
@@ -98,11 +108,18 @@ public class Game {
     }
 
     public void addFriendshipWithNPC(){
-        for (Player player : )
+        for (Player player : players){
+            for (NPC npc : getNPCs()){
+                player.getFriendshipWithNPCS().add(new FriendshipWithNPC(npc));
+            }
+        }
     }
 
     public ArrayList<Shop> getShops() {
         return shops;
     }
 
+    public ArrayList<NPC> getNPCs() {
+        return NPCs;
+    }
 }

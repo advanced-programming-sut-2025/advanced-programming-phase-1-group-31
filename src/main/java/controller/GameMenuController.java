@@ -164,9 +164,25 @@ public class GameMenuController {
             return howMouchWater();
         } else if (GameMenuCommand.SHOW_SKILL.getMatcher(input) != null) {
             return showSkill();
+        } else if ((matcher = GameMenuCommand.MEET_NPC.getMatcher(input)) != null) {
+            return meetNPC(matcher);
+        } else if ((matcher = GameMenuCommand.GIFT_NPC.getMatcher(input)) != null) {
+            return giftNPC(matcher);
+        } else if ((matcher = GameMenuCommand.LIST_NPC_FRIENDSHIPS.getMatcher(input)) != null) {
+            return listNPC(matcher);
         }
 
         return new Result(false, "Invalid command.");
+    }
+
+    private Result listNPC(Matcher matcher) {
+    }
+
+    private Result giftNPC(Matcher matcher) {
+    }
+
+    private Result meetNPC(Matcher matcher) {
+        String
     }
 
     public Result howMouchWater() {
@@ -234,6 +250,7 @@ public class GameMenuController {
         App.setCurrentGame(game);
         gameMap(matchedPlayers);
         game.addFriendShip();
+        game.addFriendshipWithNPC();
         return new Result(true, "Game started with " + matchedPlayers.size()
                 + " new player(s)." + "\n" + "It's " + App.getCurrentGame().getActivePlayer().getUsername() + " turn.");
     }
@@ -372,7 +389,7 @@ public class GameMenuController {
     }
 
     private List<Point> bfs(Point start, Point dest, Tile[][] map) {
-        int[][] dirs = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+        int[][] dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
         HashMap<Point, Point> parent = new HashMap<>();
         Queue<Point> queue = new LinkedList<>();
         Set<Point> visited = new HashSet<>();
@@ -389,10 +406,10 @@ public class GameMenuController {
                 Point next = new Point(current.x + d[0], current.y + d[1]);
                 if (inBounds(next, map) && !visited.contains(next)
                         && (map[next.x][next.y].getType() == TileType.EMPTY
-                                || map[next.x][next.y].getType() != TileType.GREENHOUSE_BUILT
-                                || map[next.x][next.y].getType() != TileType.PLANTING_SOIL
-                                || map[next.x][next.y].getType() != TileType.SHOP
-                                || map[next.x][next.y].getType() != TileType.HOUSE)) {
+                        || map[next.x][next.y].getType() != TileType.GREENHOUSE_BUILT
+                        || map[next.x][next.y].getType() != TileType.PLANTING_SOIL
+                        || map[next.x][next.y].getType() != TileType.SHOP
+                        || map[next.x][next.y].getType() != TileType.HOUSE)) {
                     queue.add(next);
                     visited.add(next);
                     parent.put(next, current);
@@ -554,7 +571,7 @@ public class GameMenuController {
         Point origin = new Point(x, y);
         Farm farm = App.getCurrentGame().getActivePlayer().getFarm();
         CoopsAndBarnsTypes type = CoopsAndBarnsTypes.fromName(buildingName);
-        
+
         if (type == null)
             return new Result(false, "Invalid building type.");
 
@@ -634,10 +651,10 @@ public class GameMenuController {
         Tile[][] map = App.getCurrentGame().getMainMap().getMainMap();
         Animal newAnimal = new Animal(givenName, animalType);
         boolean duplicateName = Stream.concat(
-                player.getFarm().getCoops().stream()
-                        .flatMap(c -> c.getAnimals().stream()),
-                player.getFarm().getBarns().stream()
-                        .flatMap(b -> b.getAnimals().stream()))
+                        player.getFarm().getCoops().stream()
+                                .flatMap(c -> c.getAnimals().stream()),
+                        player.getFarm().getBarns().stream()
+                                .flatMap(b -> b.getAnimals().stream()))
                 .anyMatch(a -> a.getName().equals(givenName));
 
         if (duplicateName) {
@@ -669,7 +686,7 @@ public class GameMenuController {
                 })
                 .orElse(false);
 
-        
+
         if (addedToBarn) {
             return new Result(true, givenName + " the " + animalName + " was added to a Barn.");
         }
@@ -685,8 +702,8 @@ public class GameMenuController {
         Tile[][] map = App.getCurrentGame().getMainMap().getMainMap();
 
         Optional<Animal> foundAnimal = Stream.concat(
-                player.getFarm().getCoops().stream().flatMap(coop -> coop.getAnimals().stream()),
-                player.getFarm().getBarns().stream().flatMap(barn -> barn.getAnimals().stream()))
+                        player.getFarm().getCoops().stream().flatMap(coop -> coop.getAnimals().stream()),
+                        player.getFarm().getBarns().stream().flatMap(barn -> barn.getAnimals().stream()))
                 .filter(animal -> name.equals(animal.getName()))
                 .findFirst();
 
@@ -717,10 +734,10 @@ public class GameMenuController {
         Player player = App.getCurrentGame().getActivePlayer();
 
         return Stream.concat(
-                player.getFarm().getCoops().stream()
-                        .flatMap(coop -> coop.getAnimals().stream()),
-                player.getFarm().getBarns().stream()
-                        .flatMap(barn -> barn.getAnimals().stream()))
+                        player.getFarm().getCoops().stream()
+                                .flatMap(coop -> coop.getAnimals().stream()),
+                        player.getFarm().getBarns().stream()
+                                .flatMap(barn -> barn.getAnimals().stream()))
                 .filter(animal -> animal.getName().equalsIgnoreCase(name))
                 .findFirst()
                 .map(animal -> {
@@ -734,10 +751,10 @@ public class GameMenuController {
         Player player = App.getCurrentGame().getActivePlayer();
 
         List<String> infoList = Stream.concat(
-                player.getFarm().getCoops().stream()
-                        .flatMap(coop -> coop.getAnimals().stream()),
-                player.getFarm().getBarns().stream()
-                        .flatMap(barn -> barn.getAnimals().stream()))
+                        player.getFarm().getCoops().stream()
+                                .flatMap(coop -> coop.getAnimals().stream()),
+                        player.getFarm().getBarns().stream()
+                                .flatMap(barn -> barn.getAnimals().stream()))
                 .map(animal -> {
                     AnimalFriendship f = animal.getAnimalFriendship();
                     Animals animals = (Animals) animal.getType();
@@ -768,10 +785,10 @@ public class GameMenuController {
         }
         Point destination = new Point(x, y);
         Optional<AnimalLocationContext> contextOpt = Stream.concat(
-                player.getFarm().getBarns().stream()
-                        .flatMap(b -> b.getAnimals().stream().map(a -> new AnimalLocationContext(a, b))),
-                player.getFarm().getCoops().stream()
-                        .flatMap(c -> c.getAnimals().stream().map(a -> new AnimalLocationContext(a, c))))
+                        player.getFarm().getBarns().stream()
+                                .flatMap(b -> b.getAnimals().stream().map(a -> new AnimalLocationContext(a, b))),
+                        player.getFarm().getCoops().stream()
+                                .flatMap(c -> c.getAnimals().stream().map(a -> new AnimalLocationContext(a, c))))
                 .filter(ctx -> ctx.animal().getName().equals(name)).findFirst();
 
         if (contextOpt.isEmpty())
@@ -912,10 +929,10 @@ public class GameMenuController {
         Player player = App.getCurrentGame().getActivePlayer();
         String animalName = matcher.group("name").trim();
         Optional<AnimalLocationContext> contextOpt = Stream.concat(
-                player.getFarm().getBarns().stream()
-                        .flatMap(b -> b.getAnimals().stream().map(a -> new AnimalLocationContext(a, b))),
-                player.getFarm().getCoops().stream()
-                        .flatMap(c -> c.getAnimals().stream().map(a -> new AnimalLocationContext(a, c))))
+                        player.getFarm().getBarns().stream()
+                                .flatMap(b -> b.getAnimals().stream().map(a -> new AnimalLocationContext(a, b))),
+                        player.getFarm().getCoops().stream()
+                                .flatMap(c -> c.getAnimals().stream().map(a -> new AnimalLocationContext(a, c))))
                 .filter(ctx -> ctx.animal().getName().equals(animalName)).findFirst();
 
         if (contextOpt.isEmpty())
