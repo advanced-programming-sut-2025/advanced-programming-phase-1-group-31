@@ -4,11 +4,13 @@ import model.materials.Material;
 
 public class Trade {
     private int id;
-    private final Player sender;
-    private final Player receiver;
+    private Player sender;
+    private Player receiver;
     private final Material materialToSell;
     private final int amountToSell;
-    /** true = accepted, false = rejected (initially false) */
+    /**
+     * true = accepted, false = rejected (initially false)
+     */
     private boolean isAccepted = false;
 
     private Integer price;               // null if material-for-material
@@ -45,30 +47,69 @@ public class Trade {
         this.amountToReceive = amountToReceive;
     }
 
-    public Trade(Player sender,
-                 Material materialToSell,
-                 int amountToSell) {
-        this.sender = sender;
-        this.receiver = null;
+    public Trade(Material materialToSell,
+                 int amountToSell,
+                 int price) {
         this.materialToSell = materialToSell;
         this.amountToSell = amountToSell;
-    }//quest
+        this.price = price;
+    }
 
-    public int getId() { return id; }
+    public Trade(Material materialToSell,
+                 Material materialToReceive,
+                 int amountToSell,
+                 int amountToReceive) {
+        this.materialToSell = materialToSell;
+        this.amountToSell = amountToSell;
+        this.materialToReceive = materialToReceive;
+        this.amountToReceive = amountToReceive;
+    }
+
+
+
+    public int getId() {
+        return id;
+    }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public Player getSender() { return sender; }
-    public Player getReceiver() { return receiver; }
-    public Material getMaterialToSell() { return materialToSell; }
-    public int getAmountToSell() { return amountToSell; }
-    public boolean isAccepted() { return isAccepted; }
-    public void setAccepted(boolean accepted) { isAccepted = accepted; }
-    public Integer getPrice() { return price; }
-    public Material getMaterialToReceive() { return materialToReceive; }
-    public Integer getAmountToReceive() { return amountToReceive; }
+    public Player getSender() {
+        return sender;
+    }
+
+    public Player getReceiver() {
+        return receiver;
+    }
+
+    public Material getMaterialToSell() {
+        return materialToSell;
+    }
+
+    public int getAmountToSell() {
+        return amountToSell;
+    }
+
+    public boolean isAccepted() {
+        return isAccepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+        isAccepted = accepted;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public Material getMaterialToReceive() {
+        return materialToReceive;
+    }
+
+    public Integer getAmountToReceive() {
+        return amountToReceive;
+    }
 
     public boolean isRead() {
         return isRead;
