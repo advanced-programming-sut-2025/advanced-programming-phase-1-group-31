@@ -31,6 +31,9 @@
         },
         {
           "trashCanType": "Initial"
+        },
+        {
+          "energyConsumption": 2
         }
       ]
     },
@@ -82,6 +85,9 @@
         },
         {
           "trashCanType": "Initial"
+        },
+        {
+          "energyConsumption": 2
         }
       ]
     },
@@ -133,6 +139,9 @@
         },
         {
           "trashCanType": "Initial"
+        },
+        {
+          "energyConsumption": 2
         }
       ]
     },
