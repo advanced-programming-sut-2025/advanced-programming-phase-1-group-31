@@ -97,6 +97,10 @@ public class Game {
         );
     }
 
+    public void addFriendshipWithNPC(){
+        for (Player player : )
+    }
+
     public ArrayList<Shop> getShops() {
         return shops;
     }

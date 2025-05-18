@@ -8,7 +8,7 @@ public enum TradeMenuCommand implements Command {
     SELECT_TRADE(
             "^\\s*trade\\s+-u\\s+(?<username>\\S+)\\s+-t\\s+"
                     + "(?<type>request|offer)"
-                    + "(?:\\s+-i\\s+(?<item>\\S+)\\s+-a\\s+(?<amount>\\d+))?"
+                    + "(?:\\s+-i\\s+(?<item>[A-Za-z ]+)\\s+-a\\s+(?<amount>\\d+))?"
                     + "(?:\\s+-p\\s+(?<price>\\d+\\.?\\d*))?"
                     + "(?:\\s+-ti\\s+(?<targetItem>\\S+)\\s+-ta\\s+(?<targetAmount>\\d+))?"
                     + "\\s*$"

@@ -19,6 +19,10 @@ public class AnimalProduct implements Material {
         this.quantity = quantity;
     }
 
+    public AnimalProduct(AnimalProducts animalProducts) {
+        this.animalProducts = animalProducts;
+    }
+
     public AnimalProducts getAnimalProducts() {
         return animalProducts;
     }

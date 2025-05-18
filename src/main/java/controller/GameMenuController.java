@@ -158,14 +158,6 @@ public class GameMenuController {
             return respondToMarriage(matcher);
         } else if ((matcher = GameMenuCommand.SELECT_TRADE_START.getMatcher(input)) != null) {
             return startTrade(matcher);
-        } else if ((matcher = GameMenuCommand.SELECT_TRADE.getMatcher(input)) != null) {
-            return processTrade(matcher);
-        } else if ((matcher = GameMenuCommand.SELECT_LIST_TRADE.getMatcher(input)) != null) {
-            return listTrades(matcher);
-        } else if ((matcher = GameMenuCommand.SELECT_TRADE_RESPONSE.getMatcher(input)) != null) {
-            return respondToTrade(matcher);
-        } else if ((matcher = GameMenuCommand.SELECT_TRADE_HISTORY.getMatcher(input)) != null) {
-            return showTradeHistory(matcher);
         } else if (GameMenuCommand.SHOW_LEGEND.getMatcher(input) != null) {
             return getLegendAsResult();
         } else if (GameMenuCommand.SHOW_WATER_LEFT.getMatcher(input) != null) {
@@ -1973,8 +1965,6 @@ public class GameMenuController {
         return new Result(true, result.toString());
     }
 
-    // uncompleted
-
     private Result purchaseProduct(Matcher matcher) {
         String productName = matcher.group("productName");
         int amount = -1;
@@ -2029,33 +2019,43 @@ public class GameMenuController {
 
     private Result startTrade(Matcher matcher) {
         App.setCurrentMenu(Menus.TradeMenu);
-        return new Result(true, "Your are now in Trade menu.");
+
+        return new Result(true, "Your are now in Trade menu.\n" + showUnreadTrades().Message());
     }
 
-    private Result processTrade(Matcher matcher) {
-        String username = matcher.group("username");
-        String type = matcher.group("type");
-        String item = matcher.group("item");
-        String amount = matcher.group("amount");
-        String price = matcher.group("price");
-        String targetItem = matcher.group("targetItem");
-        String targetAmount = matcher.group("targetAmount");
-        return new Result(true, String.format("Processed trade with %s: %s %sx%s for %s %sx%s",
-                username, type, amount, item, price, targetAmount, targetItem));
-    }
+    public Result showUnreadTrades() {
+        Player player = App.getCurrentGame().getActivePlayer();
+        StringBuilder result = new StringBuilder();
+        int tempId = 1;
+        boolean hasUnread = false;
 
-    private Result listTrades(Matcher matcher) {
-        return new Result(true, "Listing all trades.");
-    }
+        result.append("Your Unread Trades:\n");
 
-    private Result respondToTrade(Matcher matcher) {
-        String id = matcher.group("id");
-        String respond = matcher.group("respond");
-        return new Result(true, "Responded to trade #" + id + ": " + respond);
-    }
+        for (Trade trade : player.getTradeHistory()) {
+            if (!trade.isRead() && trade.getReceiver().getUsername().equals(player.getUsername())) {
+                hasUnread = true;
+                trade.setId(tempId);
 
-    private Result showTradeHistory(Matcher matcher) {
-        return new Result(true, "Showing trade history.");
+                result.append("Trade ID: ").append(tempId).append("\n")
+                        .append(trade.getSender().getUsername()).append(" --> ").append(trade.getReceiver().getUsername()).append("\n")
+                        .append(trade.getMaterialToSell().getName()).append(" x ").append(trade.getAmountToSell());
+
+                if (trade.getPrice() == null) {
+                    result.append(" --> ").append(trade.getMaterialToReceive().getName()).append(" x ").append(trade.getAmountToReceive());
+                } else {
+                    result.append(" --> ").append(trade.getPrice()).append(" gold");
+                }
+
+                result.append("\n--------\n");
+                tempId++;
+            }
+        }
+
+        if (!hasUnread) {
+            return new Result(false, "You don't have any unread trade.");
+        }
+
+        return new Result(true, result.toString());
     }
 
     public Material whichShopIsPlayer() {

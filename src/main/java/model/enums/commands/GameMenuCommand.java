@@ -82,7 +82,7 @@ public enum GameMenuCommand implements Command {
     SELECT_LIST_TRADE("^\\s*trade\\s+list\\s*$"),
     SELECT_TRADE_RESPONSE("^\\s*trade\\s+respond\\s+(?<respond>(-accept|-reject))\\s+-i\\s+(?<id>\\S+)\\s*$"),
     SELECT_TRADE_HISTORY("^\\s*trade\\s+history\\s*$"),
-    SELECT_SELL("^\\s*sell\\s+(?<productName>\\S+)\\s+-n\\s+(?<count>\\S+)\\s*$"),
+    SELECT_SELL("^\\s*sell\\s+(?<productName>[A-Za-z ]+)\\s+-n\\s+(?<count>\\S+)\\s*$"),
     BUILD_BARN("^\\s*build\\s+-a\\s+(?<buildingname>[a-zA-Z ]+)\\s+-l\\s+(?<X>\\d+)\\s+(?<Y>\\d+)\\s*$"),
     BUY_ANIMAL("^\\s*buy\\s+animal\\s+-a\\s+(?<animal>\\S+)\\s+-n\\s+(?<name>\\S+)\\s*$"),
     PET_ANIMAL("^\\s*pet\\s+-n\\s+(?<name>\\S+)\\s*$"),

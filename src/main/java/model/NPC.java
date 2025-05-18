@@ -10,6 +10,10 @@ public class NPC implements Material {
     private NPCs NPCType;
 
 
+    public NPC(NPCs NPCType) {
+        this.NPCType = NPCType;
+    }
+
     public NPCs getNPCType() {
         return NPCType;
     }

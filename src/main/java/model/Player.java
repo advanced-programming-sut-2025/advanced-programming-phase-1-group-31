@@ -24,6 +24,7 @@ public class Player {
     private TileType type;
     private final ArrayList<SMS> SMSs = new ArrayList<>();
     private final ArrayList<Friendship> friendships = new ArrayList<>();
+    private final ArrayList<FriendshipWithNPC> friendshipWithNPCS = new ArrayList<>();
     private Tool inHand;
     private final Backpack inventory = new Backpack();
     private final ArrayList<Gift> gifts = new ArrayList<>();
@@ -42,6 +43,10 @@ public class Player {
 
     public ArrayList<Friendship> getFriendships() {
         return friendships;
+    }
+
+    public ArrayList<FriendshipWithNPC> getFriendshipWithNPCS() {
+        return friendshipWithNPCS;
     }
 
     public ArrayList<SMS> getSMSs() {
@@ -63,14 +68,16 @@ public class Player {
     private Map<String, String> backup;
 
     private final Skill skills = new Skill();
-    public ArrayList<FriendshipWithNPC> NPCFriendships = new ArrayList<>();
-    public ArrayList<Trade> tradeHistory = new ArrayList<>();
+    private final ArrayList<Trade> tradeHistory = new ArrayList<>();
     private double money = 0;
-    // details of the Crafting recipes must be determined
-    // private HashMap<Craftable, Boolean> craftingRecipes;
-    // //details of the Cooking recipes must be determined
-    // private HashMap<Food, Boolean> cookingRecipes;
 
+    public ArrayList<Trade> getTradeHistory() {
+        return tradeHistory;
+    }
+
+    public void addTrade(Trade trade){
+        tradeHistory.add(trade);
+    }
 
     public Player(String username, String password, String nickname, String email, boolean gender, String question, String answer){
         this.username = username;
@@ -158,8 +165,6 @@ public class Player {
     public Skill getSkills() {
         return skills;
     }
-    // public HashMap<Craftable, Boolean> getCraftingRecipes() {
-
 
     public TileType getType() {
         return type;
@@ -167,13 +172,6 @@ public class Player {
     public void setType(TileType type) {
         this.type = type;
     }
-    // return craftingRecipes;
-    // }
-
-    // public HashMap<Food, Boolean> getCookingRecipes() {
-    // return cookingRecipes;
-    // }
-
 
     public void setHighScore(int highScore) {
         this.highScore = highScore;
@@ -210,10 +208,6 @@ public class Player {
     public void setGender(boolean gender) {
         this.gender = gender;
     }
-    // public void setInHand(Tools inHand) {
-    // this.inHand = inHand;
-    // }
-
 
     public void setFarm(Farm farm) {
         this.farm = farm;
@@ -222,13 +216,6 @@ public class Player {
     public void setBackup(Map<String, String> backup) {
         this.backup = backup;
     }
-    // public void setCraftingRecipes(HashMap<Craftable, Boolean> craftingRecipes) {
-    // this.craftingRecipes = craftingRecipes;
-    // }
-
-    // public void setCookingRecipes(HashMap<Food, Boolean> cookingRecipes) {
-    // this.cookingRecipes = cookingRecipes;
-    // }
 
     public Menus getCurrentMenu() {
         return currentMenu;
@@ -260,6 +247,7 @@ public class Player {
     public void setStayLoggedIn(boolean stayLoggedIn) {
         this.stayLoggedIn = stayLoggedIn;
     }
+
 
 
 }
