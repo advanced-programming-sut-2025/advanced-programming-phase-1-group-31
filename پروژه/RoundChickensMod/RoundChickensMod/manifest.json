@@ -1,0 +1,12 @@
+{
+   "Name": "Round Chickens Mod",
+   "Author": "SpaghettiLord1010",
+   "Version": "1.0.0",
+   "Description": "This mod replaces the sprites of all the chickens with cute rolling chickens.",
+   "UniqueID": "SpaghettiLord1010.RoundChickensMod",
+   "MinimumApiVersion": "2.0",
+   "UpdateKeys": [ "Nexus:3018" ],
+   "ContentPackFor": {
+      "UniqueID": "Pathoschild.ContentPatcher"
+   }
+}

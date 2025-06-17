@@ -1,0 +1,73 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "spring_outdoorsTileSheet.tsx",
+    "expandedProjectPaths": [
+        "core",
+        "پروژه",
+        ".",
+        "core/src/main",
+        "core/src",
+        "پروژه/Map Tweaks"
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "Flooring_14.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "greenhouse.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "spring_outdoorsTileSheet.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "untitled.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 1,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 429.5,
+                "y": 355.5
+            }
+        },
+        "van-green-front.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "last.imagePath": "/home/amirabbas/Documents/AP/Project/پروژه/Map Tweaks/Map Tweaks/content",
+    "map.height": 20,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 25,
+    "openFiles": [
+        "spring_outdoorsTileSheet.tsx",
+        "untitled.tmx",
+        "spring_outdoorsTileSheet.tsx",
+        "Flooring_14.tsx",
+        "greenhouse.tsx",
+        "van-green-front.tsx"
+    ],
+    "project": "untitled.tiled-project",
+    "property.type": "int",
+    "recentFiles": [
+        "spring_outdoorsTileSheet.tsx",
+        "van-green-front.tsx",
+        "greenhouse.tsx",
+        "Flooring_14.tsx",
+        "untitled.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}

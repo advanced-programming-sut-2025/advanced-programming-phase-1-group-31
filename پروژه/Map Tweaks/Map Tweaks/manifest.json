@@ -1,0 +1,12 @@
+{
+   "Name": "Map Tweaks",
+   "Author": "SpaghettiLord1010",
+   "Version": "1.0.0",
+   "Description": "This mod tweaks the smaller maps which you normally don't bother and makes them a little nicer.",
+   "UniqueID": "SpaghettiLord1010.MapTweaks",
+   "MinimumApiVersion": "2.0",
+   "UpdateKeys": [ "Nexus:3031" ],
+   "ContentPackFor": {
+      "UniqueID": "Pathoschild.ContentPatcher"
+   }
+}
