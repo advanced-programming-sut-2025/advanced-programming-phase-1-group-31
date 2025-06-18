@@ -3,27 +3,46 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "spring_outdoorsTileSheet.tsx",
+    "activeFile": "townInterior.tsx",
     "expandedProjectPaths": [
         "core",
-        "پروژه",
         ".",
-        "core/src/main",
+        "پروژه/Map Tweaks",
+        "پروژه",
         "core/src",
-        "پروژه/Map Tweaks"
+        "core/src/main"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "Flooring_01.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
         "Flooring_14.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 2,
             "scaleInEditor": 1
         },
         "greenhouse.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 2,
             "scaleInEditor": 1
         },
+        "house.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 2.1113750000000002,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 198.6856906044639,
+                "y": 155.11218992362797
+            }
+        },
         "spring_outdoorsTileSheet.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "townInterior.tsx": {
+            "scaleInDock": 2,
             "scaleInEditor": 1
         },
         "untitled.tmx": {
@@ -31,39 +50,44 @@
                 3
             ],
             "scale": 1,
-            "selectedLayer": 2,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 429.5,
-                "y": 355.5
+                "x": 439.5,
+                "y": 280.5
             }
         },
         "van-green-front.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 2,
             "scaleInEditor": 1
         }
     },
-    "last.imagePath": "/home/amirabbas/Documents/AP/Project/پروژه/Map Tweaks/Map Tweaks/content",
+    "last.imagePath": "/home/amirabbas/Documents/AP/Project/پروژه/Cute_Fantasy_Free/Cute_Fantasy_Free/Player",
     "map.height": 20,
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
     "map.width": 25,
     "openFiles": [
-        "spring_outdoorsTileSheet.tsx",
         "untitled.tmx",
-        "spring_outdoorsTileSheet.tsx",
         "Flooring_14.tsx",
         "greenhouse.tsx",
-        "van-green-front.tsx"
+        "van-green-front.tsx",
+        "spring_outdoorsTileSheet.tsx",
+        "house.tmx",
+        "Flooring_01.tsx",
+        "townInterior.tsx"
     ],
     "project": "untitled.tiled-project",
-    "property.type": "int",
+    "property.type": "string",
     "recentFiles": [
-        "spring_outdoorsTileSheet.tsx",
-        "van-green-front.tsx",
-        "greenhouse.tsx",
+        "untitled.tmx",
         "Flooring_14.tsx",
-        "untitled.tmx"
+        "greenhouse.tsx",
+        "van-green-front.tsx",
+        "spring_outdoorsTileSheet.tsx",
+        "house.tmx",
+        "Flooring_01.tsx",
+        "townInterior.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {

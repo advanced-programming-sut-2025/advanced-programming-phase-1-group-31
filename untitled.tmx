@@ -121,7 +121,11 @@
  </layer>
  <objectgroup id="3" name="object">
   <object id="2" name="home" x="653" y="36" width="114" height="168"/>
-  <object id="12" name="door" x="703" y="139" width="20" height="66"/>
+  <object id="12" name="door" x="703" y="139" width="20" height="66">
+   <properties>
+    <property name="targetMap" value="house.tmx"/>
+   </properties>
+  </object>
   <object id="14" name="lake" x="292" y="383" width="206" height="168">
    <ellipse/>
   </object>
