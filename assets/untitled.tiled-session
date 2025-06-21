@@ -1,0 +1,172 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "bigmap.tmx",
+    "expandedProjectPaths": [
+        "core/src",
+        "core/src/main",
+        "core",
+        "پروژه/Map Tweaks",
+        "پروژه",
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "DesertTiles.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "Flooring_01.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "Flooring_14.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "Screenshot 2025-06-19 151540.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Screenshot 2025-06-19 151711.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "Screenshot_20250619-123151.tsx": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "Screenshot_20250619-161356.tsx": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "Screenshot_20250619-190401.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Screenshot_20250620-145526.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "bigmap.tmx": {
+            "scale": 1,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 460.5,
+                "y": 1063.5
+            }
+        },
+        "farming_fishing.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "greenhouse.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "grocery-store.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "house.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 2.1113750000000002,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 199.63294061926467,
+                "y": 159.61162749393168
+            }
+        },
+        "spring_outdoorsTileSheet.tsx": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "store1.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 640,
+                "y": 640
+            }
+        },
+        "townInterior.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 2
+        },
+        "untitled.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 440,
+                "y": 279.3333333333333
+            }
+        },
+        "van-green-front.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        }
+    },
+    "last.imagePath": "/home/amirabbas/Documents/AP/Project/پروژه/Screen",
+    "last.worldFilePath": "/home/amirabbas/Documents/AP/Project",
+    "loadedWorlds": [
+        "/home/amirabbas/Documents/AP/Project/world.world",
+        "/home/amirabbas/Documents/AP/Project/world.world"
+    ],
+    "map.height": 40,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 32,
+    "map.tileWidth": 32,
+    "map.width": 40,
+    "openFiles": [
+        "untitled.tmx",
+        "Flooring_14.tsx",
+        "greenhouse.tsx",
+        "van-green-front.tsx",
+        "spring_outdoorsTileSheet.tsx",
+        "house.tmx",
+        "Flooring_01.tsx",
+        "townInterior.tsx",
+        "bigmap.tmx",
+        "DesertTiles.tsx",
+        "farming_fishing.tsx",
+        "grocery-store.tsx",
+        "Screenshot_20250619-161356.tsx",
+        "Screenshot_20250619-123151.tsx",
+        "Screenshot 2025-06-19 151540.tsx",
+        "Screenshot 2025-06-19 151711.tsx",
+        "Screenshot_20250619-190401.tsx",
+        "store1.tmx",
+        "Screenshot_20250620-145526.tsx"
+    ],
+    "project": "untitled.tiled-project",
+    "property.type": "string",
+    "recentFiles": [
+        "untitled.tmx",
+        "Flooring_14.tsx",
+        "greenhouse.tsx",
+        "van-green-front.tsx",
+        "spring_outdoorsTileSheet.tsx",
+        "house.tmx",
+        "Flooring_01.tsx",
+        "townInterior.tsx",
+        "Screenshot_20250620-145526.tsx",
+        "store1.tmx",
+        "Screenshot_20250619-190401.tsx",
+        "Screenshot 2025-06-19 151711.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 32,
+        "width": 32
+    }
+}
