@@ -1,0 +1,144 @@
+{
+"skeleton": { "hash": "15n6Fo/Fr0dRhNKmk4qi5u62FC0", "spine": "3.7.87", "width": 800, "height": 800, "images": "../output/1x/", "audio": "../../audio/output/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "fly", "parent": "root", "length": 24.2, "rotation": -1.04, "x": 216.05, "y": 93.43 },
+	{ "name": "poop", "parent": "root", "length": 191.42, "x": -16.48, "y": -84.25 }
+],
+"slots": [
+	{ "name": "bg", "bone": "root" },
+	{ "name": "poop", "bone": "poop", "dark": "000000", "attachment": "poop" },
+	{ "name": "fly", "bone": "fly", "dark": "000000", "attachment": "fly" },
+	{ "name": "fly-path", "bone": "root", "attachment": "fly-path" },
+	{ "name": "trail", "bone": "fly", "attachment": "trail" },
+	{ "name": "fart", "bone": "poop", "attachment": "fart" }
+],
+"path": [
+	{
+		"name": "fly-path",
+		"order": 0,
+		"bones": [ "fly" ],
+		"target": "fly-path"
+	}
+],
+"skins": {
+	"default": {
+		"fart": {
+			"fart": { "type": "point", "x": 16.94, "y": 147.54 }
+		},
+		"fly": {
+			"fly": { "x": 2.1, "y": -0.04, "rotation": 1.04, "width": 10, "height": 11 }
+		},
+		"fly-path": {
+			"fly-path": {
+				"type": "path",
+				"closed": true,
+				"lengths": [ 103.55, 222.13, 311.1, 366.2, 432.28, 561.33, 712.73, 813.18, 910.22, 955.98, 1052.63, 1107.09, 1199.62, 1258.77 ],
+				"vertexCount": 42,
+				"vertices": [ 195.71, 96.34, 227.87, 97.3, 260.03, 98.26, 301.2, 147.63, 281.07, 170.64, 260.94, 193.65, 224.99, 225.28, 176.1, 206.59, 127.21, 187.89, 186.16, 136.13, 196.23, 146.19, 206.3, 156.26, 178.97, 187.89, 219.24, 183.58, 259.5, 179.27, 256.63, 151.94, 237.93, 141.88, 219.24, 131.81, 111.39, 72.85, 128.64, 118.87, 144.09, 160.06, 190.48, 254.04, 138.71, 252.6, 86.94, 251.17, 111.39, 167.76, 72.56, 195.08, 33.74, 222.41, 43.8, 128.94, 71.12, 128.94, 98.45, 128.94, 94.13, 100.18, 86.94, 97.3, 79.75, 94.42, 108.51, 8.14, 141.59, 36.9, 174.66, 65.66, 112.83, 49.85, 148.78, 77.17, 184.73, 104.49, 214.92, 29.71, 230.74, 65.66, 246.56, 101.61 ]
+			}
+		},
+		"poop": {
+			"poop": { "x": 16.48, "y": 52.37, "width": 331, "height": 333 }
+		},
+		"trail": {
+			"trail": { "type": "point" }
+		}
+	}
+},
+"events": {
+	"fart": { "string": "Particle Park Stink" },
+	"fart1": { "audio": "fart1.ogg" },
+	"fly": { "audio": "fly.ogg" },
+	"splat": { "audio": "splat.ogg" },
+	"trail": { "string": "Particle Park Trail Pixel" }
+},
+"animations": {
+	"animation": {
+		"paths": {
+			"fly-path": {
+				"position": [
+					{ "time": 0 },
+					{ "time": 4, "position": 1 }
+				]
+			}
+		},
+		"events": [
+			{ "time": 0, "name": "fart", "string": "fart;start;back" },
+			{ "time": 0, "name": "fart1" },
+			{ "time": 0, "name": "trail", "string": "trail;start" },
+			{ "time": 1.9333, "name": "fly" },
+			{ "time": 4, "name": "fart", "string": "fart;stop;back" },
+			{ "time": 4, "name": "trail", "string": "trail;stop" }
+		]
+	},
+	"hide": {
+		"slots": {
+			"fly": {
+				"twoColor": [
+					{ "time": 0, "light": "ffffffff", "dark": "000000" },
+					{ "time": 1, "light": "ffffff00", "dark": "000000" }
+				]
+			},
+			"poop": {
+				"twoColor": [
+					{ "time": 0, "light": "ffffffff", "dark": "000000" },
+					{ "time": 1, "light": "ffffff00", "dark": "000000" }
+				]
+			}
+		}
+	},
+	"show": {
+		"bones": {
+			"poop": {
+				"translate": [
+					{
+						"time": 0,
+						"x": 0,
+						"y": 619.3,
+						"curve": [ 0.25, 0, 0.99, 0.21 ]
+					},
+					{ "time": 0.5, "x": 0, "y": 0 }
+				]
+			},
+			"fly": {
+				"translate": [
+					{
+						"time": 0,
+						"x": -195.92,
+						"y": 430.13,
+						"curve": [ 0.25, 0, 0.99, 0.21 ]
+					},
+					{ "time": 0.5, "x": -195.92, "y": -96.84 }
+				]
+			}
+		},
+		"paths": {
+			"fly-path": {
+				"mix": [
+					{ "time": 0, "rotateMix": 0, "translateMix": 0, "curve": "stepped" },
+					{
+						"time": 0.5,
+						"rotateMix": 0,
+						"translateMix": 0,
+						"curve": [ 0.267, 0.63, 0.743, 0.72 ]
+					},
+					{ "time": 1 }
+				]
+			}
+		},
+		"drawOrder": [
+			{
+				"time": 0,
+				"offsets": [
+					{ "slot": "poop", "offset": 1 }
+				]
+			},
+			{ "time": 1 }
+		],
+		"events": [
+			{ "time": 0.5, "name": "splat" }
+		]
+	}
+}
+}
