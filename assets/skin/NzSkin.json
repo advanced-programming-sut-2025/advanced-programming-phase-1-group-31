@@ -1,5 +1,5 @@
 {
-"BitmapFont": {
+"com.badlogic.gdx.graphics.g2d.BitmapFont": {
 	"Bold": {
 		"file": "04B_30__.fnt",
 		"scaledSize": -1,
@@ -31,54 +31,99 @@
 		"flip": false
 	}
 },
-"Color": {
+"com.badlogic.gdx.graphics.Color": {
 	"AdobeAni": {
-		"hex": "804d00c7"
+		"r": 0.5019608,
+		"g": 0.3019608,
+		"b": 0,
+		"a": 0.78039217
 	},
 	"Ani": {
-		"hex": "db8053ff"
+		"r": 0.85882354,
+		"g": 0.5019608,
+		"b": 0.3254902,
+		"a": 1
 	},
 	"Ani3": {
-		"hex": "663333ff"
+		"r": 0.4,
+		"g": 0.2,
+		"b": 0.2,
+		"a": 1
 	},
 	"Ani5": {
-		"hex": "ff9900ff"
+		"r": 1,
+		"g": 0.6,
+		"b": 0,
+		"a": 1
 	},
 	"anishafaf": {
-		"hex": "ffa87bff"
+		"r": 1,
+		"g": 0.65882355,
+		"b": 0.48235294,
+		"a": 1
 	},
 	"error": {
-		"hex": "ce1f25ff"
+		"r": 0.80784315,
+		"g": 0.12156863,
+		"b": 0.14509805,
+		"a": 1
 	},
 	"error2": {
-		"hex": "ad1400ff"
+		"r": 0.6784314,
+		"g": 0.078431375,
+		"b": 0,
+		"a": 1
 	},
 	"ordinaryText": {
-		"hex": "221122ff"
+		"r": 0.13333334,
+		"g": 0.06666667,
+		"b": 0.13333334,
+		"a": 1
 	},
 	"ordinaryTextBoarder": {
-		"hex": "dd9454ff"
+		"r": 0.8666667,
+		"g": 0.5803922,
+		"b": 0.32941177,
+		"a": 1
 	},
 	"red": {
-		"hex": "ce5252ff"
+		"r": 0.80784315,
+		"g": 0.32156864,
+		"b": 0.32156864,
+		"a": 1
 	},
 	"redShafaf": {
-		"hex": "ef7373ff"
+		"r": 0.9372549,
+		"g": 0.4509804,
+		"b": 0.4509804,
+		"a": 1
 	},
 	"text": {
-		"hex": "56160cff"
+		"r": 0.3372549,
+		"g": 0.08627451,
+		"b": 0.047058824,
+		"a": 1
 	},
 	"textBoarder": {
-		"hex": "e09650ff"
+		"r": 0.8784314,
+		"g": 0.5882353,
+		"b": 0.3137255,
+		"a": 1
 	},
 	"textBoarderT": {
-		"hex": "c17c3cff"
+		"r": 0.75686276,
+		"g": 0.4862745,
+		"b": 0.23529412,
+		"a": 1
 	},
 	"white": {
-		"hex": "ffffffff"
+		"r": 1,
+		"g": 1,
+		"b": 1,
+		"a": 1
 	}
 },
-"CheckBoxStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle": {
 	"default": {
 		"checkboxOn": "selectCheckBox",
 		"checkboxOff": "checkBox",
@@ -90,16 +135,22 @@
 		"pressedOffsetY": -2
 	}
 },
-"ImageButtonStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle": {
 	"default": {
 		"imageUp": "tas",
 		"imageDown": "selectedTas",
 		"imageOver": "selectedTas",
 		"pressedOffsetX": -1,
 		"pressedOffsetY": -2
+	},
+	"inventory": {
+		"imageUp": "tab_above_middle",
+		"imageDown": "tab_above_middle_selected",
+		"pressedOffsetX": -1,
+		"pressedOffsetY": -2
 	}
 },
-"LabelStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
 	"default": {
 		"font": "Text"
 	},
@@ -116,7 +167,7 @@
 		"font": "Bold"
 	}
 },
-"ListStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle": {
 	"default": {
 		"font": "WhiteText",
 		"fontColorSelected": "red",
@@ -126,7 +177,7 @@
 		"background": "background"
 	}
 },
-"ProgressBarStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle": {
 	"default-horizontal": {
 		"background": "vScroll",
 		"knob": "hScrollKnob"
@@ -136,7 +187,7 @@
 		"knob": "vScrollKnob"
 	}
 },
-"ScrollPaneStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle": {
 	"default": {
 		"background": "selectListBoard",
 		"hScroll": "hScroll",
@@ -145,7 +196,7 @@
 		"vScrollKnob": "vScrollKnob"
 	}
 },
-"SelectBoxStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle": {
 	"default": {
 		"font": "Text",
 		"fontColor": "white",
@@ -154,7 +205,7 @@
 		"listStyle": "default"
 	}
 },
-"SliderStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle": {
 	"default-horizontal": {
 		"background": "hScroll",
 		"knob": "hScrollKnob",
@@ -165,7 +216,7 @@
 		"knob": "vScrollKnob"
 	}
 },
-"TextButtonStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
 	"default": {
 		"font": "Impact",
 		"up": "skinyButton",
@@ -207,7 +258,7 @@
 		"pressedOffsetY": -3
 	}
 },
-"TextFieldStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
 	"default": {
 		"font": "Text",
 		"fontColor": "white",
@@ -215,14 +266,14 @@
 		"cursor": "textFeildCurser"
 	}
 },
-"TextTooltipStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle": {
 	"default": {
 		"label": "default",
 		"background": "backgroundPedding",
 		"wrapWidth": 250
 	}
 },
-"WindowStyle": {
+"com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
 	"default": {
 		"background": "background",
 		"titleFont": "Bold"
