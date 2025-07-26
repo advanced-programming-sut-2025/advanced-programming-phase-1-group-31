@@ -22,28 +22,12 @@ public class LobbyMenuView implements Screen {
     private final LobbyMenuController controller;
 
     // Elements
-    private final TextButton connection;
-    private final TextButton save;
-    private final TextButton send;
-    private final TextField username;
-    private final TextField sentMessage;
-    private final TextField receiverUsername;
-    private final Label receivedMessage;
-
 
 
     public LobbyMenuView(LobbyMenuController controller, Skin skin) {
         table = new Table(skin);
         this.controller = controller;
         controller.setView(this);
-
-        connection = new TextButton("Connection", skin);
-        save = new TextButton("save", skin);
-        username = new TextField("username", skin);
-        sentMessage = new TextField("Enter Your common.Message.", skin);
-        receivedMessage = new Label("The common.Message Will be Shown here.", skin);
-        send = new TextButton("Send", skin);
-        receiverUsername = new TextField("Enter Receiver Username.", skin);
 
     }
 
@@ -54,57 +38,6 @@ public class LobbyMenuView implements Screen {
 
         table.setFillParent(true);
         table.center();
-
-        table.add(save).pad(30, 20, 30, 20);
-        table.row();
-        table.add(username).pad(30, 20, 30, 20).height(150).width(300);
-        table.row();
-        table.add(connection).pad(30, 20, 30, 20);
-        table.row();
-        table.add(receivedMessage).pad(30, 20, 30, 20);
-        table.row();
-        table.add(receiverUsername).pad(30, 20, 30, 20);
-        table.row();
-        table.add(send).pad(30, 20, 30, 20);
-        table.row();
-        table.add(sentMessage).pad(30, 20, 30, 20).height(150).width(600);
-
-
-
-        save.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                GameApp.username =  username.getText();
-            }
-        });
-
-        connection.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                try {
-                    if (GameApp.c2sConnectionThread != null) {
-                        receivedMessage.setText("You Can't have more than one connection.");
-                    } else {
-                        Socket socket = new Socket("localhost", 5000);
-                        GameApp.c2sConnectionThread = new C2SConnectionThread(socket);
-                        GameApp.c2sConnectionThread.start();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        sentMessage.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                try {
-                    if (GameApp.c2sConnectionThread != null) {
-
-                    }
-                } catch (Exception ignored) {}
-            }
-        });
 
         stage.addActor(table);
     }

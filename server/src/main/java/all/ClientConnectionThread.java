@@ -1,5 +1,6 @@
-import common.JSON;
-import common.Message;
+package all;
+
+import common.*;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -19,7 +20,7 @@ public class ClientConnectionThread extends Thread {
     private final Socket socket;
     private final DataOutputStream dataOutputStream;
     private final DataInputStream dataInputStream;
-    private String username;
+    private Player player = new Player("m", "m", "m");
     private final LocalTime timeToConnect;
 
     @Override
@@ -35,7 +36,7 @@ public class ClientConnectionThread extends Thread {
                     if (generatedMessage != null) sendMessage(generatedMessage);
                     checkReconnection();
                 } catch (Exception e) {
-                    System.err.println(username + " disconnected.");
+                    System.err.println(player.getUsername() + " disconnected.");
                     disconnectingCountDown();
                     break;
                 }
@@ -63,7 +64,7 @@ public class ClientConnectionThread extends Thread {
     private void checkReconnection() {
         ArrayList<ClientConnectionThread> connections = ServerApp.connections;
         for (ClientConnectionThread cct : connections) {
-            if (!this.equals(cct) && username != null && username.equals(cct.username) && cct.timeToConnect.isBefore(this.timeToConnect)) {
+            if (!this.equals(cct) && player.getUsername() != null && player.getUsername().equals(cct.player.getUsername()) && cct.timeToConnect.isBefore(this.timeToConnect)) {
                 cct.end(" reconnected", true);
             }
         }
@@ -82,7 +83,7 @@ public class ClientConnectionThread extends Thread {
         }).start();
     }
 
-    private void sendMessage(Message message) {
+    private synchronized void sendMessage(Message message) {
         String jsonMessage = JSON.toJson(message);
         try {
             dataOutputStream.writeUTF(jsonMessage);
@@ -93,7 +94,7 @@ public class ClientConnectionThread extends Thread {
 
     public void refreshStatus() {
         HashMap<String, Object> body = new HashMap<>();
-        body.put("request", "username");
+        body.put("request", "player info");
         sendMessage(new Message(body, Message.Type.Get_Status));
     }
 
@@ -105,8 +106,8 @@ public class ClientConnectionThread extends Thread {
         return isEnd.get();
     }
 
-    public String getUsername() {
-        return username;
+    public Player getPlayer() {
+        return player;
     }
 
     public String getTimeToConnect() {
@@ -114,8 +115,8 @@ public class ClientConnectionThread extends Thread {
         return timeToConnect.format(formatter);
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setPlayer(Player player) {
+        this.player =  player;
     }
 
     public void end(String message, boolean reconnecting) {
@@ -125,7 +126,7 @@ public class ClientConnectionThread extends Thread {
         isEnd.set(true);
         try {
             //TODO: When a client ends what should be happen?? all lobbies have to be deleted
-            System.out.println(username + message);
+            System.out.println(player.getUsername() + message);
             ServerApp.removeConnection(this);
             dataInputStream.close();
             dataOutputStream.close();

@@ -32,8 +32,11 @@ public class Message {
 
     public enum Type {
         Get_Status,
+        Menu,
         Heartbeat,
-        Message,
+        Error,
+
+
 
 
 
@@ -43,6 +46,7 @@ public class Message {
         1) request
         2) username
         3) message
+        4) user-existence
 
      */
     @Override

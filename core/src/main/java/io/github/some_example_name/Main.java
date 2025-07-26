@@ -2,10 +2,13 @@ package io.github.some_example_name;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import io.github.some_example_name.controller.LobbyMenuController;
+import io.github.some_example_name.model.C2SConnectionThread;
 import io.github.some_example_name.model.GameApp;
 import io.github.some_example_name.model.GameAssetManager;
-import io.github.some_example_name.view.LobbyMenuView;
+import io.github.some_example_name.view.SignUpMenuView;
+
+import java.io.IOException;
+import java.net.Socket;
 
 
 /**
@@ -19,7 +22,22 @@ public class Main extends Game {
     public void create() {
         main = this;
         batch = new SpriteBatch();
-        getMain().setScreen(new LobbyMenuView(new LobbyMenuController(), GameAssetManager.getGameAssetManager().getSkin()));
+        // Starting Connecting to Server
+        Socket socket;
+        try {
+            socket = new Socket("localhost", 5000);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            GameApp.c2sConnectionThread = new C2SConnectionThread(socket);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        GameApp.c2sConnectionThread.start();
+
+
+        getMain().setScreen(new SignUpMenuView(GameAssetManager.getGameAssetManager().getSkin()));
     }
 
     @Override

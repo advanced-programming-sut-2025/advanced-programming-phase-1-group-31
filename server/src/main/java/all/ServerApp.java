@@ -1,15 +1,19 @@
+package all;
+
+import common.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class ServerApp {
-
     private static ListenerThread listenerThread;
-    public static ArrayList<ClientConnectionThread> connections =  new ArrayList<>();
+    public static final ArrayList<ClientConnectionThread> connections =  new ArrayList<>();
+    public static ArrayList<Player> players =  new ArrayList<>();
 
 
     public static ClientConnectionThread getConnectionByUsername(String username) {
         for (ClientConnectionThread connectionThread : connections) {
-            if (connectionThread.getUsername().equals(username))
+            if (connectionThread.getPlayer().getUsername().equals(username))
                 return connectionThread;
         }
         return null;
@@ -23,7 +27,7 @@ public class ServerApp {
         if (listenerThread != null) {
             listenerThread.start();
         } else {
-            System.err.println("ListenerThread is not set!");
+            System.err.println("all.ListenerThread is not set!");
         }
     }
 
@@ -41,6 +45,16 @@ public class ServerApp {
         }
 
         connections.remove(connection);
+    }
+
+    public static void end(){
+        for (ClientConnectionThread connectionThread : connections) {
+            connectionThread.end("'s Server disconnected", true);
+        }
+        listenerThread.interrupt();
+        connections.clear();
+        SaveLoadPlayers.savePlayers(players);
+        players.clear();
     }
 }
 

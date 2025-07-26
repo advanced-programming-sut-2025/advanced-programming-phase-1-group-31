@@ -9,9 +9,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.HashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class C2SConnectionThread extends Thread {
 
@@ -20,13 +18,16 @@ public class C2SConnectionThread extends Thread {
     private final DataOutputStream dataOutputStream;
     private final DataInputStream dataInputStream;
     private final ScheduledExecutorService scheduler;
+    protected final BlockingQueue<Message> receivedMessagesQueue;
 
     public C2SConnectionThread(Socket socket) throws IOException {
         this.isEnd = false;
         this.socket = socket;
         this.dataInputStream = new DataInputStream(socket.getInputStream());
         this.dataOutputStream = new DataOutputStream(socket.getOutputStream());
-        scheduler = Executors.newSingleThreadScheduledExecutor();
+        this.scheduler = Executors.newSingleThreadScheduledExecutor();
+        this.receivedMessagesQueue = new LinkedBlockingQueue<>();
+
     }
 
     @Override
@@ -42,6 +43,10 @@ public class C2SConnectionThread extends Thread {
                 try {
                     String receivedStr = dataInputStream.readUTF();
                     Message message = JSON.fromJson(receivedStr);
+                    if (message.getType() == Message.Type.Menu) {
+                        receivedMessagesQueue.put(message);
+                        continue;
+                    }
                     Message generatedMessage = ServerMessageController.handleMessage(message);
                     if (generatedMessage != null) {
                         sendMessage(generatedMessage);
@@ -58,7 +63,17 @@ public class C2SConnectionThread extends Thread {
         }
     }
 
-    public void sendMessage(Message message) {
+
+    public Message sendAndWaitForResponse(Message message) {
+        sendMessage(message);
+        try {
+            return receivedMessagesQueue.poll(1000, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException ignored) {
+            return null;
+        }
+    }
+
+    public synchronized void sendMessage(Message message) {
         String jsonMessage = JSON.toJson(message);
         try {
             dataOutputStream.writeUTF(jsonMessage);

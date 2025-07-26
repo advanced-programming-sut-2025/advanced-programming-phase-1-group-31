@@ -1,9 +1,12 @@
+package all;
+
+import common.*;
 import java.util.Scanner;
 
 public class ServerMain {
     public static void main(String[] args) {
         if (args.length < 1) {
-            System.err.println("Usage: ServerMain <port>");
+            System.err.println("Usage: all.ServerMain <port>");
             return;
         }
 
@@ -16,6 +19,7 @@ public class ServerMain {
         }
         Scanner scanner = new Scanner(System.in);
 
+        ServerApp.players = SaveLoadPlayers.loadPlayers();
         label:
         while (true) {
             String line = scanner.nextLine();
@@ -24,7 +28,7 @@ public class ServerMain {
                     break label;
                 case "list":
                     for (ClientConnectionThread cct : ServerApp.connections) {
-                        System.out.println(cct.getUsername() + " " + cct.getTimeToConnect());
+                        System.out.println(cct.getPlayer().getUsername() + " " + cct.getTimeToConnect());
                     }
                     break;
                 case "refresh":
@@ -34,5 +38,9 @@ public class ServerMain {
                     break;
             }
         }
+        scanner.close();
+        System.out.println("End of server");
+        ServerApp.end();
+        System.exit(0);
     }
 }
