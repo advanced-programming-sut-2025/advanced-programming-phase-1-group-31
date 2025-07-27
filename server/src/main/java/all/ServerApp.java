@@ -47,13 +47,13 @@ public class ServerApp {
         connections.remove(connection);
     }
 
-    public static void end(){
+    public static synchronized void end(){
         for (ClientConnectionThread connectionThread : connections) {
             connectionThread.end("'s Server disconnected", true);
         }
         listenerThread.interrupt();
-        connections.clear();
         SaveLoadPlayers.savePlayers(players);
+        connections.clear();
         players.clear();
     }
 }

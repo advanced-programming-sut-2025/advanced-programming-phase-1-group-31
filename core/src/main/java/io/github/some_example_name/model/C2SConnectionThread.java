@@ -67,7 +67,7 @@ public class C2SConnectionThread extends Thread {
     public Message sendAndWaitForResponse(Message message) {
         sendMessage(message);
         try {
-            return receivedMessagesQueue.poll(1000, TimeUnit.MILLISECONDS);
+            return receivedMessagesQueue.poll(1500, TimeUnit.MILLISECONDS);
         } catch (InterruptedException ignored) {
             return null;
         }
@@ -83,7 +83,7 @@ public class C2SConnectionThread extends Thread {
         }
     }
 
-    public void end() {
+    public synchronized void end() {
         if (isEnd) return;
         isEnd = true;
         if (scheduler != null && !scheduler.isShutdown()) {

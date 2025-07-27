@@ -24,6 +24,7 @@ public class SignUpMenuView implements Screen {
     private final Table table;
 
     // Elements
+    private Dialog dialog;
     private final TextField username;
     private final TextField password;
     private final TextField nickName;
@@ -72,13 +73,20 @@ public class SignUpMenuView implements Screen {
                     body.put("player", player);
                     Message message = GameApp.c2sConnectionThread.sendAndWaitForResponse(new Message(body, Message.Type.Menu));
                     if (message != null) {
-                        if (message.getType() == Message.Type.Error) {
-                            showErrorDialog(message.getFromBody("error-message"), "Error", Color.RED);
+                        String error = message.getFromBody("error-message", String.class);
+                        if (error != null) {
+                            showErrorDialog(message.getFromBody("error-message", String.class), "Error", Color.RED);
                         }
                     } else {
                         GameApp.player = player;
                         showErrorDialog("Sign Up\nSuccessfully", "Success", Color.GREEN);
-                        Main.getMain().setScreen(new LobbyMenuView(new LobbyMenuController(), GameAssetManager.getGameAssetManager().getSkin()));
+
+                        dialog.addListener(new ClickListener() {
+                            @Override
+                            public void clicked(InputEvent event, float x, float y) {
+                                Main.getMain().setScreen(new LobbyMenuView(new LobbyMenuController(), GameAssetManager.getGameAssetManager().getSkin()));
+                            }
+                        });
                     }
                 }
             }
@@ -96,7 +104,7 @@ public class SignUpMenuView implements Screen {
 
 
     public void showErrorDialog(String message, String title, Color color) {
-        Dialog dialog = new Dialog(title, table.getSkin()) {
+        dialog = new Dialog(title, table.getSkin()) {
             protected void result(Object object) {
                 this.hide();
             }

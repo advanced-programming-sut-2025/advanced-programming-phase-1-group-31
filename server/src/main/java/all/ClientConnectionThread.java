@@ -119,7 +119,7 @@ public class ClientConnectionThread extends Thread {
         this.player =  player;
     }
 
-    public void end(String message, boolean reconnecting) {
+    public synchronized void end(String message, boolean reconnecting) {
         if (!reconnecting) {
             if (isEnd.get() || !reconnectTimedOut.get()) return;
         }

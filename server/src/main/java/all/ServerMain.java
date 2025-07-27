@@ -39,6 +39,7 @@ public class ServerMain {
             }
         }
         scanner.close();
+        SaveLoadPlayers.savePlayers(ServerApp.players);
         System.out.println("End of server");
         ServerApp.end();
         System.exit(0);

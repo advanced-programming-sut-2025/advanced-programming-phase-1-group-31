@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import common.Message;
+import common.Player;
 import io.github.some_example_name.Main;
 import io.github.some_example_name.controller.LobbyMenuController;
 import io.github.some_example_name.model.GameApp;
@@ -23,6 +24,7 @@ public class LoginMenuView implements Screen {
     private final Table table;
 
     // Elements
+    private Dialog dialog;
     private final TextField username;
     private final TextButton loginButton;
     private final TextButton back;
@@ -61,14 +63,18 @@ public class LoginMenuView implements Screen {
                     body.put("command", "login");
                     body.put("username", username.getText());
                     Message message = GameApp.c2sConnectionThread.sendAndWaitForResponse(new Message(body, Message.Type.Menu));
-                    if (message != null) {
-                        if (message.getType() == Message.Type.Error) {
-                            showErrorDialog(message.getFromBody("error-message"), "Error", Color.RED);
-                        }
+                    String error = message.getFromBody("error-message", String.class);
+                    if (error != null) {
+                        showErrorDialog(message.getFromBody("error-message", String.class), "Error", Color.RED);
                     } else {
-                        GameApp.player = message.getFromBody("player");
-                        showErrorDialog("Sign Up\nSuccessfully", "Success", Color.GREEN);
-                        Main.getMain().setScreen(new LobbyMenuView(new LobbyMenuController(), GameAssetManager.getGameAssetManager().getSkin()));
+                        GameApp.player = message.getFromBody("player", Player.class);
+                        showErrorDialog("Login\nSuccessfully", "Success", Color.GREEN);
+                        dialog.addListener(new ClickListener() {
+                            @Override
+                            public void clicked(InputEvent event, float x, float y) {
+                                Main.getMain().setScreen(new LobbyMenuView(new LobbyMenuController(), GameAssetManager.getGameAssetManager().getSkin()));
+                            }
+                        });
                     }
                 }
             }
@@ -86,7 +92,7 @@ public class LoginMenuView implements Screen {
 
 
     public void showErrorDialog(String message, String title, Color color) {
-        Dialog dialog = new Dialog(title, table.getSkin()) {
+        dialog = new Dialog(title, table.getSkin()) {
             protected void result(Object object) {
                 this.hide();
             }

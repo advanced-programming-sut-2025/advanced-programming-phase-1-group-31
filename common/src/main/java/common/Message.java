@@ -1,5 +1,7 @@
 package common;
 
+import com.google.gson.Gson;
+
 import java.util.HashMap;
 
 
@@ -22,9 +24,16 @@ public class Message {
         return type;
     }
 
-    public <T> T getFromBody(String fieldName) {
-        return (T) body.get(fieldName);
+    public <T> T getFromBody(String fieldName, Class<T> clazz) {
+        Object value = body.get(fieldName);
+        if (value == null) return null;
+        if (clazz.isInstance(value)) return clazz.cast(value);
+
+        Gson gson = new Gson();
+        String json = gson.toJson(value);
+        return gson.fromJson(json, clazz);
     }
+
 
     public int getIntFromBody(String fieldName) {
         return (int) ((double) ((Double) body.get(fieldName)));
