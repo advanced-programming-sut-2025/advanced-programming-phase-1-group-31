@@ -109,6 +109,7 @@ public class OnlinePlayersView implements Screen {
                 actor.setVisible(name.contains(q));
             }
         }
+
     }
 
     private Table createPlayerCard(String username, boolean isOnline) {
