@@ -10,7 +10,19 @@ public class ClientMessageController {
     public static Message handleMessage(Message message, ClientConnectionThread cct) {
         if (message.getType().equals(Message.Type.Menu)) return parseUsername(message, cct);
         if (message.getType().equals(Message.Type.Get_Status)) return refreshStatus(message, cct);
+        if (message.getType().equals(Message.Type.All_Players)) return sendAllPlayers();
         return null;
+    }
+
+    private static Message sendAllPlayers() {
+        HashMap<String, Boolean> players = new HashMap<>();
+        for (Player player : ServerApp.players) {
+            boolean isOnline = ServerApp.connections.stream().anyMatch(p -> p.getPlayer() != null && p.getPlayer().getUsername().equals(player.getUsername()));
+            players.put(player.getUsername(), isOnline);
+        }
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("players", players);
+        return new Message(body, Message.Type.Menu);
     }
 
     private static Message refreshStatus(Message message, ClientConnectionThread cct) {

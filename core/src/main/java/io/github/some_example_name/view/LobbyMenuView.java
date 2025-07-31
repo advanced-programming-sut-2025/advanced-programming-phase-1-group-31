@@ -61,6 +61,13 @@ public class LobbyMenuView implements Screen {
                 Main.getMain().setScreen(new SignUpMenuView(GameAssetManager.getGameAssetManager().getSkin()));
             }
         });
+
+        allPlayers.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Main.getMain().setScreen(new OnlinePlayersView(GameAssetManager.getGameAssetManager().getSkin()));
+            }
+        });
     }
 
 

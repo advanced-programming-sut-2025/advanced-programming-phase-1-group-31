@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.github.some_example_name.model.C2SConnectionThread;
 import io.github.some_example_name.model.GameApp;
 import io.github.some_example_name.model.GameAssetManager;
+import io.github.some_example_name.view.OnlinePlayersView;
 import io.github.some_example_name.view.SignUpMenuView;
 
 import java.io.IOException;
@@ -38,6 +39,7 @@ public class Main extends Game {
 
 
         getMain().setScreen(new SignUpMenuView(GameAssetManager.getGameAssetManager().getSkin()));
+//        getMain().setScreen(new OnlinePlayersView(GameAssetManager.getGameAssetManager().getSkin()));
     }
 
     @Override

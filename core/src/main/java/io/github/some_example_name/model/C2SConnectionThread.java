@@ -69,7 +69,7 @@ public class C2SConnectionThread extends Thread {
     public Message sendAndWaitForResponse(Message message) {
         sendMessage(message);
         try {
-            return receivedMessagesQueue.poll(500, TimeUnit.MILLISECONDS);
+            return receivedMessagesQueue.poll(1000, TimeUnit.MILLISECONDS);
         } catch (InterruptedException ignored) {
             return null;
         }
@@ -82,7 +82,6 @@ public class C2SConnectionThread extends Thread {
             dataOutputStream.flush();
         } catch (IOException e) {
             System.err.println("Error sending message: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 

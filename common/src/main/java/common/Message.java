@@ -1,7 +1,6 @@
 package common;
 
 import com.google.gson.Gson;
-
 import java.util.HashMap;
 
 
@@ -34,7 +33,6 @@ public class Message {
         return gson.fromJson(json, clazz);
     }
 
-
     public int getIntFromBody(String fieldName) {
         return (int) ((double) ((Double) body.get(fieldName)));
     }
@@ -43,6 +41,7 @@ public class Message {
         Get_Status,
         Menu,
         Error,
+        All_Players,
 
 
 
