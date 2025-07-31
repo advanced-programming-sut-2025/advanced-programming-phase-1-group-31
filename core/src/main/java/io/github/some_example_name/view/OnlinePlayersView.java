@@ -108,6 +108,7 @@ public class OnlinePlayersView implements Screen {
                 String name = nameLabel.getText().toString().toLowerCase();
                 actor.setVisible(name.contains(q));
             }
+
         }
 
     }
