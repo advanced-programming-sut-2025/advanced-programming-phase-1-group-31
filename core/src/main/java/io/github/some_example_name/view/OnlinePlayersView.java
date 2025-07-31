@@ -97,6 +97,8 @@ public class OnlinePlayersView implements Screen {
     }
 
 
+
+
     private void filterPlayers(String query) {
         String q = query.trim().toLowerCase();
         for (Actor actor : playersTable.getChildren()) {
