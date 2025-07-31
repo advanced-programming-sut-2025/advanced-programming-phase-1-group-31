@@ -42,7 +42,6 @@ public class Message {
     public enum Type {
         Get_Status,
         Menu,
-        Heartbeat,
         Error,
 
 

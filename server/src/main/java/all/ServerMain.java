@@ -28,20 +28,17 @@ public class ServerMain {
                     break label;
                 case "list":
                     for (ClientConnectionThread cct : ServerApp.connections) {
-                        System.out.println(cct.getPlayer().getUsername() + " " + cct.getTimeToConnect());
-                    }
-                    break;
-                case "refresh":
-                    for (ClientConnectionThread cct : ServerApp.connections) {
-                        cct.refreshStatus();
+                        String name = "Player";
+                        if (cct.getPlayer() != null) name = cct.getPlayer().getUsername();
+                        System.out.println(name + " " + cct.getTimeToConnect());
                     }
                     break;
             }
         }
         scanner.close();
         SaveLoadPlayers.savePlayers(ServerApp.players);
-        System.out.println("End of server");
         ServerApp.end();
+        System.out.println("End of server");
         System.exit(0);
     }
 }

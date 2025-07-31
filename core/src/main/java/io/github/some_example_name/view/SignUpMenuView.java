@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import common.Message;
 import common.Player;
 import io.github.some_example_name.Main;
-import io.github.some_example_name.controller.LobbyMenuController;
 import io.github.some_example_name.model.GameApp;
 import io.github.some_example_name.model.GameAssetManager;
 
@@ -84,7 +83,7 @@ public class SignUpMenuView implements Screen {
                         dialog.addListener(new ClickListener() {
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
-                                Main.getMain().setScreen(new LobbyMenuView(new LobbyMenuController(), GameAssetManager.getGameAssetManager().getSkin()));
+                                Main.getMain().setScreen(new LobbyMenuView(GameAssetManager.getGameAssetManager().getSkin()));
                             }
                         });
                     }

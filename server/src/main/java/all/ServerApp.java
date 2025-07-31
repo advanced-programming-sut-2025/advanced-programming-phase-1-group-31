@@ -4,17 +4,17 @@ import common.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ServerApp {
     private static ListenerThread listenerThread;
-    public static final ArrayList<ClientConnectionThread> connections =  new ArrayList<>();
-    public static ArrayList<Player> players =  new ArrayList<>();
+    public static final ArrayList<ClientConnectionThread> connections = new ArrayList<>();
+    public static ArrayList<Player> players = new ArrayList<>();
 
 
     public static ClientConnectionThread getConnectionByUsername(String username) {
         for (ClientConnectionThread connectionThread : connections) {
-            if (connectionThread.getPlayer().getUsername().equals(username))
-                return connectionThread;
+            if (connectionThread.getPlayer().getUsername().equals(username)) return connectionThread;
         }
         return null;
     }
@@ -47,14 +47,19 @@ public class ServerApp {
         connections.remove(connection);
     }
 
-    public static synchronized void end(){
-        for (ClientConnectionThread connectionThread : connections) {
-            connectionThread.end("'s Server disconnected", true);
+    public static synchronized void end() {
+        for (ClientConnectionThread connection : new ArrayList<>(connections)) {
+            connection.end("'s Server disconnected", true);
         }
         listenerThread.interrupt();
         SaveLoadPlayers.savePlayers(players);
-        connections.clear();
-        players.clear();
+        if (!connections.isEmpty()) {
+            connections.clear();
+        }
+        if (!players.isEmpty()) {
+            players.clear();
+        }
+
     }
 }
 

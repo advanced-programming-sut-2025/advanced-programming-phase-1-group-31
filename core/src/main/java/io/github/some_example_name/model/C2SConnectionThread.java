@@ -34,9 +34,11 @@ public class C2SConnectionThread extends Thread {
     public void run() {
         scheduler.scheduleAtFixedRate(() -> {
             if (!isEnd) {
-                sendMessage(new Message(new HashMap<>(), Message.Type.Heartbeat));
+                HashMap<String,Object> body = new HashMap<>();
+                body.put("player info", GameApp.player);
+                sendMessage(new Message(body, Message.Type.Get_Status));
             }
-        }, 5, 10, TimeUnit.SECONDS);
+        }, 5, 5, TimeUnit.SECONDS);
 
         try {
             while (!isEnd) {
@@ -67,7 +69,7 @@ public class C2SConnectionThread extends Thread {
     public Message sendAndWaitForResponse(Message message) {
         sendMessage(message);
         try {
-            return receivedMessagesQueue.poll(1500, TimeUnit.MILLISECONDS);
+            return receivedMessagesQueue.poll(500, TimeUnit.MILLISECONDS);
         } catch (InterruptedException ignored) {
             return null;
         }
@@ -80,6 +82,7 @@ public class C2SConnectionThread extends Thread {
             dataOutputStream.flush();
         } catch (IOException e) {
             System.err.println("Error sending message: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

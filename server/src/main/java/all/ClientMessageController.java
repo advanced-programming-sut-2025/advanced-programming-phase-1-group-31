@@ -9,12 +9,18 @@ import java.util.Optional;
 public class ClientMessageController {
     public static Message handleMessage(Message message, ClientConnectionThread cct) {
         if (message.getType().equals(Message.Type.Menu)) return parseUsername(message, cct);
-        if (message.getType().equals(Message.Type.Heartbeat)) return heartbeat(cct);
+        if (message.getType().equals(Message.Type.Get_Status)) return refreshStatus(message, cct);
         return null;
     }
 
-    private static Message heartbeat(ClientConnectionThread cct) {
-        System.out.println("heartbeat " + cct.getPlayer().getUsername() + cct.getTimeToConnect());
+    private static Message refreshStatus(Message message, ClientConnectionThread cct) {
+        Player player = message.getFromBody("player info",  Player.class);
+        if (player == null) {
+            cct.setPlayer(null);
+            return null;
+        }
+        cct.setPlayer(player);
+        System.out.println("refresh infos of " + cct.getPlayer().getUsername() + " " + cct.getTimeToConnect());
         return null;
     }
 
