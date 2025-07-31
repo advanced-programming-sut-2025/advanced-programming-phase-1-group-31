@@ -24,6 +24,7 @@ public class LobbyMenuView implements Screen {
     private final TextButton logout;
 
 
+
     public LobbyMenuView(Skin skin) {
         table = new Table(skin);
         stage = new Stage(new ScreenViewport());
