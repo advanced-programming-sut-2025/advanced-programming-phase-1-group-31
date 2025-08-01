@@ -4,12 +4,12 @@ import common.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class ServerApp {
     private static ListenerThread listenerThread;
     public static final ArrayList<ClientConnectionThread> connections = new ArrayList<>();
     public static ArrayList<Player> players = new ArrayList<>();
+    public static ArrayList<Lobby> lobbies = new ArrayList<>();
 
 
     public static ClientConnectionThread getConnectionByUsername(String username) {

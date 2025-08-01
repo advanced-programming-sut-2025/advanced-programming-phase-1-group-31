@@ -42,15 +42,15 @@ public class LobbyMenuView implements Screen {
     @Override
     public void show() {
 
-        table.add(title).pad(10);
+        table.add(title).pad(20);
         table.row();
-        table.add(allPlayers).pad(10);
+        table.add(allPlayers).width(280).height(120).pad(20);
         table.row();
-        table.add(allLobbies).pad(10);
+        table.add(allLobbies).width(280).height(120).pad(20);
         table.row();
-        table.add(createLobby).pad(10);
+        table.add(createLobby).width(280).height(120).pad(20);
         table.row();
-        table.add(logout).pad(10);
+        table.add(logout).width(280).height(120).pad(20);
 
         stage.addActor(table);
 
@@ -68,6 +68,15 @@ public class LobbyMenuView implements Screen {
                 Main.getMain().setScreen(new OnlinePlayersView(GameAssetManager.getGameAssetManager().getSkin()));
             }
         });
+
+        logout.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                GameApp.player = null;
+                Main.getMain().setScreen(new SignUpMenuView(GameAssetManager.getGameAssetManager().getSkin()));
+            }
+        });
+
     }
 
 

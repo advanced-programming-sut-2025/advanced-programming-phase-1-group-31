@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -24,6 +23,7 @@ public class OnlinePlayersView implements Screen {
     private final Skin skin;
     private final Table root;
     private Table playersTable;
+    private long Time = System.currentTimeMillis();
 
     public OnlinePlayersView(Skin skin) {
         this.skin = skin;
@@ -80,6 +80,8 @@ public class OnlinePlayersView implements Screen {
                 Main.getMain().setScreen(new LobbyMenuView(GameAssetManager.getGameAssetManager().getSkin()));
             }
         });
+
+        loadPlayers();
     }
 
     private void loadPlayers() {
@@ -96,9 +98,6 @@ public class OnlinePlayersView implements Screen {
         }
     }
 
-
-
-
     private void filterPlayers(String query) {
         String q = query.trim().toLowerCase();
         for (Actor actor : playersTable.getChildren()) {
@@ -108,7 +107,6 @@ public class OnlinePlayersView implements Screen {
                 String name = nameLabel.getText().toString().toLowerCase();
                 actor.setVisible(name.contains(q));
             }
-
         }
 
     }
@@ -116,7 +114,6 @@ public class OnlinePlayersView implements Screen {
     private Table createPlayerCard(String username, boolean isOnline) {
         Table card = new Table(skin);
         card.pad(12);
-        card.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.5f)));
 
         boolean isThisUser = GameApp.player.getUsername().equals(username);
         // Status dot
@@ -143,8 +140,11 @@ public class OnlinePlayersView implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.valueOf("2b2b2b"));
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1f));
-        loadPlayers();
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        if (System.currentTimeMillis() - Time > 3000) {
+            loadPlayers();
+            Time = System.currentTimeMillis();
+        }
         stage.draw();
     }
 
