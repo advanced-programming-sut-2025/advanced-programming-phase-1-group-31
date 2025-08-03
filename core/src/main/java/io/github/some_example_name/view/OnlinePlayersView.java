@@ -50,15 +50,9 @@ public class OnlinePlayersView implements Screen {
         Label title = new Label("All Players", skin);
         title.setFontScale(1.8f);
 
-        TextField searchField = new TextField("", skin);
-        searchField.setMessageText("Search players...");
-        searchField.setMaxLength(20);
-        searchField.setTextFieldListener((textField, c) -> filterPlayers(textField.getText()));
-
-        header.add(back).width(120).left();
         header.add(title).expandX().center();
         header.row();
-        header.add(searchField).colspan(2).center().height(100).width(800);
+        header.add(back).width(200).height(80).center();
 
         root.add(header).fillX().padBottom(20).row();
 
@@ -77,7 +71,7 @@ public class OnlinePlayersView implements Screen {
         back.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Main.getMain().setScreen(new LobbyMenuView(GameAssetManager.getGameAssetManager().getSkin()));
+                Main.getMain().setScreen(new MainMenuView(GameAssetManager.getGameAssetManager().getSkin()));
             }
         });
 
@@ -96,19 +90,6 @@ public class OnlinePlayersView implements Screen {
                 playersTable.row();
             }
         }
-    }
-
-    private void filterPlayers(String query) {
-        String q = query.trim().toLowerCase();
-        for (Actor actor : playersTable.getChildren()) {
-            if (actor instanceof Table) {
-                Table card = (Table) actor;
-                Label nameLabel = (Label) card.getCell(card.getChildren().get(1)).getActor();
-                String name = nameLabel.getText().toString().toLowerCase();
-                actor.setVisible(name.contains(q));
-            }
-        }
-
     }
 
     private Table createPlayerCard(String username, boolean isOnline) {

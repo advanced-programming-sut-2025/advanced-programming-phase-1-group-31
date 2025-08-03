@@ -36,9 +36,12 @@ public class SignUpMenuView implements Screen {
 
         signUpButton = new TextButton("SignUp", skin);
         loginButton = new TextButton("login", skin);
-        username = new TextField("Username", skin);
-        password = new TextField("Password", skin);
-        nickName = new TextField("NickName", skin);
+        username = new TextField("", skin);
+        username.setMessageText("Username");
+        password = new TextField("", skin);
+        password.setMessageText("Password");
+        nickName = new TextField("", skin);
+        nickName.setMessageText("Nickname");
     }
 
     @Override
@@ -66,7 +69,7 @@ public class SignUpMenuView implements Screen {
                 if (username.getText().equals("Username") || password.getText().equals("Password") || nickName.getText().equals("NickName") || username.getText().isEmpty() || password.getText().isEmpty() || nickName.getText().isEmpty()) {
                     showErrorDialog("Please fill all the fields", "Error", Color.RED);
                 } else {
-                    Player player = new Player(username.getText(), password.getText(), nickName.getText());
+                    Player player = new Player(username.getText(), password.getText(), nickName.getText(), null);
                     HashMap<String, Object> body = new HashMap<>();
                     body.put("command", "signup");
                     body.put("player", player);
@@ -83,7 +86,7 @@ public class SignUpMenuView implements Screen {
                         dialog.addListener(new ClickListener() {
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
-                                Main.getMain().setScreen(new LobbyMenuView(GameAssetManager.getGameAssetManager().getSkin()));
+                                Main.getMain().setScreen(new MainMenuView(GameAssetManager.getGameAssetManager().getSkin()));
                             }
                         });
                     }
@@ -114,7 +117,9 @@ public class SignUpMenuView implements Screen {
         dialog.pad(50);
         dialog.setWidth(1000);
         dialog.setHeight(1000);
-        dialog.text(message);
+        Label textLabel = new Label(message, table.getSkin());
+        textLabel.setAlignment(Align.center);
+        dialog.text(textLabel);
         dialog.button("OK");
         dialog.getContentTable().pad(20);
         dialog.show(stage);

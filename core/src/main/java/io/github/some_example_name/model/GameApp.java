@@ -1,5 +1,6 @@
 package io.github.some_example_name.model;
 
+import common.Lobby;
 import common.Player;
 
 public class GameApp {

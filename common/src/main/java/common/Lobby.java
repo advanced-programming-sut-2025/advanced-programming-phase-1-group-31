@@ -1,27 +1,40 @@
 package common;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Lobby {
     private String lobbyName;
     private String lobbyPassword;
     private int lobbyID;
     private final boolean isPrivate;
-    private final ArrayList<Player> players =  new ArrayList<>();
+    private boolean isStarted;
+    private boolean isVisible;
+    private long creationTime;
+    private final ArrayList<String> players = new ArrayList<>();
+    private String adminUsername;
 
-    public Lobby(String lobbyName, String lobbyPassword, int lobbyID) {
+    public Lobby(String lobbyName, String lobbyPassword, int lobbyID, Player admin, boolean isVisible) {
+        // TODO: check if id is used or not
         this.lobbyName = lobbyName;
         this.lobbyPassword = lobbyPassword;
         this.lobbyID = lobbyID;
-        // TODO: check if id is used or not
         this.isPrivate = true;
+        this.adminUsername = admin.getUsername();
+        players.add(admin.getUsername());
+        isStarted = false;
+        this.isVisible = isVisible;
+        this.creationTime = System.currentTimeMillis();
     }
 
-    public Lobby(String lobbyName, int lobbyID) {
+    public Lobby(String lobbyName, int lobbyID, Player admin, boolean isVisible) {
         this.lobbyName = lobbyName;
         this.lobbyID = lobbyID;
         this.isPrivate = false;
+        this.adminUsername = admin.getUsername();
+        players.add(admin.getUsername());
+        isStarted = false;
+        this.isVisible = isVisible;
+        this.creationTime = System.currentTimeMillis();
     }
 
     public String getLobbyName() {
@@ -52,22 +65,62 @@ public class Lobby {
         return isPrivate;
     }
 
-    public void addPlayer(Player player) throws IllegalArgumentException {
-        if (players.contains(player)) {
-            throw new IllegalArgumentException("Player already exists!");
-        }
+    public String getAdmin() {
+        return adminUsername;
+    }
 
-        else if (players.size() == 4) {
+    public void setAdmin(Player admin) {
+        this.adminUsername = admin.getUsername();
+    }
+
+    public boolean isStarted() {
+        return isStarted;
+    }
+
+    public void setStarted(boolean started) {
+        isStarted = started;
+    }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public void setVisible(boolean visible) {
+        isVisible = visible;
+    }
+
+    public long getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(long creationTime) {
+        this.creationTime = creationTime;
+    }
+
+    public void addPlayer(Player player) throws IllegalArgumentException {
+        if (players.contains(player.getUsername())) {
+            throw new IllegalArgumentException("Player already exists!");
+        } else if (players.size() == 4) {
             throw new IllegalArgumentException("Lobby cannot have more\n than 4 players!");
+        } else if (isStarted) {
+            throw new IllegalArgumentException("Lobby is already started!");
         }
-        players.add(player);
+        players.add(player.getUsername());
     }
 
     public void removePlayer(Player player) {
-        players.remove(player);
+        players.remove(player.getUsername());
     }
 
     public int getNumberOfPlayers() {
         return players.size();
+    }
+
+    public boolean isPlayerInThisLobby(Player player) {
+        return players.contains(player.getUsername());
+    }
+
+    public ArrayList<String> getPlayers() {
+        return players;
     }
 }

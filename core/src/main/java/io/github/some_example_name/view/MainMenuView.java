@@ -12,7 +12,7 @@ import io.github.some_example_name.Main;
 import io.github.some_example_name.model.GameApp;
 import io.github.some_example_name.model.GameAssetManager;
 
-public class LobbyMenuView implements Screen {
+public class MainMenuView implements Screen {
     private final Stage stage;
     private final Table table;
 
@@ -25,7 +25,7 @@ public class LobbyMenuView implements Screen {
 
 
 
-    public LobbyMenuView(Skin skin) {
+    public MainMenuView(Skin skin) {
         table = new Table(skin);
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -62,6 +62,13 @@ public class LobbyMenuView implements Screen {
             }
         });
 
+        createLobby.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Main.getMain().setScreen(new AddLobbyMenuView(GameAssetManager.getGameAssetManager().getSkin()));
+            }
+        });
+
         allPlayers.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -69,13 +76,13 @@ public class LobbyMenuView implements Screen {
             }
         });
 
-        logout.addListener(new ClickListener() {
+        allLobbies.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                GameApp.player = null;
-                Main.getMain().setScreen(new SignUpMenuView(GameAssetManager.getGameAssetManager().getSkin()));
+                Main.getMain().setScreen(new AllLobbiesMenuView(GameAssetManager.getGameAssetManager().getSkin()));
             }
         });
+
 
     }
 

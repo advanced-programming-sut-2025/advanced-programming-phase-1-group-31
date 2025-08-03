@@ -1,17 +1,64 @@
 package all;
 
+import common.Lobby;
 import common.Message;
 import common.Player;
 
-import java.util.HashMap;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ClientMessageController {
     public static Message handleMessage(Message message, ClientConnectionThread cct) {
         if (message.getType().equals(Message.Type.Menu)) return parseUsername(message, cct);
-        if (message.getType().equals(Message.Type.Get_Status)) return refreshStatus(message, cct);
-        if (message.getType().equals(Message.Type.All_Players)) return sendAllPlayers();
+        else if (message.getType().equals(Message.Type.Get_Status)) return refreshStatus(message, cct);
+        else if (message.getType().equals(Message.Type.All_Players)) return sendAllPlayers();
+        else if (message.getType().equals(Message.Type.Get_Lobby_ID)) return generateId();
+        else if (message.getType().equals(Message.Type.Get_Lobby)) return saveLobby(message, cct);
+        else if (message.getType().equals(Message.Type.All_Lobbies)) return sendAllLobbies(message, cct);
+
         return null;
+    }
+
+    private static Message sendAllLobbies(Message message, ClientConnectionThread cct) {
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("lobbies", ServerApp.lobbies);
+        return new Message(body, Message.Type.Menu);
+    }
+
+    private static Message saveLobby(Message message, ClientConnectionThread cct) {
+        Lobby incomingLobby = message.getFromBody("lobby", Lobby.class);
+
+        ServerApp.lobbies.removeIf(l -> l.getLobbyID() == incomingLobby.getLobbyID());
+
+        ServerApp.lobbies.add(incomingLobby);
+
+        cct.getPlayer().setLobby(incomingLobby);
+
+        if (!incomingLobby.getPlayers().contains(cct.getPlayer().getUsername())) {
+            incomingLobby.getPlayers().add(cct.getPlayer().getUsername());
+        }
+
+        return null;
+    }
+
+
+    private static Message generateId() {
+        Random rand = new Random();
+        Set<Integer> existingIds = new HashSet<>();
+        if (!ServerApp.lobbies.isEmpty()) {
+            existingIds = ServerApp.lobbies.stream()
+                .map(Lobby::getLobbyID)
+                .collect(Collectors.toSet());
+        }
+
+        int id;
+        do {
+            id = rand.nextInt(10000) + 1;
+        } while (existingIds.contains(id));
+
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("id", id);
+        return new Message(body, Message.Type.Menu);
     }
 
     private static Message sendAllPlayers() {

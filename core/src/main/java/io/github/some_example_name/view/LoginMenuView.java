@@ -34,7 +34,8 @@ public class LoginMenuView implements Screen {
 
         loginButton = new TextButton("login", skin);
         back = new TextButton("back", skin);
-        username = new TextField("Username", skin);
+        username = new TextField("", skin);
+        username.setMessageText("Username");
     }
 
     @Override
@@ -71,7 +72,7 @@ public class LoginMenuView implements Screen {
                         dialog.addListener(new ClickListener() {
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
-                                Main.getMain().setScreen(new LobbyMenuView(GameAssetManager.getGameAssetManager().getSkin()));
+                                Main.getMain().setScreen(new MainMenuView(GameAssetManager.getGameAssetManager().getSkin()));
                             }
                         });
                     }
@@ -102,7 +103,9 @@ public class LoginMenuView implements Screen {
         dialog.pad(50);
         dialog.setWidth(1000);
         dialog.setHeight(1000);
-        dialog.text(message);
+        Label textLabel = new Label(message, table.getSkin());
+        textLabel.setAlignment(Align.center);
+        dialog.text(textLabel);
         dialog.button("OK");
         dialog.getContentTable().pad(20);
         dialog.show(stage);

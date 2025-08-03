@@ -1,7 +1,6 @@
 package io.github.some_example_name.controller;
 
 import common.Message;
-import io.github.some_example_name.Main;
 import io.github.some_example_name.model.GameApp;
 
 import java.util.HashMap;

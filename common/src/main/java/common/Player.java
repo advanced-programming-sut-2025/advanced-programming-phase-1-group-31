@@ -4,11 +4,13 @@ public class Player {
     private String username;
     private String password;
     private String nickName;
+    private Lobby lobby;
 
-    public Player(String username, String password, String nickName) {
+    public Player(String username, String password, String nickName, Lobby lobby) {
         this.username = username;
         this.password = password;
         this.nickName = nickName;
+        this.lobby = lobby;
     }
 
     public String getUsername() {
@@ -33,5 +35,13 @@ public class Player {
 
     public void setNickName(String nickName) {
         this.nickName = nickName;
+    }
+
+    public Lobby getLobby() {
+        return lobby;
+    }
+
+    public void setLobby(Lobby lobby) {
+        this.lobby = lobby;
     }
 }

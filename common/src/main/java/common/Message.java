@@ -1,6 +1,7 @@
 package common;
 
 import com.google.gson.Gson;
+
 import java.util.HashMap;
 
 
@@ -33,6 +34,16 @@ public class Message {
         return gson.fromJson(json, clazz);
     }
 
+    public <T> T getFromBodyType(String fieldName, java.lang.reflect.Type type) {
+        Object value = body.get(fieldName);
+        if (value == null) return null;
+
+        Gson gson = new Gson();
+        String json = gson.toJson(value);
+        return gson.fromJson(json, type);
+    }
+
+
     public int getIntFromBody(String fieldName) {
         return (int) ((double) ((Double) body.get(fieldName)));
     }
@@ -42,9 +53,9 @@ public class Message {
         Menu,
         Error,
         All_Players,
-
-
-
+        Get_Lobby_ID,
+        Get_Lobby,
+        All_Lobbies,
 
 
     }

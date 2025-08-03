@@ -3,15 +3,17 @@ package io.github.some_example_name.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import common.Lobby;
 import common.Message;
-import common.Player;
 import io.github.some_example_name.Main;
 import io.github.some_example_name.model.GameApp;
 import io.github.some_example_name.model.GameAssetManager;
@@ -20,90 +22,161 @@ import java.util.HashMap;
 
 public class AddLobbyMenuView implements Screen {
     private Stage stage;
-    private final Table table;
+    private final Skin skin;
 
-    // Elements
     private Dialog dialog;
-    private final TextField username;
-    private final TextField password;
-    private final TextField nickName;
-    private final TextButton signUpButton;
-    private final TextButton loginButton;
+    // UI elements
+    private final Label titleLabel;
+    private final TextField lobbyNameField;
+    private final TextField lobbyPasswordField;
+    private final CheckBox isPrivateCheck;
+    private final CheckBox isVisibleCheck;
+    private final TextButton createButton;
+    private final TextButton backButton;
 
+    // Container for password field
+    private Table passwordContainer;
 
     public AddLobbyMenuView(Skin skin) {
-        table = new Table(skin);
+        this.skin = skin;
 
-        signUpButton = new TextButton("SignUp", skin);
-        loginButton = new TextButton("login", skin);
-        username = new TextField("Username", skin);
-        password = new TextField("Password", skin);
-        nickName = new TextField("NickName", skin);
+        // Initialize UI elements
+        titleLabel = new Label("Create New Lobby", skin);
+        titleLabel.setFontScale(1.5f);
+        titleLabel.setColor(Color.WHITE);
+        titleLabel.setAlignment(Align.center);
+
+        lobbyNameField = new TextField("", skin);
+        lobbyNameField.setMessageText("name");
+        lobbyNameField.setAlignment(Align.left);
+        lobbyNameField.setFocusTraversal(false);
+
+        lobbyPasswordField = new TextField("", skin);
+        lobbyPasswordField.setMessageText("password");
+
+        isPrivateCheck = new CheckBox(" Private", skin);
+        isVisibleCheck = new CheckBox(" Visible", skin);
+
+        createButton = new TextButton("Create", skin);
+        createButton.getLabel().setFontScale(1.1f);
+
+        backButton = new TextButton("Back", skin);
+        backButton.getLabel().setFontScale(1.1f);
     }
 
     @Override
     public void show() {
-        stage = new Stage(new ScreenViewport());
+        // Setup stage and viewport
+        stage = new Stage(new FitViewport(800, 600));
         Gdx.input.setInputProcessor(stage);
 
-        table.setFillParent(true);
-        table.center();
+        // Root table
+        Table root = new Table(skin);
+        root.setFillParent(true);
+        root.center();
 
-        table.add(username).pad(30, 20, 30, 20).height(150).width(400);
-        table.row();
-        table.add(password).pad(30, 20, 30, 20).height(150).width(400);
-        table.row();
-        table.add(nickName).pad(30, 20, 30, 20).height(150).width(400);
-        table.row();
-        table.add(signUpButton).pad(30, 20, 30, 20);
-        table.row();
-        table.add(loginButton).pad(30, 20, 30, 20);
+        // Add title
+        root.add(titleLabel).colspan(2).padBottom(20).expandX().fillX();
+        root.row();
 
+        // Lobby name
+        root.add(new Label("Lobby Name:", skin)).align(Align.right).pad(10);
+        root.add(lobbyNameField).width(300).pad(10);
+        root.row();
 
-        signUpButton.addListener(new ClickListener() {
+        // Checkboxes (moved ABOVE password)
+        Table optionsTable = new Table(skin);
+        optionsTable.add(isPrivateCheck).padRight(30);
+        optionsTable.add(isVisibleCheck);
+        isPrivateCheck.setChecked(false);
+        isVisibleCheck.setChecked(true);
+        root.add(new Label("Options:", skin)).align(Align.right).pad(10);
+        root.add(optionsTable).pad(10);
+        root.row();
+
+        // Password container (initially hidden)
+        passwordContainer = new Table();
+        passwordContainer.add(new Label("Password:", skin)).align(Align.right).pad(10).padRight(130);
+        passwordContainer.add(lobbyPasswordField).width(300).pad(10);
+        root.add(passwordContainer).colspan(2);
+        root.row();
+
+        // Buttons
+        Table buttons = new Table(skin);
+        buttons.add(createButton).width(250).height(100).padRight(30);
+        buttons.add(backButton).width(250).height(100);
+        root.add(buttons).colspan(2).padTop(30);
+
+        // Initially disable and hide password field
+        lobbyPasswordField.setVisible(false);
+        lobbyPasswordField.setDisabled(true);
+        passwordContainer.setVisible(false);
+
+        // Listener for private checkbox
+        isPrivateCheck.addListener(new ChangeListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (username.getText().equals("Username") || password.getText().equals("Password") || nickName.getText().equals("NickName") || username.getText().isEmpty() || password.getText().isEmpty() || nickName.getText().isEmpty()) {
-                    showErrorDialog("Please fill all the fields", "Error", Color.RED);
-                } else {
-                    Player player = new Player(username.getText(), password.getText(), nickName.getText());
-                    HashMap<String, Object> body = new HashMap<>();
-                    body.put("command", "signup");
-                    body.put("player", player);
-                    Message message = GameApp.c2sConnectionThread.sendAndWaitForResponse(new Message(body, Message.Type.Menu));
-                    if (message != null) {
-                        String error = message.getFromBody("error-message", String.class);
-                        if (error != null) {
-                            showErrorDialog(message.getFromBody("error-message", String.class), "Error", Color.RED);
-                        }
-                    } else {
-                        GameApp.player = player;
-                        showErrorDialog("Sign Up\nSuccessfully", "Success", Color.GREEN);
+            public void changed(ChangeEvent event, Actor actor) {
+                boolean isPrivate = isPrivateCheck.isChecked();
+                passwordContainer.setVisible(isPrivate);
+                lobbyPasswordField.setVisible(isPrivate);
+                lobbyPasswordField.setDisabled(!isPrivate);
 
-                        dialog.addListener(new ClickListener() {
-                            @Override
-                            public void clicked(InputEvent event, float x, float y) {
-                                Main.getMain().setScreen(new LobbyMenuView(GameAssetManager.getGameAssetManager().getSkin()));
-                            }
-                        });
-                    }
+
+                if (!isPrivate) {
+                    lobbyPasswordField.setText(""); // Clear password when disabled
                 }
             }
         });
 
-        loginButton.addListener(new ClickListener() {
+        // Listeners for buttons
+        createButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Main.getMain().setScreen(new LoginMenuView(GameAssetManager.getGameAssetManager().getSkin()));
+                String name = lobbyNameField.getText().trim();
+                if (name.isEmpty()) {
+                    showErrorDialog("Lobby name cannot be empty.", "Error", Color.RED);
+                } else if (isPrivateCheck.isChecked() && lobbyPasswordField.getText().isEmpty()) {
+                    showErrorDialog("Lobby pass cannot be empty.", "Error", Color.RED);
+                } else if (GameApp.player.getLobby() != null) {
+                    showErrorDialog("You are now in another lobby", "Error", Color.RED);
+                } else {
+                    Lobby lobby;
+                    Message message = GameApp.c2sConnectionThread.sendAndWaitForResponse(new Message(new HashMap<>(), Message.Type.Get_Lobby_ID));
+                    int id = message.getIntFromBody("id");
+                    if (isPrivateCheck.isChecked()) {
+                        lobby = new Lobby(name, lobbyPasswordField.getText(), id, GameApp.player, isVisibleCheck.isChecked());
+                    } else {
+                        lobby = new Lobby(name, id, GameApp.player, isVisibleCheck.isChecked());
+                    }
+                    GameApp.player.setLobby(lobby);
+                    HashMap<String, Object> body = new HashMap<>();
+                    body.put("lobby", lobby);
+                    GameApp.c2sConnectionThread.sendMessage(new Message(body, Message.Type.Get_Lobby));
+                    // TODO: send create-lobby request to server
+                    showErrorDialog("Lobby\n\nName:  " + name + "\n\nID:  " + id + "\n\n created successfully!", "Success", Color.GREEN);
+                    dialog.addListener(new ClickListener() {
+                        @Override
+                        public void clicked(InputEvent event, float x, float y) {
+                            Main.getMain().setScreen(new MainMenuView(GameAssetManager.getGameAssetManager().getSkin()));
+                        }
+                    });
+                }
             }
         });
 
-        stage.addActor(table);
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Main.getMain().setScreen(new MainMenuView(GameAssetManager.getGameAssetManager().getSkin()));
+            }
+        });
+
+        stage.addActor(root);
     }
 
 
     public void showErrorDialog(String message, String title, Color color) {
-        dialog = new Dialog(title, table.getSkin()) {
+        dialog = new Dialog(title, skin) {
             protected void result(Object object) {
                 this.hide();
             }
@@ -114,7 +187,9 @@ public class AddLobbyMenuView implements Screen {
         dialog.pad(50);
         dialog.setWidth(1000);
         dialog.setHeight(1000);
-        dialog.text(message);
+        Label textLabel = new Label(message, skin);
+        textLabel.setAlignment(Align.center);
+        dialog.text(textLabel);
         dialog.button("OK");
         dialog.getContentTable().pad(20);
         dialog.show(stage);
@@ -122,36 +197,31 @@ public class AddLobbyMenuView implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(.2f, 0, 0, 1);
-        Main.getBatch().begin();
-        Main.getBatch().end();
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        Color bg = Color.valueOf("#faa25a");
+        ScreenUtils.clear(bg);
+        stage.act(delta);
         stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-
+        stage.getViewport().update(width, height, true);
     }
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void hide() {
-
     }
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
-
 }
