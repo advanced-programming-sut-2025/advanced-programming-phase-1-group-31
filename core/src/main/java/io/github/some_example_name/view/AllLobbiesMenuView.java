@@ -22,9 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
-/**
- * Displays all game lobbies with search, player list, and action buttons.
- */
 public class AllLobbiesMenuView implements Screen {
     private final Stage stage;
     private final Skin skin;
@@ -62,6 +59,7 @@ public class AllLobbiesMenuView implements Screen {
         header.defaults().pad(10);
 
         TextButton back = new TextButton("Back", skin);
+        TextButton refresh = new TextButton("Refresh", skin);
         TextButton search = new TextButton("search", skin);
         Label title = new Label("All Lobbies", skin);
         title.setFontScale(1.8f);
@@ -72,6 +70,7 @@ public class AllLobbiesMenuView implements Screen {
 
         header.add(title).expandX().center().colspan(3);
         header.row();
+        header.add(refresh).width(120).colspan(1).padLeft(20).row();
         header.add(back).width(120).colspan(1).padLeft(20);
         header.add(searchField).center().height(100).width(800).colspan(1);
         header.add(search).padRight(20).colspan(1);
