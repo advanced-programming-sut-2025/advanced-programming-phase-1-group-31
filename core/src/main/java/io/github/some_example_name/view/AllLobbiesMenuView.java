@@ -106,6 +106,15 @@ public class AllLobbiesMenuView implements Screen {
         });
 
 
+        // Refresh button action
+        refresh.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                loadLobbies();
+            }
+        });
+
+
         setOnLobbyClickListener(lobby -> {
             if (lobby.isPrivate()) {
                 showPasswordDialog(lobby, passwordIsCorrect -> {
@@ -211,7 +220,7 @@ public class AllLobbiesMenuView implements Screen {
                 if (result) {
                     try {
                         lobby.addPlayer(GameApp.player);
-                        HashMap<String , Object> body = new HashMap<>();
+                        HashMap<String, Object> body = new HashMap<>();
                         body.put("lobby", lobby);
                         GameApp.c2sConnectionThread.sendMessage(new Message(body, Message.Type.Get_Lobby));
                         GameApp.player.setLobby(lobby);
@@ -278,10 +287,10 @@ public class AllLobbiesMenuView implements Screen {
     public void render(float delta) {
         ScreenUtils.clear(Color.valueOf("2b2b2b"));
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        if (System.currentTimeMillis() - lastRefreshTime > 6000) {
-            loadLobbies();
-            lastRefreshTime = System.currentTimeMillis();
-        }
+//        if (System.currentTimeMillis() - lastRefreshTime > 6000) {
+//            loadLobbies();
+//            lastRefreshTime = System.currentTimeMillis();
+//        }
         stage.draw();
     }
 

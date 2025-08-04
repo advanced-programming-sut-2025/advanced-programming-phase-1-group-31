@@ -27,7 +27,7 @@ public class Main extends Game {
         // Starting Connecting to Server
         Socket socket;
         try {
-            socket = new Socket("localhost", 5000);
+            socket = new Socket("localhost", 5050);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
