@@ -1,0 +1,118 @@
+{
+"skeleton": { "hash": "0OPJM/nO8/+BGUTmgXT/hx2xUlI", "spine": "3.7.87", "width": 800, "height": 881, "images": "../output/1x/", "audio": "../../audio/output/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "lightning-a", "parent": "root", "x": -239.04, "y": -5.98 },
+	{ "name": "lightning-b", "parent": "root", "x": 201.69, "y": -23.9 },
+	{ "name": "cloud", "parent": "root", "length": 209.48, "rotation": -1.23, "x": -23.23, "y": 228.78 }
+],
+"slots": [
+	{ "name": "bg", "bone": "root" },
+	{ "name": "cloud", "bone": "cloud", "dark": "000000", "attachment": "cloud" },
+	{ "name": "lightning-a", "bone": "lightning-a", "dark": "000000", "attachment": "lightning-a-1" },
+	{ "name": "lightning-b", "bone": "lightning-b", "dark": "000000", "attachment": "lightning-b-1" },
+	{ "name": "rain", "bone": "root", "attachment": "rain" }
+],
+"skins": {
+	"default": {
+		"cloud": {
+			"cloud": { "x": 22.83, "y": 18.93, "rotation": 1.23, "width": 341, "height": 228 }
+		},
+		"lightning-a": {
+			"lightning-a-1": { "y": 0.5, "width": 184, "height": 819 },
+			"lightning-a-2": { "x": 0.5, "y": 0.5, "width": 171, "height": 829 },
+			"lightning-a-3": { "y": 0.5, "width": 192, "height": 827 }
+		},
+		"lightning-b": {
+			"lightning-b-1": { "x": 0.5, "y": 0.5, "width": 375, "height": 881 },
+			"lightning-b-2": { "y": 0.5, "width": 378, "height": 883 },
+			"lightning-b-3": { "y": 0.5, "width": 362, "height": 863 }
+		},
+		"rain": {
+			"rain": { "type": "point", "x": -400.39, "y": 404.8 }
+		}
+	}
+},
+"events": {
+	"rain": { "audio": "rain.ogg" },
+	"rain-effect": { "string": "Particle Park Rain Cinematic" },
+	"thunder": { "audio": "thunder.ogg" },
+	"thunder2": { "audio": "thunder2.ogg" }
+},
+"animations": {
+	"animation": {
+		"slots": {
+			"lightning-a": {
+				"twoColor": [
+					{ "time": 0.1, "light": "ffffffff", "dark": "000000" },
+					{ "time": 0.5, "light": "ffffff00", "dark": "000000" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null },
+					{ "time": 0.0333, "name": "lightning-a-1" }
+				]
+			},
+			"lightning-b": {
+				"twoColor": [
+					{ "time": 1.2667, "light": "ffffffff", "dark": "000000" },
+					{ "time": 1.6333, "light": "ffffff00", "dark": "000000" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null },
+					{ "time": 1.2, "name": "lightning-b-2" }
+				]
+			}
+		},
+		"events": [
+			{ "time": 0, "name": "rain" },
+			{ "time": 0, "name": "rain-effect", "string": "rain;start;back" },
+			{ "time": 0.5333, "name": "thunder2" },
+			{ "time": 9.9667, "name": "rain-effect", "string": "rain;stop;back" }
+		]
+	},
+	"hide": {
+		"slots": {
+			"lightning-a": {
+				"twoColor": [
+					{ "time": 0, "light": "ffffff00", "dark": "000000" }
+				]
+			},
+			"lightning-b": {
+				"twoColor": [
+					{ "time": 0, "light": "ffffff00", "dark": "000000" }
+				]
+			}
+		},
+		"bones": {
+			"cloud": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.6667, "x": 0, "y": 306.27 }
+				]
+			}
+		}
+	},
+	"show": {
+		"slots": {
+			"lightning-a": {
+				"twoColor": [
+					{ "time": 0, "light": "ffffff00", "dark": "000000" }
+				]
+			},
+			"lightning-b": {
+				"twoColor": [
+					{ "time": 0, "light": "ffffff00", "dark": "000000" }
+				]
+			}
+		},
+		"bones": {
+			"cloud": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": 306.27 },
+					{ "time": 0.6667, "x": 0, "y": 0 }
+				]
+			}
+		}
+	}
+}
+}

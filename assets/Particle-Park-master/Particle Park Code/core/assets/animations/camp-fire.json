@@ -1,0 +1,128 @@
+{
+"skeleton": { "hash": "Rlj843MIdpu+TKL+tKlWpJOfMPA", "spine": "3.7.87", "width": 841.12, "height": 800, "images": "../output/1x/", "audio": "../../audio/output/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "star", "parent": "root", "length": 48.76, "x": -437.73, "y": 358.11 },
+	{ "name": "moon", "parent": "root", "length": 254.49, "rotation": 0.51, "x": 195.21, "y": 183.74 },
+	{ "name": "camp-fire", "parent": "root", "length": 313.03, "x": -0.71, "y": -235.14 }
+],
+"slots": [
+	{ "name": "bg", "bone": "root" },
+	{ "name": "camp-fire", "bone": "camp-fire", "dark": "000000", "attachment": "camp-fire" },
+	{ "name": "moon", "bone": "moon", "dark": "000000", "attachment": "moon" },
+	{ "name": "star", "bone": "star", "dark": "000000", "attachment": "star" },
+	{ "name": "fire", "bone": "root", "attachment": "fire" },
+	{ "name": "star-trail", "bone": "star", "attachment": "star-trail" }
+],
+"skins": {
+	"default": {
+		"camp-fire": {
+			"camp-fire": { "x": 0.71, "y": 1.8, "width": 317, "height": 205 }
+		},
+		"fire": {
+			"fire": { "type": "point", "y": -152.63 }
+		},
+		"moon": {
+			"moon": { "x": 12.53, "y": -4.66, "rotation": -0.51, "width": 300, "height": 300 }
+		},
+		"star": {
+			"star": { "x": 1.61, "y": 0.1, "width": 10, "height": 10 }
+		},
+		"star-trail": {
+			"star-trail": { "type": "point" }
+		}
+	}
+},
+"events": {
+	"fire": { "audio": "fire.ogg" },
+	"fire-effect": { "string": "Particle Park Flame" },
+	"star-trail": { "string": "Particle Park Trail" }
+},
+"animations": {
+	"animation": {
+		"slots": {
+			"star": {
+				"attachment": [
+					{ "time": 0.5, "name": null },
+					{ "time": 5.3333, "name": "star" }
+				]
+			}
+		},
+		"bones": {
+			"star": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.5, "x": 928.84, "y": -319.36 },
+					{ "time": 5.3333, "x": 0, "y": 0 }
+				]
+			}
+		},
+		"events": [
+			{ "time": 0, "name": "fire" },
+			{ "time": 0, "name": "fire-effect", "string": "fire;start;back" },
+			{ "time": 0, "name": "star-trail", "string": "star-trail;start" },
+			{ "time": 0.5, "name": "star-trail", "string": "star-trail;stop" },
+			{ "time": 5.3333, "name": "fire-effect", "string": "fire;stop;back" }
+		]
+	},
+	"hide": {
+		"slots": {
+			"camp-fire": {
+				"twoColor": [
+					{
+						"time": 0,
+						"light": "ffffffff",
+						"dark": "000000",
+						"curve": [ 0, 0.77, 0.75, 1 ]
+					},
+					{ "time": 1.2, "light": "ffffff00", "dark": "000000" }
+				]
+			},
+			"moon": {
+				"twoColor": [
+					{
+						"time": 0,
+						"light": "ffffffff",
+						"dark": "000000",
+						"curve": [ 0, 0.77, 0.75, 1 ]
+					},
+					{ "time": 1.2, "light": "ffffff00", "dark": "000000" }
+				]
+			},
+			"star": {
+				"twoColor": [
+					{ "time": 0, "light": "ffffffff", "dark": "000000" },
+					{ "time": 1.2, "light": "ffffff00", "dark": "000000" }
+				]
+			}
+		}
+	},
+	"show": {
+		"bones": {
+			"moon": {
+				"translate": [
+					{ "time": 0, "x": 585.52, "y": 0, "curve": "stepped" },
+					{
+						"time": 0.1333,
+						"x": 585.52,
+						"y": 0,
+						"curve": [ 0.25, 0, 0.566, 2.32 ]
+					},
+					{ "time": 0.9667, "x": 0, "y": 0 }
+				]
+			},
+			"camp-fire": {
+				"translate": [
+					{
+						"time": 0,
+						"x": 585.52,
+						"y": 0,
+						"curve": [ 0.25, 0, 0.566, 2.32 ]
+					},
+					{ "time": 0.8333, "x": 0, "y": 0 }
+				]
+			}
+		}
+	}
+}
+}

@@ -1,0 +1,52 @@
+[
+  {
+    "username": "amir",
+    "password": "1",
+    "nickName": "1",
+    "lobby": {
+      "lobbyName": "amir11",
+      "lobbyID": 9293,
+      "isPrivate": false,
+      "isStarted": false,
+      "isVisible": true,
+      "creationTime": 1754456759061,
+      "players": [
+        "amir",
+        "moh"
+      ],
+      "adminUsername": "amir"
+    }
+  },
+  {
+    "username": "ali",
+    "password": "1",
+    "nickName": "1"
+  },
+  {
+    "username": "mo",
+    "password": "1",
+    "nickName": "1"
+  },
+  {
+    "username": "hassan",
+    "password": "1",
+    "nickName": "1"
+  },
+  {
+    "username": "moh",
+    "password": "1",
+    "nickName": "1",
+    "lobby": {
+      "lobbyName": "amir11",
+      "lobbyID": 9293,
+      "isPrivate": false,
+      "isStarted": false,
+      "isVisible": true,
+      "creationTime": 1754456759061,
+      "players": [
+        "moh"
+      ],
+      "adminUsername": "moh"
+    }
+  }
+]

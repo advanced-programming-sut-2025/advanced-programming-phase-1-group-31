@@ -1,0 +1,20 @@
+{
+  "Format": "1.4",
+  "Changes":	[
+				   {
+					  "Action": "Load",
+					  "Target": "Maps/BusStop",
+					  "FromFile": "content/BusStop.tbin"
+				   },
+					{
+					  "Action": "Load",
+					  "Target": "Maps/Greenhouse",
+					  "FromFile": "content/Greenhouse.tbin"
+				   },
+					{
+					  "Action": "Load",
+					  "Target": "Maps/Cellar",
+					  "FromFile": "content/Cellar.tbin"
+				   },
+				]
+}

@@ -1,0 +1,102 @@
+{
+"skeleton": { "hash": "ESDLKTvPyt2yWoJ3rJV19KomvKs", "spine": "3.7.87", "width": 800, "height": 800, "images": "../output/1x/", "audio": "../../audio/output/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "brick", "parent": "root", "length": 325.01, "rotation": 89.54, "x": 179.18, "y": 15.81 }
+],
+"slots": [
+	{ "name": "bg", "bone": "root" },
+	{ "name": "brick", "bone": "brick", "dark": "000000", "attachment": "brick" },
+	{ "name": "brick-mouth", "bone": "brick", "dark": "000000", "attachment": "brick-mouth" },
+	{ "name": "dust-left", "bone": "brick", "attachment": "dust-left" },
+	{ "name": "dust-right", "bone": "brick", "attachment": "dust-right" }
+],
+"skins": {
+	"default": {
+		"brick": {
+			"brick": { "x": 157.16, "y": 180.44, "rotation": -89.54, "width": 475, "height": 362 }
+		},
+		"brick-mouth": {
+			"brick-mouth": { "x": 97.36, "y": 179.96, "rotation": -89.54, "width": 260, "height": 56 },
+			"brick-mouth-angry": { "x": 89.85, "y": 179.9, "rotation": -89.54, "width": 270, "height": 133 }
+		},
+		"dust-left": {
+			"dust-left": { "type": "point", "x": -20.58, "y": 401.63 }
+		},
+		"dust-right": {
+			"dust-right": { "type": "point", "x": -17.04, "y": -40.24 }
+		}
+	}
+},
+"events": {
+	"dust-left": { "string": "Particle Park Dust Left" },
+	"dust-right": { "string": "Particle Park Dust Right" },
+	"grunt": { "audio": "grunt.ogg" },
+	"thud": { "audio": "thud.ogg" },
+	"woosh2": { "audio": "woosh2.ogg" }
+},
+"animations": {
+	"animation": {
+		"slots": {
+			"brick-mouth": {
+				"attachment": [
+					{ "time": 0.2333, "name": "brick-mouth-angry" },
+					{ "time": 1.5, "name": "brick-mouth" }
+				]
+			}
+		},
+		"bones": {
+			"brick": {
+				"translate": [
+					{
+						"time": 0.5,
+						"x": 0,
+						"y": 0,
+						"curve": [ 0.096, 0.4, 0.179, 1 ]
+					},
+					{ "time": 0.7667, "x": 0, "y": -317.2, "curve": "stepped" },
+					{ "time": 1.5, "x": 0, "y": -317.2 },
+					{ "time": 2, "x": 0, "y": 0 }
+				]
+			}
+		},
+		"events": [
+			{ "time": 0.2333, "name": "grunt" },
+			{ "time": 0.5, "name": "woosh2" },
+			{ "time": 0.6667, "name": "dust-left", "string": "dust-left;;back" },
+			{ "time": 0.6667, "name": "dust-right", "string": "dust-right;;back" },
+			{ "time": 0.6667, "name": "thud" }
+		]
+	},
+	"hide": {
+		"bones": {
+			"brick": {
+				"translate": [
+					{
+						"time": 0,
+						"x": 0,
+						"y": 0,
+						"curve": [ 0.572, 0.19, 0.884, 0.52 ]
+					},
+					{ "time": 0.5, "x": 0, "y": -792.7 }
+				]
+			}
+		}
+	},
+	"show": {
+		"bones": {
+			"brick": {
+				"translate": [
+					{
+						"time": 0,
+						"x": 0,
+						"y": 423.38,
+						"curve": [ 0.207, 0.55, 0.75, 1 ]
+					},
+					{ "time": 0.8333, "x": 0, "y": 0 }
+				]
+			}
+		}
+	}
+}
+}

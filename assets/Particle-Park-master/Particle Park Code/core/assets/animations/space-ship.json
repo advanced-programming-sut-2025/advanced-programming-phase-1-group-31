@@ -1,0 +1,62 @@
+{
+"skeleton": { "hash": "NOrbj4YF25UQE02x1qCLWZy5YKE", "spine": "3.7.87", "width": 800, "height": 800, "images": "../output/1x/", "audio": "../../audio/output/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "rocket", "parent": "root", "length": 300.89, "rotation": 90, "y": -291.32 }
+],
+"slots": [
+	{ "name": "bg", "bone": "root" },
+	{ "name": "rocket", "bone": "rocket", "dark": "000000", "attachment": "rocket" },
+	{ "name": "thruster", "bone": "rocket", "attachment": "thruster" }
+],
+"skins": {
+	"default": {
+		"rocket": {
+			"rocket": { "x": 133.55, "width": 341, "height": 224 }
+		},
+		"thruster": {
+			"thruster": { "type": "point" }
+		}
+	}
+},
+"events": {
+	"rocket": { "audio": "rocket.ogg" },
+	"thruster": { "string": "Particle Park Thruster" }
+},
+"animations": {
+	"animation": {
+		"bones": {
+			"rocket": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": -423.17 },
+					{ "time": 16, "x": 0, "y": 729.98 }
+				]
+			}
+		},
+		"events": [
+			{ "time": 0, "name": "rocket", "string": "loop" },
+			{ "time": 0, "name": "thruster", "string": "thruster;start;back" },
+			{ "time": 17, "name": "thruster", "string": "thruster;stop;back" }
+		]
+	},
+	"hide": {
+		"slots": {
+			"rocket": {
+				"twoColor": [
+					{ "time": 0, "light": "ffffffff", "dark": "000000" },
+					{ "time": 1, "light": "ffffff00", "dark": "000000" }
+				]
+			}
+		}
+	},
+	"show": {
+		"bones": {
+			"rocket": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": -423.17 }
+				]
+			}
+		}
+	}
+}
+}
