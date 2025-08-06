@@ -57,6 +57,7 @@ public class PreGameMenuView implements Screen { private final Stage stage; priv
         table.add(confirmButton).width(200).height(50).padTop(20).colspan(2);
         table.row();
         table.add(messageLabel).colspan(2).center();
+
     }
 
     public void setupMapSelection(List<String> playerUsernames) {
