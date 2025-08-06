@@ -32,8 +32,8 @@ public abstract class GameController {
 
     public abstract void startPoint(TiledMap map);
     public void handleInput(float delta) {
-        int oldTileX = (int) (App.getCurrentGame().getActivePlayer().getPlace().x / view.getTILE_SIZE());
-        int oldTileY = (int) (App.getCurrentGame().getActivePlayer().getPlace().y / view.getTILE_SIZE());
+        int oldTileX = (int) (GameApp.getPlayer().getPlace().x / view.getTILE_SIZE());
+        int oldTileY = (int) (GameApp.getPlayer().getPlace().y / view.getTILE_SIZE());
 
         // مدیریت تلهپورت
         if (view.getTeleportCooldown() > 0) {
@@ -46,8 +46,8 @@ public abstract class GameController {
         boolean moved = false;
         CharacterPlacer.Direction direction = null;
 
-        float nextX = App.getCurrentGame().getActivePlayer().getPlace().x;
-        float nextY = App.getCurrentGame().getActivePlayer().getPlace().y;
+        float nextX = GameApp.getPlayer().getPlace().x;
+        float nextY = GameApp.getPlayer().getPlace().y;
 
         // پردازش ورودی کاربر
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
@@ -66,31 +66,31 @@ public abstract class GameController {
 
         // بررسی حرکت و موانع
         if (direction != null && !isBlocked(nextX, nextY)) {
-            App.getCurrentGame().getActivePlayer().setPlace(new Vector2(nextX, nextY));
+            GameApp.getPlayer().setPlace(new Vector2(nextX, nextY));
             moved = true;
-            App.getCurrentGame().getActivePlayer().getEnergy().changeEnergy(-0.005);
+            GameApp.getPlayer().getEnergy().changeEnergy(-0.005);
         }
 
-        int newTileX = (int) (App.getCurrentGame().getActivePlayer().getPlace().x / view.getTILE_SIZE());
-        int newTileY = (int) (App.getCurrentGame().getActivePlayer().getPlace().y / view.getTILE_SIZE());
+        int newTileX = (int) (GameApp.getPlayer().getPlace().x / view.getTILE_SIZE());
+        int newTileY = (int) (GameApp.getPlayer().getPlace().y / view.getTILE_SIZE());
 
         // مدیریت نمایش کاراکتر
         if (moved && (newTileX != oldTileX || newTileY != oldTileY)) {
-            App.getCurrentGame().getActivePlayer().getCharacterPlacer().clearCharacter(oldTileX, oldTileY);
-            App.getCurrentGame().getActivePlayer().getCharacterPlacer().placeCharacter(newTileX, newTileY, direction);
+            GameApp.getPlayer().getCharacterPlacer().clearCharacter(oldTileX, oldTileY);
+            GameApp.getPlayer().getCharacterPlacer().placeCharacter(newTileX, newTileY, direction);
         } else if (!moved) {
-            App.getCurrentGame().getActivePlayer().getCharacterPlacer().clearCharacter(newTileX, newTileY);
-            App.getCurrentGame().getActivePlayer().getCharacterPlacer().dontMove(newTileX, newTileY);
+            GameApp.getPlayer().getCharacterPlacer().clearCharacter(newTileX, newTileY);
+            GameApp.getPlayer().getCharacterPlacer().dontMove(newTileX, newTileY);
         }
-        if (App.getCurrentGame().getActivePlayer().getEnergy().getEnergyAmount()<0){
-            App.getCurrentGame().getActivePlayer().getCharacterPlacer().faint(newTileX , newTileY+2);
+        if (GameApp.getPlayer().getEnergy().getEnergyAmount()<0){
+            GameApp.getPlayer().getCharacterPlacer().faint(newTileX , newTileY+2);
         } else {
-            App.getCurrentGame().getActivePlayer().getCharacterPlacer().clearCharacter(newTileX-1 , newTileY+2);
-            App.getCurrentGame().getActivePlayer().getCharacterPlacer().clearCharacter(newTileX , newTileY+2);
+            GameApp.getPlayer().getCharacterPlacer().clearCharacter(newTileX-1 , newTileY+2);
+            GameApp.getPlayer().getCharacterPlacer().clearCharacter(newTileX , newTileY+2);
         }
-        App.getCurrentGame().getPlayers().stream().filter(player -> player != App.getCurrentGame().getActivePlayer()).forEach(player -> {player.getCharacterPlacer().dontMove((int) (player.getPlace().x / view.getTILE_SIZE()), (int) (player.getPlace().y / view.getTILE_SIZE()));});
+        GameApp.getPlayers().stream().filter(player -> player != GameApp.getPlayer()).forEach(player -> {player.getCharacterPlacer().dontMove((int) (player.getPlace().x / view.getTILE_SIZE()), (int) (player.getPlace().y / view.getTILE_SIZE()));});
 
-        App.getCurrentGame().getActivePlayer().getPlayerRectangle().setPosition(nextX, nextY);
+        GameApp.getPlayer().getPlayerRectangle().setPosition(nextX, nextY);
         view.setShowFullMap(Gdx.input.isKeyPressed(Input.Keys.M));
         int mapWidth = view.getMap().getProperties().get("width", Integer.class);
         int mapHeight = view.getMap().getProperties().get("height", Integer.class);
@@ -107,12 +107,12 @@ public abstract class GameController {
         } else {
             view.getCamera().setToOrtho(false, (float) (mapWidth * tileWidth) /2, (float) (mapHeight * tileHeight) /2);
             view.getCamera().position.set(
-                    App.getCurrentGame().getActivePlayer().getPlace().x + view.getTILE_SIZE() / 2f,
-                    App.getCurrentGame().getActivePlayer().getPlace().y + view.getTILE_SIZE() / 2f, 0);
+                GameApp.getPlayer().getPlace().x + view.getTILE_SIZE() / 2f,
+                GameApp.getPlayer().getPlace().y + view.getTILE_SIZE() / 2f, 0);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.N)) {
-            App.getCurrentGame().changeTurn();
-        }
+//        if (Gdx.input.isKeyPressed(Input.Keys.N)) {
+//            GameApp.changeTurn();
+//        }
     }
 
     public boolean isBlocked(float x, float y) {
@@ -137,7 +137,7 @@ public abstract class GameController {
         if (getView().getMapType() != MapType.FARM) {
             return false;
         }
-        for (Player player : App.getCurrentGame().getPlayers()) {
+        for (Player player : GameApp.getPlayers()) {
             Farm farm = player.getFarm();
             if (farm == null)
                 continue;
@@ -199,12 +199,12 @@ public abstract class GameController {
 
         for (MapObject object : view.getMap().getLayers().get(layerName).getObjects()) {
             if (object instanceof RectangleMapObject
-                    && Intersector.overlaps(App.getCurrentGame().getActivePlayer().getPlayerRectangle(),
+                    && Intersector.overlaps(GameApp.getPlayer().getPlayerRectangle(),
                             ((RectangleMapObject) object).getRectangle()) && (object.getName().equals("blacksmith") || object.getName().equals("stardropsaloon") || object.getName().equals("jojamart") || object.getName().equals("pierregeneralstore") || object.getName().equals("carpentershop") || object.getName().equals("marnieranch") )) {
                 handleStoreDoor(object);
             }
             else if (object instanceof RectangleMapObject
-                && Intersector.overlaps(App.getCurrentGame().getActivePlayer().getPlayerRectangle(),
+                && Intersector.overlaps(GameApp.getPlayer().getPlayerRectangle(),
                 ((RectangleMapObject) object).getRectangle()) && ((object.getName().equals("Farm1")) || object.getName().equals("Farm") || (object.getName().equals("Farm2"))) ) {
                 handleFarmDoor(object);
             }
@@ -220,7 +220,7 @@ public abstract class GameController {
             return;
 
         MapType targetType = MapType.valueOf(newMap.toUpperCase());
-        FarmMap farmMap = App.getCurrentGame().getMapForPlayer(App.getCurrentGame().getActivePlayer() , targetType);
+        FarmMap farmMap = GameApp.getMapForPlayer(GameApp.getPlayer() , targetType);
         changeMap(farmMap);
 //        positionPlayerAtExit(exitPointName);
         startTeleportCooldown();
@@ -233,8 +233,8 @@ public abstract class GameController {
     protected void handleLakeArea(Polygon poly) {
         // placeScaledImageAsTile(map, "craft", (int)(playerX/TILE_SIZE),
         // (int)(playerY/TILE_SIZE), "soil.png");
-        if (isNearPolygonEdge(poly, App.getCurrentGame().getActivePlayer().getPlace().x,
-                App.getCurrentGame().getActivePlayer().getPlace().y, 16)) {
+        if (isNearPolygonEdge(poly, GameApp.getPlayer().getPlace().x,
+            GameApp.getPlayer().getPlace().y, 16)) {
 
             // view.getPlacer().clearCharacter((int)
             // App.getCurrentGame().getActivePlayer().getPlace().x, (int)
@@ -249,11 +249,11 @@ public abstract class GameController {
         if (newMap == null)
             return;
         MapType targetType = MapType.valueOf(newMap.toUpperCase());
-        App.getCurrentGame().getActivePlayer().setCurrentMapType(targetType);
+        GameApp.getPlayer().setCurrentMapType(targetType);
 
         GameView gameView = new StoreView(new StoreController(),GameAssetManager.getGameAssetManager().getSkin() , targetType );
         Gdx.app.postRunnable(() -> {
-            App.getCurrentGame().setGameView(gameView);
+            GameApp.setGameView(gameView);
 
             Main.getMain().setScreen(gameView);
             gameView.getGameController().startPoint(gameView.getMap());
@@ -267,11 +267,11 @@ public abstract class GameController {
         String newMap = door.getProperties().get("targetMap", String.class);
         if (newMap == null)
             return;
-        App.getCurrentGame().getActivePlayer().setCurrentMapType(MapType.MINE);
+        GameApp.getPlayer().setCurrentMapType(MapType.MINE);
 
         GameView gameView = new MineView(new MineController(),GameAssetManager.getGameAssetManager().getSkin() );
         Gdx.app.postRunnable(() -> {
-            App.getCurrentGame().setGameView(gameView);
+            GameApp.setGameView(gameView);
 
         Main.getMain().setScreen(gameView);
             gameView.getGameController().startPoint(gameView.getMap());
@@ -285,11 +285,11 @@ public abstract class GameController {
         String newMap = door.getProperties().get("targetMap", String.class);
         if (newMap == null)
             return;
-        App.getCurrentGame().getActivePlayer().setCurrentMapType(MapType.HOUSE);
+        GameApp.getPlayer().setCurrentMapType(MapType.HOUSE);
 
         GameView gameView = new HouseView(new HouseController(),GameAssetManager.getGameAssetManager().getSkin() );
         Gdx.app.postRunnable(() -> {
-            App.getCurrentGame().setGameView(gameView);
+            GameApp.setGameView(gameView);
 
             Main.getMain().setScreen(gameView);
             gameView.getGameController().startPoint(gameView.getMap());
@@ -304,13 +304,13 @@ public abstract class GameController {
 
         if (newMap == null)
             return;
-        MapType oldType = App.getCurrentGame().getActivePlayer().getCurrentMapType();
+        MapType oldType = GameApp.getPlayer().getCurrentMapType();
         MapType targetType = MapType.valueOf(newMap.toUpperCase());
-        App.getCurrentGame().getActivePlayer().setCurrentMapType(targetType);
+        GameApp.getPlayer().setCurrentMapType(targetType);
 
         GameView gameView = new FarmView(new FarmController(),GameAssetManager.getGameAssetManager().getSkin() , targetType );
         Gdx.app.postRunnable(() -> {
-            App.getCurrentGame().setGameView(gameView);
+            GameApp.setGameView(gameView);
 
             Main.getMain().setScreen(gameView);
             if(targetType == MapType.FARM) {
@@ -333,7 +333,7 @@ public abstract class GameController {
     private void changeMap(FarmMap newMap) {
         view.setMap(newMap);
         view.getMapRenderer().setMap(newMap.getTmxMap());
-        App.getCurrentGame().getActivePlayer().setCharacterPlacer(new CharacterPlacer(newMap.getTmxMap()));
+        GameApp.getPlayer().setCharacterPlacer(new CharacterPlacer(newMap.getTmxMap()));
     }
 
 //    public void positionPlayerAtExit(String exitName) {
@@ -345,13 +345,13 @@ public abstract class GameController {
 //    }
 
     public void teleportPlayer(float x, float y) {
-        App.getCurrentGame().getActivePlayer().getCharacterPlacer().clearCharacter(
-                (int) (App.getCurrentGame().getActivePlayer().getPlace().x / view.getTILE_SIZE()),
-                (int) (App.getCurrentGame().getActivePlayer().getPlace().y / view.getTILE_SIZE()));
-        App.getCurrentGame().getActivePlayer().setPlace(new Vector2(x, y));
+        GameApp.getPlayer().getCharacterPlacer().clearCharacter(
+                (int) (GameApp.getPlayer().getPlace().x / view.getTILE_SIZE()),
+                (int) (GameApp.getPlayer().getPlace().y / view.getTILE_SIZE()));
+        GameApp.getPlayer().setPlace(new Vector2(x, y));
 
-        App.getCurrentGame().getActivePlayer().getPlayerRectangle().setPosition(x, y);
-        App.getCurrentGame().getActivePlayer().setCharacterPlacer(new CharacterPlacer(getView().getMap()));
+        GameApp.getPlayer().getPlayerRectangle().setPosition(x, y);
+        GameApp.getPlayer().setCharacterPlacer(new CharacterPlacer(getView().getMap()));
 
 
     }

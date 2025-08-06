@@ -28,10 +28,8 @@ import java.awt.*;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.StreamSupport;
 
 //cheat code for changing weather must be added.
 
@@ -169,10 +167,10 @@ public class TimeAndDate {
             // App.getCurrentGame().getMainMap();
             updateAnimalOutdoorsStatus();
             changeForagingAndCrops(
-                    App.getCurrentGame().getMapForPlayer(App.getCurrentGame().getActivePlayer(), MapType.FARM));
-            App.getCurrentGame().getPlayers().forEach(player -> player.getEnergy().onNewDay());
-            for (Player player : App.getCurrentGame().getPlayers()) {
-                App.getCurrentGame().getShoppingBin().addMoney(player);
+                    GameApp.getMapForPlayer(GameApp.getPlayer(), MapType.FARM));
+            GameApp.getPlayers().forEach(player -> player.getEnergy().onNewDay());
+            for (Player player : GameApp.getPlayers()) {
+                GameApp.getShoppingBin().addMoney(player);
             }
         }
 
@@ -190,7 +188,7 @@ public class TimeAndDate {
 
         // اگر Sunny بود، افکتی لود نکن
         if (effectName != null) {
-            TiledMap currentMap = App.getCurrentGame().getMainMap().getTmxMap(); // 👈 یا map مستقیم
+            TiledMap currentMap = GameApp.getMainMap().getTmxMap(); // 👈 یا map مستقیم
             if (weather == Weather.Stormy) {
                 rainEffect = loadEffectsForFullMap(currentMap, effectName, 10, 10);
             } else if (weather == Weather.Sunny) {
@@ -252,7 +250,7 @@ public class TimeAndDate {
     }
 
     private void thunder() {
-        for (Player player : App.getCurrentGame().getPlayers()) {
+        for (Player player : GameApp.getPlayers()) {
             for (int i = 0; i < 3; i++) {
                 int x = random.nextInt(55);
                 int y = random.nextInt(35);
@@ -272,7 +270,7 @@ public class TimeAndDate {
     }
 
     public void changeForagingAndCrops(FarmMap farmMap) {
-        for (Player player : App.getCurrentGame().getPlayers()) {
+        for (Player player : GameApp.getPlayers()) {
             if (player == null || player.getFarm() == null)
                 continue;
 
@@ -288,7 +286,7 @@ public class TimeAndDate {
     }
 
     private void generateForagingMinerals(Player player) {
-        FarmMap mineMap = App.getCurrentGame().getMapForPlayer(player, MapType.MINE);
+        FarmMap mineMap = GameApp.getMapForPlayer(player, MapType.MINE);
         List<Vector2> validPoints = collectValidPoints(mineMap,
                 mineMap.getTmxMap().getLayers().get("Object").getObjects(), "mine");
         randomPlaceMineral(mineMap, validPoints, getTileSize(mineMap));
@@ -348,7 +346,7 @@ public class TimeAndDate {
     private void randomPlaceMaterial(FarmMap map, List<Vector2> points, Point tileSize) {
         Random rand = new Random();
         TiledMapTileLayer layer = (TiledMapTileLayer) map.getTmxMap().getLayers().get("craft");
-        Seasons season = App.getCurrentGame().getTimeAndDate().getSeason();
+        Seasons season = GameApp.getTimeAndDate().getSeason();
 
         while (!points.isEmpty()) {
             Vector2 world = points.remove(rand.nextInt(points.size()));
@@ -366,7 +364,7 @@ public class TimeAndDate {
     }
 
     private boolean isEmptyTile(int tileX, int tileY) {
-        return App.getCurrentGame().getPlayers().stream()
+        return GameApp.getPlayers().stream()
                 .noneMatch(p -> p.getPlace().x == tileX || p.getPlace().y == tileY);
     }
 
@@ -418,7 +416,7 @@ public class TimeAndDate {
     }
 
     public static void updateAnimalOutdoorsStatus() {
-        for (Coop coop : App.getCurrentGame().getPlayers().stream()
+        for (Coop coop : GameApp.getPlayers().stream()
                 .flatMap(player -> player.getFarm().getCoops().stream()).toList()) {
             for (Animal animal : coop.getAnimals()) {
                 animal.generateProduct();
@@ -426,7 +424,7 @@ public class TimeAndDate {
             }
         }
 
-        for (Barn barn : App.getCurrentGame().getPlayers().stream()
+        for (Barn barn : GameApp.getPlayers().stream()
                 .flatMap(player -> player.getFarm().getBarns().stream()).toList()) {
             for (Animal animal : barn.getAnimals()) {
                 animal.generateProduct();

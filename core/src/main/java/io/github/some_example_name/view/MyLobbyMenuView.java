@@ -12,9 +12,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import common.Message;
 import io.github.some_example_name.Main;
-import io.github.some_example_name.model.GameApp;
 import common.Lobby;
-import common.Player;
+import common.UserInfo;
 import io.github.some_example_name.model.GameAssetManager;
 
 import java.util.HashMap;
@@ -131,7 +130,7 @@ public class MyLobbyMenuView implements Screen {
         buttonRow.add(leaveBtn);
 
         // Start Game (admin only)
-        Player me = GameApp.player;
+        UserInfo me = GameApp.player;
         if (me != null && me.getUsername().equals(lobby.getAdmin())) {
             TextButton startBtn = new TextButton("Start Game", skin);
             startBtn.addListener(new ClickListener() {

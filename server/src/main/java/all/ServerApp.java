@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class ServerApp {
     private static ListenerThread listenerThread;
     public static final ArrayList<ClientConnectionThread> connections = new ArrayList<>();
-    public static ArrayList<Player> players = new ArrayList<>();
+    public static ArrayList<UserInfo> players = new ArrayList<>();
     public static ArrayList<Lobby> lobbies = new ArrayList<>();
 
 

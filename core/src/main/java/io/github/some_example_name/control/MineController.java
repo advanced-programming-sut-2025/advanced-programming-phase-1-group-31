@@ -39,7 +39,7 @@ public class MineController extends GameController {
 
     @Override
     public void checkPlayerFarmWarps() {
-        Player player = App.getCurrentGame().getActivePlayer();
+        Player player = GameApp.getPlayer();
         if (player.getFarm() == null || player.getFarm().getAllObjects() == null)
             return;
         List<MapObject> objects = new ArrayList<>();
@@ -50,7 +50,7 @@ public class MineController extends GameController {
 
         for (MapObject object : objects) {
             if (object instanceof RectangleMapObject
-                && Intersector.overlaps(App.getCurrentGame().getActivePlayer().getPlayerRectangle(),
+                && Intersector.overlaps(GameApp.getPlayer().getPlayerRectangle(),
                 ((RectangleMapObject) object).getRectangle())) {
                 handleFarmWarp(object, player);
             } else if (object instanceof PolygonMapObject) {
@@ -69,13 +69,13 @@ public class MineController extends GameController {
         if (newMap == null)
             return;
         MapType targetType = MapType.valueOf(newMap.toUpperCase());
-        App.getCurrentGame().getActivePlayer().setCurrentMapType(targetType);
+        GameApp.getPlayer().setCurrentMapType(targetType);
 
         GameView gameView = new FarmView(new FarmController(),
             GameAssetManager.getGameAssetManager().getSkin() , MapType.FARM);
 
         Gdx.app.postRunnable(() -> {
-            App.getCurrentGame().setGameView(gameView);
+            GameApp.setGameView(gameView);
 
             Main.getMain().setScreen(gameView);
             gameView.getGameController().setStartPoint(gameView.getMap() , "outMine");

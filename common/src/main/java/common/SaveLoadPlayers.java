@@ -15,15 +15,15 @@ public class SaveLoadPlayers {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 
-    public static void savePlayers(ArrayList<Player> players) {
+    public static void savePlayers(ArrayList<UserInfo> players) {
         try (FileWriter writer = new FileWriter(filePath)) {
             gson.toJson(players, writer);
         } catch (IOException ignore) {}
     }
 
-    public static ArrayList<Player> loadPlayers() {
+    public static ArrayList<UserInfo> loadPlayers() {
         try (FileReader reader = new FileReader(filePath)) {
-            Type listType = new TypeToken<ArrayList<Player>>(){}.getType();
+            Type listType = new TypeToken<ArrayList<UserInfo>>(){}.getType();
             return gson.fromJson(reader, listType);
         } catch (IOException ignore) {
             return new ArrayList<>();

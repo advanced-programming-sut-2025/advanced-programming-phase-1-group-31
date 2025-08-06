@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.some_example_name.control.GameController;
+import io.github.some_example_name.model.GameApp;
 import io.github.some_example_name.view.ui.InventoryUI;
 import io.github.some_example_name.model.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -50,7 +51,7 @@ public abstract class GameView implements Screen, InputProcessor {
     }
 
     public void create() {
-        map = App.getCurrentGame().getMapForPlayer(App.getCurrentGame().getActivePlayer() , getMapType());
+        map = GameApp.getMapForPlayer(GameApp.getPlayer() , getMapType());
         mapRenderer = new OrthogonalTiledMapRenderer(map.getTmxMap());
         hudCamera = new OrthographicCamera();
         hudCamera.setToOrtho(false , Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -68,7 +69,7 @@ public abstract class GameView implements Screen, InputProcessor {
         inventoryUI.setPosition(
                 stage.getWidth() / 2f - inventoryUI.getWidth() / 2f,
                 stage.getHeight() / 2f - inventoryUI.getHeight() / 2f);
-        App.getCurrentGame().getTimeAndDate().setRainEffect(App.getCurrentGame().getTimeAndDate().loadEffectsForFullMap(map.getTmxMap(), App.getCurrentGame().getTimeAndDate().getWeather().getEffectName(), 0, 0));
+        GameApp.getTimeAndDate().setRainEffect(GameApp.getTimeAndDate().loadEffectsForFullMap(map.getTmxMap(), GameApp.getTimeAndDate().getWeather().getEffectName(), 0, 0));
 
         // rainEffect.setPosition(100, 200);
 
@@ -83,7 +84,7 @@ public abstract class GameView implements Screen, InputProcessor {
 //        rayHandler.updateAndRender();
     }
     private void updateAmbientLight() {
-        int hour = App.getCurrentGame().getTimeAndDate().getHour();
+        int hour = GameApp.getTimeAndDate().getHour();
 
         float lightLevel;
 
@@ -118,12 +119,12 @@ public abstract class GameView implements Screen, InputProcessor {
 
         batch.setProjectionMatrix(mapRenderer.getBatch().getProjectionMatrix());
         batch.begin();
-        App.getCurrentGame().getTimeAndDate().renderEffect(batch ,delta);
+        GameApp.getTimeAndDate().renderEffect(batch ,delta);
         batch.end();
         batch.setProjectionMatrix(hudCamera.combined);
         batch.begin();
-        App.getCurrentGame().getTimeAndDate().render(batch);
-        renderEnergyBar(batch, App.getCurrentGame().getActivePlayer().getEnergy().getEnergyAmount(), App.getCurrentGame().getActivePlayer().getEnergy().getMaxEnergy());
+        GameApp.getTimeAndDate().render(batch);
+        renderEnergyBar(batch, GameApp.getPlayer().getEnergy().getEnergyAmount(), GameApp.getPlayer().getEnergy().getMaxEnergy());
 
         batch.end();
 
@@ -312,11 +313,11 @@ public abstract class GameView implements Screen, InputProcessor {
 
     @Override
     public void dispose() {
-        App.getCurrentGame().getMapManager().disposeAll();
+        GameApp.getMapManager().disposeAll();
         mapRenderer.dispose();
         batch.dispose();
-        if (App.getCurrentGame().getTimeAndDate().getRainEffect() != null)
-            App.getCurrentGame().getTimeAndDate().getRainEffect().forEach(ParticleEffect::dispose);
+        if (GameApp.getTimeAndDate().getRainEffect() != null)
+            GameApp.getTimeAndDate().getRainEffect().forEach(ParticleEffect::dispose);
     }
 
     @Override

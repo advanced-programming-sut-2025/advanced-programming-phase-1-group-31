@@ -13,7 +13,7 @@ public class Lobby {
     private final ArrayList<String> players = new ArrayList<>();
     private String adminUsername;
 
-    public Lobby(String lobbyName, String lobbyPassword, int lobbyID, Player admin, boolean isVisible) {
+    public Lobby(String lobbyName, String lobbyPassword, int lobbyID, UserInfo admin, boolean isVisible) {
         // TODO: check if id is used or not
         this.lobbyName = lobbyName;
         this.lobbyPassword = lobbyPassword;
@@ -26,7 +26,7 @@ public class Lobby {
         this.creationTime = System.currentTimeMillis();
     }
 
-    public Lobby(String lobbyName, int lobbyID, Player admin, boolean isVisible) {
+    public Lobby(String lobbyName, int lobbyID, UserInfo admin, boolean isVisible) {
         this.lobbyName = lobbyName;
         this.lobbyID = lobbyID;
         this.isPrivate = false;
@@ -97,7 +97,7 @@ public class Lobby {
         this.creationTime = creationTime;
     }
 
-    public void addPlayer(Player player) throws IllegalArgumentException {
+    public void addPlayer(UserInfo player) throws IllegalArgumentException {
         if (players.contains(player.getUsername())) {
             throw new IllegalArgumentException("Player already exists!");
         } else if (players.size() == 4) {
@@ -116,7 +116,7 @@ public class Lobby {
         return players.size();
     }
 
-    public boolean isPlayerInThisLobby(Player player) {
+    public boolean isPlayerInThisLobby(UserInfo player) {
         return players.contains(player.getUsername());
     }
 

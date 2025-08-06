@@ -25,7 +25,7 @@ public class PreGameMenuController {
 
     public void onConfirmPressed(List<String> usernames) {
         // هر کاری باید در فشردن کانفیرم انجام شود
-        if (usernames.size() < 1){
+        if (usernames.isEmpty()){
             showErrorMessage( "At least 1 username is required."); return;}
 
 
@@ -89,7 +89,7 @@ public class PreGameMenuController {
         players.add(player1);
         players.add(player2);
         players.add(player3);
-        Game game = new Game(players);
+        GameApp game = new GameApp(players);
         App.setCurrentGame(game);
 
         mapManager.createMap(selectedMapsTmx , players);
@@ -97,7 +97,7 @@ public class PreGameMenuController {
         game.setMapManager(mapManager);
 
         GameView gameView = new FarmView(new FarmController(),GameAssetManager.getGameAssetManager().getSkin() , MapType.FARM );
-        App.getCurrentGame().setGameView(gameView);
+        GameApp.setGameView(gameView);
         gameView.getGameController().startPoint(gameView.getMap());
 
         Main.getMain().setScreen(gameView);

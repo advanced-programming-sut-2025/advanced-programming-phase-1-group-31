@@ -6,7 +6,6 @@ import io.github.some_example_name.model.enums.general.Direction;
 import io.github.some_example_name.model.enums.general.TileType;
 
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -20,7 +19,7 @@ public class ShoppingBin implements Material{
         if (!isNextToTrashBin()){
             return new Result(false, "You aren't next to the Trash Bin!");
         }
-        Player player = App.getCurrentGame().getActivePlayer();
+        Player player = GameApp.getPlayer();
         Backpack backpack = player.getInventory();
         Material material = backpack.isExistInBackpackOrNull(name);
         if (material == null) {
@@ -70,14 +69,14 @@ public class ShoppingBin implements Material{
 
     public boolean isNextToTrashBin() {
         for (Direction dir : Direction.values()) {
-            Vector2 tilePoint = dir.apply(App.getCurrentGame().getActivePlayer().getPlace());
+            Vector2 tilePoint = dir.apply(GameApp.getPlayer().getPlace());
 
             if (tilePoint.x < 0 || tilePoint.y < 0 ||
                     tilePoint.x >= 140 || tilePoint.y >= 100) {
                 continue;
             }
 
-            Tile tile = App.getCurrentGame().getMainMap().getMainMap()[(int) tilePoint.x][(int) tilePoint.y];
+            Tile tile = GameApp.getMainMap().getMainMap()[(int) tilePoint.x][(int) tilePoint.y];
             if (tile != null && tile.getType() == TileType.TRASH_BIN) {
                 return true;
             }

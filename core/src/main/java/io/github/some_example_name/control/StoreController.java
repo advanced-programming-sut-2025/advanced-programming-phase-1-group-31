@@ -69,7 +69,7 @@ public class StoreController extends GameController {
 
     @Override
     public void checkPlayerFarmWarps() {
-        Player player = App.getCurrentGame().getActivePlayer();
+        Player player = GameApp.getPlayer();
         if (player.getFarm() == null || player.getFarm().getAllObjects() == null)
             return;
         List<MapObject> objects = new ArrayList<>();
@@ -80,7 +80,7 @@ public class StoreController extends GameController {
 
         for (MapObject object : objects) {
             if (object instanceof RectangleMapObject
-                && Intersector.overlaps(App.getCurrentGame().getActivePlayer().getPlayerRectangle(),
+                && Intersector.overlaps(GameApp.getPlayer().getPlayerRectangle(),
                 ((RectangleMapObject) object).getRectangle())) {
                 handleFarmWarp(object, player);
             } else if (object instanceof PolygonMapObject) {
@@ -151,14 +151,14 @@ public class StoreController extends GameController {
         }
 
         MapType targetType = MapType.valueOf(newMap.toUpperCase());
-        MapType Type = App.getCurrentGame().getActivePlayer().getCurrentMapType();
-        App.getCurrentGame().getActivePlayer().setCurrentMapType(targetType);
+        MapType Type = GameApp.getPlayer().getCurrentMapType();
+        GameApp.getPlayer().setCurrentMapType(targetType);
 
         GameView gameView = new FarmView(new FarmController(),
             GameAssetManager.getGameAssetManager().getSkin() , targetType);
 
         Gdx.app.postRunnable(() -> {
-            App.getCurrentGame().setGameView(gameView);
+            GameApp.setGameView(gameView);
             Main.getMain().setScreen(gameView);
 
             String targetMap;

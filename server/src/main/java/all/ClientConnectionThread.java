@@ -19,7 +19,7 @@ public class ClientConnectionThread extends Thread {
     private final Socket socket;
     private final DataOutputStream dataOutputStream;
     private final DataInputStream dataInputStream;
-    private Player player;
+    private UserInfo player;
     private final LocalTime timeToConnect;
     private Thread counterThread;
 
@@ -122,7 +122,7 @@ public class ClientConnectionThread extends Thread {
         return isEnd.get();
     }
 
-    public Player getPlayer() {
+    public UserInfo getPlayer() {
         return player;
     }
 
@@ -131,7 +131,7 @@ public class ClientConnectionThread extends Thread {
         return timeToConnect.format(formatter);
     }
 
-    public void setPlayer(Player player) {
+    public void setPlayer(UserInfo player) {
         this.player = player;
     }
 

@@ -1,12 +1,12 @@
 package common;
 
-public class Player {
+public class UserInfo {
     private String username;
     private String password;
     private String nickName;
     private Lobby lobby;
 
-    public Player(String username, String password, String nickName, Lobby lobby) {
+    public UserInfo(String username, String password, String nickName, Lobby lobby) {
         this.username = username;
         this.password = password;
         this.nickName = nickName;

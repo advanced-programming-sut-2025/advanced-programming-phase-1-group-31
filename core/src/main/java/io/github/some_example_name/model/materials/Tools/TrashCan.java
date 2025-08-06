@@ -2,8 +2,8 @@ package io.github.some_example_name.model.materials.Tools;
 
 
 
-import io.github.some_example_name.model.App;
 import io.github.some_example_name.model.Backpack;
+import io.github.some_example_name.model.GameApp;
 import io.github.some_example_name.model.Result;
 import io.github.some_example_name.model.enums.general.Direction;
 import io.github.some_example_name.model.enums.toolTypes.TrashCanType;
@@ -28,17 +28,17 @@ public class TrashCan implements Tool, Material {
     }
 
     public Result work(String name, int amount) {
-        Backpack backpack = App.getCurrentGame().getActivePlayer().getInventory();
+        Backpack backpack = GameApp.getPlayer().getInventory();
         Material material = backpack.isExistInBackpackOrNull(name);
         if (material == null) return new Result(false, "You don't have " + name + " in your backpack");
         int totalAmount = backpack.howManyInBackpack(material);
         Result result = backpack.removeElementFromBackpack(material, amount);
         if (!result.Success()) return result;
         if (amount == -1) {
-            App.getCurrentGame().getActivePlayer().addMoney(material.baseSellPrice() * 0.7 * totalAmount);
+            GameApp.getPlayer().addMoney(material.baseSellPrice() * 0.7 * totalAmount);
             return  new Result(true, "All of " + name + " have been deleted");
         }
-        App.getCurrentGame().getActivePlayer().addMoney(material.baseSellPrice() * 0.7 * amount);
+        GameApp.getPlayer().addMoney(material.baseSellPrice() * 0.7 * amount);
         return new Result(true, amount + " of " + name + " have been deleted");
     }
 

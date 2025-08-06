@@ -2,8 +2,6 @@ package io.github.some_example_name.model;
 
 import com.badlogic.gdx.utils.Timer;
 
-import java.util.TimerTask;
-
 public class Energy {
     private float energyAmount;
     private float maxEnergy = 200.0f;
@@ -50,7 +48,7 @@ public class Energy {
 
 //         player.setLastPositionBeforeFaint(player.getLocation());
 
-        App.getCurrentGame().changeTurn();
+        GameApp.changeTurn();
     }
 
     public void onNewDay() {

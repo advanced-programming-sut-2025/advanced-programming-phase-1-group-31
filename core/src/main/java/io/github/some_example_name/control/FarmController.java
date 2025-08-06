@@ -32,8 +32,8 @@ public class FarmController extends GameController{
             return;
         }
         List<Player> players = new ArrayList<>();
-        for (int i = 0; i < App.getCurrentGame().getPlayers().size(); i++) {
-            players.add(App.getCurrentGame().getPlayers().get(i));
+        for (int i = 0; i < GameApp.getPlayers().size(); i++) {
+            players.add(GameApp.getPlayers().get(i));
         }
 
         for (Player player : players) {
@@ -47,7 +47,7 @@ public class FarmController extends GameController{
 
             for (MapObject object : objects) {
                 if (object instanceof RectangleMapObject
-                    && Intersector.overlaps(App.getCurrentGame().getActivePlayer().getPlayerRectangle(),
+                    && Intersector.overlaps(GameApp.getPlayer().getPlayerRectangle(),
                     ((RectangleMapObject) object).getRectangle())) {
                     handleFarmWarp(object, player);
                 } else if (object instanceof PolygonMapObject) {
@@ -57,7 +57,7 @@ public class FarmController extends GameController{
         }
     }
     public void startPoint(TiledMap map){
-        for (Player player : App.getCurrentGame().getPlayers()) {
+        for (Player player : GameApp.getPlayers()) {
             Farm farm = player.getFarm();
             if (farm == null)
                 continue;
@@ -82,8 +82,8 @@ public class FarmController extends GameController{
     public void handlePolygonSpecialAreas(PolygonMapObject area) {
         if (area.getName().equals("lake"))
             handleLakeArea(area.getPolygon());
-        if (!area.getPolygon().contains(App.getCurrentGame().getActivePlayer().getPlace().x,
-            App.getCurrentGame().getActivePlayer().getPlace().y))
+        if (!area.getPolygon().contains(GameApp.getPlayer().getPlace().x,
+            GameApp.getPlayer().getPlace().y))
             return;
 
         switch (area.getName()) {
@@ -103,10 +103,10 @@ public class FarmController extends GameController{
         if (newMap == null)
             return;
         MapType targetType = MapType.valueOf(newMap.toUpperCase());
-        App.getCurrentGame().getActivePlayer().setCurrentMapType(targetType);
+        GameApp.getPlayer().setCurrentMapType(targetType);
 
         GameView gameView;
-        switch (App.getCurrentGame().getActivePlayer().getCurrentMapType()) {
+        switch (GameApp.getPlayer().getCurrentMapType()) {
             case FARM:
                 gameView = new FarmView(new FarmController(),
                     GameAssetManager.getGameAssetManager().getSkin() , MapType.FARM);
@@ -137,10 +137,10 @@ public class FarmController extends GameController{
             default:
                 // Handle unexpected map types
                 throw new IllegalArgumentException("Unknown map type: " +
-                    App.getCurrentGame().getActivePlayer().getCurrentMapType());
+                    GameApp.getPlayer().getCurrentMapType());
         }
         Gdx.app.postRunnable(() -> {
-            App.getCurrentGame().setGameView(gameView);
+            GameApp.setGameView(gameView);
 
             Main.getMain().setScreen(gameView);
             if (targetType == MapType.FARM1 || targetType == MapType.FARM2) {
@@ -154,7 +154,7 @@ public class FarmController extends GameController{
         startTeleportCooldown();
     }
     public void setStartPoint(TiledMap map, String targetObjectName) {
-        Farm farm = App.getCurrentGame().getActivePlayer().getFarm();
+        Farm farm = GameApp.getPlayer().getFarm();
         if (farm == null || farm.getAllObjects() == null)
             return;
 

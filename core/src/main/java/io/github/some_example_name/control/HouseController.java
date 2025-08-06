@@ -9,9 +9,9 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import io.github.some_example_name.Main;
+import io.github.some_example_name.model.GameApp;
 import io.github.some_example_name.view.FarmView;
 import io.github.some_example_name.view.GameView;
-import io.github.some_example_name.model.App;
 import io.github.some_example_name.model.GameAssetManager;
 import io.github.some_example_name.model.MapType;
 import io.github.some_example_name.model.Player;
@@ -43,7 +43,7 @@ public class HouseController extends GameController{
 
     @Override
     public void checkPlayerFarmWarps() {
-        Player player = App.getCurrentGame().getActivePlayer();
+        Player player = GameApp.getPlayer();
         if (player.getFarm() == null || player.getFarm().getAllObjects() == null)
             return;
         List<MapObject> objects = new ArrayList<>();
@@ -54,7 +54,7 @@ public class HouseController extends GameController{
 
         for (MapObject object : objects) {
             if (object instanceof RectangleMapObject
-                && Intersector.overlaps(App.getCurrentGame().getActivePlayer().getPlayerRectangle(),
+                && Intersector.overlaps(GameApp.getPlayer().getPlayerRectangle(),
                 ((RectangleMapObject) object).getRectangle())) {
                 handleFarmWarp(object, player);
             } else if (object instanceof PolygonMapObject) {
@@ -73,13 +73,13 @@ public class HouseController extends GameController{
         if (newMap == null)
             return;
         MapType targetType = MapType.valueOf(newMap.toUpperCase());
-        App.getCurrentGame().getActivePlayer().setCurrentMapType(targetType);
+        GameApp.getPlayer().setCurrentMapType(targetType);
 
         GameView gameView = new FarmView(new FarmController(),
             GameAssetManager.getGameAssetManager().getSkin() , MapType.FARM );
 
         Gdx.app.postRunnable(() -> {
-            App.getCurrentGame().setGameView(gameView);
+            GameApp.setGameView(gameView);
 
             Main.getMain().setScreen(gameView);
             gameView.getGameController().setStartPoint(gameView.getMap() , "start");

@@ -116,7 +116,7 @@ public class AllLobbiesMenuView implements Screen {
 
 
         setOnLobbyClickListener(lobby -> {
-            if (GameApp.player.getLobby() != null) {
+            if (Game.player.getLobby() != null) {
                 showErrorDialog("You are already in a lobby", "Error", Color.RED);
             }
             else if (lobby.isPrivate()) {
@@ -182,7 +182,7 @@ public class AllLobbiesMenuView implements Screen {
             lobby.getLobbyID(), lobby.getLobbyName(), lobby.getNumberOfPlayers());
         Label infoLabel = new Label(info, skin);
         infoLabel.setFontScale(1.2f);
-        infoLabel.setColor(lobby.isPlayerInThisLobby(GameApp.player) ? Color.GREEN : Color.WHITE);
+        infoLabel.setColor(lobby.isPlayerInThisLobby(GameApp.player.getUserInfo()) ? Color.GREEN : Color.WHITE);
 
         // Action button
         TextButton actionBtn = new TextButton("Select", skin);
@@ -221,7 +221,7 @@ public class AllLobbiesMenuView implements Screen {
                 boolean result = Boolean.TRUE.equals(object);
                 if (result) {
                     try {
-                        lobby.addPlayer(GameApp.player);
+                        lobby.addPlayer(GameApp.player.getUserInfo());
                         HashMap<String, Object> body = new HashMap<>();
                         body.put("lobby", lobby);
                         GameApp.c2sConnectionThread.sendMessage(new Message(body, Message.Type.Get_Lobby));

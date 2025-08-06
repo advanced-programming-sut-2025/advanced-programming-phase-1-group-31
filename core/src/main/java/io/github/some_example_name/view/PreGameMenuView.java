@@ -18,48 +18,6 @@ public class PreGameMenuView implements Screen { private final Stage stage; priv
         setupPlayerSelection();
     }
 
-    private void setupPlayerSelection() {
-        table.clear();
-        TextField usernameInput = new TextField("", skin);
-        usernameInput.setMessageText("Enter Username");
-
-        TextButton addPlayerButton = new TextButton("Add Player", skin);
-        addPlayerButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                String username = usernameInput.getText().trim();
-                if (!username.isEmpty() && !playerUsernames.contains(username)) {
-                    playerUsernames.add(username);
-                    Label nameLabel = new Label(username, skin);
-                    usernameLabels.add(nameLabel);
-                    table.row();
-                    table.add(nameLabel).colspan(2);
-                    usernameInput.setText("");
-                }
-            }
-        });
-
-        TextButton confirmButton = new TextButton("Confirm Players", skin);
-        confirmButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                controller.onConfirmPressed(playerUsernames);
-            }
-        });
-
-        Label messageLabel = controller.getMessageLabel();
-        messageLabel.setFontScale(1.2f);
-
-        table.add(usernameInput).width(300).pad(10).colspan(2);
-        table.row();
-        table.add(addPlayerButton).width(200).pad(10).colspan(2);
-        table.row();
-        table.add(confirmButton).width(200).height(50).padTop(20).colspan(2);
-        table.row();
-        table.add(messageLabel).colspan(2).center();
-
-    }
-
     public void setupMapSelection(List<String> playerUsernames) {
         table.clear();
         table.add(new Label("Select maps for players:", skin)).colspan(3).padBottom(20);

@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import common.Message;
-import common.Player;
+import common.UserInfo;
 import io.github.some_example_name.Main;
 import io.github.some_example_name.model.GameApp;
 import io.github.some_example_name.model.GameAssetManager;
@@ -69,7 +69,7 @@ public class SignUpMenuView implements Screen {
                 if (username.getText().equals("Username") || password.getText().equals("Password") || nickName.getText().equals("NickName") || username.getText().isEmpty() || password.getText().isEmpty() || nickName.getText().isEmpty()) {
                     showErrorDialog("Please fill all the fields", "Error", Color.RED);
                 } else {
-                    Player player = new Player(username.getText(), password.getText(), nickName.getText(), null);
+                    UserInfo player = new UserInfo(username.getText(), password.getText(), nickName.getText(), null);
                     HashMap<String, Object> body = new HashMap<>();
                     body.put("command", "signup");
                     body.put("player", player);
@@ -80,7 +80,7 @@ public class SignUpMenuView implements Screen {
                             showErrorDialog(message.getFromBody("error-message", String.class), "Error", Color.RED);
                         }
                     } else {
-                        GameApp.player = player;
+                        GameApp.player.setUserInfo(player);
                         showErrorDialog("Sign Up\nSuccessfully", "Success", Color.GREEN);
 
                         dialog.addListener(new ClickListener() {

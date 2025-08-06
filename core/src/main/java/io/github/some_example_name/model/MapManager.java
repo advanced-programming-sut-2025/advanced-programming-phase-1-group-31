@@ -95,7 +95,7 @@ public class MapManager {
         bigMap.setTmxMap(bigMapTile);
         randomGenerateMap(bigMap);
 
-        App.getCurrentGame().setMainMap(bigMap);
+        GameApp.setMainMap(bigMap);
         players.forEach(player -> {
             player.setId(players.indexOf(player)); // sets ID to the player's position in the list
         });
@@ -257,8 +257,8 @@ public class MapManager {
         return copy;
     }
     private void randomGenerateMine() {
-        for (Player player : App.getCurrentGame().getPlayers()) {
-            FarmMap map = App.getCurrentGame().getMapForPlayer(player, MapType.MINE);
+        for (Player player : GameApp.getPlayers()) {
+            FarmMap map = GameApp.getMapForPlayer(player, MapType.MINE);
             int mapWidth = map.getTmxMap().getProperties().get("width", Integer.class);
             int mapHeight = map.getTmxMap().getProperties().get("height", Integer.class);
             int tileWidth = map.getTmxMap().getProperties().get("tilewidth", Integer.class);
@@ -313,7 +313,7 @@ public class MapManager {
         TiledMapTileLayer craftLayer = new TiledMapTileLayer(mapWidth, mapHeight, tileWidth, tileHeight);
         craftLayer.setName("craft");
         map.getTmxMap().getLayers().add(craftLayer);
-        for (Player player : App.getCurrentGame().getPlayers()){
+        for (Player player : GameApp.getPlayers()){
             if (player == null || player.getFarm() == null) {
                 continue;
             }

@@ -13,7 +13,7 @@ public class ServerMessageController {
 
     private static Message getStatus(){
         HashMap<String,Object> body = new HashMap<>();
-        body.put("player info", GameApp.player);
+        body.put("player info", GameApp.player.getUserInfo());
         return new Message(body, Message.Type.Get_Status);
     }
 

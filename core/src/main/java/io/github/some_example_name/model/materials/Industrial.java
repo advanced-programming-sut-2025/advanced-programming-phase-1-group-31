@@ -2,8 +2,7 @@ package io.github.some_example_name.model.materials;
 
 
 
-import io.github.some_example_name.model.App;
-import io.github.some_example_name.model.Game;
+import io.github.some_example_name.model.GameApp;
 import io.github.some_example_name.model.enums.crafting.Industrials;
 import io.github.some_example_name.model.enums.general.Seasons;
 
@@ -21,17 +20,9 @@ public class Industrial implements Material {
     public Industrial(Industrials industrials) {
         this.industrialType = industrials;
 
-        Game game = App.getCurrentGame();
-        if (game == null) {
-            // Avoid NPE during enum initialization – use placeholder values or throw a helpful exception
-            this.startHour = 0;
-            this.startDay = 0;
-            this.startSeason = null;
-        } else {
-            this.startHour = game.getTimeAndDate().getHour();
-            this.startDay = game.getTimeAndDate().getDay();
-            this.startSeason = game.getTimeAndDate().getSeason();
-        }
+        this.startHour = GameApp.getTimeAndDate().getHour();
+        this.startDay = GameApp.getTimeAndDate().getDay();
+        this.startSeason = GameApp.getTimeAndDate().getSeason();
     }
 
     public Craftable getCraftable() {
@@ -39,15 +30,12 @@ public class Industrial implements Material {
     }
 
     public boolean isReady() {
-        Game game = App.getCurrentGame();
-        if (game == null) return false;
-
-        if(!startSeason.equals(game.getTimeAndDate().getSeason())){
+        if(!startSeason.equals(GameApp.getTimeAndDate().getSeason())){
             return true;
         }
         int requiredTime = industrialType.getProcessingTime();
-        int elapsedTime = (game.getTimeAndDate().getDay() - startDay) * 13
-                + (game.getTimeAndDate().getHour() - startHour);
+        int elapsedTime = (GameApp.getTimeAndDate().getDay() - startDay) * 13
+                + (GameApp.getTimeAndDate().getHour() - startHour);
         return requiredTime <= elapsedTime;
     }
 

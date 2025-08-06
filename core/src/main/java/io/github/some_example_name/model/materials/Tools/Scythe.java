@@ -3,7 +3,7 @@ package io.github.some_example_name.model.materials.Tools;
 
 
 import com.badlogic.gdx.math.Vector2;
-import io.github.some_example_name.model.App;
+import io.github.some_example_name.model.GameApp;
 import io.github.some_example_name.model.Player;
 import io.github.some_example_name.model.Result;
 import io.github.some_example_name.model.Tile;
@@ -14,7 +14,6 @@ import io.github.some_example_name.model.materials.Material;
 import io.github.some_example_name.model.materials.MaterialType;
 import io.github.some_example_name.model.materials.Tree;
 
-import java.awt.*;
 import java.util.Objects;
 
 public class Scythe implements Tool, Material {
@@ -22,7 +21,7 @@ public class Scythe implements Tool, Material {
 
     @Override
     public Result work(Direction direction) {
-        Player player = App.getCurrentGame().getActivePlayer();
+        Player player = GameApp.getPlayer();
         Vector2 point = direction.apply(player.getPlace());
         double energyConsumption = 2.0;
 
@@ -41,7 +40,7 @@ public class Scythe implements Tool, Material {
             return new Result(false, "You only have access to tiles on your farm.");
         }
 
-        Tile[][] map = App.getCurrentGame().getMainMap().getMainMap();
+        Tile[][] map = GameApp.getMainMap().getMainMap();
         Tile tile = map[(int) point.x][(int) point.y];
         Material material = tile.getMaterial();
         if (tile.getType() == TileType.CROPS && material instanceof Crop crop) {

@@ -144,9 +144,9 @@ public class AddLobbyMenuView implements Screen {
                     Message message = GameApp.c2sConnectionThread.sendAndWaitForResponse(new Message(new HashMap<>(), Message.Type.Get_Lobby_ID));
                     int id = message.getIntFromBody("id");
                     if (isPrivateCheck.isChecked()) {
-                        lobby = new Lobby(name, lobbyPasswordField.getText(), id, GameApp.player, isVisibleCheck.isChecked());
+                        lobby = new Lobby(name, lobbyPasswordField.getText(), id, GameApp.player.getUserInfo(), isVisibleCheck.isChecked());
                     } else {
-                        lobby = new Lobby(name, id, GameApp.player, isVisibleCheck.isChecked());
+                        lobby = new Lobby(name, id, GameApp.player.getUserInfo(), isVisibleCheck.isChecked());
                     }
                     GameApp.player.setLobby(lobby);
                     HashMap<String, Object> body = new HashMap<>();

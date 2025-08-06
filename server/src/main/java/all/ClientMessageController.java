@@ -2,7 +2,7 @@ package all;
 
 import common.Lobby;
 import common.Message;
-import common.Player;
+import common.UserInfo;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,7 +21,7 @@ public class ClientMessageController {
     }
 
     private static Message whichLobbyIsThePlayer(Message message, ClientConnectionThread cct) {
-        Player player = message.getFromBody("player", Player.class);
+        UserInfo player = message.getFromBody("player", UserInfo.class);
         for (Lobby lobby : ServerApp.lobbies) {
             if (lobby.getPlayers().contains(player.getUsername())) {
                 HashMap<String, Object> body = new HashMap<>();
@@ -56,7 +56,7 @@ public class ClientMessageController {
 
         cct.getPlayer().setLobby(incomingLobby);
 
-        for (Player player : ServerApp.players) {
+        for (UserInfo player : ServerApp.players) {
             if (incomingLobby.getPlayers().contains(player.getUsername())) {
                 player.setLobby(incomingLobby);
             }
@@ -87,7 +87,7 @@ public class ClientMessageController {
 
     private static Message sendAllPlayers() {
         HashMap<String, Boolean> players = new HashMap<>();
-        for (Player player : ServerApp.players) {
+        for (UserInfo player : ServerApp.players) {
             boolean isOnline = ServerApp.connections.stream().anyMatch(p -> p.getPlayer() != null && p.getPlayer().getUsername().equals(player.getUsername()));
             players.put(player.getUsername(), isOnline);
         }
@@ -97,7 +97,7 @@ public class ClientMessageController {
     }
 
     private static Message refreshStatus(Message message, ClientConnectionThread cct) {
-        Player player = message.getFromBody("player info", Player.class);
+        UserInfo player = message.getFromBody("player info", UserInfo.class);
         if (player == null) {
             cct.setPlayer(null);
             return null;
@@ -110,7 +110,7 @@ public class ClientMessageController {
     private static Message parseUsername(Message message, ClientConnectionThread cct) {
         String command = message.getFromBody("command", String.class);
         if (command.equals("signup")) {
-            Player player = message.getFromBody("player", Player.class);
+            UserInfo player = message.getFromBody("player", UserInfo.class);
             boolean isExist = ServerApp.players.stream().anyMatch(p -> p.getUsername().equals(player.getUsername()));
             if (isExist) {
                 HashMap<String, Object> body = new HashMap<>();
@@ -122,7 +122,7 @@ public class ClientMessageController {
             }
         } else if (command.equals("login")) {
             String username = message.getFromBody("username", String.class);
-            Optional<Player> player = ServerApp.players.stream().filter(p -> p.getUsername().equals(username)).
+            Optional<UserInfo> player = ServerApp.players.stream().filter(p -> p.getUsername().equals(username)).
                 findFirst();
             HashMap<String, Object> body = new HashMap<>();
             if (!player.isPresent()) {
