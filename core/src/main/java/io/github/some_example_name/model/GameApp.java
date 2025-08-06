@@ -7,6 +7,7 @@ import common.Message;
 import io.github.some_example_name.view.*;
 import io.github.some_example_name.model.materials.ShoppingBin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameApp {
@@ -18,11 +19,6 @@ public class GameApp {
     private static GameView gameView;
     private static MapManager mapManager;
     private static MapInstanceManager instanceManager = new MapInstanceManager();
-
-
-    public void startGame(Lobby lobby) {
-
-    }
 
     public static Player getPlayer() {
         return GameApp.player;
@@ -136,4 +132,8 @@ public class GameApp {
 //    public ArrayList<NPC> getNPCs() {
 //        return NPCs;
 //    }
+
+    public static ArrayList<Player> getPlayers() {
+        return new ArrayList<>();
+    }
 }

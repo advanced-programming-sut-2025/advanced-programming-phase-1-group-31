@@ -116,7 +116,7 @@ public class AllLobbiesMenuView implements Screen {
 
 
         setOnLobbyClickListener(lobby -> {
-            if (Game.player.getLobby() != null) {
+            if (GameApp.player.getLobby() != null) {
                 showErrorDialog("You are already in a lobby", "Error", Color.RED);
             }
             else if (lobby.isPrivate()) {

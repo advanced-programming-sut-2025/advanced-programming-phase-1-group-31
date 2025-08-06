@@ -14,6 +14,8 @@ import common.Message;
 import io.github.some_example_name.Main;
 import common.Lobby;
 import common.UserInfo;
+import io.github.some_example_name.control.PreGameMenuController;
+import io.github.some_example_name.model.GameApp;
 import io.github.some_example_name.model.GameAssetManager;
 
 import java.util.HashMap;
@@ -30,7 +32,7 @@ public class MyLobbyMenuView implements Screen {
         HashMap<String, Object> body = new HashMap<>();
         body.put("player", GameApp.player);
         Message message = GameApp.c2sConnectionThread.sendAndWaitForResponse(new Message(body, Message.Type.Which_Lobby));
-        this.lobby = message.getFromBody("lobby",  Lobby.class);
+        this.lobby = message.getFromBody("lobby", Lobby.class);
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -130,13 +132,13 @@ public class MyLobbyMenuView implements Screen {
         buttonRow.add(leaveBtn);
 
         // Start Game (admin only)
-        UserInfo me = GameApp.player;
+        UserInfo me = GameApp.player.getUserInfo();
         if (me != null && me.getUsername().equals(lobby.getAdmin())) {
             TextButton startBtn = new TextButton("Start Game", skin);
             startBtn.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    GameApp.startGame(lobby);
+                    Main.getMain().setScreen(new PreGameMenuView(new PreGameMenuController(skin, lobby), GameAssetManager.getGameAssetManager().getSkin(), lobby));
                 }
             });
             buttonRow.add(startBtn);

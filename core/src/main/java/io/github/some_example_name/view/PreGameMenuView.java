@@ -1,99 +1,156 @@
 package io.github.some_example_name.view;
 
-import com.badlogic.gdx.Gdx; import com.badlogic.gdx.Screen; import com.badlogic.gdx.graphics.GL20; import com.badlogic.gdx.graphics.Texture; import com.badlogic.gdx.scenes.scene2d.InputEvent; import com.badlogic.gdx.scenes.scene2d.Stage; import com.badlogic.gdx.scenes.scene2d.ui.*; import com.badlogic.gdx.scenes.scene2d.utils.ClickListener; import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable; import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import common.Lobby;
 import io.github.some_example_name.control.PreGameMenuController;
 
-import java.util.ArrayList; import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
-public class PreGameMenuView implements Screen { private final Stage stage; private final PreGameMenuController controller; private final List<String> playerUsernames = new ArrayList<>(); private final List<Label> usernameLabels = new ArrayList<>(); private final List<String> selectedMaps = new ArrayList<>(); private final Skin skin; private final Table table = new Table();
+/**
+ * A screen that allows players to select a map before starting the game.
+ * Properly handles resource management and selection state.
+ */
+public class PreGameMenuView implements Screen {
+    private final Stage stage;
+    private final PreGameMenuController controller;
+    private final Lobby lobby;
+    private final Skin skin;
+    private final Table table;
 
-    public PreGameMenuView(PreGameMenuController controller, Skin skin) {
+    private final List<String> mapFiles;
+    private final List<Texture> mapTextures;
+    private final List<ImageButton> mapButtons;
+    private String selectedMap;
+
+    public PreGameMenuView(PreGameMenuController controller, Skin skin, Lobby lobby) {
         this.controller = controller;
         this.skin = skin;
-        controller.setView(this);
+        this.lobby = lobby;
+        this.mapFiles = List.of("farm1.png", "farm2.png", "farm2.png");
+        this.mapTextures = new ArrayList<>();
+        this.mapButtons = new ArrayList<>();
+
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+
+        table = new Table(skin);
         table.setFillParent(true);
+        table.center();
         stage.addActor(table);
-        setupPlayerSelection();
+
+        loadMapTextures();
+        buildUI();
     }
 
-    public void setupMapSelection(List<String> playerUsernames) {
+    private void loadMapTextures() {
+        for (String path : mapFiles) {
+            mapTextures.add(new Texture(Gdx.files.internal(path)));
+        }
+    }
+
+    private void buildUI() {
         table.clear();
-        table.add(new Label("Select maps for players:", skin)).colspan(3).padBottom(20);
+
+        // Header
+        Label title = new Label("Select Your Map:", skin);
+        title.setFontScale(1.7f);
+        table.add(title).colspan(mapFiles.size()).padBottom(20);
+        table.row();
         table.row();
 
-        String[] maps = {"farm1.png", "farm2.png", "farm1.png"};
-
-        final List<ImageButton> playerButtons = new ArrayList<>();
-
-        for (int i = 0; i < playerUsernames.size(); i++) {
+        // Map buttons
+        for (int i = 0; i < mapFiles.size(); i++) {
             final int index = i;
-            table.add(new Label("Player " + (i + 1), skin)).pad(5);
-
-            List<ImageButton> mapButtons = new ArrayList<>();
-
-            for (String map : maps) {
-                Texture mapTexture = new Texture(Gdx.files.internal(map));
-                ImageButton mapBtn = new ImageButton(new TextureRegionDrawable(mapTexture));
-                mapButtons.add(mapBtn);
-
-                mapBtn.addListener(new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        // un-highlight others
-                        for (ImageButton btn : mapButtons) {
-                            btn.getImage().setColor(1f, 1f, 1f, 1f);  // default white
-                        }
-
-                        // highlight selected
-                        mapBtn.getImage().setColor(0.6f, 0.9f, 0.6f, 1f); // green tint
-
-                        while (selectedMaps.size() <= index)
-                            selectedMaps.add(null);
-                        selectedMaps.set(index, map);
-
-                    }
-                });
-
-                table.add(mapBtn).width(100).height(60).pad(5);
-            }
-            table.row();
+            TextureRegionDrawable drawable = new TextureRegionDrawable(mapTextures.get(i));
+            ImageButton button = new ImageButton(drawable);
+            button.getImage().setScaling(Scaling.fit);
+            button.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    highlightSelected(index);
+                }
+            });
+            mapButtons.add(button);
+            table.add(button).width(250).height(90).pad(10);
         }
+        table.row();
+
+        // Start button
         TextButton startButton = new TextButton("Start Game", skin);
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                controller.handleStartGameWithMaps(selectedMaps , playerUsernames);
+                if (selectedMap != null) {
+//                    controller.handleStartGameWithMaps(selectedMap);
+                } else {
+//                    controller.showMessage("Please select a map before starting.");
+                }
             }
         });
+        table.add(startButton).colspan(mapFiles.size()).padTop(20);
 
-        table.add(startButton).colspan(3).padTop(20);
-        table.row();
-        Label messageLabel = controller.getMessageLabel();
+        // Message label (for feedback)
+        Label messageLabel = new Label("Salam",  skin);
         messageLabel.setFontScale(1.2f);
-        messageLabel.setPosition(
-            Gdx.graphics.getWidth() / 2f - 200, // adjust X
-            40                                // Y: پایین صفحه
-        );
-        stage.addActor(messageLabel);
+        messageLabel.setAlignment(Align.center);
+        table.row();
+        table.add(messageLabel).colspan(mapFiles.size()).padTop(10);
+    }
+
+    private void highlightSelected(int index) {
+        // Clear previous highlights
+        for (ImageButton btn : mapButtons) {
+            btn.getImage().setColor(Color.WHITE);
+        }
+        // Highlight the chosen button
+        ImageButton selectedButton = mapButtons.get(index);
+        selectedButton.getImage().setColor(Color.GREEN);
+        selectedMap = mapFiles.get(index);
+//        controller.showMessage("Selected map: " + selectedMap);
     }
 
     @Override
-    public void show() {}
+    public void show() {
+        // No-op
+    }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act(delta);
+        ScreenUtils.clear( Color.valueOf("#FAA25A"));
+        stage.act(Math.min(delta, 1/30f));
         stage.draw();
     }
 
-    @Override public void resize(int w, int h) { stage.getViewport().update(w, h, true); }
-    @Override public void pause() {}
-    @Override public void resume() {}
-    @Override public void hide() {}
-    @Override public void dispose() { stage.dispose(); }
+    @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
+    }
 
+    @Override
+    public void pause() {}
+
+    @Override
+    public void resume() {}
+
+    @Override
+    public void hide() {}
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+        mapTextures.forEach(Texture::dispose);
+    }
 }

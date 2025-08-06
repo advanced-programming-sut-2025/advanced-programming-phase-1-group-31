@@ -31,6 +31,7 @@ public abstract class GameController {
     }
 
     public abstract void startPoint(TiledMap map);
+
     public void handleInput(float delta) {
         int oldTileX = (int) (GameApp.getPlayer().getPlace().x / view.getTILE_SIZE());
         int oldTileY = (int) (GameApp.getPlayer().getPlace().y / view.getTILE_SIZE());
@@ -88,7 +89,7 @@ public abstract class GameController {
             GameApp.getPlayer().getCharacterPlacer().clearCharacter(newTileX-1 , newTileY+2);
             GameApp.getPlayer().getCharacterPlacer().clearCharacter(newTileX , newTileY+2);
         }
-        GameApp.getPlayers().stream().filter(player -> player != GameApp.getPlayer()).forEach(player -> {player.getCharacterPlacer().dontMove((int) (player.getPlace().x / view.getTILE_SIZE()), (int) (player.getPlace().y / view.getTILE_SIZE()));});
+//        GameApp.getPlayers().stream().filter(player -> player != GameApp.getPlayer()).forEach(player -> {player.getCharacterPlacer().dontMove((int) (player.getPlace().x / view.getTILE_SIZE()), (int) (player.getPlace().y / view.getTILE_SIZE()));});
 
         GameApp.getPlayer().getPlayerRectangle().setPosition(nextX, nextY);
         view.setShowFullMap(Gdx.input.isKeyPressed(Input.Keys.M));

@@ -48,7 +48,7 @@ public class Energy {
 
 //         player.setLastPositionBeforeFaint(player.getLocation());
 
-        GameApp.changeTurn();
+//        GameApp.changeTurn();
     }
 
     public void onNewDay() {
