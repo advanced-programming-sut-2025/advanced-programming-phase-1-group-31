@@ -49,6 +49,11 @@ public class TrashCan implements Tool, Material {
     }
 
     @Override
+    public String getTexturePath() {
+        return trashCanType.getTrashCanName();
+    }
+
+    @Override
     public String getName() {
         return "Trash Can " + trashCanType.name();
     }

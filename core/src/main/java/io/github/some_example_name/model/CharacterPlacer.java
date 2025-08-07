@@ -76,6 +76,7 @@
 package io.github.some_example_name.model;
 
 import com.badlogic.gdx.maps.tiled.*; import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile; import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile; import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 
 public class CharacterPlacer { private final TiledMap map; private final TiledMapTileLayer characterLayer; private final int tileWidth; private final int tileHeight; private final TiledMap mapchar = new TmxMapLoader().load("character.tmx");
 
@@ -198,6 +199,13 @@ public class CharacterPlacer { private final TiledMap map; private final TiledMa
 
 //        characterLayer.setCell(tileX, tileY + 1, topCell);
         characterLayer.setCell(tileX, tileY, bottomCell);
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                characterLayer.setCell(tileX, tileY, null);
+            }
+        }, 3f); // زمان بر حسب ثانیه
+
     }
 
     public enum Direction {

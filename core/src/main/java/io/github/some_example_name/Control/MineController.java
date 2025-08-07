@@ -7,11 +7,9 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import io.github.some_example_name.Main;
 import io.github.some_example_name.View.FarmView;
 import io.github.some_example_name.View.GameView;
-import io.github.some_example_name.View.MineView;
 import io.github.some_example_name.model.*;
 
 import java.util.ArrayList;
@@ -74,7 +72,7 @@ public class MineController extends GameController {
         App.getCurrentGame().getActivePlayer().setCurrentMapType(targetType);
 
         GameView gameView = new FarmView(new FarmController(),
-            GameAssetManager.getGameAssetManager().getSkin() , MapType.FARM);
+            GameAssetManager.getInstance().getSkin() , MapType.FARM);
 
         Gdx.app.postRunnable(() -> {
             App.getCurrentGame().setGameView(gameView);

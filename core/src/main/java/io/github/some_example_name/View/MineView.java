@@ -8,11 +8,6 @@ public class MineView extends GameView {
 
     public MineView(GameController gameController, Skin skin) {
         super(gameController, skin , MapType.MINE);
-        int mapWidth = getMap().getProperties().get("width", Integer.class);
-        int mapHeight = getMap().getProperties().get("height", Integer.class);
-        int tileWidth = getMap().getProperties().get("tilewidth", Integer.class);
-        int tileHeight = getMap().getProperties().get("tileheight", Integer.class);
-        getCamera().setToOrtho(false, mapWidth*tileWidth, mapHeight*tileHeight);
     }
 
     @Override

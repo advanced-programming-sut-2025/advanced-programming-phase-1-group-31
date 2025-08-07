@@ -6,14 +6,21 @@ filter: Linear, Linear
 repeat: none
 04B_30__
   rotate: false
-  xy: 1, 1590
+  xy: 1, 1596
   size: 506, 352
   orig: 506, 352
   offset: 0, 0
   index: -1
+Setting
+  rotate: false
+  xy: 225, 769
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 background
   rotate: false
-  xy: 1, 383
+  xy: 1, 389
   size: 98, 96
   split: 44, 39, 35, 35
   pad: 28, 33, 29, 28
@@ -22,23 +29,37 @@ background
   index: -1
 backgroundPedding
   rotate: false
-  xy: 1, 383
+  xy: 1, 389
   size: 98, 96
   split: 36, 41, 39, 43
   pad: 20, 24, 0, 0
   orig: 98, 96
   offset: 0, 0
   index: -1
+challenge_frame_obtained
+  rotate: false
+  xy: 703, 1244
+  size: 26, 26
+  orig: 26, 26
+  offset: 0, 0
+  index: -1
+challenge_frame_unobtained
+  rotate: false
+  xy: 799, 1302
+  size: 26, 26
+  orig: 26, 26
+  offset: 0, 0
+  index: -1
 checkBox
   rotate: false
-  xy: 509, 1177
+  xy: 509, 1183
   size: 46, 49
   orig: 46, 49
   offset: 0, 0
   index: -1
 chickenButton
   rotate: false
-  xy: 1, 605
+  xy: 1, 611
   size: 222, 174
   split: 146, 68, 56, 109
   pad: 34, 41, 33, 74
@@ -47,16 +68,23 @@ chickenButton
   index: -1
 earthButton
   rotate: false
-  xy: 243, 795
+  xy: 243, 801
   size: 222, 174
   split: 175, 40, 56, 105
   pad: 28, 35, 38, 61
   orig: 222, 174
   offset: 0, 0
   index: -1
+goal_frame_obtained
+  rotate: false
+  xy: 1255, 1732
+  size: 26, 26
+  orig: 26, 26
+  offset: 0, 0
+  index: -1
 golButton
   rotate: false
-  xy: 751, 1331
+  xy: 751, 1337
   size: 222, 174
   split: 134, 71, 60, 103
   pad: 27, 35, 35, 72
@@ -65,7 +93,7 @@ golButton
   index: -1
 hScroll
   rotate: false
-  xy: 191, 579
+  xy: 191, 585
   size: 29, 24
   split: 9, 14, 12, 11
   pad: 9, 10, 8, 10
@@ -74,7 +102,7 @@ hScroll
   index: -1
 hScrollKnob
   rotate: false
-  xy: 1725, 1835
+  xy: 1725, 1841
   size: 40, 24
   split: 14, 19, 10, 11
   pad: 0, 0, 0, 0
@@ -83,42 +111,42 @@ hScrollKnob
   index: -1
 impact(1)
   rotate: false
-  xy: 1, 971
+  xy: 1, 977
   size: 505, 191
   orig: 505, 191
   offset: 0, 0
   index: -1
 impact(3)
   rotate: false
-  xy: 1, 1164
+  xy: 1, 1170
   size: 506, 424
   orig: 506, 424
   offset: 0, 0
   index: -1
 mac's Extended Minecraft Bold Italic
   rotate: false
-  xy: 509, 1697
+  xy: 509, 1703
   size: 506, 245
   orig: 506, 245
   offset: 0, 0
   index: -1
 mac's Minecraft(1)
   rotate: false
-  xy: 509, 1507
+  xy: 509, 1513
   size: 504, 188
   orig: 504, 188
   offset: 0, 0
   index: -1
 overCheckbox
   rotate: false
-  xy: 703, 1266
+  xy: 703, 1272
   size: 46, 49
   orig: 46, 49
   offset: 0, 0
   index: -1
 overList
   rotate: false
-  xy: 467, 953
+  xy: 467, 959
   size: 32, 16
   split: 7, 12, 6, 7
   pad: 0, 0, 0, 0
@@ -127,7 +155,7 @@ overList
   index: -1
 selctedChickenButton
   rotate: false
-  xy: 1017, 1754
+  xy: 1017, 1760
   size: 240, 188
   split: 158, 73, 56, 120
   pad: 31, 41, 38, 81
@@ -136,7 +164,7 @@ selctedChickenButton
   index: -1
 selectBox
   rotate: false
-  xy: 1017, 1704
+  xy: 1017, 1710
   size: 192, 48
   split: 61, 87, 8, 37
   pad: 18, 48, 7, 7
@@ -145,14 +173,14 @@ selectBox
   index: -1
 selectCheckBox
   rotate: false
-  xy: 751, 1280
+  xy: 751, 1279
   size: 46, 49
   orig: 46, 49
   offset: 0, 0
   index: -1
 selectGolButton
   rotate: false
-  xy: 1, 781
+  xy: 1, 787
   size: 240, 188
   split: 153, 74, 58, 117
   pad: 31, 38, 36, 78
@@ -161,7 +189,7 @@ selectGolButton
   index: -1
 selectListBoard
   rotate: false
-  xy: 975, 1489
+  xy: 975, 1495
   size: 32, 16
   split: 8, 14, 6, 9
   pad: 6, 6, 5, 5
@@ -170,7 +198,7 @@ selectListBoard
   index: -1
 selectedSkinyButton
   rotate: false
-  xy: 509, 1228
+  xy: 509, 1234
   size: 192, 87
   split: 80, 78, 45, 34
   pad: 31, 43, 29, 26
@@ -179,14 +207,14 @@ selectedSkinyButton
   index: -1
 selectedTas
   rotate: false
-  xy: 1211, 1710
+  xy: 1211, 1716
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
   index: -1
 selectedTotButton
   rotate: false
-  xy: 509, 1317
+  xy: 509, 1323
   size: 240, 188
   split: 152, 66, 59, 103
   pad: 35, 49, 41, 85
@@ -195,7 +223,7 @@ selectedTotButton
   index: -1
 selecterEarthButton
   rotate: false
-  xy: 1259, 1754
+  xy: 1259, 1760
   size: 240, 188
   split: 190, 46, 60, 112
   pad: 31, 37, 37, 66
@@ -204,30 +232,51 @@ selecterEarthButton
   index: -1
 skinyButton
   rotate: false
-  xy: 1725, 1861
+  xy: 1725, 1867
   size: 177, 81
   split: 68, 79, 43, 33
   pad: 27, 34, 27, 24
   orig: 177, 81
   offset: 0, 0
   index: -1
+tab_above_middle
+  rotate: false
+  xy: 127, 527
+  size: 28, 32
+  orig: 28, 32
+  offset: 0, 0
+  index: -1
+tab_above_middle_selected
+  rotate: false
+  xy: 1, 355
+  size: 28, 32
+  orig: 28, 32
+  offset: 0, 0
+  index: -1
+tab_below_middle
+  rotate: false
+  xy: 557, 1200
+  size: 28, 32
+  orig: 28, 32
+  offset: 0, 0
+  index: -1
 tas
   rotate: false
-  xy: 1904, 1902
+  xy: 1904, 1908
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 textFeildCurser
   rotate: false
-  xy: 225, 747
+  xy: 1946, 1916
   size: 4, 32
   orig: 4, 32
   offset: 0, 0
   index: -1
 textField
   rotate: false
-  xy: 1, 555
+  xy: 1, 561
   size: 188, 48
   split: 38, 70, 20, 21
   pad: 23, 23, 13, 13
@@ -236,7 +285,7 @@ textField
   index: -1
 totButton
   rotate: false
-  xy: 1501, 1768
+  xy: 1501, 1774
   size: 222, 174
   split: 140, 56, 59, 90
   pad: 30, 37, 37, 74
@@ -245,7 +294,7 @@ totButton
   index: -1
 vScroll
   rotate: false
-  xy: 101, 450
+  xy: 101, 456
   size: 24, 29
   split: 8, 13, 14, 12
   pad: 8, 10, 9, 9
@@ -254,7 +303,7 @@ vScroll
   index: -1
 vScrollKnob
   rotate: false
-  xy: 799, 1289
+  xy: 1725, 1799
   size: 24, 40
   split: 11, 11, 17, 13
   pad: 0, 0, 0, 0
@@ -263,31 +312,45 @@ vScrollKnob
   index: -1
 window2
   rotate: false
-  xy: 1, 481
+  xy: 1, 487
   size: 124, 72
   split: 59, 54, 31, 36
   pad: 33, 32, 12, 12
   orig: 124, 72
   offset: 0, 0
   index: -1
-tab_above_middle
+‫‪Inventory‬‬
   rotate: false
-  xy: 1, 349
-  size: 28, 32
-  orig: 28, 32
+  xy: 243, 776
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: -1
-tab_above_middle_selected
+‫‪Skiⅼⅼs‬‬
   rotate: false
-  xy: 557, 1194
-  size: 28, 32
-  orig: 28, 32
+  xy: 1904, 1890
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: -1
-tab_below_middle
+‫‪Ⅿap‬‬
   rotate: false
-  xy: 127, 521
-  size: 28, 32
-  orig: 28, 32
+  xy: 1767, 1849
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+blue_background
+  rotate: false
+  xy: 243, 794
+  size: 182, 5
+  orig: 182, 5
+  offset: 0, 0
+  index: -1
+blue_progress
+  rotate: false
+  xy: 751, 1330
+  size: 182, 5
+  orig: 182, 5
   offset: 0, 0
   index: -1

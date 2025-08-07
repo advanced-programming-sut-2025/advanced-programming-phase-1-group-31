@@ -23,6 +23,11 @@ public class MilkPail implements Tool, Material {
     }
 
     @Override
+    public String getTexturePath() {
+        return "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Tools/Milk_Pail.png";
+    }
+
+    @Override
     public String getName() {
         return "Milk Pail";
     }

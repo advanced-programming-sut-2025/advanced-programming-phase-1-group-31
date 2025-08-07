@@ -1,52 +1,142 @@
 package io.github.some_example_name.model.enums.plantable;
 
-
 import io.github.some_example_name.model.materials.MaterialType;
 
 import java.util.List;
 
 public enum Trees implements MaterialType {
-    Apricot("Apricot Tree", Seeds.ApricotSapling, List.of(7, 7, 7, 7), 28, Fruits.Apricot,
-            1),
-    Cherry("Cherry Tree", Seeds.CherrySapling, List.of(7, 7, 7, 7), 28, Fruits.Cherry,
-            1),
-    Banana("Banana Tree", Seeds.BananaSapling, List.of(7, 7, 7, 7), 28, Fruits.Banana,
-            1),
-    Mango("Mango Tree", Seeds.MangoSapling, List.of(7, 7, 7, 7), 28, Fruits.Mango,
-            1),
-    Orange("Orange Tree", Seeds.OrangeSapling, List.of(7, 7, 7, 7), 28, Fruits.Orange,
-            1),
-    Peach("Peach Tree", Seeds.PeachSapling, List.of(7, 7, 7, 7), 28, Fruits.Peach,
-            1),
-    Apple("Apple Tree", Seeds.AppleSapling, List.of(7, 7, 7, 7), 28, Fruits.Apple,
-            1),
-    Pomegranate("Pomegranate Tree", Seeds.PomegranateSapling, List.of(7, 7, 7, 7), 28,
-            Fruits.Pomegranate, 1),
-    OakTree("Oak Tree", Seeds.Acorns, List.of(7, 7, 7, 7), 28, Fruits.OakResin,
-            7),
-    MapleTree("Maple Tree", Seeds.MapleSeeds, List.of(7, 7, 7, 7), 28, Fruits.MapleSyrup,
-            9),
-    PineTree("Pine Tree", Seeds.PineCones, List.of(7, 7, 7, 7), 28, Fruits.PineTar,
-            5),
-    MahoganyTree("Mahogany Tree", Seeds.MahoganySeeds, List.of(7, 7, 7, 7), 28, Fruits.Sap,
-            1),
-    MushroomTree("Mushroom Tree", Seeds.MushroomTreeSeeds, List.of(7, 7, 7, 7), 28,
-            Fruits.CommonMushroom, 1),
-    MysticTree("Mystic Tree", Seeds.MysticTreeSeeds, List.of(7, 7, 7, 7), 28, Fruits.MysticSyrup,
-            7);
+    Apricot("Apricot Tree", Seeds.ApricotSapling,
+        List.of(
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/ApricotSapling/Apricot_Stage_1.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/ApricotSapling/Apricot_Stage_2.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/ApricotSapling/Apricot_Stage_3.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/ApricotSapling/Apricot_Stage_4.png")
+        ), "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/ApricotSapling/Apricot.png", 28, Fruits.Apricot, 1),
+
+    Cherry("Cherry Tree", Seeds.CherrySapling,
+        List.of(
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/CherrySapling/Cherry_Stage_1.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/CherrySapling/Cherry_Stage_2.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/CherrySapling/Cherry_Stage_3.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/CherrySapling/Cherry_Stage_4.png")
+        ), "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/CherrySapling/Cherry.png", 28, Fruits.Cherry, 1),
+
+    Banana("Banana Tree", Seeds.BananaSapling,
+        List.of(
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/BananaSapling/Banana_Stage_1.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/BananaSapling/Banana_Stage_2.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/BananaSapling/Banana_Stage_3.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/BananaSapling/Banana_Stage_4.png")
+        ), "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/BananaSapling/Banana.png", 28, Fruits.Banana, 1),
+
+    Mango("Mango Tree", Seeds.MangoSapling,
+        List.of(
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/MangoSapling/Mango_Stage_1.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/MangoSapling/Mango_Stage_2.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/MangoSapling/Mango_Stage_3.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/MangoSapling/Mango_Stage_4.png")
+        ), "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/MangoSapling/Mango.png", 28, Fruits.Mango, 1),
+
+    Orange("Orange Tree", Seeds.OrangeSapling,
+        List.of(
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/OrangeSapling/Orange_Stage_1.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/OrangeSapling/Orange_Stage_2.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/OrangeSapling/Orange_Stage_3.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/OrangeSapling/Orange_Stage_4.png")
+        ), "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/OrangeSapling/Orange.png", 28, Fruits.Orange, 1),
+
+    Peach("Peach Tree", Seeds.PeachSapling,
+        List.of(
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/PeachSapling/Peach_Stage_1.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/PeachSapling/Peach_Stage_2.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/PeachSapling/Peach_Stage_3.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/PeachSapling/Peach_Stage_4.png")
+        ), "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/PeachSapling/Peach.png", 28, Fruits.Peach, 1),
+
+    Apple("Apple Tree", Seeds.AppleSapling,
+        List.of(
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/AppleSapling/Apple_Stage_1.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/AppleSapling/Apple_Stage_2.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/AppleSapling/Apple_Stage_3.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/AppleSapling/Apple_Stage_4.png")
+        ), "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/AppleSapling/Apple.png", 28, Fruits.Apple, 1),
+
+    Pomegranate("Pomegranate Tree", Seeds.PomegranateSapling,
+        List.of(
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/PomegranateSapling/Pomegranate_Stage_1.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/PomegranateSapling/Pomegranate_Stage_2.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/PomegranateSapling/Pomegranate_Stage_3.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/PomegranateSapling/Pomegranate_Stage_4.png")
+        ), "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/PomegranateSapling/Pomegranate.png", 28, Fruits.Pomegranate, 1),
+
+    OakTree("Oak Tree", Seeds.Acorns,
+        List.of(
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Oak_Stage_1.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Oak_Stage_2.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Oak_Stage_3.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Oak_Stage_4.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Oak_Stage_5.png")
+        ), "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Acorns/Oak_Resin.png", 28, Fruits.OakResin, 7),
+
+    MapleTree("Maple Tree", Seeds.MapleSeeds,
+        List.of(
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Maple/Maple_Stage_1.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Maple/Maple_Stage_2.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Maple/Maple_Stage_3.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Maple/Maple_Stage_4.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Maple/Maple_Stage_5.png")
+        ), "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Maple/Maple_Syrup.png", 28, Fruits.MapleSyrup, 9),
+
+    PineTree("Pine Tree", Seeds.PineCones,
+        List.of(
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Pine_Stage_1.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Pine_Stage_2.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Pine_Stage_3.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Pine_Stage_4.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Pine_Stage_5.png")
+        ), "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/PineCones/Pine_Tar.png", 28, Fruits.PineTar, 5),
+
+    MahoganyTree("Mahogany Tree", Seeds.MahoganySeeds,
+        List.of(
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Mahogany/Mahogany_Stage_1.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Mahogany/Mahogany_Stage_2.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Mahogany/Mahogany_Stage_3.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Mahogany/Mahogany_Stage_4.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Mahogany/Mahogany_Stage_5.png")
+        ), "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/Mahogany/Sap.png", 28, Fruits.Sap, 1),
+
+    MushroomTree("Mushroom Tree", Seeds.MushroomTreeSeeds,
+        List.of(
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/MushroomTree/Mushroom_Stage_1.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/MushroomTree/Mushroom_Stage_2.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/MushroomTree/Mushroom_Stage_3.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/MushroomTree/Mushroom_Stage_4.png")
+        ), "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/MushroomTree/Common_Mushroom.png", 28, Fruits.CommonMushroom, 1),
+
+    MysticTree("Mystic Tree", Seeds.MysticTreeSeeds,
+        List.of(
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/MysticTree/Mystic_Tree_Stage_1.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/MysticTree/Mystic_Tree_Stage_2.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/MysticTree/Mystic_Tree_Stage_3.png"),
+            new Stage(7, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/MysticTree/Mystic_Tree_Stage_4.png")
+        ), "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Trees/MysticTree/Mystic_Syrup.png", 28, Fruits.MysticSyrup, 7);
 
     private final String name;
     private final Seeds source;
-    private final List<Integer> stages;
+    private final List<Stage> stages;
+    private final String imagePath;
     private final Integer totalHarvestTime;
     private final Fruits fruit;
     private final Integer harvestCycle;
 
-    Trees(String name, Seeds source, List<Integer> stages, Integer totalHarvestTime, Fruits fruit,
+    public record Stage(int days, String imagePath) {}
+
+    Trees(String name, Seeds source, List<Stage> stages, String imagePath, Integer totalHarvestTime, Fruits fruit,
           Integer harvestCycle) {
         this.name = name;
         this.source = source;
         this.stages = stages;
+        this.imagePath = imagePath;
         this.totalHarvestTime = totalHarvestTime;
         this.fruit = fruit;
         this.harvestCycle = harvestCycle;
@@ -60,8 +150,12 @@ public enum Trees implements MaterialType {
         return source;
     }
 
-    public List<Integer> getStages() {
+    public List<Stage> getStages() {
         return stages;
+    }
+
+    public String getImagePath() {
+        return imagePath;
     }
 
     public Integer getTotalHarvestTime() {
@@ -84,5 +178,4 @@ public enum Trees implements MaterialType {
         }
         return null;
     }
-
 }

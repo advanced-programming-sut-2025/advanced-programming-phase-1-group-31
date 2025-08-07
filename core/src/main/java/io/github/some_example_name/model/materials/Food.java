@@ -18,6 +18,11 @@ public class Food implements Material {
     }
 
     @Override
+    public String getTexturePath() {
+        return "";
+    }
+
+    @Override
     public String getName() {
         return foodType.getName();
     }
@@ -44,3 +49,4 @@ public class Food implements Material {
         return foodType.getEnergy();
     }
 }
+

@@ -20,7 +20,7 @@ public class PreGameMenuController {
 
     public void setView(PreGameMenuView view) {
         this.view = view;
-        messageLabel = new Label("", GameAssetManager.getGameAssetManager().getSkin());
+        messageLabel = new Label("", GameAssetManager.getInstance().getSkin());
     }
 
     public void onConfirmPressed(List<String> usernames) {
@@ -94,9 +94,10 @@ public class PreGameMenuController {
 
         mapManager.createMap(selectedMapsTmx , players);
         game.setActivePlayer(player1);
+        game.setAdminPlayer(player1);
         game.setMapManager(mapManager);
 
-        GameView gameView = new FarmView(new FarmController(),GameAssetManager.getGameAssetManager().getSkin() , MapType.FARM );
+        GameView gameView = new FarmView(new FarmController(),GameAssetManager.getInstance().getSkin() , MapType.FARM );
         App.getCurrentGame().setGameView(gameView);
         gameView.getGameController().startPoint(gameView.getMap());
 

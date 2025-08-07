@@ -49,6 +49,11 @@ public class FishProducts implements Material {
     }
 
     @Override
+    public String getTexturePath() {
+        return fishType.getImagePath();
+    }
+
+    @Override
     public String getName() {
         return fishType.name();
     }

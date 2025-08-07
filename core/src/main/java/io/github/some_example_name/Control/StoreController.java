@@ -1,7 +1,7 @@
 package io.github.some_example_name.Control;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.Timer;
 import io.github.some_example_name.Main;
 import io.github.some_example_name.View.FarmView;
 import io.github.some_example_name.View.GameView;
+import io.github.some_example_name.View.StoreView;
 import io.github.some_example_name.model.*;
 
 import java.util.ArrayList;
@@ -74,6 +75,9 @@ public class StoreController extends GameController {
         if (player.getFarm() == null || player.getFarm().getAllObjects() == null)
             return;
         List<MapObject> objects = new ArrayList<>();
+        if (getView().getMap().getLayers().get("Object")==null){
+            return;
+        }
         for (MapObject object : getView().getMap().getLayers().get("Object").getObjects()) {
             objects.add(object);
         }
@@ -141,7 +145,17 @@ public class StoreController extends GameController {
             }
         }
 
+        if (warpObject.getName().equals("barn")) {
 
+
+
+        }
+        if (warpObject.getName().equals("Shopping") && getInputAdapter().getKeysHeld().contains(Input.Keys.X)) {
+
+            StoreView storeView = (StoreView) getView();
+            storeView.setupUI();
+
+        }
         if (!warpObject.getName().equals("out")) {
             return;
         }
@@ -156,7 +170,7 @@ public class StoreController extends GameController {
         App.getCurrentGame().getActivePlayer().setCurrentMapType(targetType);
 
         GameView gameView = new FarmView(new FarmController(),
-            GameAssetManager.getGameAssetManager().getSkin() , targetType);
+            GameAssetManager.getInstance().getSkin() , targetType);
 
         Gdx.app.postRunnable(() -> {
             App.getCurrentGame().setGameView(gameView);
@@ -182,6 +196,9 @@ public class StoreController extends GameController {
                 case MARNIERANCH:
                     targetMap = "outmarnieranch";
                     break;
+                case FISHSHOP:
+                    targetMap = "outfishshop";
+                    break;
                 default:
                     // Handle unexpected map types (optional: log an error or use a default)
                     targetMap = "outblacksmith"; // Fallback
@@ -197,4 +214,5 @@ public class StoreController extends GameController {
     public void handlePolygonSpecialAreas(PolygonMapObject area) {
 
     }
+
 }

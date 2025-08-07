@@ -31,6 +31,11 @@ public class NPC implements Material {
     }
 
     @Override
+    public String getTexturePath() {
+        return "";
+    }
+
+    @Override
     public String getName() {
         return NPCType.getName();
     }

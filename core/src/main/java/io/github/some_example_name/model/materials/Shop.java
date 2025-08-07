@@ -43,4 +43,8 @@ public class Shop implements Material {
     public int hashCode() {
         return Objects.hash(getClass(), getType());
     }
+    @Override
+    public String getTexturePath() {
+        return "";
+    }
 }

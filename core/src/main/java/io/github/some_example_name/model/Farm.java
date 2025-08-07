@@ -14,6 +14,7 @@ import java.util.List;
 public class Farm {
     private MapLayer objectLayer;
     private MapLayer blockLayer;
+    private List<MapLayer> greenHouseLayer = new ArrayList<>();
 
 
 
@@ -130,6 +131,14 @@ public class Farm {
 
     public void setRectangle(Rectangle rectangle) {
         this.rectangle = rectangle;
+    }
+
+    public List<MapLayer> getGreenHouseLayer() {
+        return greenHouseLayer;
+    }
+
+    public void setGreenHouseLayer(List<MapLayer> greenHouseLayer) {
+        this.greenHouseLayer = greenHouseLayer;
     }
 }
 

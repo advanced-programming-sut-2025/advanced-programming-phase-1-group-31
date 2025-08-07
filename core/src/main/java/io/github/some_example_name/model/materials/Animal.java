@@ -2,6 +2,7 @@ package io.github.some_example_name.model.materials;
 
 
 
+import com.badlogic.gdx.math.Vector2;
 import io.github.some_example_name.model.AnimalFriendship;
 import io.github.some_example_name.model.ProductQualityCalculator;
 import io.github.some_example_name.model.enums.creature.AnimalProducts;
@@ -18,7 +19,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Animal implements Material {
     private final String name;
     private final Animals animalType;
-    private Point location;
+    private Vector2 location;
     private final AnimalFriendship animalFriendship;
     private AnimalProduct todayProduct;
 
@@ -26,13 +27,14 @@ public class Animal implements Material {
         this.name = name;
         this.animalType = animalType;
         this.animalFriendship = new AnimalFriendship();
+        location = new Vector2();
     }
 
-    public Point getLocation() {
+    public Vector2 getLocation() {
         return location;
     }
 
-    public void setLocation(Point location) {
+    public void setLocation(Vector2 location) {
         this.location = location;
     }
 
@@ -59,6 +61,7 @@ public class Animal implements Material {
     }
 
     public void generateProduct() {
+        System.out.println("sss");
         if (!animalFriendship.isWasFedToday()) return;
 
         Random rand = new Random();
@@ -75,6 +78,7 @@ public class Animal implements Material {
 
         ProductQuality quality = ProductQualityCalculator.calculateQuality(randomQuality);
         todayProduct = new AnimalProduct(productType, quality, 1);
+        System.out.println(todayProduct.toString());
     }
 
     public AnimalProduct collectProduct() {
@@ -87,6 +91,11 @@ public class Animal implements Material {
     @Override
     public MaterialType getType() {
         return animalType;
+    }
+
+    @Override
+    public String getTexturePath() {
+        return animalType.getImagePath();
     }
 
     @Override

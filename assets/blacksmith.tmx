@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="15" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="11">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="15" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="12">
  <tileset firstgid="1" name="Paths" tilewidth="16" tileheight="16" tilecount="64" columns="4">
   <image source="Content (unpacked)/Maps/paths.png" width="64" height="256"/>
  </tileset>
@@ -85,6 +85,7 @@
    <point/>
   </object>
   <object id="5" name="door" x="55" y="161.5" width="34.5" height="13"/>
+  <object id="11" name="Shopping" x="48" y="234.5" width="32" height="17"/>
  </objectgroup>
  <layer id="3" name="Back2" width="15" height="20">
   <data encoding="csv">

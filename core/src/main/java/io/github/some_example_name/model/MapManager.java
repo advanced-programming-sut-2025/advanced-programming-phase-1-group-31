@@ -161,6 +161,12 @@ public class MapManager {
                 if (newLayer.getName().equals("Buildings3")) {
                     farm.setBlockLayer(newLayer);
                 }
+                if (newLayer.getName().equals("greenhouse2") || newLayer.getName().equals("greenhouse1")) {
+                    if (newLayer.getName().equals("greenhouse2")){
+                        newLayer.setVisible(false);
+                    }
+                    farm.getGreenHouseLayer().add(newLayer);
+                }
 
                 bigMap.getLayers().add(newLayer);
             } else {

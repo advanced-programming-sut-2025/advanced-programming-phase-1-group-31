@@ -2,13 +2,10 @@ package io.github.some_example_name.model;
 
 
 
-import com.badlogic.gdx.Gdx;
-import io.github.some_example_name.Control.FarmController;
-import io.github.some_example_name.Control.HouseController;
-import io.github.some_example_name.Control.MineController;
-import io.github.some_example_name.Control.StoreController;
+import io.github.some_example_name.Control.*;
 import io.github.some_example_name.Main;
 import io.github.some_example_name.View.*;
+import io.github.some_example_name.model.enums.npc.Shops;
 import io.github.some_example_name.model.materials.ShoppingBin;
 
 import java.util.ArrayList;
@@ -116,16 +113,24 @@ public class Game {
 
         GameView newGameView;
         switch (this.activePlayer.getCurrentMapType()) {
-            case FARM -> newGameView = new FarmView(new FarmController(), GameAssetManager.getGameAssetManager().getSkin() , MapType.FARM);
-            case FARM1 -> newGameView = new FarmView(new FarmController(), GameAssetManager.getGameAssetManager().getSkin() , MapType.FARM1);
-            case FARM2 -> newGameView = new FarmView(new FarmController(), GameAssetManager.getGameAssetManager().getSkin() , MapType.FARM2);
-            case MINE -> newGameView = new MineView(new MineController(), GameAssetManager.getGameAssetManager().getSkin());
-            case HOUSE -> newGameView = new HouseView(new HouseController() , GameAssetManager.getGameAssetManager().getSkin());
-            case BLACKSMITH -> newGameView = new StoreView(new StoreController() , GameAssetManager.getGameAssetManager().getSkin(), MapType.BLACKSMITH);
-            case STARDROPSALOON -> newGameView = new StoreView(new StoreController() , GameAssetManager.getGameAssetManager().getSkin(), MapType.STARDROPSALOON);
-            case JOJAMART -> newGameView = new StoreView(new StoreController() , GameAssetManager.getGameAssetManager().getSkin(), MapType.JOJAMART);
-            case CARPENTERSHOP -> newGameView = new StoreView(new StoreController() , GameAssetManager.getGameAssetManager().getSkin(), MapType.CARPENTERSHOP);
-            case MARNIERANCH -> newGameView = new StoreView(new StoreController() , GameAssetManager.getGameAssetManager().getSkin(), MapType.MARNIERANCH);
+            case FARM -> newGameView = new FarmView(new FarmController(), GameAssetManager.getInstance().getSkin() , MapType.FARM);
+            case FARM1 -> newGameView = new FarmView(new FarmController(), GameAssetManager.getInstance().getSkin() , MapType.FARM1);
+            case FARM2 -> newGameView = new FarmView(new FarmController(), GameAssetManager.getInstance().getSkin() , MapType.FARM2);
+            case MINE -> newGameView = new MineView(new MineController(), GameAssetManager.getInstance().getSkin());
+            case HOUSE -> newGameView = new HouseView(new HouseController() , GameAssetManager.getInstance().getSkin());
+            case BLACKSMITH -> newGameView = new StoreView(new StoreController() , GameAssetManager.getInstance().getSkin(), MapType.BLACKSMITH , Shops.BLACKSMITH);
+            case STARDROPSALOON -> newGameView = new StoreView(new StoreController() , GameAssetManager.getInstance().getSkin(), MapType.STARDROPSALOON , Shops.STARDROPSALOON);
+            case JOJAMART -> newGameView = new StoreView(new StoreController() , GameAssetManager.getInstance().getSkin(), MapType.JOJAMART , Shops.JOJAMART);
+            case CARPENTERSHOP -> newGameView = new StoreView(new StoreController() , GameAssetManager.getInstance().getSkin(), MapType.CARPENTERSHOP, Shops.CARPENTERSHOP);
+            case MARNIERANCH -> newGameView = new StoreView(new StoreController() , GameAssetManager.getInstance().getSkin(), MapType.MARNIERANCH , Shops.MARNIERANCH);
+            case COOP -> newGameView = new CoopAndBarnView(new CoopAndBarnController(), GameAssetManager.getInstance().getSkin(), MapType.COOP , App.getCurrentGame().getActivePlayer().getCurrentCoopOrBarn());
+            case LARGE_COOP -> newGameView = new CoopAndBarnView(new CoopAndBarnController() , GameAssetManager.getInstance().getSkin(), MapType.LARGE_COOP , App.getCurrentGame().getActivePlayer().getCurrentCoopOrBarn());
+            case DELUXE_COOP -> newGameView = new CoopAndBarnView(new CoopAndBarnController() , GameAssetManager.getInstance().getSkin(), MapType.DELUXE_COOP , App.getCurrentGame().getActivePlayer().getCurrentCoopOrBarn());
+            case BARN -> newGameView = new CoopAndBarnView(new CoopAndBarnController() , GameAssetManager.getInstance().getSkin(), MapType.BARN , App.getCurrentGame().getActivePlayer().getCurrentCoopOrBarn());
+            case LARGE_BARN -> newGameView = new CoopAndBarnView(new CoopAndBarnController() , GameAssetManager.getInstance().getSkin(), MapType.LARGE_BARN , App.getCurrentGame().getActivePlayer().getCurrentCoopOrBarn());
+            case DELUXE_BARN -> newGameView = new CoopAndBarnView(new CoopAndBarnController() , GameAssetManager.getInstance().getSkin(), MapType.DELUXE_BARN , App.getCurrentGame().getActivePlayer().getCurrentCoopOrBarn());
+            case GREENHOUSE -> newGameView = new GreenHouseView(new GreenHouseController(), GameAssetManager.getInstance().getSkin());
+
             default -> throw new IllegalArgumentException("Unknown map type: " + this.activePlayer.getCurrentMapType());
         }
 
@@ -154,7 +159,6 @@ public class Game {
     }
     public FarmMap getMapForPlayer(Player player, MapType type) {
         if (type.isShared()) {
-
             return App.getCurrentGame().getMapManager().getMap(type.getFilename());
         } else {
 

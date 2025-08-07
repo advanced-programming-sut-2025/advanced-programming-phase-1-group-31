@@ -20,13 +20,14 @@ public enum ForagingMinerals implements MaterialType {
     Diamond("Diamond", "A rare and valuable gem.", 750, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Gem/Diamond.png"),
     PrismaticShard("Prismatic Shard", "A very rare and powerful substance with unknown origins.",
             2000, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Gem/Prismatic_Shard.png"),
-    WOOD("Wood", "It is taken from a tree.", 4, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Crafting/Wood.png"),
+    WOOD("Wood", "It is taken from a tree.", 4, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Resource/Wood.png"),
     STONE("Stone", "Common Stone", 2, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Crafting/Stone.png"),
     COPPER_ORE("Copper Ore", "A common ore that can be smelted into bars.", 5, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Crafting/Copper_Ore.png"),
     IRON_ORE("Iron Ore", "A fairly common ore that can be smelted into bars.", 10, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Crafting/Iron_Ore.png"),
     GOLD_ORE("Gold Ore", "A precious ore that can be smelted into bars.", 25, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Crafting/Gold_Ore.png"),
     IRIDIUM_ORE("Iridium Ore", "An exotic ore with many curious properties. Can be smelted into bars.",
             100, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Crafting/Iridium_Ore.png"),
+    SOIL("soil", "" , 2 , "soil.png"),
     FIBER("Fiber", "just fiber", 10, "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Crafting/Fiber.png");
 
 

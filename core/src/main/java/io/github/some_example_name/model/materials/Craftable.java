@@ -19,6 +19,11 @@ public class Craftable implements Material {
     }
 
     @Override
+    public String getTexturePath() {
+        return "";
+    }
+
+    @Override
     public String getName() {
         return craftableType.getName();
     }

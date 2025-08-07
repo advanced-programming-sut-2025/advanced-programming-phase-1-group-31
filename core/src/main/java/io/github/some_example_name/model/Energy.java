@@ -35,12 +35,14 @@ public class Energy {
         if (energyAmount > maxEnergy)
             energyAmount = maxEnergy;
         if (energyAmount <= 0) {
+            Player player = App.getCurrentGame().getActivePlayer();
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
                     faint();
                 }
             }, 3f); // زمان بر حسب ثانیه
+
         }
     }
         private void faint() {

@@ -7,8 +7,8 @@ import java.util.Vector;
 
 public enum Direction {
 
-    UP(0, -1),
-    DOWN(0, 1),
+    UP(0, 1),
+    DOWN(0, -1),
     LEFT(-1, 0),
     RIGHT(1, 0),
     UP_LEFT(-1, -1),
@@ -17,6 +17,7 @@ public enum Direction {
     DOWN_RIGHT(1, 1);
 
     private final int dx, dy;
+    private static final int TILE_SIZE = 16; // اندازه tile در بازی شما
 
     Direction(int dx, int dy) {
         this.dx = dx;
@@ -24,7 +25,7 @@ public enum Direction {
     }
 
     public Vector2 apply(Vector2 p) {
-        return new Vector2(p.x + dx, p.y + dy);
+        return new Vector2(p.x + (dx * TILE_SIZE), p.y + (dy * TILE_SIZE));
     }
 
     public static Direction fromString(String s) {

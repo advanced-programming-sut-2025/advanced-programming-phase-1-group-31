@@ -53,9 +53,7 @@ public class TimeAndDate {
     public void render(SpriteBatch batch) {
         // 1. رسم تصویر
         batch.draw(hudTexture, Gdx.graphics.getWidth() - 256 - 10, Gdx.graphics.getHeight() - 256 - 10, 250, 250); // تنظیم
-                                                                                                                   // محل
-                                                                                                                   // نمایش
-                                                                                                                   // HUD
+
 
         String timeText = String.format("%02d", hour);
         String dayText = dayOfWeek.name();
@@ -178,7 +176,7 @@ public class TimeAndDate {
 
     }
 
-    private void updateWeatherEffect() {
+    public void updateWeatherEffect() {
         // قطع و پاکسازی افکت قبلی
         if (rainEffect != null) {
             rainEffect.forEach(ParticleEffect::dispose);
@@ -272,14 +270,77 @@ public class TimeAndDate {
     }
 
     public void changeForagingAndCrops(FarmMap farmMap) {
-        for (Player player : App.getCurrentGame().getPlayers()) {
-            if (player == null || player.getFarm() == null)
+        Game currentGame = App.getCurrentGame();
+        Player activePlayer = currentGame.getActivePlayer();
+
+        // Process main farm map tiles
+        FarmMap map = currentGame.getMapForPlayer(activePlayer, MapType.FARM);
+        processTiles(farmMap, map.getMainMaps());
+
+        // Process all players' farms
+        for (Player player : currentGame.getPlayers()) {
+            if (player == null || player.getFarm() == null) {
                 continue;
+            }
+
+            FarmMap playerMap = currentGame.getMapForPlayer(player, MapType.GREENHOUSE);
+            processTiles(playerMap, playerMap.getMainMaps());
 
             generateForagingCrops(farmMap, player.getFarm().getAllObjects());
             generateForagingMinerals(player);
         }
+    }
 
+    private void processTiles(FarmMap farmMap, ArrayList<Tile> tiles) {
+        for (Tile tile : tiles) {
+            if (tile.getMaterial() instanceof Tree tree) {
+                processTree(farmMap, tile, tree);
+            } else if (tile.getMaterial() instanceof Crop crop) {
+                processCrop(farmMap, tile, crop);
+            }
+        }
+    }
+
+    private void processTree(FarmMap farmMap, Tile tile, Tree tree) {
+        if (tree.getDaysWithoutWater() >= 2) {
+            removeTileMaterial(farmMap, tile);
+            return;
+        }
+
+        if (!tree.isFullyGrown()) {
+            if (tree.getDaysWithoutWater() == 0) {
+                tree.grow(farmMap.getTmxMap(), tile.getPoint());
+            }
+        } else {
+            tree.nextDay();
+        }
+        tree.setDaysWithoutWater(tree.getDaysWithoutWater() + 1);
+    }
+
+    private void processCrop(FarmMap farmMap, Tile tile, Crop crop) {
+        Point point = tile.getPoint();
+        if (crop.getDaysWithoutWater() >= 2) {
+            removeTileMaterial(farmMap, tile);
+            return;
+        }
+
+        if (!crop.isFullyGrown()) {
+            if (crop.getDaysWithoutWater() == 0) {
+                crop.grow(farmMap.getTmxMap(), point);
+            }
+        } else {
+            crop.nextDay();
+        }
+        if (crop.getAmount() >0) {
+            placeScaledImageAsTile(farmMap.getTmxMap() , "craft", point.x , point.y , crop.getTexturePath());
+        }
+        crop.setDaysWithoutWater(crop.getDaysWithoutWater() + 1);
+    }
+
+    private void removeTileMaterial(FarmMap farmMap, Tile tile) {
+        TiledMapTileLayer tileLayer = (TiledMapTileLayer) farmMap.getTmxMap().getLayers().get("craft");
+        tileLayer.setCell(tile.getPoint().x, tile.getPoint().y, null);
+        tile.setMaterial(null);
     }
 
     private void generateForagingCrops(FarmMap map, Iterable<MapObject> mapObjects) {
@@ -356,7 +417,7 @@ public class TimeAndDate {
             int y = (int) (world.y / tileSize.y);
 
             double chance = ThreadLocalRandom.current().nextDouble();
-            if (chance <= 0.05 && layer.getCell(x, y) == null && map.getTileByPoint(x, y) == null
+            if (chance <= 0.005 && layer.getCell(x, y) == null && map.getTileByPoint(x, y) == null
                 && isEmptyTile(x, y)) {
                 ForagingCrops crop = ForagingCrops.getRandomBySeason(season);
                 placeScaledImageAsTile(map.getTmxMap(), "craft", x, y, crop.getImagePath());
@@ -378,7 +439,7 @@ public class TimeAndDate {
         return new Point(getMapProperty(map, "tilewidth"), getMapProperty(map, "tileheight"));
     }
 
-    public void placeScaledImageAsTile(TiledMap map, String layerName, int tileX, int tileY, String imagePath) {
+    public static void placeScaledImageAsTile(TiledMap map, String layerName, int tileX, int tileY, String imagePath) {
         int tileSize = 16; // یا از map.getProperties() بگیر
 
         // مرحله 1: بارگذاری و کوچک کردن تصویر
@@ -411,6 +472,7 @@ public class TimeAndDate {
 
         // مرحله 4: گذاشتن در مختصات مشخص
         layer.setCell(tileX, tileY, cell);
+
 
         // آزادسازی منابع
         pixmap.dispose();

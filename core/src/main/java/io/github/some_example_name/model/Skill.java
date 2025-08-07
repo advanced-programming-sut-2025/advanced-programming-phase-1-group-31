@@ -1,7 +1,7 @@
 package io.github.some_example_name.model;
 
 public class Skill {
-    private int farmingLevel = 0;
+    private int farmingLevel = 1;
     private int miningLevel = 0;
     private int foragingLevel = 0;
     private int fishingLevel = 0;

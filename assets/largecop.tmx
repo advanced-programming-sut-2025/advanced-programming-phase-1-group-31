@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="16" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="32">
+ <tileset firstgid="1" name="Coop" tilewidth="16" tileheight="16" tilecount="84" columns="4">
+  <image source="Content (unpacked)/Maps/coopTiles.png" width="64" height="336"/>
+  <tile id="12">
+   <properties>
+    <property name="Type" value="Wood"/>
+   </properties>
+  </tile>
+  <tile id="33">
+   <properties>
+    <property name="Passable" type="int" value="0"/>
+    <property name="Trough" value="T"/>
+   </properties>
+  </tile>
+  <tile id="53">
+   <properties>
+    <property name="Type" value="Wood"/>
+   </properties>
+  </tile>
+  <tile id="56">
+   <properties>
+    <property name="Type" value="Wood"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer id="1" name="Tile Layer 1" width="16" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="2" name="Back" width="16" height="10">
+  <data encoding="csv">
+17,13,13,13,13,13,13,13,13,13,13,13,0,0,0,17,
+17,13,13,13,13,13,13,13,13,13,13,13,13,13,13,17,
+21,13,13,13,13,13,13,13,13,13,13,13,13,13,13,21,
+54,66,54,54,54,54,34,34,34,34,34,34,34,34,54,54,
+13,13,55,14,16,57,47,54,54,54,47,54,54,54,47,55,
+13,55,13,22,24,13,13,55,13,13,37,13,55,13,13,55,
+13,55,37,55,13,56,13,13,13,55,13,13,13,56,13,55,
+13,55,13,13,13,55,14,16,55,14,15,16,55,14,15,55,
+13,55,13,55,13,13,22,24,56,18,19,24,13,22,19,55,
+13,13,54,13,13,13,13,13,13,22,13,13,13,13,13,0
+</data>
+ </layer>
+ <layer id="3" name="Buildings" width="16" height="10">
+  <data encoding="csv">
+1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,
+5,62,17,17,17,17,25,61,62,17,25,17,17,62,25,7,
+5,21,48,21,21,29,30,30,30,30,30,30,30,30,31,7,
+5,73,0,0,0,33,0,0,0,0,0,0,0,0,35,7,
+5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
+5,0,0,0,0,0,0,0,0,0,0,0,0,0,58,7,
+5,63,0,0,0,0,0,0,0,0,0,0,0,0,63,7,
+5,60,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
+5,64,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
+49,5,0,7,49,49,49,49,49,49,49,49,49,49,49,49
+</data>
+ </layer>
+ <layer id="4" name="Front" width="16" height="10">
+  <data encoding="csv">
+1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,
+5,65,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
+5,69,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
+5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
+5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
+5,59,0,0,0,0,0,0,0,0,0,0,0,0,59,7,
+5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
+5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
+9,4,0,8,10,10,10,10,10,10,10,10,10,10,10,11,
+49,9,10,11,49,49,49,49,49,49,49,49,49,49,49,49
+</data>
+ </layer>
+ <objectgroup id="5" name="Object">
+  <object id="1" x="107.333" y="83.6667">
+   <point/>
+  </object>
+  <object id="2" x="24.333" y="78">
+   <point/>
+  </object>
+  <object id="3" x="131.833" y="120.333">
+   <point/>
+  </object>
+  <object id="4" x="67.1663" y="69.6667">
+   <point/>
+  </object>
+  <object id="5" x="207.333" y="85.1667">
+   <point/>
+  </object>
+  <object id="6" x="165.833" y="79.8333">
+   <point/>
+  </object>
+  <object id="7" x="199" y="116.5">
+   <point/>
+  </object>
+  <object id="8" x="74.1663" y="114">
+   <point/>
+  </object>
+  <object id="29" name="out" x="21.25" y="144.5" width="36.9167" height="15.25">
+   <properties>
+    <property name="targetMap" value="farm"/>
+   </properties>
+  </object>
+  <object id="30" name="outCAB" x="44.9163" y="131.25">
+   <point/>
+  </object>
+  <object id="31" name="bac" x="0.1665" y="-0.1665" width="256.167" height="160.833"/>
+ </objectgroup>
+</map>

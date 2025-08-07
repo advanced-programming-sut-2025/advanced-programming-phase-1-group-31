@@ -1,7 +1,10 @@
 package io.github.some_example_name.View;
 
-import com.badlogic.gdx.Gdx; import com.badlogic.gdx.Screen; import com.badlogic.gdx.graphics.GL20; import com.badlogic.gdx.graphics.Texture; import com.badlogic.gdx.scenes.scene2d.InputEvent; import com.badlogic.gdx.scenes.scene2d.Stage; import com.badlogic.gdx.scenes.scene2d.ui.*; import com.badlogic.gdx.scenes.scene2d.utils.ClickListener; import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable; import com.badlogic.gdx.utils.viewport.ScreenViewport; import io.github.some_example_name.Control.GameController;
+import com.badlogic.gdx.Gdx; import com.badlogic.gdx.Screen; import com.badlogic.gdx.graphics.GL20; import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent; import com.badlogic.gdx.scenes.scene2d.Stage; import com.badlogic.gdx.scenes.scene2d.ui.*; import com.badlogic.gdx.scenes.scene2d.utils.ClickListener; import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable; import com.badlogic.gdx.utils.viewport.ScreenViewport; import io.github.some_example_name.Control.GameController;
 import io.github.some_example_name.Control.PreGameMenuController;
+import io.github.some_example_name.View.ui.OverlayImageButton;
 
 import java.util.ArrayList; import java.util.List;
 
@@ -54,11 +57,78 @@ public class PreGameMenuView implements Screen { private final Stage stage; priv
         table.row();
         table.add(addPlayerButton).width(200).pad(10).colspan(2);
         table.row();
+        // دکمه اصلی
+//        Texture overlayTex = new Texture("hotbar_selection.png");
+//        OverlayImageButton customButton = new OverlayImageButton(skin.get("default", TextButton.TextButtonStyle.class), overlayTex);
+//        customButton.setCount(5);
+//        table.add(customButton).width(100).height(100).padTop(20).row();
+//        ImageButton imageButton = new ImageButton( skin  , "Inventory");
+//        imageButton.setSize(500000, 50000);
+//        table.add(imageButton).width(100).height(100).padTop(20).row();
+        Table rootTable = new Table();
+        rootTable.setFillParent(true);
+        stage.addActor(rootTable);
+
+// دکمه‌های بالا (navigation bar)
+//        Table topButtonsTable = new Table();
+//        ImageButton mapBtn = new ImageButton(skin,"Map");
+//        ImageButton settingsBtn = new ImageButton(skin, "Setting");
+//        ImageButton inventoryBtn = new ImageButton( skin, "Inventory");
+//        topButtonsTable.add(mapBtn).width(50).height(50);
+//        topButtonsTable.add(settingsBtn).width(50).height(50);
+//        topButtonsTable.add(inventoryBtn).width(50).height(50);
+//
+//// محتوای اصلی متغیر (وسط صفحه)
+//        Stack contentStack = new Stack();
+//        Window inventoryContent = createInventoryTable(skin);
+//        Window settingsContent = createInventoryTable(skin);
+//        contentStack.add(inventoryContent);   // Inventory بالاتر
+//        contentStack.add(settingsContent);    // Settings زیرش
+//        inventoryContent.setVisible(false);
+//        settingsContent.setVisible(false);
+//        inventoryBtn.addListener(new ClickListener() {
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                inventoryContent.setVisible(true);
+//                settingsContent.setVisible(false);
+//            }
+//        });
+//
+//        settingsBtn.addListener(new ClickListener() {
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                inventoryContent.setVisible(false);
+//                settingsContent.setVisible(true);
+//            }
+//        });
+// چینش نهایی در root
+//        rootTable.top();
+//        rootTable.add(topButtonsTable).expandX().fillX().row();
+//        rootTable.add(contentStack).expand().fill();
         table.add(confirmButton).width(200).height(50).padTop(20).colspan(2);
         table.row();
         table.add(messageLabel).colspan(2).center();
     }
-
+//    private Window createInventoryTable(Skin skin) {
+//        Window inventoryWindow = new Window("" , skin );
+//        Table inventoryTable = new Table(); // بک‌گراند دلخواه
+//
+//
+//        int columns = 4;
+//        int rows = 3;
+//
+//        for (int i = 0; i < rows * columns; i++) {
+//            OverlayImageButton slot = new OverlayImageButton(skin.get("Inventory", TextButton.TextButtonStyle.class)); // هر اسلات
+//            slot.setName("slot_" + i);
+//            inventoryTable.add(slot).size(128, 128).pad(30); // اندازه و فاصله بین دکمه‌ها
+//
+//            if ((i + 1) % columns == 0)
+//                inventoryTable.row(); // پایان ردیف
+//        }
+//        inventoryWindow.add(inventoryTable).padRight(10000);
+//
+//        return inventoryWindow;
+//    }
     public void setupMapSelection(List<String> playerUsernames) {
         table.clear();
         table.add(new Label("Select maps for players:", skin)).colspan(3).padBottom(20);
@@ -108,6 +178,7 @@ public class PreGameMenuView implements Screen { private final Stage stage; priv
                 controller.handleStartGameWithMaps(selectedMaps , playerUsernames);
             }
         });
+
 
         table.add(startButton).colspan(3).padTop(20);
         table.row();

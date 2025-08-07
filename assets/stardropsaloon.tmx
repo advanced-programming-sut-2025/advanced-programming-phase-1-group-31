@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="46" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="3">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="46" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="5">
  <tileset firstgid="1" name="1" tilewidth="16" tileheight="16" tilecount="2176" columns="32">
   <image source="Content (unpacked)/Maps/townInterior.png" width="512" height="1088"/>
   <tile id="581">
@@ -145,6 +145,7 @@
    </properties>
    <point/>
   </object>
+  <object id="4" name="Shopping" x="264" y="316.5" width="33" height="13"/>
  </objectgroup>
  <layer id="4" name="Buildings" width="46" height="25">
   <data encoding="csv">

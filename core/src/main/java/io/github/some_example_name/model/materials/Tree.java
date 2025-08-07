@@ -2,15 +2,21 @@ package io.github.some_example_name.model.materials;
 
 
 
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import io.github.some_example_name.model.enums.plantable.Crops;
 import io.github.some_example_name.model.enums.plantable.Trees;
 
+import java.awt.*;
 import java.util.Objects;
+
+import static io.github.some_example_name.model.TimeAndDate.placeScaledImageAsTile;
 
 public class Tree implements Material{
     private Trees treeType;
     private int daysWithoutWater = 0;
     private int daysInStage = 0;
     private int amount = 1;
+    private int currentStage = 0;
     public int getAmount() {
         return amount;
     }
@@ -34,6 +40,36 @@ public class Tree implements Material{
             daysInStage = 0;
         }
     }
+    public boolean isFullyGrown() {
+
+            return currentStage >= treeType.getStages().size();
+
+    }
+
+    public void grow(TiledMap map , Point point) {
+        daysInStage++;
+        if (daysWithoutWater >= 2) {
+            System.out.println("The plant has died due to lack of water for two consecutive days.");
+            return;
+        }
+
+        if (daysInStage >= treeType.getStages().get(currentStage).days()) {
+            currentStage++;
+            //change image
+            placeScaledImageAsTile(map , "craft", point.x, point.y, treeType.getStages().get(currentStage).imagePath());
+            daysInStage = 0;
+        }
+
+    }
+
+    public int getCurrentStage() {
+        return currentStage;
+    }
+
+    public void setCurrentStage(int currentStage) {
+        this.currentStage = currentStage;
+    }
+
     public Tree(Trees treeType) {
         this.treeType = treeType;
     }
@@ -72,5 +108,9 @@ public class Tree implements Material{
     @Override
     public int hashCode() {
         return Objects.hash(getClass(), getType());
+    }
+    @Override
+    public String getTexturePath() {
+        return "";
     }
 }

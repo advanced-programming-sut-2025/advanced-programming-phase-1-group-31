@@ -4,14 +4,22 @@ package io.github.some_example_name.model;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import io.github.some_example_name.model.enums.foragings.ForagingCrops;
+import io.github.some_example_name.model.enums.foragings.ForagingMinerals;
 import io.github.some_example_name.model.enums.general.TileType;
+import io.github.some_example_name.model.enums.plantable.Seeds;
+import io.github.some_example_name.model.materials.Foraging.ForagingCrop;
+import io.github.some_example_name.model.materials.Foraging.ForagingMineral;
 import io.github.some_example_name.model.materials.Industrial;
+import io.github.some_example_name.model.materials.Material;
+import io.github.some_example_name.model.materials.Seed;
 import io.github.some_example_name.model.materials.Tools.Tool;
 
 import java.util.ArrayList;
 
 public class Player {
     private int id;
+    private Material currentCoopOrBarn;
     private MapType currentMapType;
     private int highScore = 0;
     private int gameCount = 0;
@@ -27,10 +35,11 @@ public class Player {
     private String backupAnswer;
     private TileType type;
     private Tool inHand;
+    private Seed seedInHand;
     private final Backpack inventory = new Backpack();
     private Farm farm;
     private final Skill skills = new Skill();
-    private double money = 0;
+    private double money = 1000000;
     private CharacterPlacer characterPlacer;
 
 
@@ -60,6 +69,11 @@ public class Player {
         this.energy = new Energy();
         energy.setEnergyAmount(energy.getMaxEnergy());
         currentMapType = MapType.FARM;
+        inventory.addElementToBackpack(new ForagingMineral(ForagingMinerals.WOOD) , 2000);
+        inventory.addElementToBackpack(new Seed(Seeds.CarrotSeeds) , 1);
+        inventory.addElementToBackpack(new Seed(Seeds.CoffeeBean) , 10);
+        inventory.addElementToBackpack(new ForagingCrop(ForagingCrops.Hey), 10);
+
 //        player.setEnergy(new Energy());
 //        player.getEnergy().setEnergyAmount(player.getEnergy().getMaxEnergy());
     }
@@ -137,9 +151,9 @@ public class Player {
     //    public boolean getGender() {
 //        return gender;
 //    }
-//    public Tool getInHand() {
-//        return inHand;
-//    }
+    public Tool getInHand() {
+        return inHand;
+    }
     public Energy getEnergy() {
         return energy;
     }
@@ -185,22 +199,22 @@ public class Player {
             if (amount < 0) throw new IllegalArgumentException("Amount cannot be negative");
             money += amount;
         }
-//    public Result deductMoney(double amount) {
-//        if (amount < 0) return new Result(false, "Amount can't be negative.");
-//        if (money < amount) return new Result(false, "You haven't enough money.");
-//        money -= amount;
-//        return new Result(true, "");
-//    }
+    public Result deductMoney(double amount) {
+        if (amount < 0) return new Result(false, "Amount can't be negative.");
+        if (money < amount) return new Result(false, "You haven't enough money.");
+        money -= amount;
+        return new Result(true, "");
+    }
 
         public void setEnergy (Energy energy){
             this.energy = energy;
         }
-//    public void setInHand(Tool inHand) {
-//        this.inHand = inHand;
-//    }
-//    public void setType(TileType type) {
-//        this.type = type;
-//    }
+    public void setInHand(Tool inHand) {
+        this.inHand = inHand;
+    }
+    public void setType(TileType type) {
+        this.type = type;
+    }
         public void setHighScore ( int highScore){
             this.highScore = highScore;
         }
@@ -257,5 +271,21 @@ public class Player {
 
     public void setCurrentMapType(MapType currentMapType) {
         this.currentMapType = currentMapType;
+    }
+
+    public Material getCurrentCoopOrBarn() {
+        return currentCoopOrBarn;
+    }
+
+    public void setCurrentCoopOrBarn(Material currentCoopOrBarn) {
+        this.currentCoopOrBarn = currentCoopOrBarn;
+    }
+
+    public Seed getSeedInHand() {
+        return seedInHand;
+    }
+
+    public void setSeedInHand(Seed seedInHand) {
+        this.seedInHand = seedInHand;
     }
 }

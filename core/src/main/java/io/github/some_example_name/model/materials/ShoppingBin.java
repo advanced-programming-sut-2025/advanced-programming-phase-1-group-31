@@ -17,9 +17,9 @@ public class ShoppingBin implements Material{
 
 
     public Result work(String name, int amount) {
-        if (!isNextToTrashBin()){
-            return new Result(false, "You aren't next to the Trash Bin!");
-        }
+//        if (!isNextToTrashBin()){
+//            return new Result(false, "You aren't next to the Trash Bin!");
+//        }
         Player player = App.getCurrentGame().getActivePlayer();
         Backpack backpack = player.getInventory();
         Material material = backpack.isExistInBackpackOrNull(name);
@@ -68,26 +68,31 @@ public class ShoppingBin implements Material{
     }
 
 
-    public boolean isNextToTrashBin() {
-        for (Direction dir : Direction.values()) {
-            Vector2 tilePoint = dir.apply(App.getCurrentGame().getActivePlayer().getPlace());
-
-            if (tilePoint.x < 0 || tilePoint.y < 0 ||
-                    tilePoint.x >= 140 || tilePoint.y >= 100) {
-                continue;
-            }
-
-            Tile tile = App.getCurrentGame().getMainMap().getMainMap()[(int) tilePoint.x][(int) tilePoint.y];
-            if (tile != null && tile.getType() == TileType.TRASH_BIN) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    public boolean isNextToTrashBin() {
+//        for (Direction dir : Direction.values()) {
+//            Vector2 tilePoint = dir.apply(App.getCurrentGame().getActivePlayer().getPlace());
+//
+//            if (tilePoint.x < 0 || tilePoint.y < 0 ||
+//                    tilePoint.x >= 140 || tilePoint.y >= 100) {
+//                continue;
+//            }
+//
+//            Tile tile = App.getCurrentGame().getMainMap().getMainMap()[(int) tilePoint.x][(int) tilePoint.y];
+//            if (tile != null && tile.getType() == TileType.TRASH_BIN) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     @Override
     public MaterialType getType() {
         return null;
+    }
+
+    @Override
+    public String getTexturePath() {
+        return "";
     }
 
     @Override

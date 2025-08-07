@@ -3,25 +3,28 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Content (unpacked)/Maps/AnimalShop.tmx",
+    "activeFile": "Content (unpacked)/Maps/Greenhouse.tmx",
     "expandedProjectPaths": [
-        ".",
-        "core",
-        "پروژه",
         "پروژه/Map Tweaks",
+        "StardewGUI_v1.3.1/assets/minecraft/lang",
+        "StardewGUI_v1.3.1/assets",
+        ".",
         "assets/Content (unpacked)",
-        "core/src",
-        "assets/Content (unpacked)/Maps",
-        "Content (unpacked)",
-        "assets",
         "core/src/main",
         "Content (unpacked)/Maps",
-        "پروژه/Content (unpacked)"
+        "پروژه/Content (unpacked)",
+        "core",
+        "StardewGUI_v1.3.1/assets/minecraft",
+        "assets/Content (unpacked)/Maps",
+        "assets",
+        "پروژه",
+        "core/src"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "#1": {
             "scaleInDock": 1
@@ -29,10 +32,16 @@
         "#2": {
             "scaleInDock": 1
         },
+        "#Coop": {
+            "scaleInDock": 1
+        },
         "#Paths": {
             "scaleInDock": 1
         },
         "#Town": {
+            "scaleInDock": 1
+        },
+        "#barn": {
             "scaleInDock": 1
         },
         "#outdoors": {
@@ -57,6 +66,229 @@
             "scaleInDock": 1
         },
         "#v16_Waterfalls": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/Buildings/PremiumCoop.tmx": {
+            "scale": 1.5971874999999998,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 240.10956759929567,
+                "y": 201.29133242027
+            }
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/Buildings/PremiumCoop.tmx#barn": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/Buildings/PremiumCoop.tmx#p": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/Critters/Bear_Sleep.tmx": {
+            "scale": 11,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 13.77272727272727,
+                "y": 24.045454545454547
+            }
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/Critters/Bear_Sleep.tmx#zspring_SVE_Tilesheet2": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Christmas.tmx": {
+            "scale": 0.30915948275862065,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1043.1509236667832,
+                "y": 928.3234576507496
+            }
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Christmas.tmx#Landscape": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Christmas.tmx#Paths": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Christmas.tmx#Town": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Christmas.tmx#characters": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Christmas.tmx#fest": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Christmas.tmx#v16_Shadows": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Christmas.tmx#v16_Waterfalls": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Christmas.tmx#v16_landscape2": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Christmas.tmx#zLandscape": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Christmas.tmx#zTown": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Christmas.tmx#z_SVEbuildingShadow": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Christmas.tmx#zspring_beach": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Christmas.tmx#zspring_island_tilesheet_1": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Christmas.tmx#zspring_z_extras": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx": {
+            "scale": 0.30915948275862065,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1043.1509236667832,
+                "y": 928.3234576507496
+            }
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx#Fest": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx#Landscape": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx#Paths": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx#Town": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx#Z_SVE_Halloween2Shadow": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx#characters": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx#v16_Shadows": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx#v16_Waterfalls": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx#v16_landscape2": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx#zLandscape": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx#zVanillaCraftables": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx#zVanillaFurniture": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx#zVanillaSpringObjects": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx#zVanillaWallsAndFloors": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx#z_SVEbuildingShadow": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx#zfall_SVE_Tilesheet2": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx#zspring_beach": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx#zspring_island_tilesheet_1": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx#zspring_z_extras": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Town-SVE-Halloween3_Joja.tmx#ztownInterior": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/GrandpasShed/BusStopShedPath.tmx": {
+            "scale": 4.7915624999999995,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 80.03652253309856,
+                "y": 56.140350877193
+            }
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/GrandpasShed/BusStopShedPath.tmx#Paths": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/GrandpasShed/BusStopShedPath.tmx#outdoors": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/GrandpasShed/BusStopShedPath.tmx#spring_town": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/GrandpasShed/BusStopShedPath.tmx#v16_outdoorsTileSheet2": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/Locations/BusStop.tmx": {
+            "scale": 0.7371634615384616,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 520.2373964651406,
+                "y": 240.10956759929567
+            }
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/Locations/BusStop.tmx#Paths": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/Locations/BusStop.tmx#outdoors": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/Locations/BusStop.tmx#spring_town": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/Locations/BusStop.tmx#v16_outdoorsTileSheet2": {
+            "scaleInDock": 1
+        },
+        "-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/Locations/BusStop.tmx#zspring_SVE_Tilesheet2": {
+            "scaleInDock": 1
+        },
+        "/home/amirabbas/Documents/-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/Critters/Bamtu_TomTam.tmx": {
+            "scale": 17.93125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 16.033461136284416,
+                "y": 15.894039735099339
+            }
+        },
+        "/home/amirabbas/Documents/-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/Critters/Bamtu_TomTam.tmx#zspring_SVE_Tilesheet2": {
+            "scaleInDock": 1
+        },
+        "/home/amirabbas/Documents/-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Beach-SVE-Jellies.tmx": {
+            "scale": 0.5075420673076922,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 832.4433130069268,
+                "y": 401.9371262802676
+            }
+        },
+        "/home/amirabbas/Documents/-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Beach-SVE-Jellies.tmx#Paths": {
+            "scaleInDock": 1
+        },
+        "/home/amirabbas/Documents/-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Beach-SVE-Jellies.tmx#characters": {
+            "scaleInDock": 1
+        },
+        "/home/amirabbas/Documents/-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Beach-SVE-Jellies.tmx#fest": {
+            "scaleInDock": 1
+        },
+        "/home/amirabbas/Documents/-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Beach-SVE-Jellies.tmx#untitled tile sheet": {
+            "scaleInDock": 1
+        },
+        "/home/amirabbas/Documents/-Stardew Valley Expanded--3753-1-15-11-1751325459/Stardew Valley Expanded/[CP] Stardew Valley Expanded/assets/Maps/FestivalMaps/Beach-SVE-Jellies.tmx#v16_Shadows": {
             "scaleInDock": 1
         },
         "/home/amirabbas/Documents/AP/PreojectPhase2/spring_outdoorsTileSheet.tsx": {
@@ -104,8 +336,8 @@
             "scale": 1.508125,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 280.1491918773312,
-                "y": 160.1326150020721
+                "x": 550.6837961044344,
+                "y": 234.39701616245338
             }
         },
         "Content (unpacked)/Maps/AnimalShop.tmx#1": {
@@ -193,7 +425,7 @@
         },
         "Content (unpacked)/Maps/Barn.tmx": {
             "scale": 2.9324652777777773,
-            "selectedLayer": 0,
+            "selectedLayer": 3,
             "viewCenter": {
                 "x": 143.7357172458706,
                 "y": 119.86501687289092
@@ -209,7 +441,7 @@
             "scale": 2.3992897727272724,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 176.09377775146532,
+                "x": 159.00538748445922,
                 "y": 120.24391687881123
             }
         },
@@ -221,10 +453,10 @@
         },
         "Content (unpacked)/Maps/Barn3.tmx": {
             "scale": 2.1113750000000002,
-            "selectedLayer": 0,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 200.1065656266651,
-                "y": 120.06393937599901
+                "x": 199.86975312296488,
+                "y": 120.06393937599907
             }
         },
         "Content (unpacked)/Maps/Barn3.tmx#barn": {
@@ -402,11 +634,11 @@
             "scaleInDock": 1
         },
         "Content (unpacked)/Maps/Beach.tmx": {
-            "scale": 0.5075420673076922,
-            "selectedLayer": 0,
+            "scale": 0.33,
+            "selectedLayer": 6,
             "viewCenter": {
-                "x": 830.4730329761412,
-                "y": 400.9519862648748
+                "x": 831.8181818181819,
+                "y": 401.5151515151515
             }
         },
         "Content (unpacked)/Maps/Beach.tmx#Paths": {
@@ -509,11 +741,11 @@
             "scaleInDock": 1
         },
         "Content (unpacked)/Maps/Bus(people).tmx": {
-            "scale": 2.3992897727272724,
+            "scale": 1.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 176.09377775146532,
-                "y": 56.05825587591026
+                "x": 176.33333333333334,
+                "y": 56.333333333333314
             }
         },
         "Content (unpacked)/Maps/Bus(people).tmx#busPeople": {
@@ -524,7 +756,7 @@
             "selectedLayer": 7,
             "viewCenter": {
                 "x": 520.6666666666665,
-                "y": 241.99999999999994
+                "y": 432.66666666666674
             }
         },
         "Content (unpacked)/Maps/BusStop.tmx#Paths": {
@@ -640,7 +872,7 @@
         },
         "Content (unpacked)/Maps/Coop.tmx": {
             "scale": 4.398697916666666,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
                 "x": 96.05115150079924,
                 "y": 80.13735125214612
@@ -650,22 +882,22 @@
             "scaleInDock": 1
         },
         "Content (unpacked)/Maps/Coop2.tmx": {
-            "scale": 3.2990234375,
-            "selectedLayer": 0,
+            "scale": 2,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 128.06820200106569,
-                "y": 80.17524125273816
+                "x": 128,
+                "y": 80.25
             }
         },
         "Content (unpacked)/Maps/Coop2.tmx#Coop": {
             "scaleInDock": 1
         },
         "Content (unpacked)/Maps/Coop3.tmx": {
-            "scale": 2.294972826086956,
-            "selectedLayer": 0,
+            "scale": 1.5,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 184.09804037653188,
-                "y": 80.39310875614234
+                "x": 184,
+                "y": 80.33333333333334
             }
         },
         "Content (unpacked)/Maps/Coop3.tmx#Coop": {
@@ -1449,7 +1681,7 @@
         },
         "Content (unpacked)/Maps/FishShop.tmx": {
             "scale": 4.398697916666666,
-            "selectedLayer": 0,
+            "selectedLayer": 5,
             "viewCenter": {
                 "x": 96.05115150079924,
                 "y": 80.13735125214612
@@ -1615,8 +1847,8 @@
             "scale": 0.25,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 1434,
-                "y": 354
+                "x": 958,
+                "y": 958
             }
         },
         "Content (unpacked)/Maps/Forest.tmx#Paths": {
@@ -1656,7 +1888,7 @@
         },
         "Content (unpacked)/Maps/Forest_FishingDerbySign.tmx": {
             "scale": 17.634375,
-            "selectedLayer": 0,
+            "selectedLayer": 4,
             "viewCenter": {
                 "x": 16.019847598794968,
                 "y": 24.015594541910332
@@ -1747,10 +1979,10 @@
         },
         "Content (unpacked)/Maps/Greenhouse.tmx": {
             "scale": 2.204296875,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
                 "x": 160.36859826333512,
-                "y": 192.12475633528265
+                "y": 183.05156831472618
             }
         },
         "Content (unpacked)/Maps/Greenhouse.tmx#paths": {
@@ -1843,7 +2075,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 96.05115150079924,
-                "y": 128.56077200876206
+                "y": 161.0703925167249
             }
         },
         "Content (unpacked)/Maps/IslandNorthCave1.tmx#p": {
@@ -1956,7 +2188,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 344.21407052986,
-                "y": 480.31189083820664
+                "y": 642.4951267056531
             }
         },
         "Content (unpacked)/Maps/Island_E.tmx#p": {
@@ -2118,11 +2350,11 @@
             "scaleInDock": 1
         },
         "Content (unpacked)/Maps/Island_SE.tmx": {
-            "scale": 0.8817187499999999,
+            "scale": 1.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 344.21407052986,
-                "y": 480.31189083820664
+                "x": 343.6666666666667,
+                "y": 479.66666666666663
             }
         },
         "Content (unpacked)/Maps/Island_SE.tmx#untitled tile sheet": {
@@ -2135,11 +2367,11 @@
             "scaleInDock": 1
         },
         "Content (unpacked)/Maps/Island_Secret.tmx": {
-            "scale": 0.47985795454545455,
+            "scale": 0.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 880.4688887573263,
-                "y": 880.4688887573265
+                "x": 879,
+                "y": 879
             }
         },
         "Content (unpacked)/Maps/Island_Secret.tmx#p": {
@@ -2300,9 +2532,9 @@
         },
         "Content (unpacked)/Maps/MarnieBarn.tmx": {
             "scale": 2.390833333333333,
-            "selectedLayer": 0,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 144.09201812478216,
+                "x": 129.87103520390377,
                 "y": 120.25095852213315
             }
         },
@@ -2507,7 +2739,7 @@
             "scale": 5.878125,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 55.88516746411483,
+                "x": 55.88516746411484,
                 "y": 71.87666135034556
             }
         },
@@ -2633,8 +2865,8 @@
             "scale": 1.0996744791666666,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 384.20460600319694,
-                "y": 256.89420401397194
+                "x": 755.2234918003671,
+                "y": 358.74252560535194
             }
         },
         "Content (unpacked)/Maps/SeedShop.tmx#1": {
@@ -2661,11 +2893,11 @@
             "scaleInDock": 1
         },
         "Content (unpacked)/Maps/Shed.tmx": {
-            "scale": 3.778794642857143,
+            "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 104.13373501092799,
-                "y": 149.91552956465236
+                "x": 104.25,
+                "y": 188.25
             }
         },
         "Content (unpacked)/Maps/Shed.tmx#dummy": {
@@ -2682,7 +2914,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 152.08098987626548,
-                "y": 136.2429696287964
+                "y": 187.71653543307087
             }
         },
         "Content (unpacked)/Maps/Shed2.tmx#dummy": {
@@ -2740,6 +2972,17 @@
             "scaleInDock": 1
         },
         "Content (unpacked)/Maps/SlimeHutch.tmx#walls_and_floors": {
+            "scaleInDock": 1
+        },
+        "Content (unpacked)/Maps/Stadium.tmx": {
+            "scale": 1.0556875000000001,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 400.2131312533302,
+                "y": 200.34337813036527
+            }
+        },
+        "Content (unpacked)/Maps/Stadium.tmx#untitled tile sheet": {
             "scaleInDock": 1
         },
         "Content (unpacked)/Maps/Submarine.tmx": {
@@ -3196,7 +3439,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 159.70635249541175,
-                "y": 96.05115150079925
+                "y": 96.05115150079924
             }
         },
         "Content (unpacked)/Maps/Trailer.tmx#1": {
@@ -3279,11 +3522,11 @@
             "scaleInDock": 1
         },
         "Content (unpacked)/Maps/WizardHouse.tmx": {
-            "scale": 1.4344999999999999,
+            "scale": 1,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 112.58278145695365,
-                "y": 300.1045660508889
+                "x": 112.5,
+                "y": 400.5
             }
         },
         "Content (unpacked)/Maps/WizardHouse.tmx#p": {
@@ -3329,12 +3572,29 @@
         "Content (unpacked)/Maps/Woods.tmx#v16_Outdoors2": {
             "scaleInDock": 1
         },
+        "Content (unpacked)/Maps/deluxeCoop.tmx": {
+            "expandedObjectLayers": [
+                6
+            ],
+            "scale": 2,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 163.75,
+                "y": 0.25
+            }
+        },
+        "Content (unpacked)/Maps/deluxeCoop.tmx#Coop": {
+            "scaleInDock": 1
+        },
+        "Content (unpacked)/Maps/deluxeCoop.tmx#p": {
+            "scaleInDock": 1
+        },
         "Content (unpacked)/Maps/farm2.tmx": {
             "scale": 0.6598046875,
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 640.3410100053283,
-                "y": 738.8550115446095
+                "y": 955.5858149310284
             }
         },
         "Content (unpacked)/Maps/farm2.tmx#Paths": {
@@ -3409,8 +3669,12 @@
             "scaleInDock": 1
         },
         "Cursors.tsx": {
-            "scaleInDock": 1,
-            "scaleInEditor": 2
+            "scaleInDock": 3,
+            "scaleInEditor": 0.25
+        },
+        "Cursors2.tsx": {
+            "scaleInDock": 3,
+            "scaleInEditor": 3
         },
         "DesertTiles.tsx": {
             "scaleInDock": 2,
@@ -3428,12 +3692,15 @@
             "scaleInDock": 2,
             "scaleInEditor": 1
         },
+        "Greenhouse.tsx": {
+            "scaleInDock": 1
+        },
         "MobileAtlas_manually_made.pt-BR.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 3,
             "scaleInEditor": 3
         },
         "MobileAtlas_manually_made.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 3,
             "scaleInEditor": 3
         },
         "Player.tsx": {
@@ -5673,16 +5940,56 @@
         "assets/Content (unpacked)/Maps/spouseRooms.tmx#sewer": {
             "scaleInDock": 1
         },
+        "barn.tmx": {
+            "expandedObjectLayers": [
+                6
+            ],
+            "scale": 2,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 91.75,
+                "y": 170.75
+            }
+        },
+        "barn.tmx#barn": {
+            "scaleInDock": 1
+        },
+        "barn.tmx#p": {
+            "scaleInDock": 1
+        },
+        "bigBeach.tmx": {
+            "expandedObjectLayers": [
+                9
+            ],
+            "scale": 2,
+            "selectedLayer": 7,
+            "viewCenter": {
+                "x": 572.25,
+                "y": 367.75
+            }
+        },
+        "bigBeach.tmx#Paths": {
+            "scaleInDock": 1
+        },
+        "bigBeach.tmx#untitled tile sheet": {
+            "scaleInDock": 1
+        },
+        "bigBeach.tmx#v16_Shadows": {
+            "scaleInDock": 1
+        },
         "bigFarm.tmx": {
             "expandedObjectLayers": [
                 3
             ],
-            "scale": 0.5,
-            "selectedLayer": 21,
+            "scale": 0.125,
+            "selectedLayer": 23,
             "viewCenter": {
-                "x": 2027,
-                "y": 491
+                "x": 1556,
+                "y": 2224
             }
+        },
+        "bigFarm.tmx#16": {
+            "scaleInDock": 1
         },
         "bigFarm.tmx#Town": {
             "scaleInDock": 1
@@ -5718,8 +6025,8 @@
             "scale": 0.75,
             "selectedLayer": 9,
             "viewCenter": {
-                "x": 460.6666666666666,
-                "y": 329.99999999999994
+                "x": 1079.3333333333333,
+                "y": 328.66666666666674
             }
         },
         "bigFarm1.tmx#Paths": {
@@ -5744,7 +6051,7 @@
             "scale": 1.5,
             "selectedLayer": 9,
             "viewCenter": {
-                "x": 1440.3333333333333,
+                "x": 1496.3333333333333,
                 "y": 201.66666666666663
             }
         },
@@ -5810,11 +6117,11 @@
             "expandedObjectLayers": [
                 8
             ],
-            "scale": 2,
+            "scale": 4,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 119.75,
-                "y": 133.25
+                "x": 119.875,
+                "y": 215.625
             }
         },
         "blacksmith.tmx#1": {
@@ -5833,8 +6140,8 @@
             "scale": 1.5,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 149,
-                "y": 156.99999999999997
+                "x": 175.33333333333331,
+                "y": 200.33333333333334
             }
         },
         "carpentershop.tmx#1": {
@@ -5857,15 +6164,72 @@
         "character.tmx#PlayerStatusList": {
             "scaleInEditor": 1
         },
+        "coop.tmx": {
+            "expandedGroupLayers": [
+                5
+            ],
+            "expandedObjectLayers": [
+                7
+            ],
+            "scale": 4,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 96,
+                "y": 80.125
+            }
+        },
+        "coop.tmx#Coop": {
+            "scaleInDock": 1
+        },
+        "deluxeCoop.tmx": {
+            "expandedObjectLayers": [
+                6
+            ],
+            "scale": 4,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 92.625,
+                "y": 80.625
+            }
+        },
+        "deluxeCoop.tmx#Coop": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "deluxeCoop.tmx#p": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "deluxebarn.tmx": {
+            "expandedObjectLayers": [
+                6
+            ],
+            "scale": 4,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 199.625,
+                "y": 170.375
+            }
+        },
+        "deluxebarn.tmx#barn": {
+            "scaleInDock": 1
+        },
+        "deluxebarn.tmx#p": {
+            "scaleInDock": 1
+        },
+        "eating.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 8
+        },
         "farm1.tmx": {
             "expandedObjectLayers": [
                 32
             ],
-            "scale": 0.8138942307692307,
-            "selectedLayer": 14,
+            "scale": 1,
+            "selectedLayer": 16,
             "viewCenter": {
-                "x": 491.464351113474,
-                "y": 519.1092208636069
+                "x": 388.5,
+                "y": 514.5
             }
         },
         "farm1.tmx#Paths": {
@@ -5887,11 +6251,11 @@
             "expandedObjectLayers": [
                 14
             ],
-            "scale": 0.5,
-            "selectedLayer": 1,
+            "scale": 0.75,
+            "selectedLayer": 13,
             "viewCenter": {
-                "x": 384,
-                "y": 521
+                "x": 640,
+                "y": 519.3333333333333
             }
         },
         "farm2.tmx#Paths": {
@@ -5913,6 +6277,41 @@
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "fishshop.tmx": {
+            "expandedObjectLayers": [
+                8
+            ],
+            "scale": 3,
+            "selectedLayer": -1,
+            "viewCenter": {
+                "x": 84.83333333333334,
+                "y": 83.83333333333331
+            }
+        },
+        "fishshop.tmx#paths": {
+            "scaleInDock": 1
+        },
+        "fishshop.tmx#untitled tile sheet": {
+            "scaleInDock": 1
+        },
+        "fishshop.tmx#untitled tile sheet2": {
+            "scaleInDock": 1
+        },
+        "greenhouse.tmx": {
+            "expandedObjectLayers": [
+                5
+            ],
+            "scale": 2,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 165.25,
+                "y": 192.25
+            }
+        },
+        "greenhouse.tmx#untitled tile sheet": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "greenhouse.tsx": {
             "scaleInDock": 2,
             "scaleInEditor": 1
@@ -5928,8 +6327,8 @@
             "scale": 3,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 199.83333333333331,
-                "y": 159.83333333333331
+                "x": 198.83333333333331,
+                "y": 206.16666666666669
             }
         },
         "jojamart.tmx": {
@@ -5939,11 +6338,59 @@
             "scale": 1.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 239.66666666666666,
+                "x": 239.66666666666669,
                 "y": 239.66666666666663
             }
         },
         "jojamart.tmx#untitled tile sheet": {
+            "scaleInDock": 1
+        },
+        "largebarn.tmx": {
+            "expandedObjectLayers": [
+                6
+            ],
+            "scale": 4,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 180.375,
+                "y": 198.125
+            }
+        },
+        "largebarn.tmx#barn": {
+            "scaleInDock": 1
+        },
+        "largebarn.tmx#p": {
+            "scaleInDock": 1
+        },
+        "largecoop.tmx": {
+            "expandedObjectLayers": [
+                6
+            ],
+            "scale": 2,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 137.25,
+                "y": 124.25
+            }
+        },
+        "largecoop.tmx#barn": {
+            "scaleInDock": 1
+        },
+        "largecoop.tmx#p": {
+            "scaleInDock": 1
+        },
+        "largecop.tmx": {
+            "expandedObjectLayers": [
+                5
+            ],
+            "scale": 4,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 127.875,
+                "y": 80.375
+            }
+        },
+        "largecop.tmx#Coop": {
             "scaleInDock": 1
         },
         "map1.tmx": {
@@ -5970,11 +6417,11 @@
             "expandedObjectLayers": [
                 9
             ],
-            "scale": 1,
+            "scale": 4,
             "selectedLayer": 7,
             "viewCenter": {
-                "x": 330.5,
-                "y": 322.5
+                "x": 263.375,
+                "y": 272.625
             }
         },
         "marnieranch.tmx#1": {
@@ -6007,8 +6454,8 @@
             "scale": 1,
             "selectedLayer": 7,
             "viewCenter": {
-                "x": 320.5,
-                "y": 376.5
+                "x": 383.5,
+                "y": 256.5
             }
         },
         "pierregeneralstore.tmx#1": {
@@ -6028,11 +6475,11 @@
             "expandedObjectLayers": [
                 7
             ],
-            "scale": 1,
+            "scale": 2,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 314.5,
-                "y": 319.5
+                "x": 222.75,
+                "y": 200.75
             }
         },
         "stardropsaloon.tmx#1": {
@@ -6051,6 +6498,10 @@
                 "x": 640.5,
                 "y": 639.5
             }
+        },
+        "tools.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 2
         },
         "townInterior.tsx": {
             "scaleInDock": 2,
@@ -8897,48 +9348,51 @@
         }
     },
     "frame.defaultDuration": 10000,
-    "last.imagePath": "/home/amirabbas/Documents/AP/PreojectPhase2/assets/Content (unpacked)/LooseSprites",
+    "last.imagePath": "/home/amirabbas/Documents/AP/PreojectPhase2/assets/project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Animals/Animal/cow",
     "last.objectTypesPath": "/home/amirabbas/Documents/AP/Project/پروژه/Content (unpacked)/Data/Achievements.es-ES.json",
     "last.worldFilePath": "/home/amirabbas/Documents/AP/Project",
     "loadedWorlds": [
         "/home/amirabbas/Documents/AP/Project/world.world",
         "/home/amirabbas/Documents/AP/Project/world.world"
     ],
-    "map.height": 20,
+    "map.height": 50,
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
-    "map.width": 35,
+    "map.width": 104,
     "openFiles": [
-        "Content (unpacked)/Maps/RefurbishedSaloonRoom.tmx",
-        "jojamart.tmx",
-        "carpentershop.tmx",
-        "pierregeneralstore.tmx",
-        "bigFarm.tmx",
-        "bigFarm1.tmx",
-        "Content (unpacked)/Maps/Mountain.tmx",
-        "stardropsaloon.tmx",
         "Content (unpacked)/Maps/Forest.tmx",
+        "Cursors.tsx",
+        "Cursors2.tsx",
+        "MobileAtlas_manually_made.pt-BR.tsx",
+        "MobileAtlas_manually_made.tsx",
+        "carpentershop.tmx",
         "farm2.tmx",
-        "Content (unpacked)/Maps/SeedShop.tmx",
-        "blacksmith.tmx",
-        "Content (unpacked)/Maps/AnimalShop.tmx"
+        "tools.tsx",
+        "largebarn.tmx",
+        "largecop.tmx",
+        "deluxebarn.tmx",
+        "Content (unpacked)/Maps/Barn3.tmx",
+        "Content (unpacked)/Maps/Coop2.tmx",
+        "Content (unpacked)/Maps/Coop3.tmx",
+        "coop.tmx",
+        "Content (unpacked)/Maps/Greenhouse.tmx"
     ],
     "project": "untitled.tiled-project",
     "property.type": "string",
     "recentFiles": [
-        "Content (unpacked)/Maps/Mountain.tmx",
-        "Content (unpacked)/Maps/SeedShop.tmx",
-        "Content (unpacked)/Maps/RefurbishedSaloonRoom.tmx",
-        "jojamart.tmx",
-        "carpentershop.tmx",
-        "pierregeneralstore.tmx",
-        "bigFarm.tmx",
-        "bigFarm1.tmx",
-        "stardropsaloon.tmx",
+        "Content (unpacked)/Maps/Greenhouse.tmx",
         "Content (unpacked)/Maps/Forest.tmx",
+        "Cursors.tsx",
+        "Cursors2.tsx",
+        "MobileAtlas_manually_made.pt-BR.tsx",
+        "MobileAtlas_manually_made.tsx",
+        "carpentershop.tmx",
         "farm2.tmx",
-        "blacksmith.tmx"
+        "tools.tsx",
+        "largebarn.tmx",
+        "largecop.tmx",
+        "deluxebarn.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {

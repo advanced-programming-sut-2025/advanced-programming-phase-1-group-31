@@ -20,7 +20,7 @@ import io.github.some_example_name.model.materials.Tools.*;
 import java.util.List;
 
 public enum Shops implements MaterialType {
-    BlackSmith(
+    BLACKSMITH(
             List.of(
                     new MaterialInShop(new ForagingMineral(ForagingMinerals.COPPER_ORE), 75, 75, 20000000, null),
                     new MaterialInShop(new ForagingMineral(ForagingMinerals.IRON_ORE), 150, 150, 20000000, null),
@@ -36,7 +36,7 @@ public enum Shops implements MaterialType {
                     new MaterialInShop(new TrashCan(TrashCanType.Iridium), 12500, 12500, 20000000, null))
     ),
 
-    MarnieRanch(
+    MARNIERANCH(
             List.of(
                     new MaterialInShop(new ForagingCrop(ForagingCrops.Hey), 50, 50, 20000000, null),
                     new MaterialInShop(new MilkPail(), 1000, 1000, 1, null),
@@ -52,7 +52,7 @@ public enum Shops implements MaterialType {
     ),
 
 
-    StardropSaloon(
+    STARDROPSALOON(
             List.of(
                     new MaterialInShop(new ForagingMineral(ForagingMinerals.WOOD), 10, 10, 20000000, null),
                     new MaterialInShop(new ForagingMineral(ForagingMinerals.STONE), 20, 20, 20000000, null),
@@ -64,7 +64,7 @@ public enum Shops implements MaterialType {
                     new MaterialInShop(new Coop(CoopsAndBarnsTypes.DELUXE_COOP), 20000, 20000, 1, null))
     ),
 
-    CarpenterShop(
+    CARPENTERSHOP(
             List.of(
                     new MaterialInShop(new ForagingMineral(ForagingMinerals.WOOD), 10, 10, 20000000, null),
                     new MaterialInShop(new ForagingMineral(ForagingMinerals.STONE), 20, 20, 20000000, null),
@@ -76,7 +76,7 @@ public enum Shops implements MaterialType {
                     new MaterialInShop(new Coop(CoopsAndBarnsTypes.DELUXE_COOP), 20000, 20000, 1, null))
     ),
 
-    Jojamart(
+    JOJAMART(
             List.of(
                     new MaterialInShop(new Seed(Seeds.ParsnipSeeds), 25, 25, 5, Seasons.Spring),
                     new MaterialInShop(new Seed(Seeds.BeanStarter), 75, 75, 5, Seasons.Spring),
@@ -122,7 +122,7 @@ public enum Shops implements MaterialType {
     ),
 
 
-    PierreGeneralStore(
+    PIERREGENERALSTORE(
             List.of(
                     // Spring Stock
                     new MaterialInShop(new Seed(Seeds.ParsnipSeeds), 20, 30, 5, Seasons.Spring),
@@ -165,7 +165,7 @@ public enum Shops implements MaterialType {
             )
     ),
 
-    FishShop(
+    FISHSHOP(
             List.of(
                     new MaterialInShop(new FishingPole(FishingPoleType.Training), 25, 25, 1, null),
                     new MaterialInShop(new FishingPole(FishingPoleType.Bamboo), 500, 500, 1, null),

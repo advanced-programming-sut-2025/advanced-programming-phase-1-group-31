@@ -143,11 +143,25 @@
 		"pressedOffsetX": -1,
 		"pressedOffsetY": -2
 	},
-	"inventory": {
-		"imageUp": "tab_above_middle",
-		"imageDown": "tab_above_middle_selected",
-		"pressedOffsetX": -1,
-		"pressedOffsetY": -2
+	"Inventory": {
+		"up": "‫‪Inventory‬‬",
+		"down": "‫‪Inventory‬‬",
+		"over": "‫‪Inventory‬‬"
+	},
+	"Setting": {
+		"up": "Setting",
+		"down": "Setting",
+		"over": "Setting"
+	},
+	"Map": {
+		"up": "‫‪Ⅿap‬‬",
+		"down": "‫‪Ⅿap‬‬",
+		"over": "‫‪Ⅿap‬‬"
+	},
+	"Skills": {
+		"up": "‫‪Skiⅼⅼs‬‬",
+		"down": "‫‪Skiⅼⅼs‬‬",
+		"over": "‫‪Skiⅼⅼs‬‬"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
@@ -185,6 +199,10 @@
 	"default-vertical": {
 		"background": "vScroll",
 		"knob": "vScrollKnob"
+	},
+	"Water": {
+		"background": "blue_background",
+		"knob": "blue_progress"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle": {
@@ -256,6 +274,15 @@
 		"over": "selectGolButton",
 		"pressedOffsetX": -2,
 		"pressedOffsetY": -3
+	},
+	"Inventory": {
+		"font": "BoldImpact",
+		"fontColor": "ordinaryText",
+		"up": "challenge_frame_unobtained",
+		"down": "challenge_frame_obtained",
+		"over": "challenge_frame_obtained",
+		"pressedOffsetX": -1,
+		"pressedOffsetY": -2
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {

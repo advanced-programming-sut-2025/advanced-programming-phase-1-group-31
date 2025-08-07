@@ -43,6 +43,11 @@ public class AnimalProduct implements Material {
     }
 
     @Override
+    public String getTexturePath() {
+        return animalProducts.getImagePath();
+    }
+
+    @Override
     public String getName() {
         return animalProducts.getEnglishName();
     }

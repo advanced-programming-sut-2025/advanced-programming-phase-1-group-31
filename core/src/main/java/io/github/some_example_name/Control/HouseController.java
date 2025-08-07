@@ -76,7 +76,7 @@ public class HouseController extends GameController{
         App.getCurrentGame().getActivePlayer().setCurrentMapType(targetType);
 
         GameView gameView = new FarmView(new FarmController(),
-            GameAssetManager.getGameAssetManager().getSkin() , MapType.FARM );
+            GameAssetManager.getInstance().getSkin() , MapType.FARM );
 
         Gdx.app.postRunnable(() -> {
             App.getCurrentGame().setGameView(gameView);

@@ -23,6 +23,11 @@ public class Shear implements Tool, Material {
     }
 
     @Override
+    public String getTexturePath() {
+        return "project/Stardew_Valley_Images-main/Stardew_Valley_Images-main/Tools/Shears.png";
+    }
+
+    @Override
     public String getName() {
         return "Shear";
     }

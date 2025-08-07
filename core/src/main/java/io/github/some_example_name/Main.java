@@ -1,16 +1,8 @@
 package io.github.some_example_name;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
-import io.github.some_example_name.Control.GameController;
 import io.github.some_example_name.Control.PreGameMenuController;
-import io.github.some_example_name.View.GameView;
 import io.github.some_example_name.View.PreGameMenuView;
 import io.github.some_example_name.model.GameAssetManager;
 
@@ -23,7 +15,7 @@ public class Main extends Game {
     public void create() {
         main = this;
         batch = new SpriteBatch();
-        getMain().setScreen(new PreGameMenuView(new PreGameMenuController(),GameAssetManager.getGameAssetManager().getSkin()));
+        getMain().setScreen(new PreGameMenuView(new PreGameMenuController(),GameAssetManager.getInstance().getSkin()));
     }
 
 

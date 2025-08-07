@@ -90,17 +90,17 @@ public class Seed implements Material {
         Crops crop = getCorrespondingCrop();
         if (crop != null)
         {
-            if (daysInStage >= crop.getStages().get(currentStage)) {
-                currentStage++;
-                daysInStage = 0;
-            }
+//            if (daysInStage >= crop.getStages().get(currentStage)) {
+//                currentStage++;
+//                daysInStage = 0;
+//            }
         }
         Trees trees = getCorrespondingTrees();
         if (trees != null) {
-            if (daysWithoutWater >= trees.getStages().get(currentStage)) {
-                currentStage++;
-                daysInStage = 0;
-            }
+//            if (daysWithoutWater >= trees.getStages().get(currentStage)) {
+//                currentStage++;
+//                daysInStage = 0;
+//            }
         }
 
         // Crops crop = getCorrespondingCrop();
@@ -165,17 +165,17 @@ public class Seed implements Material {
         info.append("Days in current stage: ").append(daysInStage).append("\n");
 
         int remainingDays = 0;
-        List<Integer> stages = getCorrespondingCrop() != null ?
-                getCorrespondingCrop().getStages() :
-                getCorrespondingTrees() != null ?
-                        getCorrespondingTrees().getStages() : null;
+//        List<Integer> stages = getCorrespondingCrop() != null ?
+//                getCorrespondingCrop().getStages() :
+//                getCorrespondingTrees() != null ?
+//                        getCorrespondingTrees().getStages() : null;
 
-        if (stages != null) {
-            for (int i = currentStage; i < stages.size(); i++) {
-                remainingDays += stages.get(i);
-            }
-            info.append("Days remaining until harvest: ").append(remainingDays - daysInStage).append("\n");
-        }
+//        if (stages != null) {
+//            for (int i = currentStage; i < stages.size(); i++) {
+//                remainingDays += stages.get(i);
+//            }
+//            info.append("Days remaining until harvest: ").append(remainingDays - daysInStage).append("\n");
+//        }
 
         info.append("Watered today? ").append(daysWithoutWater==0 ? "Yes" : "No");
         return info.toString();
@@ -198,6 +198,10 @@ public class Seed implements Material {
     @Override
     public int hashCode() {
         return Objects.hash(getClass(), getType());
+    }
+    @Override
+    public String getTexturePath() {
+        return sourceName.getImagePath();
     }
     // Other existing methods...
 }

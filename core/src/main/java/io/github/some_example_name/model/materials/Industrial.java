@@ -57,6 +57,11 @@ public class Industrial implements Material {
     }
 
     @Override
+    public String getTexturePath() {
+        return industrialType.getImagePath();
+    }
+
+    @Override
     public String getName() {
         return industrialType.getName();
     }
