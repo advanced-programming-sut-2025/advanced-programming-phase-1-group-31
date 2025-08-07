@@ -30,7 +30,7 @@ public class MyLobbyMenuView implements Screen {
     public MyLobbyMenuView(Skin skin) {
         this.skin = skin;
         HashMap<String, Object> body = new HashMap<>();
-        body.put("player", GameApp.player);
+        body.put("player", GameApp.player.getUserInfo());
         Message message = GameApp.c2sConnectionThread.sendAndWaitForResponse(new Message(body, Message.Type.Which_Lobby));
         this.lobby = message.getFromBody("lobby", Lobby.class);
 
@@ -138,7 +138,19 @@ public class MyLobbyMenuView implements Screen {
             startBtn.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    Main.getMain().setScreen(new PreGameMenuView(new PreGameMenuController(skin, lobby), GameAssetManager.getGameAssetManager().getSkin(), lobby));
+                    if (lobby.getNumberOfPlayers() < 2) {
+                        showErrorDialog("Not enough players to start the game.", "Error", Color.RED);
+                    } else {
+                        HashMap<String, Object> body = new HashMap<>();
+                        body.put("lobby", lobby);
+                        Message message = GameApp.c2sConnectionThread.sendAndWaitForResponse(new Message(body, Message.Type.Start_Button_Pressed));
+                        String error_message = message.getFromBody("error-message", String.class);
+                        if (error_message != null) {
+                            showErrorDialog(error_message, "Error", Color.RED);
+                        } else {
+                            Main.getMain().setScreen(new PreGameMenuView(new PreGameMenuController(skin), GameAssetManager.getGameAssetManager().getSkin(), lobby, 0));
+                        }
+                    }
                 }
             });
             buttonRow.add(startBtn);
@@ -147,6 +159,27 @@ public class MyLobbyMenuView implements Screen {
         rootTable.add(buttonRow).padTop(30).colspan(2);
 
         stage.addActor(rootTable);
+    }
+
+    public void showErrorDialog(String message, String title, Color color) {
+        Dialog dialog;
+        dialog = new Dialog(title, skin) {
+            protected void result(Object object) {
+                this.hide();
+            }
+        };
+        dialog.getTitleLabel().setFontScale(1f);
+        dialog.getTitleLabel().setColor(color);
+        dialog.getTitleLabel().setAlignment(Align.center);
+        dialog.pad(50);
+        dialog.setWidth(1000);
+        dialog.setHeight(1000);
+        Label textLabel = new Label(message, skin);
+        textLabel.setAlignment(Align.center);
+        dialog.text(textLabel);
+        dialog.button("OK");
+        dialog.getContentTable().pad(20);
+        dialog.show(stage);
     }
 
     @Override

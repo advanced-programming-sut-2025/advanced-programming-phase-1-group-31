@@ -105,7 +105,7 @@ public class ClientConnectionThread extends Thread {
         }
     }
 
-    private synchronized void sendMessage(Message message) {
+    public synchronized void sendMessage(Message message) {
         String jsonMessage = JSON.toJson(message);
         try {
             dataOutputStream.writeUTF(jsonMessage);

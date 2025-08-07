@@ -37,8 +37,8 @@ public class Main extends Game {
         }
         GameApp.c2sConnectionThread.start();
 
-        getMain().setScreen(new PreGameMenuView(new PreGameMenuController(GameAssetManager.getGameAssetManager().getSkin(), null),GameAssetManager.getGameAssetManager().getSkin(), null));
-//        getMain().setScreen(new SignUpMenuView(GameAssetManager.getGameAssetManager().getSkin()));
+//        getMain().setScreen(new PreGameMenuView(new PreGameMenuController(GameAssetManager.getGameAssetManager().getSkin()),GameAssetManager.getGameAssetManager().getSkin(), null));
+        getMain().setScreen(new SignUpMenuView(GameAssetManager.getGameAssetManager().getSkin()));
     }
 
 

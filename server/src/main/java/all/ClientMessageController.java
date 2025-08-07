@@ -14,16 +14,43 @@ public class ClientMessageController {
         else if (message.getType().equals(Message.Type.All_Players)) return sendAllPlayers();
         else if (message.getType().equals(Message.Type.Get_Lobby_ID)) return generateId();
         else if (message.getType().equals(Message.Type.Get_Lobby)) return saveLobby(message, cct);
-        else if (message.getType().equals(Message.Type.All_Lobbies)) return sendAllLobbies(message, cct);
+        else if (message.getType().equals(Message.Type.All_Lobbies)) return sendAllLobbies();
         else if (message.getType().equals(Message.Type.Which_Lobby)) return whichLobbyIsThePlayer(message, cct);
+        else if (message.getType().equals(Message.Type.Start_Button_Pressed)) return startAnnouncement(message);
+
 
         return null;
     }
 
+    private static Message startAnnouncement(Message message) {
+        Lobby lobby = message.getFromBody("lobby", Lobby.class);
+        ArrayList<ClientConnectionThread> CCTs = new ArrayList<>();
+        for (String username : lobby.getPlayers()) {
+            if (!username.equals(lobby.getAdmin())) {
+                ClientConnectionThread cct = ServerApp.getConnectionByUsername(username);
+                if (cct != null) {
+                    CCTs.add(cct);
+                } else {
+                    HashMap<String, Object> body = new HashMap<>();
+                    body.put("error-message", "One or more of the players\nhave not been online yet");
+                    return new Message(body, Message.Type.Menu);
+                }
+            }
+        }
+        for (int i = 0; i < CCTs.size(); i++) {
+            HashMap<String, Object> body = new HashMap<>();
+            body.put("lobby", lobby);
+            body.put("number", i + 1);
+            CCTs.get(i).sendMessage(new Message(body, Message.Type.Start_Button_Pressed));
+        }
+        return new Message(new HashMap<>(), Message.Type.Menu);
+    }
+
     private static Message whichLobbyIsThePlayer(Message message, ClientConnectionThread cct) {
         UserInfo player = message.getFromBody("player", UserInfo.class);
-        for (Lobby lobby : ServerApp.lobbies) {
-            if (lobby.getPlayers().contains(player.getUsername())) {
+        for (UserInfo userInfo : ServerApp.players) {
+            Lobby lobby = userInfo.getLobby();
+            if (lobby != null && lobby.getPlayers().contains(player.getUsername())) {
                 HashMap<String, Object> body = new HashMap<>();
                 body.put("lobby", lobby);
                 return new Message(body, Message.Type.Menu);
@@ -32,32 +59,45 @@ public class ClientMessageController {
         return null;
     }
 
-    private static Message sendAllLobbies(Message message, ClientConnectionThread cct) {
+    private static Message sendAllLobbies() {
+        Set<Integer> seenIds = new HashSet<>();
+        List<Lobby> uniqueLobbies = new ArrayList<>();
+
+        for (UserInfo userInfo : ServerApp.players) {
+            Lobby lobby = userInfo.getLobby();
+            if (lobby != null && seenIds.add(lobby.getLobbyID())) {
+                uniqueLobbies.add(lobby);
+            }
+        }
+
         HashMap<String, Object> body = new HashMap<>();
-        body.put("lobbies", ServerApp.lobbies);
-        return new Message(body, Message.Type.Menu);
+        body.put("lobbies", uniqueLobbies);
+        return new Message(
+            body,
+            Message.Type.Menu
+        );
     }
 
     private static Message saveLobby(Message message, ClientConnectionThread cct) {
         Lobby incomingLobby = message.getFromBody("lobby", Lobby.class);
+        Boolean deleteRequested = message.getFromBody("delete-lobby", Boolean.class);
 
-        Boolean success = message.getFromBody("delete-lobby", Boolean.class);
+        ArrayList<String> players = new ArrayList<>();
 
-        if (success != null) {
-            ServerApp.lobbies.removeIf(l -> l.getLobbyID() == incomingLobby.getLobbyID());
-            return null;
+        if (deleteRequested != null && deleteRequested) {
+            Lobby currentLobby = cct.getPlayer().getLobby();
+            if (currentLobby != null) {
+                players.addAll(currentLobby.getPlayers());
+            }
+            incomingLobby = null;
+        } else if (incomingLobby != null) {
+            players.addAll(incomingLobby.getPlayers());
         }
-
-        ServerApp.lobbies.removeIf(l -> l.getLobbyID() == incomingLobby.getLobbyID());
-
-        ServerApp.lobbies.add(incomingLobby);
-
-        Boolean leave = message.getFromBody("leave", Boolean.class);
 
         cct.getPlayer().setLobby(incomingLobby);
 
         for (UserInfo player : ServerApp.players) {
-            if (incomingLobby.getPlayers().contains(player.getUsername())) {
+            if (players.contains(player.getUsername())) {
                 player.setLobby(incomingLobby);
             }
         }
@@ -65,12 +105,18 @@ public class ClientMessageController {
         return null;
     }
 
-
     private static Message generateId() {
         Random rand = new Random();
         Set<Integer> existingIds = new HashSet<>();
-        if (!ServerApp.lobbies.isEmpty()) {
-            existingIds = ServerApp.lobbies.stream()
+        ArrayList<Lobby> lobbies = new ArrayList<>();
+        for (UserInfo userInfo : ServerApp.players) {
+            Lobby lobby = userInfo.getLobby();
+            if (lobby != null && lobbies.stream().noneMatch(l -> l.getLobbyID() == lobby.getLobbyID())) {
+                lobbies.add(userInfo.getLobby());
+            }
+        }
+        if (!lobbies.isEmpty()) {
+            existingIds = lobbies.stream()
                 .map(Lobby::getLobbyID)
                 .collect(Collectors.toSet());
         }

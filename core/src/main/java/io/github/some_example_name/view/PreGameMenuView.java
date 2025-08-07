@@ -29,16 +29,18 @@ public class PreGameMenuView implements Screen {
     private final Lobby lobby;
     private final Skin skin;
     private final Table table;
+    private final int number;
 
     private final List<String> mapFiles;
     private final List<Texture> mapTextures;
     private final List<ImageButton> mapButtons;
     private String selectedMap;
 
-    public PreGameMenuView(PreGameMenuController controller, Skin skin, Lobby lobby) {
+    public PreGameMenuView(PreGameMenuController controller, Skin skin, Lobby lobby, int number) {
         this.controller = controller;
         this.skin = skin;
         this.lobby = lobby;
+        this.number = number;
         this.mapFiles = List.of("farm1.png", "farm2.png", "farm2.png");
         this.mapTextures = new ArrayList<>();
         this.mapButtons = new ArrayList<>();
@@ -84,7 +86,7 @@ public class PreGameMenuView implements Screen {
                 }
             });
             mapButtons.add(button);
-            table.add(button).width(250).height(90).pad(10);
+            table.add(button).width(300).height(300).pad(10);
         }
         table.row();
 
@@ -94,32 +96,44 @@ public class PreGameMenuView implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (selectedMap != null) {
-//                    controller.handleStartGameWithMaps(selectedMap);
+                    controller.handleStartGameWithMaps(selectedMap, lobby);
                 } else {
-//                    controller.showMessage("Please select a map before starting.");
+                    showErrorDialog("Please select a map.", "Error", Color.RED);
                 }
             }
         });
         table.add(startButton).colspan(mapFiles.size()).padTop(20);
 
-        // Message label (for feedback)
-        Label messageLabel = new Label("Salam",  skin);
-        messageLabel.setFontScale(1.2f);
-        messageLabel.setAlignment(Align.center);
-        table.row();
-        table.add(messageLabel).colspan(mapFiles.size()).padTop(10);
     }
 
     private void highlightSelected(int index) {
-        // Clear previous highlights
         for (ImageButton btn : mapButtons) {
             btn.getImage().setColor(Color.WHITE);
         }
-        // Highlight the chosen button
         ImageButton selectedButton = mapButtons.get(index);
         selectedButton.getImage().setColor(Color.GREEN);
         selectedMap = mapFiles.get(index);
-//        controller.showMessage("Selected map: " + selectedMap);
+    }
+
+    public void showErrorDialog(String message, String title, Color color) {
+        Dialog dialog;
+        dialog = new Dialog(title, table.getSkin()) {
+            protected void result(Object object) {
+                this.hide();
+            }
+        };
+        dialog.getTitleLabel().setFontScale(1f);
+        dialog.getTitleLabel().setColor(color);
+        dialog.getTitleLabel().setAlignment(Align.center);
+        dialog.pad(50);
+        dialog.setWidth(1000);
+        dialog.setHeight(1000);
+        Label textLabel = new Label(message, table.getSkin());
+        textLabel.setAlignment(Align.center);
+        dialog.text(textLabel);
+        dialog.button("OK");
+        dialog.getContentTable().pad(20);
+        dialog.show(stage);
     }
 
     @Override
@@ -129,8 +143,8 @@ public class PreGameMenuView implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear( Color.valueOf("#FAA25A"));
-        stage.act(Math.min(delta, 1/30f));
+        ScreenUtils.clear(Color.valueOf("#FAA25A"));
+        stage.act(Math.min(delta, 1 / 30f));
         stage.draw();
     }
 
@@ -140,13 +154,16 @@ public class PreGameMenuView implements Screen {
     }
 
     @Override
-    public void pause() {}
+    public void pause() {
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+    }
 
     @Override
-    public void hide() {}
+    public void hide() {
+    }
 
     @Override
     public void dispose() {
