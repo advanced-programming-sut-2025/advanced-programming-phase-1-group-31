@@ -44,16 +44,17 @@ public class TimeAndDate {
     private DayOfWeek dayOfWeek = DayOfWeek.SATURDAY;
     private ArrayList<ParticleEffect> rainEffect;
 
-    private Texture hudTexture = new Texture("clock.png");;
+    private Texture hudTexture = new Texture("clock.png");
+    ;
     private BitmapFont hourFont = new BitmapFont();
     private BitmapFont dayFont = new BitmapFont();
 
     public void render(SpriteBatch batch) {
         // 1. رسم تصویر
         batch.draw(hudTexture, Gdx.graphics.getWidth() - 256 - 10, Gdx.graphics.getHeight() - 256 - 10, 250, 250); // تنظیم
-                                                                                                                   // محل
-                                                                                                                   // نمایش
-                                                                                                                   // HUD
+        // محل
+        // نمایش
+        // HUD
 
         String timeText = String.format("%02d", hour);
         String dayText = dayOfWeek.name();
@@ -67,7 +68,7 @@ public class TimeAndDate {
 
         // 3. رسم متن روی HUD
         hourFont.draw(batch, timeText + " " + seasonText + " " + weatherText, Gdx.graphics.getWidth() - 156 - 10,
-                Gdx.graphics.getHeight() - 128 - 10); // ساعت
+            Gdx.graphics.getHeight() - 128 - 10); // ساعت
         dayFont.draw(batch, dayText + ". " + day, Gdx.graphics.getWidth() - 164, Gdx.graphics.getHeight() - 32 - 10); // روز
         // hourFont.draw(batch, seasonText, 700, 450); // فصل
     }
@@ -167,13 +168,11 @@ public class TimeAndDate {
             // App.getCurrentGame().getMainMap();
             updateAnimalOutdoorsStatus();
             changeForagingAndCrops(
-                    GameApp.getMapForPlayer(GameApp.getPlayer(), MapType.FARM));
-            GameApp.getPlayers().forEach(player -> player.getEnergy().onNewDay());
-            for (Player player : GameApp.getPlayers()) {
-                GameApp.getShoppingBin().addMoney(player);
-            }
+                GameApp.getMapForPlayer(GameApp.getPlayer(), MapType.FARM));
+            Player player = GameApp.player;
+            player.getEnergy().onNewDay();
+            GameApp.getShoppingBin().addMoney(player);
         }
-
     }
 
     private void updateWeatherEffect() {
@@ -250,12 +249,11 @@ public class TimeAndDate {
     }
 
     private void thunder() {
-        for (Player player : GameApp.getPlayers()) {
-            for (int i = 0; i < 3; i++) {
-                int x = random.nextInt(55);
-                int y = random.nextInt(35);
-                thunder(new Point(x, y), player.getFarm().getMainMap());
-            }
+        Player player = GameApp.player;
+        for (int i = 0; i < 3; i++) {
+            int x = random.nextInt(55);
+            int y = random.nextInt(35);
+            thunder(new Point(x, y), player.getFarm().getMainMap());
         }
 
     }
@@ -270,13 +268,12 @@ public class TimeAndDate {
     }
 
     public void changeForagingAndCrops(FarmMap farmMap) {
-        for (Player player : GameApp.getPlayers()) {
-            if (player == null || player.getFarm() == null)
-                continue;
+        Player player = GameApp.player;
+        if (player == null || player.getFarm() == null)
+            return;
 
-            generateForagingCrops(farmMap, player.getFarm().getAllObjects());
-            generateForagingMinerals(player);
-        }
+        generateForagingCrops(farmMap, player.getFarm().getAllObjects());
+        generateForagingMinerals(player);
 
     }
 
@@ -288,7 +285,7 @@ public class TimeAndDate {
     private void generateForagingMinerals(Player player) {
         FarmMap mineMap = GameApp.getMapForPlayer(player, MapType.MINE);
         List<Vector2> validPoints = collectValidPoints(mineMap,
-                mineMap.getTmxMap().getLayers().get("Object").getObjects(), "mine");
+            mineMap.getTmxMap().getLayers().get("Object").getObjects(), "mine");
         randomPlaceMineral(mineMap, validPoints, getTileSize(mineMap));
     }
 
@@ -364,8 +361,8 @@ public class TimeAndDate {
     }
 
     private boolean isEmptyTile(int tileX, int tileY) {
-        return GameApp.getPlayers().stream()
-                .noneMatch(p -> p.getPlace().x == tileX || p.getPlace().y == tileY);
+        Player p = GameApp.player;
+        return !(p.getPlace().x == tileX || p.getPlace().y == tileY);
     }
 
     private int getMapProperty(FarmMap map, String key) {
@@ -383,8 +380,8 @@ public class TimeAndDate {
         Pixmap pixmap = new Pixmap(Gdx.files.internal(imagePath));
         Pixmap resized = new Pixmap(tileSize, tileSize, pixmap.getFormat());
         resized.drawPixmap(pixmap,
-                0, 0, pixmap.getWidth(), pixmap.getHeight(), // from full image
-                0, 0, tileSize, tileSize // resize to tile size
+            0, 0, pixmap.getWidth(), pixmap.getHeight(), // from full image
+            0, 0, tileSize, tileSize // resize to tile size
         );
         Texture texture = new Texture(resized);
         TextureRegion region = new TextureRegion(texture);
@@ -416,22 +413,23 @@ public class TimeAndDate {
     }
 
     public static void updateAnimalOutdoorsStatus() {
-        for (Coop coop : GameApp.getPlayers().stream()
-                .flatMap(player -> player.getFarm().getCoops().stream()).toList()) {
+        Player player = GameApp.player;
+
+        for (Coop coop : player.getFarm().getCoops()) {
             for (Animal animal : coop.getAnimals()) {
                 animal.generateProduct();
                 animal.getAnimalFriendship().endDay();
             }
         }
 
-        for (Barn barn : GameApp.getPlayers().stream()
-                .flatMap(player -> player.getFarm().getBarns().stream()).toList()) {
+        for (Barn barn : player.getFarm().getBarns()) {
             for (Animal animal : barn.getAnimals()) {
                 animal.generateProduct();
                 animal.getAnimalFriendship().endDay();
             }
         }
     }
+
 
     public Texture getHudTexture() {
         return hudTexture;

@@ -18,7 +18,7 @@ import io.github.some_example_name.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FarmController extends GameController{
+public class FarmController extends GameController {
     public void checkWarpsAndSpecialAreas(float delta) {
         if (getView().isJustTeleported())
             return;
@@ -27,58 +27,55 @@ public class FarmController extends GameController{
         checkPlayerFarmWarps();
         // checkSpecialAreas();
     }
+
     public void checkPlayerFarmWarps() {
-        if (getView().getMapType() != MapType.FARM){
+        if (getView().getMapType() != MapType.FARM) {
             return;
         }
-        List<Player> players = new ArrayList<>();
-        for (int i = 0; i < GameApp.getPlayers().size(); i++) {
-            players.add(GameApp.getPlayers().get(i));
+        Player player = GameApp.player;
+
+        if (player.getFarm() == null || player.getFarm().getAllObjects() == null)
+            return;
+
+        List<MapObject> objects = new ArrayList<>();
+        for (MapObject object : player.getFarm().getAllObjects()) {
+            objects.add(object);
         }
 
-        for (Player player : players) {
-            if (player.getFarm() == null || player.getFarm().getAllObjects() == null)
-                continue;
-            List<MapObject> objects = new ArrayList<>();
-            for (MapObject object : player.getFarm().getAllObjects()) {
-                objects.add(object);
-            }
 
-
-            for (MapObject object : objects) {
-                if (object instanceof RectangleMapObject
-                    && Intersector.overlaps(GameApp.getPlayer().getPlayerRectangle(),
-                    ((RectangleMapObject) object).getRectangle())) {
-                    handleFarmWarp(object, player);
-                } else if (object instanceof PolygonMapObject) {
-                    handlePolygonSpecialAreas((PolygonMapObject) object);
-                }
+        for (MapObject object : objects) {
+            if (object instanceof RectangleMapObject
+                && Intersector.overlaps(GameApp.getPlayer().getPlayerRectangle(),
+                ((RectangleMapObject) object).getRectangle())) {
+                handleFarmWarp(object, player);
+            } else if (object instanceof PolygonMapObject) {
+                handlePolygonSpecialAreas((PolygonMapObject) object);
             }
         }
     }
-    public void startPoint(TiledMap map){
-        for (Player player : GameApp.getPlayers()) {
-            Farm farm = player.getFarm();
+
+    public void startPoint(TiledMap map) {
+        Player player = GameApp.player;
+        Farm farm = player.getFarm();
             if (farm == null)
-                continue;
+                return;
 
 
-
-            if (getView().getMapType() == MapType.FARM) {
-                if (farm.getAllObjects() != null) {
-                    for (MapObject object : farm.getAllObjects()) {
-                        if (object instanceof RectangleMapObject && object.getName().equals("start")) {
-                            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-                            player.setPlace(new Vector2(rectangle.x, rectangle.y));
-                            player.setPlayerRectangle(new Rectangle(rectangle.x, rectangle.y, 20, 20));
-                            player.setCharacterPlacer(new CharacterPlacer(map));
-                        }
+        if (getView().getMapType() == MapType.FARM) {
+            if (farm.getAllObjects() != null) {
+                for (MapObject object : farm.getAllObjects()) {
+                    if (object instanceof RectangleMapObject && object.getName().equals("start")) {
+                        Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                        player.setPlace(new Vector2(rectangle.x, rectangle.y));
+                        player.setPlayerRectangle(new Rectangle(rectangle.x, rectangle.y, 20, 20));
+                        player.setCharacterPlacer(new CharacterPlacer(map));
                     }
                 }
             }
-
         }
+
     }
+
     public void handlePolygonSpecialAreas(PolygonMapObject area) {
         if (area.getName().equals("lake"))
             handleLakeArea(area.getPolygon());
@@ -98,6 +95,7 @@ public class FarmController extends GameController{
                 break;
         }
     }
+
     public void handleFarmWarp(MapObject warpObject, Player owner) {
         String newMap = (String) warpObject.getProperties().get("targetMap");
         if (newMap == null)
@@ -109,7 +107,7 @@ public class FarmController extends GameController{
         switch (GameApp.getPlayer().getCurrentMapType()) {
             case FARM:
                 gameView = new FarmView(new FarmController(),
-                    GameAssetManager.getGameAssetManager().getSkin() , MapType.FARM);
+                    GameAssetManager.getGameAssetManager().getSkin(), MapType.FARM);
                 break;
             case MINE:
                 gameView = new MineView(new MineController(),
@@ -117,22 +115,22 @@ public class FarmController extends GameController{
                 break;
             case BLACKSMITH:
                 gameView = new StoreView(new StoreController(),
-                    GameAssetManager.getGameAssetManager().getSkin() , MapType.BLACKSMITH);
+                    GameAssetManager.getGameAssetManager().getSkin(), MapType.BLACKSMITH);
                 break;
             case STARDROPSALOON:
-                gameView = new StoreView(new StoreController() , GameAssetManager.getGameAssetManager().getSkin(), MapType.STARDROPSALOON);
+                gameView = new StoreView(new StoreController(), GameAssetManager.getGameAssetManager().getSkin(), MapType.STARDROPSALOON);
                 break;
             case JOJAMART:
-                gameView = new StoreView(new StoreController() , GameAssetManager.getGameAssetManager().getSkin(), MapType.JOJAMART);
+                gameView = new StoreView(new StoreController(), GameAssetManager.getGameAssetManager().getSkin(), MapType.JOJAMART);
                 break;
             case PIERREGENERALSTORE:
-                gameView = new StoreView(new StoreController() , GameAssetManager.getGameAssetManager().getSkin(), MapType.PIERREGENERALSTORE);
+                gameView = new StoreView(new StoreController(), GameAssetManager.getGameAssetManager().getSkin(), MapType.PIERREGENERALSTORE);
                 break;
             case CARPENTERSHOP:
-                gameView = new StoreView(new StoreController() , GameAssetManager.getGameAssetManager().getSkin(), MapType.CARPENTERSHOP);
+                gameView = new StoreView(new StoreController(), GameAssetManager.getGameAssetManager().getSkin(), MapType.CARPENTERSHOP);
                 break;
             case MARNIERANCH:
-                gameView = new StoreView(new StoreController() , GameAssetManager.getGameAssetManager().getSkin(), MapType.MARNIERANCH);
+                gameView = new StoreView(new StoreController(), GameAssetManager.getGameAssetManager().getSkin(), MapType.MARNIERANCH);
                 break;
             default:
                 // Handle unexpected map types
@@ -145,7 +143,7 @@ public class FarmController extends GameController{
             Main.getMain().setScreen(gameView);
             if (targetType == MapType.FARM1 || targetType == MapType.FARM2) {
                 gameView.getGameController().setStartPoint(gameView.getMap(), "infarm");
-            }else {
+            } else {
                 gameView.getGameController().startPoint(gameView.getMap());
             }
 
@@ -153,6 +151,7 @@ public class FarmController extends GameController{
 //        positionPlayerAtExit("out");
         startTeleportCooldown();
     }
+
     public void setStartPoint(TiledMap map, String targetObjectName) {
         Farm farm = GameApp.getPlayer().getFarm();
         if (farm == null || farm.getAllObjects() == null)

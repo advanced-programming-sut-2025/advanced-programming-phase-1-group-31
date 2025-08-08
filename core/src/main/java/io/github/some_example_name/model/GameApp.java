@@ -133,8 +133,4 @@ public class GameApp {
 //    public ArrayList<NPC> getNPCs() {
 //        return NPCs;
 //    }
-
-    public static ArrayList<Player> getPlayers() {
-        return new ArrayList<>();
-    }
 }

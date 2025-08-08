@@ -83,11 +83,11 @@ public abstract class GameController {
             GameApp.getPlayer().getCharacterPlacer().clearCharacter(newTileX, newTileY);
             GameApp.getPlayer().getCharacterPlacer().dontMove(newTileX, newTileY);
         }
-        if (GameApp.getPlayer().getEnergy().getEnergyAmount()<0){
-            GameApp.getPlayer().getCharacterPlacer().faint(newTileX , newTileY+2);
+        if (GameApp.getPlayer().getEnergy().getEnergyAmount() < 0) {
+            GameApp.getPlayer().getCharacterPlacer().faint(newTileX, newTileY + 2);
         } else {
-            GameApp.getPlayer().getCharacterPlacer().clearCharacter(newTileX-1 , newTileY+2);
-            GameApp.getPlayer().getCharacterPlacer().clearCharacter(newTileX , newTileY+2);
+            GameApp.getPlayer().getCharacterPlacer().clearCharacter(newTileX - 1, newTileY + 2);
+            GameApp.getPlayer().getCharacterPlacer().clearCharacter(newTileX, newTileY + 2);
         }
 //        GameApp.getPlayers().stream().filter(player -> player != GameApp.getPlayer()).forEach(player -> {player.getCharacterPlacer().dontMove((int) (player.getPlace().x / view.getTILE_SIZE()), (int) (player.getPlace().y / view.getTILE_SIZE()));});
 
@@ -106,7 +106,7 @@ public abstract class GameController {
             view.getCamera().setToOrtho(false, worldWidth, worldHeight);
             view.getCamera().position.set(worldWidth / 2f, worldHeight / 2f, 0);
         } else {
-            view.getCamera().setToOrtho(false, (float) (mapWidth * tileWidth) /2, (float) (mapHeight * tileHeight) /2);
+            view.getCamera().setToOrtho(false, (float) (mapWidth * tileWidth) / 2, (float) (mapHeight * tileHeight) / 2);
             view.getCamera().position.set(
                 GameApp.getPlayer().getPlace().x + view.getTILE_SIZE() / 2f,
                 GameApp.getPlayer().getPlace().y + view.getTILE_SIZE() / 2f, 0);
@@ -138,23 +138,22 @@ public abstract class GameController {
         if (getView().getMapType() != MapType.FARM) {
             return false;
         }
-        for (Player player : GameApp.getPlayers()) {
-            Farm farm = player.getFarm();
-            if (farm == null)
-                continue;
+        Player player = GameApp.player;
+        Farm farm = player.getFarm();
+        if (farm == null)
+            return false;
 
-            // بررسی لایه بلوک
-            TiledMapTileLayer blockLayer = (TiledMapTileLayer) farm.getBlockLayer();
-            if (blockLayer != null && blockLayer.getCell(tileX, tileY) != null) {
-                return true;
-            }
+        // بررسی لایه بلوک
+        TiledMapTileLayer blockLayer = (TiledMapTileLayer) farm.getBlockLayer();
+        if (blockLayer != null && blockLayer.getCell(tileX, tileY) != null) {
+            return true;
+        }
 
-            // بررسی آبجکت‌های پلیگونی (فقط وقتی تلهپورت نکرده‌ایم)
-            if (!view.isJustTeleported() && farm.getAllObjects() != null) {
-                for (MapObject object : farm.getAllObjects()) {
-                    if (isBlockingPolygonObject(object, x, y)) {
-                        return true;
-                    }
+        // بررسی آبجکت‌های پلیگونی (فقط وقتی تلهپورت نکرده‌ایم)
+        if (!view.isJustTeleported() && farm.getAllObjects() != null) {
+            for (MapObject object : farm.getAllObjects()) {
+                if (isBlockingPolygonObject(object, x, y)) {
+                    return true;
                 }
             }
         }
@@ -175,7 +174,7 @@ public abstract class GameController {
     }
 
     private boolean checkMapBlockingLayers(int tileX, int tileY) {
-        String[] blockingLayers = { "craft", "Buildings5", "block" , "mine" , "Buildings8" , "Buildings10" };
+        String[] blockingLayers = {"craft", "Buildings5", "block", "mine", "Buildings8", "Buildings10"};
 
         for (String layerName : blockingLayers) {
             TiledMapTileLayer layer = (TiledMapTileLayer) view.getMap().getLayers().get(layerName);
@@ -187,7 +186,7 @@ public abstract class GameController {
     }
 
     // در کلاس View یا GameScreen
-    public abstract void checkWarpsAndSpecialAreas(float delta) ;
+    public abstract void checkWarpsAndSpecialAreas(float delta);
 
     public void checkMapWarps() {
         checkLayerWarps("object");
@@ -200,20 +199,19 @@ public abstract class GameController {
 
         for (MapObject object : view.getMap().getLayers().get(layerName).getObjects()) {
             if (object instanceof RectangleMapObject
-                    && Intersector.overlaps(GameApp.getPlayer().getPlayerRectangle(),
-                            ((RectangleMapObject) object).getRectangle()) && (object.getName().equals("blacksmith") || object.getName().equals("stardropsaloon") || object.getName().equals("jojamart") || object.getName().equals("pierregeneralstore") || object.getName().equals("carpentershop") || object.getName().equals("marnieranch") )) {
-                handleStoreDoor(object);
-            }
-            else if (object instanceof RectangleMapObject
                 && Intersector.overlaps(GameApp.getPlayer().getPlayerRectangle(),
-                ((RectangleMapObject) object).getRectangle()) && ((object.getName().equals("Farm1")) || object.getName().equals("Farm") || (object.getName().equals("Farm2"))) ) {
+                ((RectangleMapObject) object).getRectangle()) && (object.getName().equals("blacksmith") || object.getName().equals("stardropsaloon") || object.getName().equals("jojamart") || object.getName().equals("pierregeneralstore") || object.getName().equals("carpentershop") || object.getName().equals("marnieranch"))) {
+                handleStoreDoor(object);
+            } else if (object instanceof RectangleMapObject
+                && Intersector.overlaps(GameApp.getPlayer().getPlayerRectangle(),
+                ((RectangleMapObject) object).getRectangle()) && ((object.getName().equals("Farm1")) || object.getName().equals("Farm") || (object.getName().equals("Farm2")))) {
                 handleFarmDoor(object);
             }
 
         }
     }
 
-    public abstract void checkPlayerFarmWarps() ;
+    public abstract void checkPlayerFarmWarps();
 
     private void handleWarp(MapObject warpObject, String exitPointName) {
         String newMap = warpObject.getProperties().get("targetMap", String.class);
@@ -221,15 +219,15 @@ public abstract class GameController {
             return;
 
         MapType targetType = MapType.valueOf(newMap.toUpperCase());
-        FarmMap farmMap = GameApp.getMapForPlayer(GameApp.getPlayer() , targetType);
+        FarmMap farmMap = GameApp.getMapForPlayer(GameApp.getPlayer(), targetType);
         changeMap(farmMap);
 //        positionPlayerAtExit(exitPointName);
         startTeleportCooldown();
     }
 
-    public abstract void handleFarmWarp(MapObject warpObject, Player owner) ;
+    public abstract void handleFarmWarp(MapObject warpObject, Player owner);
 
-    public abstract void handlePolygonSpecialAreas(PolygonMapObject area) ;
+    public abstract void handlePolygonSpecialAreas(PolygonMapObject area);
 
     protected void handleLakeArea(Polygon poly) {
         // placeScaledImageAsTile(map, "craft", (int)(playerX/TILE_SIZE),
@@ -245,6 +243,7 @@ public abstract class GameController {
         }
         // موقعیت پیش‌فرض بعد از افتادن در آب
     }
+
     protected void handleStoreDoor(MapObject door) {
         String newMap = door.getProperties().get("targetMap", String.class);
         if (newMap == null)
@@ -252,7 +251,7 @@ public abstract class GameController {
         MapType targetType = MapType.valueOf(newMap.toUpperCase());
         GameApp.getPlayer().setCurrentMapType(targetType);
 
-        GameView gameView = new StoreView(new StoreController(),GameAssetManager.getGameAssetManager().getSkin() , targetType );
+        GameView gameView = new StoreView(new StoreController(), GameAssetManager.getGameAssetManager().getSkin(), targetType);
         Gdx.app.postRunnable(() -> {
             GameApp.setGameView(gameView);
 
@@ -264,31 +263,14 @@ public abstract class GameController {
 //        changeMap(farmMap);
         startTeleportCooldown();
     }
+
     protected void handleMineDoor(PolygonMapObject door) {
         String newMap = door.getProperties().get("targetMap", String.class);
         if (newMap == null)
             return;
         GameApp.getPlayer().setCurrentMapType(MapType.MINE);
 
-        GameView gameView = new MineView(new MineController(),GameAssetManager.getGameAssetManager().getSkin() );
-        Gdx.app.postRunnable(() -> {
-            GameApp.setGameView(gameView);
-
-        Main.getMain().setScreen(gameView);
-            gameView.getGameController().startPoint(gameView.getMap());
-
-        });
-
-//        changeMap(farmMap);
-        startTeleportCooldown();
-    }
-    protected void handleHouseDoor(PolygonMapObject door) {
-        String newMap = door.getProperties().get("targetMap", String.class);
-        if (newMap == null)
-            return;
-        GameApp.getPlayer().setCurrentMapType(MapType.HOUSE);
-
-        GameView gameView = new HouseView(new HouseController(),GameAssetManager.getGameAssetManager().getSkin() );
+        GameView gameView = new MineView(new MineController(), GameAssetManager.getGameAssetManager().getSkin());
         Gdx.app.postRunnable(() -> {
             GameApp.setGameView(gameView);
 
@@ -300,6 +282,26 @@ public abstract class GameController {
 //        changeMap(farmMap);
         startTeleportCooldown();
     }
+
+    protected void handleHouseDoor(PolygonMapObject door) {
+        String newMap = door.getProperties().get("targetMap", String.class);
+        if (newMap == null)
+            return;
+        GameApp.getPlayer().setCurrentMapType(MapType.HOUSE);
+
+        GameView gameView = new HouseView(new HouseController(), GameAssetManager.getGameAssetManager().getSkin());
+        Gdx.app.postRunnable(() -> {
+            GameApp.setGameView(gameView);
+
+            Main.getMain().setScreen(gameView);
+            gameView.getGameController().startPoint(gameView.getMap());
+
+        });
+
+//        changeMap(farmMap);
+        startTeleportCooldown();
+    }
+
     protected void handleFarmDoor(MapObject door) {
         String newMap = door.getProperties().get("targetMap", String.class);
 
@@ -309,19 +311,19 @@ public abstract class GameController {
         MapType targetType = MapType.valueOf(newMap.toUpperCase());
         GameApp.getPlayer().setCurrentMapType(targetType);
 
-        GameView gameView = new FarmView(new FarmController(),GameAssetManager.getGameAssetManager().getSkin() , targetType );
+        GameView gameView = new FarmView(new FarmController(), GameAssetManager.getGameAssetManager().getSkin(), targetType);
         Gdx.app.postRunnable(() -> {
             GameApp.setGameView(gameView);
 
             Main.getMain().setScreen(gameView);
-            if(targetType == MapType.FARM) {
+            if (targetType == MapType.FARM) {
                 if (oldType == MapType.FARM1) {
-                    gameView.getGameController().setStartPoint(gameView.getMap() , "outfarm1");
-                }else {
-                    gameView.getGameController().setStartPoint(gameView.getMap() , "outfarm2");
+                    gameView.getGameController().setStartPoint(gameView.getMap(), "outfarm1");
+                } else {
+                    gameView.getGameController().setStartPoint(gameView.getMap(), "outfarm2");
                 }
             } else {
-                gameView.getGameController().setStartPoint(gameView.getMap() , "infarm");
+                gameView.getGameController().setStartPoint(gameView.getMap(), "infarm");
 
             }
 
@@ -347,8 +349,8 @@ public abstract class GameController {
 
     public void teleportPlayer(float x, float y) {
         GameApp.getPlayer().getCharacterPlacer().clearCharacter(
-                (int) (GameApp.getPlayer().getPlace().x / view.getTILE_SIZE()),
-                (int) (GameApp.getPlayer().getPlace().y / view.getTILE_SIZE()));
+            (int) (GameApp.getPlayer().getPlace().x / view.getTILE_SIZE()),
+            (int) (GameApp.getPlayer().getPlace().y / view.getTILE_SIZE()));
         GameApp.getPlayer().setPlace(new Vector2(x, y));
 
         GameApp.getPlayer().getPlayerRectangle().setPosition(x, y);
@@ -408,16 +410,16 @@ public abstract class GameController {
         }
 
         SequenceAction successSequence = Actions.sequence(
-                Actions.parallel(
-                        Actions.fadeIn(0.5f),
-                        Actions.scaleTo(scaleUp, scaleUp, scaleDuration),
-                        Actions.rotateBy(15f, scaleDuration)),
-                Actions.parallel(
-                        Actions.scaleTo(1f, 1f, 0.3f),
-                        Actions.rotateTo(0f, 0.3f)),
-                shakeSequence,
-                Actions.delay(3f),
-                Actions.fadeOut(1f));
+            Actions.parallel(
+                Actions.fadeIn(0.5f),
+                Actions.scaleTo(scaleUp, scaleUp, scaleDuration),
+                Actions.rotateBy(15f, scaleDuration)),
+            Actions.parallel(
+                Actions.scaleTo(1f, 1f, 0.3f),
+                Actions.rotateTo(0f, 0.3f)),
+            shakeSequence,
+            Actions.delay(3f),
+            Actions.fadeOut(1f));
 
         messageLabel.addAction(successSequence);
     }
@@ -439,14 +441,14 @@ public abstract class GameController {
         shakeSequence.addAction(Actions.moveTo(messageLabel.getX(), messageLabel.getY(), shakeDuration));
 
         RepeatAction blinkRepeat = Actions.repeat(3, Actions.sequence(
-                Actions.fadeOut(0.5f),
-                Actions.fadeIn(0.5f)));
+            Actions.fadeOut(0.5f),
+            Actions.fadeIn(0.5f)));
 
         SequenceAction fullSequence = Actions.sequence(
-                shakeSequence,
-                blinkRepeat,
-                Actions.delay(3f),
-                Actions.fadeOut(1f));
+            shakeSequence,
+            blinkRepeat,
+            Actions.delay(3f),
+            Actions.fadeOut(1f));
 
         messageLabel.addAction(fullSequence);
     }
@@ -459,7 +461,7 @@ public abstract class GameController {
         return messageLabel;
     }
 
-    protected void setStartPoint(TiledMap map , String targetObjectName) {
+    protected void setStartPoint(TiledMap map, String targetObjectName) {
         return;
     }
 }

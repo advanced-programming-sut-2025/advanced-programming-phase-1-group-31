@@ -96,7 +96,7 @@ public class PreGameMenuView implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (selectedMap != null) {
-                    controller.handleStartGameWithMaps(selectedMap, lobby);
+                    controller.handleStartGameWithMaps(selectedMap, lobby, number);
                 } else {
                     showErrorDialog("Please select a map.", "Error", Color.RED);
                 }

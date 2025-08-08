@@ -148,6 +148,9 @@ public class MyLobbyMenuView implements Screen {
                         if (error_message != null) {
                             showErrorDialog(error_message, "Error", Color.RED);
                         } else {
+                            lobby.setStarted(true);
+                            body.replace("lobby", lobby);
+                            GameApp.c2sConnectionThread.sendMessage(new Message(body, Message.Type.Get_Lobby));
                             Main.getMain().setScreen(new PreGameMenuView(new PreGameMenuController(skin), GameAssetManager.getGameAssetManager().getSkin(), lobby, 0));
                         }
                     }
