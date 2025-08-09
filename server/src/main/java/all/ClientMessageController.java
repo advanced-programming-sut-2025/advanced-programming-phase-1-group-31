@@ -15,10 +15,40 @@ public class ClientMessageController {
         else if (message.getType().equals(Message.Type.Get_Lobby_ID)) return generateId();
         else if (message.getType().equals(Message.Type.Get_Lobby)) return saveLobby(message, cct);
         else if (message.getType().equals(Message.Type.All_Lobbies)) return sendAllLobbies();
-        else if (message.getType().equals(Message.Type.Which_Lobby)) return whichLobbyIsThePlayer(message, cct);
+        else if (message.getType().equals(Message.Type.Which_Lobby)) return whichLobbyIsThePlayer(message);
         else if (message.getType().equals(Message.Type.Start_Button_Pressed)) return startAnnouncement(message);
+        else if (message.getType().equals(Message.Type.Players_Map)) return sendOthersMap(message);
 
 
+        return null;
+    }
+
+    private static final ArrayList<Message> messagesOfMap = new ArrayList<>();
+
+    private static Message sendOthersMap(Message message) {
+        Lobby lobby = message.getFromBody("lobby", Lobby.class);
+        messagesOfMap.add(message);
+        if (messagesOfMap.size() == lobby.getNumberOfPlayers()) {
+            HashMap<Integer, String> mapNumber = new HashMap<>();
+            for (int i = 0; i < messagesOfMap.size(); i++) {
+                Message message1 = messagesOfMap.get(i);
+                message1.getBody().put("number", i);
+                String selectedMap = message1.getFromBody("selected-map", String.class);
+                mapNumber.put(i, selectedMap);
+            }
+            for (Message message1 : messagesOfMap) {
+                String username = message1.getFromBody("username", String.class);
+                ClientConnectionThread cct = ServerApp.getConnectionByUsername(username);
+                if (cct != null) {
+                    HashMap<String, Object> body = new HashMap<>();
+                    body.put("number", message1.getFromBody("number", Integer.class));
+                    body.put("all-maps", mapNumber);
+                    cct.sendMessage(new Message(body, Message.Type.Start_Game));
+                }
+            }
+
+            messagesOfMap.clear();
+        }
         return null;
     }
 
@@ -37,16 +67,15 @@ public class ClientMessageController {
                 }
             }
         }
-        for (int i = 0; i < CCTs.size(); i++) {
+        for (ClientConnectionThread cct : CCTs) {
             HashMap<String, Object> body = new HashMap<>();
             body.put("lobby", lobby);
-            body.put("number", i + 1);
-            CCTs.get(i).sendMessage(new Message(body, Message.Type.Start_Button_Pressed));
+            cct.sendMessage(new Message(body, Message.Type.Start_Button_Pressed));
         }
         return new Message(new HashMap<>(), Message.Type.Menu);
     }
 
-    private static Message whichLobbyIsThePlayer(Message message, ClientConnectionThread cct) {
+    private static Message whichLobbyIsThePlayer(Message message) {
         UserInfo player = message.getFromBody("player", UserInfo.class);
         for (UserInfo userInfo : ServerApp.players) {
             Lobby lobby = userInfo.getLobby();
@@ -72,10 +101,7 @@ public class ClientMessageController {
 
         HashMap<String, Object> body = new HashMap<>();
         body.put("lobbies", uniqueLobbies);
-        return new Message(
-            body,
-            Message.Type.Menu
-        );
+        return new Message(body, Message.Type.Menu);
     }
 
     private static Message saveLobby(Message message, ClientConnectionThread cct) {
@@ -116,9 +142,7 @@ public class ClientMessageController {
             }
         }
         if (!lobbies.isEmpty()) {
-            existingIds = lobbies.stream()
-                .map(Lobby::getLobbyID)
-                .collect(Collectors.toSet());
+            existingIds = lobbies.stream().map(Lobby::getLobbyID).collect(Collectors.toSet());
         }
 
         int id;
@@ -168,10 +192,9 @@ public class ClientMessageController {
             }
         } else if (command.equals("login")) {
             String username = message.getFromBody("username", String.class);
-            Optional<UserInfo> player = ServerApp.players.stream().filter(p -> p.getUsername().equals(username)).
-                findFirst();
+            Optional<UserInfo> player = ServerApp.players.stream().filter(p -> p.getUsername().equals(username)).findFirst();
             HashMap<String, Object> body = new HashMap<>();
-            if (!player.isPresent()) {
+            if (player.isEmpty()) {
                 body.put("error-message", "player does not exist");
             } else {
                 body.put("player", player.get());

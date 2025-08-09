@@ -1,21 +1,37 @@
 package io.github.some_example_name.model;
 
-import com.badlogic.gdx.Game;
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.StreamSupport;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.*;
+import com.badlogic.gdx.maps.objects.CircleMapObject;
+import com.badlogic.gdx.maps.objects.EllipseMapObject;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.objects.PolylineMapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
-import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+
 import io.github.some_example_name.model.enums.foragings.ForagingCrops;
 import io.github.some_example_name.model.enums.foragings.ForagingMinerals;
 import io.github.some_example_name.model.enums.foragings.ForagingTrees;
@@ -23,12 +39,6 @@ import io.github.some_example_name.model.materials.Foraging.ForagingCrop;
 import io.github.some_example_name.model.materials.Foraging.ForagingMineral;
 import io.github.some_example_name.model.materials.Foraging.ForagingTree;
 import io.github.some_example_name.model.materials.MaterialType;
-
-import java.awt.*;
-import java.util.*;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.StreamSupport;
 
 public class MapManager {
     private final TmxMapLoader loader = new TmxMapLoader();
@@ -54,40 +64,67 @@ public class MapManager {
         return map;
     }
 
-    public void createMap(String selectedMap, Player player, int number) {
+    public void createMap(HashMap<Integer, String> selectedMaps, int number) {
+
         TiledMap bigMapTile = loader.load("bigFarm.tmx");
+        String selectedTmx;
+
+
+        boolean isThisPlayer;
         int tileHeight = bigMapTile.getProperties().get("tileheight", Integer.class);
         int tileWidth = bigMapTile.getProperties().get("tilewidth", Integer.class);
-        TiledMap smallMap = loader.load(selectedMap);
-        int offsetY = 0;
-        int offsetX = switch (number) {
-            case 0 -> {
-                offsetY = (bigMapTile.getProperties().get("height", Integer.class) - smallMap.getProperties().get("height", Integer.class)) * tileHeight;
-                yield 0;
-            }
-            case 1 -> {
-                offsetY = (bigMapTile.getProperties().get("height", Integer.class) - smallMap.getProperties().get("height", Integer.class)) * tileHeight;
-                yield (bigMapTile.getProperties().get("width", Integer.class) - smallMap.getProperties().get("width", Integer.class)) * tileWidth;
-            }
-            case 3 ->
-                (bigMapTile.getProperties().get("width", Integer.class) - smallMap.getProperties().get("width", Integer.class)) * tileWidth;
-            default -> 0;
-        };
 
-        mergeMapIntoBigMap(bigMapTile, smallMap, player, offsetX, offsetY);
+        selectedTmx = selectedMaps.get(0).replace(".png", ".tmx");
+        TiledMap smallMap = loader.load(selectedTmx);
+        int offsetY = (bigMapTile.getProperties().get("height", Integer.class) -
+            smallMap.getProperties().get("height", Integer.class)) * tileHeight;
+        int offsetX = 0;
+        isThisPlayer = number == 0;
+        mergeMapIntoBigMap(bigMapTile, smallMap, offsetX, offsetY, isThisPlayer);
         FarmMap map0 = new FarmMap();
         map0.setTmxMap(smallMap);
-        mapCache.put(selectedMap, map0);
+        mapCache.put(selectedMaps.get(0), map0);
+        selectedTmx = selectedMaps.get(1).replace(".png", ".tmx");
+        smallMap = loader.load(selectedTmx);
+        offsetX = (bigMapTile.getProperties().get("width", Integer.class) - smallMap.getProperties().get("width", Integer.class)) * tileWidth;
+        isThisPlayer = number == 1;
+        mergeMapIntoBigMap(bigMapTile, smallMap, offsetX, offsetY, isThisPlayer);
+        FarmMap map1 = new FarmMap();
+        map1.setTmxMap(smallMap);
+        mapCache.put(selectedMaps.get(1), map1);
+        if (selectedMaps.size() > 2) {
+            selectedTmx = selectedMaps.get(2).replace(".png", ".tmx");
+            smallMap = loader.load(selectedTmx);
+            offsetX = 0;
+            offsetY = 0;
+            isThisPlayer = number == 2;
+            mergeMapIntoBigMap(bigMapTile, smallMap, offsetX, offsetY, isThisPlayer);
+            FarmMap map2 = new FarmMap();
+            map2.setTmxMap(smallMap);
+            mapCache.put(selectedMaps.get(2), map2);
+        }
+        if (selectedMaps.size() > 3) {
+            selectedTmx = selectedMaps.get(3).replace(".png", ".tmx");
+            smallMap = loader.load(selectedTmx);
+            offsetX = (bigMapTile.getProperties().get("width", Integer.class) - smallMap.getProperties().get("width", Integer.class)) * tileWidth;
+            isThisPlayer = number == 3;
+            mergeMapIntoBigMap(bigMapTile, smallMap, offsetX, offsetY, isThisPlayer);
+            FarmMap map3 = new FarmMap();
+            map3.setTmxMap(smallMap);
+            mapCache.put(selectedMaps.get(3), map3);
+        }
         FarmMap bigMap = new FarmMap();
         bigMap.setTmxMap(bigMapTile);
         randomGenerateMap(bigMap);
-        GameApp.player.setId(number);
+
         randomGenerateMine();
+
+
         mapCache.put("bigFarm.tmx", bigMap);
     }
 
 
-    private void mergeMapIntoBigMap(TiledMap bigMap, TiledMap smallMap, Player player, int offsetX, int offsetY) {
+    private void mergeMapIntoBigMap(TiledMap bigMap, TiledMap smallMap, int offsetX, int offsetY, boolean isThisPlayer) {
         int tileHeight = bigMap.getProperties().get("tileheight", Integer.class);
         int tileWidth = bigMap.getProperties().get("tilewidth", Integer.class);
 
@@ -107,13 +144,14 @@ public class MapManager {
 //        player.setCharacterPlacer(new CharacterPlacer(bigMap));
 //        player.setPlace(new Vector2(640 + offsetX, 520+ offsetY));
 //        player.setPlayerRectangle(new  Rectangle(640 + offsetX, 520+ offsetY , 20 , 20)) ;
-        cloneSmallMap(bigMap, smallMap, player, offsetY, tileHeight, offsetX, tileWidth);
+        cloneSmallMap(bigMap, smallMap, offsetY, tileHeight, offsetX, tileWidth, isThisPlayer);
     }
 
-    private void cloneSmallMap(TiledMap bigMap, TiledMap smallMap, Player player, int offsetY, int tileHeight, int offsetX, int tileWidth) {
+    private void cloneSmallMap(TiledMap bigMap, TiledMap smallMap, int offsetY, int tileHeight, int offsetX, int tileWidth, boolean isThisPlayer) {
         Farm farm = new Farm();
         for (MapLayer layer : smallMap.getLayers()) {
-            if (layer instanceof TiledMapTileLayer sourceLayer) {
+            if (layer instanceof TiledMapTileLayer) {
+                TiledMapTileLayer sourceLayer = (TiledMapTileLayer) layer;
 
                 // ساخت لایه جدید با همان تنظیمات
                 TiledMapTileLayer newLayer = new TiledMapTileLayer(
@@ -156,62 +194,57 @@ public class MapManager {
                 bigMap.getLayers().add(newLayer);
             }
         }
-        player.setFarm(farm);
+        if (isThisPlayer) {
+            GameApp.player.setFarm(farm);
+
+        }
     }
 
     private MapObject cloneMapObject(MapObject original, float offsetX, float offsetY) {
         MapObject copy;
 
-        switch (original) {
-            case RectangleMapObject rectangleMapObject -> {
-                Rectangle rect = rectangleMapObject.getRectangle();
-                Rectangle newRect = new Rectangle(rect);
-                newRect.x += offsetX;
-                newRect.y += offsetY;
-                copy = new RectangleMapObject(newRect.x, newRect.y, newRect.width, newRect.height);
+        if (original instanceof RectangleMapObject) {
+            Rectangle rect = ((RectangleMapObject) original).getRectangle();
+            Rectangle newRect = new Rectangle(rect);
+            newRect.x += offsetX;
+            newRect.y += offsetY;
+            copy = new RectangleMapObject(newRect.x, newRect.y, newRect.width, newRect.height);
+        } else if (original instanceof EllipseMapObject) {
+            Ellipse ellipse = ((EllipseMapObject) original).getEllipse();
+            Ellipse newEllipse = new Ellipse(ellipse);
+            newEllipse.x += offsetX;
+            newEllipse.y += offsetY;
+            copy = new EllipseMapObject(newEllipse.x, newEllipse.y, newEllipse.width, newEllipse.height);
+        } else if (original instanceof CircleMapObject) {
+            Circle circle = ((CircleMapObject) original).getCircle();
+            Circle newCircle = new Circle(circle);
+            newCircle.x += offsetX;
+            newCircle.y += offsetY;
+            copy = new CircleMapObject(newCircle.x, newCircle.y, newCircle.radius);
+        } else if (original instanceof PolylineMapObject) {
+            Polyline polyline = ((PolylineMapObject) original).getPolyline();
+            float[] oldVertices = polyline.getTransformedVertices(); // یا getVertices() بسته به نیاز
+            float[] newVertices = new float[oldVertices.length];
+            for (int i = 0; i < oldVertices.length; i += 2) {
+                newVertices[i] = oldVertices[i] + offsetX;
+                newVertices[i + 1] = oldVertices[i + 1] + offsetY;
             }
-            case EllipseMapObject ellipseMapObject -> {
-                Ellipse ellipse = ellipseMapObject.getEllipse();
-                Ellipse newEllipse = new Ellipse(ellipse);
-                newEllipse.x += offsetX;
-                newEllipse.y += offsetY;
-                copy = new EllipseMapObject(newEllipse.x, newEllipse.y, newEllipse.width, newEllipse.height);
-            }
-            case CircleMapObject circleMapObject -> {
-                Circle circle = circleMapObject.getCircle();
-                Circle newCircle = new Circle(circle);
-                newCircle.x += offsetX;
-                newCircle.y += offsetY;
-                copy = new CircleMapObject(newCircle.x, newCircle.y, newCircle.radius);
-            }
-            case PolylineMapObject polylineMapObject -> {
-                Polyline polyline = polylineMapObject.getPolyline();
-                float[] oldVertices = polyline.getTransformedVertices(); // یا getVertices() بسته به نیاز
+            Polyline newPolyline = new Polyline(newVertices);
+            copy = new PolylineMapObject(newPolyline);
+        } else if (original instanceof PolygonMapObject) {
+            Polygon polygon = ((PolygonMapObject) original).getPolygon();
+            float[] oldVertices = polygon.getVertices(); // vertices نسبت به position هستن
+            float[] newVertices = new float[oldVertices.length];
+            System.arraycopy(oldVertices, 0, newVertices, 0, oldVertices.length);
 
-                float[] newVertices = new float[oldVertices.length];
-                for (int i = 0; i < oldVertices.length; i += 2) {
-                    newVertices[i] = oldVertices[i] + offsetX;
-                    newVertices[i + 1] = oldVertices[i + 1] + offsetY;
-                }
-                Polyline newPolyline = new Polyline(newVertices);
-                copy = new PolylineMapObject(newPolyline);
-            }
-            case PolygonMapObject polygonMapObject -> {
-                Polygon polygon = polygonMapObject.getPolygon();
-                float[] oldVertices = polygon.getVertices(); // vertices نسبت به position هستن
-
-                float[] newVertices = new float[oldVertices.length];
-                System.arraycopy(oldVertices, 0, newVertices, 0, oldVertices.length);
-
-                Polygon newPolygon = new Polygon(newVertices);
-                newPolygon.setPosition(polygon.getX() + offsetX, polygon.getY() + offsetY);
-                newPolygon.setRotation(polygon.getRotation());
-                newPolygon.setScale(polygon.getScaleX(), polygon.getScaleY());
+            Polygon newPolygon = new Polygon(newVertices);
+            newPolygon.setPosition(polygon.getX() + offsetX, polygon.getY() + offsetY);
+            newPolygon.setRotation(polygon.getRotation());
+            newPolygon.setScale(polygon.getScaleX(), polygon.getScaleY());
 
 
-                copy = new PolygonMapObject(newPolygon);
-            }
-
+            copy = new PolygonMapObject(newPolygon);
+        }
 //        else if (original instanceof TiledMapTileMapObject) {
 //            TiledMapTileMapObject tileObj = (TiledMapTileMapObject) original;
 //            copy = new TiledMapTileMapObject(tileObj.getTile());
@@ -222,17 +255,16 @@ public class MapManager {
 //            ((TiledMapTileMapObject) copy).setFlipHorizontally(tileObj.isFlipHorizontally());
 //            ((TiledMapTileMapObject) copy).setFlipVertically(tileObj.isFlipVertically());
 //        }
-            default -> {
-                // Default fallback: copy properties and offset x/y if available
-                copy = new MapObject();
-                Float y = original.getProperties().get("y", Float.class);
-                Float x = original.getProperties().get("x", Float.class);
-                if (y != null) {
-                    copy.getProperties().put("y", y + offsetY);
-                }
-                if (x != null) {
-                    copy.getProperties().put("x", x + offsetX);
-                }
+        else {
+            // Default fallback: copy properties and offset x/y if available
+            copy = new MapObject();
+            Float y = original.getProperties().get("y", Float.class);
+            Float x = original.getProperties().get("x", Float.class);
+            if (y != null) {
+                copy.getProperties().put("y", y + offsetY);
+            }
+            if (x != null) {
+                copy.getProperties().put("x", x + offsetX);
             }
         }
 
@@ -322,12 +354,11 @@ public class MapManager {
 //                    placeScaledImageAsTile(map, "craft", x, y, "soil.png");
                 }
             }
-
         }
+
         randomPlaceMaterial(map, validWorldPoints, ForagingTrees.values(), tileWidth, tileHeight, "craft");
 //        randomPlaceMaterial(map, validWorldPoints, ForagingMinerals.values(), tileWidth, tileHeight);
         randomPlaceMaterial(map, validWorldPoints, ForagingCrops.values(), tileWidth, tileHeight, "craft");
-
 
     }
 
@@ -388,7 +419,7 @@ public class MapManager {
         cell.setTile(tile);
 
         // مرحله 3: پیدا کردن لایه (یا ساختن)
-        TiledMapTileLayer layer;
+        TiledMapTileLayer layer = null;
         MapLayer existingLayer = map.getLayers().get(layerName);
         if (existingLayer instanceof TiledMapTileLayer) {
             layer = (TiledMapTileLayer) existingLayer;

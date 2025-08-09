@@ -14,7 +14,6 @@ import common.Message;
 import io.github.some_example_name.Main;
 import common.Lobby;
 import common.UserInfo;
-import io.github.some_example_name.control.PreGameMenuController;
 import io.github.some_example_name.model.GameApp;
 import io.github.some_example_name.model.GameAssetManager;
 
@@ -151,7 +150,7 @@ public class MyLobbyMenuView implements Screen {
                             lobby.setStarted(true);
                             body.replace("lobby", lobby);
                             GameApp.c2sConnectionThread.sendMessage(new Message(body, Message.Type.Get_Lobby));
-                            Main.getMain().setScreen(new PreGameMenuView(new PreGameMenuController(skin), GameAssetManager.getGameAssetManager().getSkin(), lobby, 0));
+                            Main.getMain().setScreen(new PreGameMenuView(GameAssetManager.getGameAssetManager().getSkin(), lobby));
                         }
                     }
                 }

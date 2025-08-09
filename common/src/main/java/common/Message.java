@@ -20,6 +20,10 @@ public class Message {
         this.type = type;
     }
 
+    public HashMap<String, Object> getBody() {
+        return body;
+    }
+
     public Type getType() {
         return type;
     }
@@ -57,7 +61,9 @@ public class Message {
         Get_Lobby,
         All_Lobbies,
         Which_Lobby,
-        Start_Button_Pressed
+        Start_Button_Pressed,
+        Players_Map,
+        Start_Game,
 
 
 

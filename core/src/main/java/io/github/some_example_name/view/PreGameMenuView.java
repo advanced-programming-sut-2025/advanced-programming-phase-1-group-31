@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -14,33 +15,28 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import common.Lobby;
-import io.github.some_example_name.control.PreGameMenuController;
+import common.Message;
+import io.github.some_example_name.model.GameApp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-/**
- * A screen that allows players to select a map before starting the game.
- * Properly handles resource management and selection state.
- */
 public class PreGameMenuView implements Screen {
     private final Stage stage;
-    private final PreGameMenuController controller;
     private final Lobby lobby;
     private final Skin skin;
     private final Table table;
-    private final int number;
+
 
     private final List<String> mapFiles;
     private final List<Texture> mapTextures;
     private final List<ImageButton> mapButtons;
     private String selectedMap;
 
-    public PreGameMenuView(PreGameMenuController controller, Skin skin, Lobby lobby, int number) {
-        this.controller = controller;
+    public PreGameMenuView(Skin skin, Lobby lobby) {
         this.skin = skin;
         this.lobby = lobby;
-        this.number = number;
         this.mapFiles = List.of("farm1.png", "farm2.png", "farm2.png");
         this.mapTextures = new ArrayList<>();
         this.mapButtons = new ArrayList<>();
@@ -96,7 +92,13 @@ public class PreGameMenuView implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (selectedMap != null) {
-                    controller.handleStartGameWithMaps(selectedMap, lobby, number);
+                    HashMap<String,Object> body = new HashMap<>();
+                    body.put("selected-map", selectedMap);
+                    body.put("lobby", lobby);
+                    body.put("username", GameApp.player.getUserInfo().getUsername());
+                    GameApp.c2sConnectionThread.sendMessage(new Message(body, Message.Type.Players_Map));
+                    startWaiting();
+//                    controller.handleStartGameWithMaps(selectedMap, lobby, number);
                 } else {
                     showErrorDialog("Please select a map.", "Error", Color.RED);
                 }
@@ -113,6 +115,33 @@ public class PreGameMenuView implements Screen {
         ImageButton selectedButton = mapButtons.get(index);
         selectedButton.getImage().setColor(Color.GREEN);
         selectedMap = mapFiles.get(index);
+    }
+
+    public void startWaiting() {
+        table.clear();
+
+        Table waitingTable = new Table(skin);
+        waitingTable.setFillParent(true);
+        waitingTable.center();
+
+        Texture spinnerTexture = new Texture(Gdx.files.internal("spinner.png")); // یک عکس spinner باید داشته باشید
+        Image loadingSpinner = new Image(spinnerTexture);
+        loadingSpinner.setSize(100, 100);
+        waitingTable.add(loadingSpinner).padBottom(30).row();
+
+        Label waitingLabel = new Label("Please wait for other players...", skin);
+        waitingLabel.setFontScale(2.0f);
+        waitingLabel.setColor(Color.WHITE);
+        waitingTable.add(waitingLabel);
+
+        loadingSpinner.addAction(Actions.forever
+            (Actions.sequence
+                (Actions.moveBy(30f, 0, 1.5f),
+                    Actions.moveBy(-30f, 0, 1.5f))));
+
+        stage.clear();
+        stage.addActor(waitingTable);
+
     }
 
     public void showErrorDialog(String message, String title, Color color) {
