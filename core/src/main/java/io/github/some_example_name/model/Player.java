@@ -7,6 +7,8 @@ import common.Lobby;
 import common.UserInfo;
 import io.github.some_example_name.model.enums.general.TileType;
 import io.github.some_example_name.model.materials.Industrial;
+import io.github.some_example_name.model.materials.Material;
+import io.github.some_example_name.model.materials.Seed;
 import io.github.some_example_name.model.materials.Tools.Tool;
 
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 public class Player {
     private UserInfo userInfo = new UserInfo(null, null, null, null);
     private int id;
+    private Material currentCoopOrBarn;
     private MapType currentMapType;
     private int highScore = 0;
     private int gameCount = 0;
@@ -26,10 +29,11 @@ public class Player {
     private String backupAnswer;
     private TileType type;
     private Tool inHand;
+    private Seed seedInHand;
     private final Backpack inventory = new Backpack();
     private Farm farm;
     private final Skill skills = new Skill();
-    private double money = 0;
+    private double money = 1000000;
     private CharacterPlacer characterPlacer;
 
 
@@ -62,6 +66,7 @@ public class Player {
 //        player.setEnergy(new Energy());
 //        player.getEnergy().setEnergyAmount(player.getEnergy().getMaxEnergy());
     }
+
 
 
     public ArrayList<Gift> getGifts() {
@@ -101,7 +106,6 @@ public class Player {
     public Backpack getInventory() {
         return inventory;
     }
-
     public double getMoney() {
         return money;
     }
@@ -116,10 +120,6 @@ public class Player {
 
     public String getUsername() {
         return userInfo.getUsername();
-    }
-
-    public Lobby getLobby() {
-        return userInfo.getLobby();
     }
 
     public String getPassword() {
@@ -141,9 +141,9 @@ public class Player {
     //    public boolean getGender() {
 //        return gender;
 //    }
-//    public Tool getInHand() {
-//        return inHand;
-//    }
+    public Tool getInHand() {
+        return inHand;
+    }
     public Energy getEnergy() {
         return energy;
     }
@@ -162,94 +162,71 @@ public class Player {
     public TileType getType() {
         return type;
     }
-
-    public String getBackupAnswer() {
+    public String getBackupAnswer () {
         return backupAnswer;
     }
 
 
-    public void addGift(Gift gift) {
+    public void addGift (Gift gift){
         gifts.add(gift);
     }
-
-    public void addSMS(SMS sms) {
+    public void addSMS (SMS sms){
         SMSs.add(sms);
     }
-
-    public void addCraftingRecipes(CraftingRecipe recipes) {
+    public void addCraftingRecipes (CraftingRecipe recipes){
         this.craftingRecipes.add(recipes);
     }
-
-    public void addCookingRecipes(CookingRecipe cookingRecipes) {
+    public void addCookingRecipes (CookingRecipe cookingRecipes){
         this.cookingRecipes.add(cookingRecipes);
     }
-
-    public void addIndustrials(Industrial industrials) {
+    public void addIndustrials (Industrial industrials){
         this.industrials.add(industrials);
     }
-
-    public void addTrade(Trade trade) {
+    public void addTrade (Trade trade){
         tradeHistory.add(trade);
     }
-
-    public void addMoney(double amount) {
+    public void addMoney ( double amount){
         if (amount < 0) throw new IllegalArgumentException("Amount cannot be negative");
         money += amount;
     }
-//    public Result deductMoney(double amount) {
-//        if (amount < 0) return new Result(false, "Amount can't be negative.");
-//        if (money < amount) return new Result(false, "You haven't enough money.");
-//        money -= amount;
-//        return new Result(true, "");
-//    }
+    public Result deductMoney(double amount) {
+        if (amount < 0) return new Result(false, "Amount can't be negative.");
+        if (money < amount) return new Result(false, "You haven't enough money.");
+        money -= amount;
+        return new Result(true, "");
+    }
 
-    public void setEnergy(Energy energy) {
+    public void setEnergy (Energy energy){
         this.energy = energy;
     }
-
-    //    public void setInHand(Tool inHand) {
-//        this.inHand = inHand;
-//    }
-//    public void setType(TileType type) {
-//        this.type = type;
-//    }
-    public void setHighScore(int highScore) {
+    public void setInHand(Tool inHand) {
+        this.inHand = inHand;
+    }
+    public void setType(TileType type) {
+        this.type = type;
+    }
+    public void setHighScore ( int highScore){
         this.highScore = highScore;
     }
-
-    public void setGameCount(int gameCount) {
+    public void setGameCount ( int gameCount){
         this.gameCount = gameCount;
     }
-
-    public UserInfo getUserInfo() {
-        return userInfo;
-    }
-
-    public void setUsername(String username) {
+    public void setUsername (String username){
         this.userInfo.setUsername(username);
     }
-
-    public void setPassword(String password) {
+    public void setPassword (String password){
         this.userInfo.setPassword(password);
     }
-
-    public void setNickname(String nickname) {
+    public void setNickname (String nickname){
         this.userInfo.setNickName(nickname);
     }
-
-    public void setLobby(Lobby lobby) {
-        this.userInfo.setLobby(lobby);
-    }
-
-    public void setEmail(String email) {
+    public void setEmail (String email){
         this.email = email;
     }
-
-    public void setPlace(Vector2 place) {
+    public void setPlace (Vector2 place){
         this.place = place;
     }
-
-    public void setFarm(Farm farm) {
+    public void setFarm (Farm farm){
         this.farm = farm;
     }
 
@@ -274,10 +251,6 @@ public class Player {
         return id;
     }
 
-    public void setUserInfo(UserInfo userInfo) {
-        this.userInfo = userInfo;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -288,5 +261,37 @@ public class Player {
 
     public void setCurrentMapType(MapType currentMapType) {
         this.currentMapType = currentMapType;
+    }
+
+    public Material getCurrentCoopOrBarn() {
+        return currentCoopOrBarn;
+    }
+
+    public void setCurrentCoopOrBarn(Material currentCoopOrBarn) {
+        this.currentCoopOrBarn = currentCoopOrBarn;
+    }
+
+    public Seed getSeedInHand() {
+        return seedInHand;
+    }
+
+    public void setSeedInHand(Seed seedInHand) {
+        this.seedInHand = seedInHand;
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    public Lobby getLobby(){
+        return userInfo.getLobby();
+    }
+
+    public void setLobby(Lobby lobby){
+        this.userInfo.setLobby(lobby);
     }
 }

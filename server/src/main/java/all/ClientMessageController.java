@@ -4,7 +4,9 @@ import common.Lobby;
 import common.Message;
 import common.UserInfo;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ClientMessageController {
@@ -18,10 +20,32 @@ public class ClientMessageController {
         else if (message.getType().equals(Message.Type.Which_Lobby)) return whichLobbyIsThePlayer(message);
         else if (message.getType().equals(Message.Type.Start_Button_Pressed)) return startAnnouncement(message);
         else if (message.getType().equals(Message.Type.Players_Map)) return sendOthersMap(message);
+        else if (message.getType().equals(Message.Type.Get_Place)) return getPlaceAndSave(message, cct);
 
 
         return null;
     }
+
+    private static Message getPlaceAndSave(Message message, ClientConnectionThread cct) {
+        int x = message.getIntFromBody("x");
+        int y = message.getIntFromBody("y");
+        cct.setPoint(new Point(x, y));
+
+        String currentUsername = cct.getPlayer().getUsername();
+        Lobby lobby = cct.getPlayer().getLobby();
+
+        List<Point> points = lobby.getPlayers().stream()
+            .filter(username -> !username.equals(currentUsername))
+            .map(ServerApp::getConnectionByUsername)
+            .filter(Objects::nonNull)
+            .map(ClientConnectionThread::getPoint)
+            .toList();
+
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("points",  points);
+        return new Message(body, Message.Type.Get_Place);
+    }
+
 
     private static final ArrayList<Message> messagesOfMap = new ArrayList<>();
 

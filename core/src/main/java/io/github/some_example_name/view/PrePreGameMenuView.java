@@ -20,6 +20,7 @@ import io.github.some_example_name.model.GameAssetManager;
 import io.github.some_example_name.model.MapManager;
 import io.github.some_example_name.model.MapType;
 
+import java.awt.*;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 
@@ -30,7 +31,9 @@ public class PrePreGameMenuView implements Screen {
 
     public PrePreGameMenuView(Message message) {
         stage = new Stage(new ScreenViewport());
-
+        GameApp.othersPoint.add(new Point(0, 0));
+        GameApp.othersPoint.add(new Point(0, 0));
+        GameApp.othersPoint.add(new Point(0, 0));
         int number = message.getFromBody("number", Integer.class);
         Type type = new TypeToken<HashMap<Integer, String>>() {}.getType();
         HashMap<Integer, String> mapNumber = message.getFromBodyType("all-maps", type);

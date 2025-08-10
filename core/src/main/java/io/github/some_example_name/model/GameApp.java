@@ -8,12 +8,14 @@ import common.UserInfo;
 import io.github.some_example_name.view.*;
 import io.github.some_example_name.model.materials.ShoppingBin;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameApp {
     public static C2SConnectionThread c2sConnectionThread;
     public static Player player = new Player(new UserInfo(null, null, null, null));
+    public static ArrayList<Point> othersPoint = new ArrayList<>();
     private static FarmMap mainMap;
     private static final TimeAndDate timeAndDate = new TimeAndDate();
     private static final ShoppingBin shoppingBin = new ShoppingBin();

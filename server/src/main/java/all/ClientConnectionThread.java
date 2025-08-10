@@ -2,6 +2,7 @@ package all;
 
 import common.*;
 
+import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -20,6 +21,7 @@ public class ClientConnectionThread extends Thread {
     private final DataOutputStream dataOutputStream;
     private final DataInputStream dataInputStream;
     private UserInfo player;
+    private Point point = new Point(0,0);
     private final LocalTime timeToConnect;
     private Thread counterThread;
 
@@ -133,6 +135,14 @@ public class ClientConnectionThread extends Thread {
 
     public void setPlayer(UserInfo player) {
         this.player = player;
+    }
+
+    public Point getPoint() {
+        return point;
+    }
+
+    public void setPoint(Point point) {
+        this.point = point;
     }
 
     public synchronized void ifDidntConnectAgain() {

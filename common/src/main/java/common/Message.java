@@ -64,6 +64,7 @@ public class Message {
         Start_Button_Pressed,
         Players_Map,
         Start_Game,
+        Get_Place;
 
 
 

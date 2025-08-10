@@ -14,14 +14,20 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import common.Message;
 import io.github.some_example_name.control.GameController;
 import io.github.some_example_name.model.GameApp;
 import io.github.some_example_name.view.ui.InventoryUI;
 import io.github.some_example_name.model.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
+import java.awt.*;
+import java.util.HashMap;
+
 public abstract class GameView implements Screen, InputProcessor {
 
+    private final int  count = GameApp.player.getLobby().getPlayers().size();
+    private long time = System.currentTimeMillis();
     private FarmMap map;
     MapType mapType;
 
@@ -102,6 +108,13 @@ public abstract class GameView implements Screen, InputProcessor {
     }
     private boolean showFullMap = false;
 
+    Texture otherPlayers1;
+
+    @Override
+    public void show() {
+        otherPlayers1 = new Texture("OtherPlayer.png");
+    }
+
     @Override
     public void render(float delta) {
         AnimatedTiledMapTile.updateAnimationBaseTime();
@@ -119,7 +132,34 @@ public abstract class GameView implements Screen, InputProcessor {
 
         batch.setProjectionMatrix(mapRenderer.getBatch().getProjectionMatrix());
         batch.begin();
-        GameApp.getTimeAndDate().renderEffect(batch ,delta);
+        if (System.currentTimeMillis() - time > 1000) {
+            HashMap<String, Object> body = new HashMap<>();
+            body.put("x", GameApp.player.getPlace().x);
+            body.put("y", GameApp.player.getPlace().y);
+            GameApp.c2sConnectionThread.sendMessage(new Message(body, Message.Type.Get_Place));
+            time = System.currentTimeMillis();
+        }
+        switch (count) {
+            case 2:
+                Point point0 = GameApp.othersPoint.getFirst();
+                batch.draw(otherPlayers1, point0.x, point0.y, 25, 45);
+                break;
+            case 3:
+                Point point1 = GameApp.othersPoint.get(0);
+                Point point2 = GameApp.othersPoint.get(1);
+                batch.draw(otherPlayers1, point1.x, point1.y, 25, 45);
+                batch.draw(otherPlayers1, point2.x, point2.y, 25, 45);
+                break;
+            case 4:
+                Point point3 = GameApp.othersPoint.get(0);
+                Point point4 = GameApp.othersPoint.get(1);
+                Point point5 = GameApp.othersPoint.get(2);
+                batch.draw(otherPlayers1, point3.x, point3.y, 25, 45);
+                batch.draw(otherPlayers1, point4.x, point4.y, 25, 45);
+                batch.draw(otherPlayers1, point5.x, point5.y, 25, 45);
+                break;
+        }
+        GameApp.getTimeAndDate().renderEffect(batch, delta);
         batch.end();
         batch.setProjectionMatrix(hudCamera.combined);
         batch.begin();
@@ -287,10 +327,6 @@ public abstract class GameView implements Screen, InputProcessor {
 
     public void setSkin(Skin skin) {
         this.skin = skin;
-    }
-
-    @Override
-    public void show() {
     }
 
     @Override
