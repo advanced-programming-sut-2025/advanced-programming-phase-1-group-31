@@ -21,7 +21,8 @@ public class ClientConnectionThread extends Thread {
     private final DataOutputStream dataOutputStream;
     private final DataInputStream dataInputStream;
     private UserInfo player;
-    private Others other = new Others(0,new Point(0,0));
+    private Others other = new Others(0, new Point(0, 0));
+    private PlayerBoard playerBoard = new PlayerBoard("", 0, 0, 0, 0, 0);
     private final LocalTime timeToConnect;
     private Thread counterThread;
 
@@ -139,6 +140,14 @@ public class ClientConnectionThread extends Thread {
 
     public Others getOther() {
         return other;
+    }
+
+    public PlayerBoard getPlayerBoard() {
+        return playerBoard;
+    }
+
+    public void setPlayerBoard(PlayerBoard playerBoard) {
+        this.playerBoard = playerBoard;
     }
 
     public void setOther(Others other) {

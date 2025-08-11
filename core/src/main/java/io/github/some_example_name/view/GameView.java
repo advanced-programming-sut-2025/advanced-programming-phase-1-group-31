@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import common.Message;
 import common.Others;
+import common.PlayerBoard;
 import io.github.some_example_name.control.GameController;
 import io.github.some_example_name.model.GameApp;
 import io.github.some_example_name.view.ui.InventoryUI;
@@ -145,6 +146,9 @@ public abstract class GameView implements Screen, InputProcessor {
             body.put("x", GameApp.player.getPlace().x);
             body.put("y", GameApp.player.getPlace().y);
             GameApp.c2sConnectionThread.sendMessage(new Message(body, Message.Type.Get_Place));
+            body.clear();
+            body.put("player-board", new PlayerBoard(GameApp.player.getUsername(), (int) GameApp.player.getMoney(), GameApp.player.getSkills().getFarmingLevel(), GameApp.player.getSkills().getFishingLevel(), GameApp.player.getSkills().getForagingLevel(), GameApp.player.getSkills().getMiningLevel()) );
+            GameApp.c2sConnectionThread.sendMessage(new Message(body, Message.Type.Get_Player_Board));
             time = System.currentTimeMillis();
         }
         switch (count) {

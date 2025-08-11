@@ -23,9 +23,25 @@ public class ClientMessageController {
         else if (message.getType().equals(Message.Type.Get_Place)) return getPlaceAndSave(message, cct);
         else if (message.getType().equals(Message.Type.Get_Reaction)) return getAndSaveReaction(message, cct);
         else if (message.getType().equals(Message.Type.Get_Message)) return getChatsOrSave(message, cct);
+        else if (message.getType().equals(Message.Type.Get_Player_Board)) return getPlayerBoardAndSave(message, cct);
 
 
         return null;
+    }
+
+    private static Message getPlayerBoardAndSave(Message message, ClientConnectionThread cct) {
+        Lobby lobby = cct.getPlayer().getLobby();
+        if (message.getBody().isEmpty()) {
+            ArrayList<PlayerBoard> playerBoards = lobby.getPlayers().stream().map(p -> Objects.requireNonNull(ServerApp.getConnectionByUsername(p)).getPlayerBoard()).collect(Collectors.toCollection(ArrayList::new));
+            HashMap<String, Object> body = new HashMap<>();
+            body.put("player-boards", playerBoards);
+            return new Message(body, Message.Type.Menu);
+        } else {
+            PlayerBoard playerBoard = message.getFromBody("player-board", PlayerBoard.class);
+            cct.setPlayerBoard(playerBoard);
+            return null;
+        }
+
     }
 
     private static Message getChatsOrSave(Message message, ClientConnectionThread cct) {

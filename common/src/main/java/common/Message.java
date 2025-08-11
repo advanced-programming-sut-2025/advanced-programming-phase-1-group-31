@@ -67,18 +67,11 @@ public class Message {
         Get_Place,
         Get_Reaction,
         Get_Message,
+        Get_Player_Board,
 
 
 
     }
-
-    /*/ Messages Body
-        1) request
-        2) username
-        3) message
-        4) user-existence
-
-     */
     @Override
     public String toString() {
         return type.toString() + ": " + body.toString();

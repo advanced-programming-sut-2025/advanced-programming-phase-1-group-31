@@ -50,7 +50,6 @@ public abstract class GameController {
         float nextX = GameApp.getPlayer().getPlace().x;
         float nextY = GameApp.getPlayer().getPlace().y;
 
-        // پردازش ورودی کاربر
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             nextX -= view.getSpeed() * delta;
             direction = CharacterPlacer.Direction.LEFT;
@@ -67,6 +66,15 @@ public abstract class GameController {
             Main.getMain().setScreen(new ReactionMenuView(GameAssetManager.getGameAssetManager().getSkin()));
         } else if (Gdx.input.isKeyPressed(Input.Keys.C)) {
             Main.getMain().setScreen(new MessageMenuView(GameAssetManager.getGameAssetManager().getSkin()));
+        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            GameApp.player.addMoney(1000);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            GameApp.player.getSkills().setFarmingLevel(GameApp.player.getSkills().getFarmingLevel() + 1);
+            GameApp.player.getSkills().setFishingLevel(GameApp.player.getSkills().getFishingLevel() + 1);
+            GameApp.player.getSkills().setForagingLevel(GameApp.player.getSkills().getForagingLevel() + 1);
+            GameApp.player.getSkills().setMiningLevel(GameApp.player.getSkills().getMiningLevel() + 1);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.B)) {
+            Main.getMain().setScreen(new ScoreBoardMenuView(GameAssetManager.getGameAssetManager().getSkin()));
         }
 
 
