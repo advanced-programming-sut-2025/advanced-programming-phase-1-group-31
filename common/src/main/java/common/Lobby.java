@@ -12,6 +12,7 @@ public class Lobby {
     private long creationTime;
     private final ArrayList<String> players = new ArrayList<>();
     private String adminUsername;
+    public ArrayList<Chat> chats =  new ArrayList<>();
 
     public Lobby(String lobbyName, String lobbyPassword, int lobbyID, UserInfo admin, boolean isVisible) {
         // TODO: check if id is used or not

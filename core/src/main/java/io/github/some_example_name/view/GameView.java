@@ -85,10 +85,9 @@ public abstract class GameView implements Screen, InputProcessor {
 
         InputMultiplexer multiplexer = new InputMultiplexer(stage, this);
         Gdx.input.setInputProcessor(multiplexer);
-        rayHandler = new RayHandler(null); // اگه Box2D داری
-// rayHandler = new RayHandler(null); // اگه بدون Box2D فقط نور می‌خوای
+        rayHandler = new RayHandler(null);
         rayHandler.setCombinedMatrix(camera);
-        rayHandler.setAmbientLight(1f); // روز
+        rayHandler.setAmbientLight(1f);
         updateAmbientLight();
         loadEnergyTextures();
 //        rayHandler.updateAndRender();
@@ -99,7 +98,7 @@ public abstract class GameView implements Screen, InputProcessor {
         float lightLevel;
 
         if (hour >= 18 && hour <= 22) {
-            lightLevel = 0.7f - (hour - 18) / 4f * 0.6f; // تا 0.4 کم می‌کنه
+            lightLevel = 0.7f - (hour - 18) / 4f * 0.6f;
         }
 
         else {
@@ -169,14 +168,6 @@ public abstract class GameView implements Screen, InputProcessor {
                 break;
         }
         batch.end();
-
-        /* ====== اصلاح واکنش‌ها (فقط این بخش) ======
-           منطق باقی کد شما را عیناً نگه داشتم؛ تنها این بلوک واکنش‌ها را اصلاح کردم تا:
-           - ایموجی/متن بالای سر دیگر بازیکن بیاید و کاراکتر اصلی را نپوشاند
-           - هر واکنش یک Actor روی stage داشته باشد تا به‌سادگی دنبال‌کننده‌ی بازیکن باشد
-           - بافت‌های PNG کش شوند تا از بارگذاری/بازیافت مکرر جلوگیری شود
-           - هر واکنش پس از مدت مشخص پاک شود
-        */
 
         batch.begin();
         Iterator<Reactions> iterator = GameApp.reactions.iterator();

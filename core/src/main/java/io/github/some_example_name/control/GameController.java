@@ -65,6 +65,8 @@ public abstract class GameController {
             direction = CharacterPlacer.Direction.DOWN;
         } else if (Gdx.input.isKeyPressed(Input.Keys.R)) {
             Main.getMain().setScreen(new ReactionMenuView(GameAssetManager.getGameAssetManager().getSkin()));
+        } else if (Gdx.input.isKeyPressed(Input.Keys.C)) {
+            Main.getMain().setScreen(new MessageMenuView(GameAssetManager.getGameAssetManager().getSkin()));
         }
 
 

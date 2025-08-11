@@ -1,11 +1,10 @@
 package all;
 
-import common.Lobby;
-import common.Message;
-import common.Others;
-import common.UserInfo;
+import com.google.gson.reflect.TypeToken;
+import common.*;
 
 import java.awt.*;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,9 +22,22 @@ public class ClientMessageController {
         else if (message.getType().equals(Message.Type.Players_Map)) return sendOthersMap(message);
         else if (message.getType().equals(Message.Type.Get_Place)) return getPlaceAndSave(message, cct);
         else if (message.getType().equals(Message.Type.Get_Reaction)) return getAndSaveReaction(message, cct);
+        else if (message.getType().equals(Message.Type.Get_Message)) return getChatsOrSave(message, cct);
 
 
         return null;
+    }
+
+    private static Message getChatsOrSave(Message message, ClientConnectionThread cct) {
+        Lobby lobby = cct.getPlayer().getLobby();
+        if (message.getBody() == null) {
+            HashMap<String, Object> body = new HashMap<>();
+            body.put("chats", lobby.chats);
+            return new Message(body, Message.Type.Menu);
+        } else {
+            lobby.chats.add(message.getFromBody("chat", Chat.class));
+            return null;
+        }
     }
 
     private static Message getAndSaveReaction(Message message, ClientConnectionThread cct) {

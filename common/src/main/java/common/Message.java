@@ -66,6 +66,7 @@ public class Message {
         Start_Game,
         Get_Place,
         Get_Reaction,
+        Get_Message,
 
 
 
