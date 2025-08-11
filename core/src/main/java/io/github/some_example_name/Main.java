@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.github.some_example_name.model.C2SConnectionThread;
 import io.github.some_example_name.model.GameApp;
 import io.github.some_example_name.model.GameAssetManager;
+import io.github.some_example_name.view.ReactionMenuView;
 import io.github.some_example_name.view.SignUpMenuView;
 
 import java.io.IOException;
@@ -35,7 +36,7 @@ public class Main extends Game {
         }
         GameApp.c2sConnectionThread.start();
 
-//        getMain().setScreen(new PreGameMenuView(new PreGameMenuController(GameAssetManager.getGameAssetManager().getSkin()),GameAssetManager.getGameAssetManager().getSkin(), null));
+//        getMain().setScreen(new ReactionMenuView(GameAssetManager.getGameAssetManager().getSkin()));
         getMain().setScreen(new SignUpMenuView(GameAssetManager.getGameAssetManager().getSkin()));
     }
 

@@ -21,7 +21,7 @@ public class ClientConnectionThread extends Thread {
     private final DataOutputStream dataOutputStream;
     private final DataInputStream dataInputStream;
     private UserInfo player;
-    private Point point = new Point(0,0);
+    private Others other = new Others(0,new Point(0,0));
     private final LocalTime timeToConnect;
     private Thread counterThread;
 
@@ -137,12 +137,12 @@ public class ClientConnectionThread extends Thread {
         this.player = player;
     }
 
-    public Point getPoint() {
-        return point;
+    public Others getOther() {
+        return other;
     }
 
-    public void setPoint(Point point) {
-        this.point = point;
+    public void setOther(Others other) {
+        this.other = other;
     }
 
     public synchronized void ifDidntConnectAgain() {

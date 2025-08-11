@@ -118,8 +118,7 @@ public class MapManager {
         randomGenerateMap(bigMap);
 
         randomGenerateMine();
-
-
+        GameApp.player.setId(number);
         mapCache.put("bigFarm.tmx", bigMap);
     }
 

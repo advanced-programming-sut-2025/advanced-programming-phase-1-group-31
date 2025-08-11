@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.google.gson.reflect.TypeToken;
 import common.Message;
+import common.Others;
 import io.github.some_example_name.Main;
 import io.github.some_example_name.control.FarmController;
 import io.github.some_example_name.model.GameApp;
@@ -31,9 +32,9 @@ public class PrePreGameMenuView implements Screen {
 
     public PrePreGameMenuView(Message message) {
         stage = new Stage(new ScreenViewport());
-        GameApp.othersPoint.add(new Point(0, 0));
-        GameApp.othersPoint.add(new Point(0, 0));
-        GameApp.othersPoint.add(new Point(0, 0));
+        GameApp.others.add(new Others(0, new Point(0, 0)));
+        GameApp.others.add(new Others(0, new Point(0, 0)));
+        GameApp.others.add(new Others(0, new Point(0, 0)));
         int number = message.getFromBody("number", Integer.class);
         Type type = new TypeToken<HashMap<Integer, String>>() {}.getType();
         HashMap<Integer, String> mapNumber = message.getFromBodyType("all-maps", type);

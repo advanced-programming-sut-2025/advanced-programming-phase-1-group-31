@@ -63,7 +63,10 @@ public abstract class GameController {
         } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             nextY -= view.getSpeed() * delta;
             direction = CharacterPlacer.Direction.DOWN;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.R)) {
+            Main.getMain().setScreen(new ReactionMenuView(GameAssetManager.getGameAssetManager().getSkin()));
         }
+
 
         // بررسی حرکت و موانع
         if (direction != null && !isBlocked(nextX, nextY)) {

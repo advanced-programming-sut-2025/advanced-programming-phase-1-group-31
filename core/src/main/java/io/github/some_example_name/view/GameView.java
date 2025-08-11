@@ -12,17 +12,23 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import common.Message;
+import common.Others;
 import io.github.some_example_name.control.GameController;
 import io.github.some_example_name.model.GameApp;
 import io.github.some_example_name.view.ui.InventoryUI;
 import io.github.some_example_name.model.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public abstract class GameView implements Screen, InputProcessor {
 
@@ -70,11 +76,9 @@ public abstract class GameView implements Screen, InputProcessor {
 
         inventoryUI = new InventoryUI(skin);
         stage.addActor(inventoryUI);
-        // inventoryUI.pack(); // حتماً ابتدا اندازه‌اش رو فیکس کن
-
         inventoryUI.setPosition(
-                stage.getWidth() / 2f - inventoryUI.getWidth() / 2f,
-                stage.getHeight() / 2f - inventoryUI.getHeight() / 2f);
+            stage.getWidth() / 2f - inventoryUI.getWidth() / 2f,
+            stage.getHeight() / 2f - inventoryUI.getHeight() / 2f);
         GameApp.getTimeAndDate().setRainEffect(GameApp.getTimeAndDate().loadEffectsForFullMap(map.getTmxMap(), GameApp.getTimeAndDate().getWeather().getEffectName(), 0, 0));
 
         // rainEffect.setPosition(100, 200);
@@ -97,11 +101,9 @@ public abstract class GameView implements Screen, InputProcessor {
         if (hour >= 18 && hour <= 22) {
             lightLevel = 0.7f - (hour - 18) / 4f * 0.6f; // تا 0.4 کم می‌کنه
         }
-//        else if (hour < 9) {
-//            lightLevel = 0.4f; // صبح تاریک
-//        }
+
         else {
-            lightLevel = 1f; // روز روشن
+            lightLevel = 1f;
         }
 
         rayHandler.setAmbientLight(lightLevel);
@@ -109,6 +111,13 @@ public abstract class GameView implements Screen, InputProcessor {
     private boolean showFullMap = false;
 
     Texture otherPlayers1;
+    Label label;
+
+    private final HashMap<Reactions, Actor> reactionActors = new HashMap<>();
+    private final HashMap<String, Texture> emojiTextureCache = new HashMap<>();
+    private static final float EMOJI_SIZE = 32f; // اندازه معقول برای ایموجی
+    private static final float EMOJI_Y_OFFSET = 8f; // فاصله بالای سر بازیکن
+    private static final long REACTION_TTL_MS = 10_000L; // زمان نمایش واکنش
 
     @Override
     public void show() {
@@ -141,24 +150,104 @@ public abstract class GameView implements Screen, InputProcessor {
         }
         switch (count) {
             case 2:
-                Point point0 = GameApp.othersPoint.getFirst();
+                Point point0 = GameApp.others.getFirst().getPoint();
                 batch.draw(otherPlayers1, point0.x, point0.y, 25, 45);
                 break;
             case 3:
-                Point point1 = GameApp.othersPoint.get(0);
-                Point point2 = GameApp.othersPoint.get(1);
+                Point point1 = GameApp.others.get(0).getPoint();
+                Point point2 = GameApp.others.get(1).getPoint();
                 batch.draw(otherPlayers1, point1.x, point1.y, 25, 45);
                 batch.draw(otherPlayers1, point2.x, point2.y, 25, 45);
                 break;
             case 4:
-                Point point3 = GameApp.othersPoint.get(0);
-                Point point4 = GameApp.othersPoint.get(1);
-                Point point5 = GameApp.othersPoint.get(2);
+                Point point3 = GameApp.others.get(0).getPoint();
+                Point point4 = GameApp.others.get(1).getPoint();
+                Point point5 = GameApp.others.get(2).getPoint();
                 batch.draw(otherPlayers1, point3.x, point3.y, 25, 45);
                 batch.draw(otherPlayers1, point4.x, point4.y, 25, 45);
                 batch.draw(otherPlayers1, point5.x, point5.y, 25, 45);
                 break;
         }
+        batch.end();
+
+        /* ====== اصلاح واکنش‌ها (فقط این بخش) ======
+           منطق باقی کد شما را عیناً نگه داشتم؛ تنها این بلوک واکنش‌ها را اصلاح کردم تا:
+           - ایموجی/متن بالای سر دیگر بازیکن بیاید و کاراکتر اصلی را نپوشاند
+           - هر واکنش یک Actor روی stage داشته باشد تا به‌سادگی دنبال‌کننده‌ی بازیکن باشد
+           - بافت‌های PNG کش شوند تا از بارگذاری/بازیافت مکرر جلوگیری شود
+           - هر واکنش پس از مدت مشخص پاک شود
+        */
+
+        batch.begin();
+        Iterator<Reactions> iterator = GameApp.reactions.iterator();
+        while (iterator.hasNext()) {
+            Reactions reactions = iterator.next();
+            long age = System.currentTimeMillis() - reactions.getTime();
+
+            if (age < REACTION_TTL_MS) {
+                Others others = GameApp.others.stream()
+                    .filter(o -> o.getNumber() == reactions.getNumber())
+                    .findFirst()
+                    .orElse(null);
+                if (others == null) continue; // اگر بازیکن پیدا نشد، نادیده بگیر
+
+                // موقعیت روی دنیا: بالای سر بازیکن
+                float worldX = others.getPoint().x + 25f / 2f; // 25 همان عرضی است که شما رسم می‌کنید
+                float worldY = others.getPoint().y + 45f + EMOJI_Y_OFFSET; // 45 همان قدی است که شما رسم می‌کنید
+                Vector3 screenPos = new Vector3(worldX, worldY, 0f);
+                camera.project(screenPos); // تبدیل به مختصات صفحه (پیکسل)
+
+                float actorX = screenPos.x - EMOJI_SIZE / 2f;
+                float actorY = screenPos.y; // stage از گوشهٔ پایین-چپ استفاده می‌کند
+
+                Actor actor = reactionActors.get(reactions);
+                if (actor == null) {
+                    // ساخت Actor جدید (Image یا Label)
+                    if (reactions.getPath() != null && reactions.getPath().contains(".png")) {
+                        Texture tex = emojiTextureCache.get(reactions.getPath());
+                        if (tex == null) {
+                            try {
+                                tex = new Texture(reactions.getPath());
+                                emojiTextureCache.put(reactions.getPath(), tex);
+                            } catch (Exception e) {
+                                // اگر بارگذاری با خطا مواجه شد، به متن برمی‌گردیم
+                                Label fallback = new Label(reactions.getPath(), skin);
+                                fallback.setFontScale(0.9f);
+                                fallback.setTouchable(Touchable.disabled);
+                                fallback.setPosition(actorX, actorY);
+                                stage.addActor(fallback);
+                                reactionActors.put(reactions, fallback);
+                                continue;
+                            }
+                        }
+                        Image img = new Image(tex);
+                        img.setSize(EMOJI_SIZE, EMOJI_SIZE);
+                        img.setTouchable(Touchable.disabled);
+                        img.setPosition(actorX, actorY);
+                        stage.addActor(img);
+                        reactionActors.put(reactions, img);
+                    } else {
+                        Label lbl = new Label(reactions.getPath(), skin);
+                        lbl.setFontScale(0.9f);
+                        lbl.setTouchable(Touchable.disabled);
+                        lbl.setPosition(actorX, actorY);
+                        stage.addActor(lbl);
+                        reactionActors.put(reactions, lbl);
+                    }
+                } else {
+                    // اگر قبلاً actor ساخته شده، فقط موقعیت را آپدیت کن
+                    actor.setPosition(actorX, actorY);
+                }
+            } else {
+                // منقضی شده — حذف از لیست و پاک کردن actor مربوطه
+                iterator.remove();
+                Actor removed = reactionActors.remove(reactions);
+                if (removed != null) removed.remove();
+            }
+        }
+        batch.end();
+
+        batch.begin();
         GameApp.getTimeAndDate().renderEffect(batch, delta);
         batch.end();
         batch.setProjectionMatrix(hudCamera.combined);
@@ -177,7 +266,6 @@ public abstract class GameView implements Screen, InputProcessor {
         updateAmbientLight();
         rayHandler.updateAndRender();
     }
-
 
 
     public int getTILE_SIZE() {
@@ -354,6 +442,11 @@ public abstract class GameView implements Screen, InputProcessor {
         batch.dispose();
         if (GameApp.getTimeAndDate().getRainEffect() != null)
             GameApp.getTimeAndDate().getRainEffect().forEach(ParticleEffect::dispose);
+        // dispose cached emoji textures
+        for (Texture t : emojiTextureCache.values()) {
+            try { t.dispose(); } catch (Exception ignored) {}
+        }
+        emojiTextureCache.clear();
     }
 
     @Override
@@ -404,6 +497,5 @@ public abstract class GameView implements Screen, InputProcessor {
     public boolean scrolled(float amountX, float amountY) {
         return false;
     }
-
 
 }

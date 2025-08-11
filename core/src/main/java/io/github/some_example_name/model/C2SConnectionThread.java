@@ -32,14 +32,6 @@ public class C2SConnectionThread extends Thread {
 
     @Override
     public void run() {
-        scheduler.scheduleAtFixedRate(() -> {
-            if (!isEnd) {
-                HashMap<String,Object> body = new HashMap<>();
-                body.put("player info", GameApp.player.getUserInfo());
-                sendMessage(new Message(body, Message.Type.Get_Status));
-            }
-        }, 5, 5, TimeUnit.SECONDS);
-
         try {
             while (!isEnd) {
                 try {

@@ -32,6 +32,7 @@ public class MyLobbyMenuView implements Screen {
         body.put("player", GameApp.player.getUserInfo());
         Message message = GameApp.c2sConnectionThread.sendAndWaitForResponse(new Message(body, Message.Type.Which_Lobby));
         this.lobby = message.getFromBody("lobby", Lobby.class);
+        GameApp.player.getUserInfo().setLobby(lobby);
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);

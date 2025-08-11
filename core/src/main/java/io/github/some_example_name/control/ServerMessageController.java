@@ -1,13 +1,14 @@
 package io.github.some_example_name.control;
 
 import com.badlogic.gdx.Gdx;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import common.Lobby;
 import common.Message;
+import common.Others;
 import io.github.some_example_name.Main;
 import io.github.some_example_name.model.GameApp;
 import io.github.some_example_name.model.GameAssetManager;
+import io.github.some_example_name.model.Reactions;
 import io.github.some_example_name.view.PreGameMenuView;
 import io.github.some_example_name.view.PrePreGameMenuView;
 
@@ -22,16 +23,24 @@ public class ServerMessageController {
         else if (message.getType().equals(Message.Type.Start_Button_Pressed)) return startGame(message);
         else if (message.getType().equals(Message.Type.Start_Game)) return startStartGame(message);
         else if (message.getType().equals(Message.Type.Get_Place)) return setPlaces(message);
+        else if (message.getType().equals(Message.Type.Get_Reaction)) return reaction(message);
+        return null;
+    }
+
+    private static Message reaction(Message message) {
+        Reactions reaction = message.getFromBody("reaction", Reactions.class);
+        reaction.setTime(System.currentTimeMillis());
+        GameApp.reactions.add(reaction);
         return null;
     }
 
     private static Message setPlaces(Message message) {
-        Type type = new TypeToken<ArrayList<Point>>() {
+        Type type = new TypeToken<ArrayList<Others>>() {
         }.getType();
-        ArrayList<Point> points = message.getFromBodyType("points", type);
-        if (points.isEmpty()) return null;
-        GameApp.othersPoint.clear();
-        GameApp.othersPoint.addAll(points);
+        ArrayList<Others> others = message.getFromBodyType("others", type);
+        if (others.isEmpty()) return null;
+        GameApp.others.clear();
+        GameApp.others.addAll(others);
         return null;
     }
 

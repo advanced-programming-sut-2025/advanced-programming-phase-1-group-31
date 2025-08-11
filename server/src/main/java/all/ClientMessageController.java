@@ -2,6 +2,7 @@ package all;
 
 import common.Lobby;
 import common.Message;
+import common.Others;
 import common.UserInfo;
 
 import java.awt.*;
@@ -21,31 +22,45 @@ public class ClientMessageController {
         else if (message.getType().equals(Message.Type.Start_Button_Pressed)) return startAnnouncement(message);
         else if (message.getType().equals(Message.Type.Players_Map)) return sendOthersMap(message);
         else if (message.getType().equals(Message.Type.Get_Place)) return getPlaceAndSave(message, cct);
+        else if (message.getType().equals(Message.Type.Get_Reaction)) return getAndSaveReaction(message, cct);
 
 
         return null;
     }
 
+    private static Message getAndSaveReaction(Message message, ClientConnectionThread cct) {
+        ArrayList<String> username = cct.getPlayer().getLobby().getPlayers();
+        for (String user : username) {
+            ClientConnectionThread clientConnectionThread = ServerApp.getConnectionByUsername(user);
+            if (clientConnectionThread != null) {
+                clientConnectionThread.sendMessage(message);
+            }
+
+        }
+        return null;
+    }
+
     private static Message getPlaceAndSave(Message message, ClientConnectionThread cct) {
+
         int x = message.getIntFromBody("x");
         int y = message.getIntFromBody("y");
-        cct.setPoint(new Point(x, y));
+        cct.setOther(new Others(cct.getOther().getNumber(), new Point(x, y)));
 
         String currentUsername = cct.getPlayer().getUsername();
         Lobby lobby = cct.getPlayer().getLobby();
 
-        List<Point> points = lobby.getPlayers().stream()
+        List<Others> others = lobby.getPlayers().stream()
             .filter(username -> !username.equals(currentUsername))
             .map(ServerApp::getConnectionByUsername)
             .filter(Objects::nonNull)
-            .map(ClientConnectionThread::getPoint)
+            .map(ClientConnectionThread::getOther)
             .toList();
 
         HashMap<String, Object> body = new HashMap<>();
-        body.put("points",  points);
+        body.put("others", others);
+
         return new Message(body, Message.Type.Get_Place);
     }
-
 
     private static final ArrayList<Message> messagesOfMap = new ArrayList<>();
 
@@ -57,6 +72,7 @@ public class ClientMessageController {
             for (int i = 0; i < messagesOfMap.size(); i++) {
                 Message message1 = messagesOfMap.get(i);
                 message1.getBody().put("number", i);
+
                 String selectedMap = message1.getFromBody("selected-map", String.class);
                 mapNumber.put(i, selectedMap);
             }
@@ -64,8 +80,10 @@ public class ClientMessageController {
                 String username = message1.getFromBody("username", String.class);
                 ClientConnectionThread cct = ServerApp.getConnectionByUsername(username);
                 if (cct != null) {
+                    int number = message1.getFromBody("number", Integer.class);
+                    cct.setOther(new Others(number, new Point(0, 0)));
                     HashMap<String, Object> body = new HashMap<>();
-                    body.put("number", message1.getFromBody("number", Integer.class));
+                    body.put("number", number);
                     body.put("all-maps", mapNumber);
                     cct.sendMessage(new Message(body, Message.Type.Start_Game));
                 }
@@ -197,7 +215,6 @@ public class ClientMessageController {
             return null;
         }
         cct.setPlayer(player);
-        System.out.println("refresh infos of " + cct.getPlayer().getUsername() + " " + cct.getTimeToConnect());
         return null;
     }
 
