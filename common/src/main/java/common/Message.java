@@ -68,6 +68,10 @@ public class Message {
         Get_Reaction,
         Get_Message,
         Get_Player_Board,
+        Terminate_Game_Request,
+        Terminate_Game,
+        Send_Somebody_Out,
+        ByBy,
 
 
 

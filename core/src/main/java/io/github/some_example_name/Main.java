@@ -7,6 +7,7 @@ import io.github.some_example_name.model.GameApp;
 import io.github.some_example_name.model.GameAssetManager;
 import io.github.some_example_name.view.ReactionMenuView;
 import io.github.some_example_name.view.SignUpMenuView;
+import io.github.some_example_name.view.VotingMenuView;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -36,7 +37,7 @@ public class Main extends Game {
         }
         GameApp.c2sConnectionThread.start();
 
-//        getMain().setScreen(new ReactionMenuView(GameAssetManager.getGameAssetManager().getSkin()));
+//        getMain().setScreen(new VotingMenuView(GameAssetManager.getGameAssetManager().getSkin(), false, "ali"));
         getMain().setScreen(new SignUpMenuView(GameAssetManager.getGameAssetManager().getSkin()));
     }
 
@@ -102,7 +103,7 @@ public class Main extends Game {
 //    private Rectangle playerRectangle = new Rectangle(200, 160, 20, 20);
 //    private float speed = 160;
 //
-//    private boolean justTeleported = false;
+//    private Boolean justTeleported = false;
 //    private float teleportCooldown = 1.0f;
 //
 //    @Override

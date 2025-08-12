@@ -29,7 +29,7 @@ public class Industrial implements Material {
         return industrialType.getCraftable();
     }
 
-    public boolean isReady() {
+    public Boolean isReady() {
         if(!startSeason.equals(GameApp.getTimeAndDate().getSeason())){
             return true;
         }
@@ -54,7 +54,7 @@ public class Industrial implements Material {
         return 0;
     }
 
-    public boolean isEdible(Material m) {
+    public Boolean isEdible(Material m) {
         return industrialType.calculateEnergy(m) != -1;
     }
 

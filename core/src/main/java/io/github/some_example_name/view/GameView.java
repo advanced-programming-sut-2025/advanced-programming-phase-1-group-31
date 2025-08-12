@@ -33,7 +33,6 @@ import java.util.Iterator;
 
 public abstract class GameView implements Screen, InputProcessor {
 
-    private final int  count = GameApp.player.getLobby().getPlayers().size();
     private long time = System.currentTimeMillis();
     private FarmMap map;
     MapType mapType;
@@ -53,7 +52,7 @@ public abstract class GameView implements Screen, InputProcessor {
     private final int TILE_SIZE = 16;
     private RayHandler rayHandler;
 
-    public GameView(GameController gameController, Skin skin , MapType mapType ) {
+    public GameView(GameController gameController, Skin skin, MapType mapType) {
         this.gameController = gameController;
         this.skin = skin;
         this.stage = new Stage(new ScreenViewport());
@@ -64,22 +63,20 @@ public abstract class GameView implements Screen, InputProcessor {
     }
 
     public void create() {
-        map = GameApp.getMapForPlayer(GameApp.getPlayer() , getMapType());
+        map = GameApp.getMapForPlayer(GameApp.getPlayer(), getMapType());
         mapRenderer = new OrthogonalTiledMapRenderer(map.getTmxMap());
         hudCamera = new OrthographicCamera();
-        hudCamera.setToOrtho(false , Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        hudCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera = new OrthographicCamera();
         int mapWidth = map.getTmxMap().getProperties().get("width", Integer.class);
         int mapHeight = map.getTmxMap().getProperties().get("height", Integer.class);
         int tileWidth = map.getTmxMap().getProperties().get("tilewidth", Integer.class);
         int tileHeight = map.getTmxMap().getProperties().get("tileheight", Integer.class);
-        camera.setToOrtho(false, mapWidth*tileWidth, mapHeight*tileHeight);
+        camera.setToOrtho(false, mapWidth * tileWidth, mapHeight * tileHeight);
 
         inventoryUI = new InventoryUI(skin);
         stage.addActor(inventoryUI);
-        inventoryUI.setPosition(
-            stage.getWidth() / 2f - inventoryUI.getWidth() / 2f,
-            stage.getHeight() / 2f - inventoryUI.getHeight() / 2f);
+        inventoryUI.setPosition(stage.getWidth() / 2f - inventoryUI.getWidth() / 2f, stage.getHeight() / 2f - inventoryUI.getHeight() / 2f);
         GameApp.getTimeAndDate().setRainEffect(GameApp.getTimeAndDate().loadEffectsForFullMap(map.getTmxMap(), GameApp.getTimeAndDate().getWeather().getEffectName(), 0, 0));
 
         // rainEffect.setPosition(100, 200);
@@ -93,6 +90,7 @@ public abstract class GameView implements Screen, InputProcessor {
         loadEnergyTextures();
 //        rayHandler.updateAndRender();
     }
+
     private void updateAmbientLight() {
         int hour = GameApp.getTimeAndDate().getHour();
 
@@ -100,14 +98,13 @@ public abstract class GameView implements Screen, InputProcessor {
 
         if (hour >= 18 && hour <= 22) {
             lightLevel = 0.7f - (hour - 18) / 4f * 0.6f;
-        }
-
-        else {
+        } else {
             lightLevel = 1f;
         }
 
         rayHandler.setAmbientLight(lightLevel);
     }
+
     private boolean showFullMap = false;
 
     Texture otherPlayers1;
@@ -147,9 +144,13 @@ public abstract class GameView implements Screen, InputProcessor {
             body.put("y", GameApp.player.getPlace().y);
             GameApp.c2sConnectionThread.sendMessage(new Message(body, Message.Type.Get_Place));
             body.clear();
-            body.put("player-board", new PlayerBoard(GameApp.player.getUsername(), (int) GameApp.player.getMoney(), GameApp.player.getSkills().getFarmingLevel(), GameApp.player.getSkills().getFishingLevel(), GameApp.player.getSkills().getForagingLevel(), GameApp.player.getSkills().getMiningLevel()) );
+            body.put("player-board", new PlayerBoard(GameApp.player.getUsername(), (int) GameApp.player.getMoney(), GameApp.player.getSkills().getFarmingLevel(), GameApp.player.getSkills().getFishingLevel(), GameApp.player.getSkills().getForagingLevel(), GameApp.player.getSkills().getMiningLevel()));
             GameApp.c2sConnectionThread.sendMessage(new Message(body, Message.Type.Get_Player_Board));
             time = System.currentTimeMillis();
+        }
+        int count = 0;
+        if (GameApp.player.getLobby() != null) {
+            count = GameApp.player.getLobby().getNumberOfPlayers();
         }
         switch (count) {
             case 2:
@@ -180,10 +181,7 @@ public abstract class GameView implements Screen, InputProcessor {
             long age = System.currentTimeMillis() - reactions.getTime();
 
             if (age < REACTION_TTL_MS) {
-                Others others = GameApp.others.stream()
-                    .filter(o -> o.getNumber() == reactions.getNumber())
-                    .findFirst()
-                    .orElse(null);
+                Others others = GameApp.others.stream().filter(o -> o.getNumber() == reactions.getNumber()).findFirst().orElse(null);
                 if (others == null) continue; // اگر بازیکن پیدا نشد، نادیده بگیر
 
                 // موقعیت روی دنیا: بالای سر بازیکن
@@ -308,22 +306,25 @@ public abstract class GameView implements Screen, InputProcessor {
     // }
     private Texture energyBarEmpty;
     private Texture energyBarFull;
+
     public void renderEnergyBar(SpriteBatch batch, float energy, float maxEnergy) {
         float x = 20;
         float y = 20;
         float height = 167.5f;
         float width = 20;
-        batch.draw(energyBarEmpty, Gdx.graphics.getWidth()-100-10, Gdx.graphics.getHeight()-1000-10); // تنظیم محل نمایش HUD
+        batch.draw(energyBarEmpty, Gdx.graphics.getWidth() - 100 - 10, Gdx.graphics.getHeight() - 1000 - 10); // تنظیم محل نمایش HUD
 
 //        batch.draw(energyBarEmpty, x, y, width, height);
 
         float percent = energy / maxEnergy;
-        batch.draw(energyBarFull, Gdx.graphics.getWidth()-90-12, Gdx.graphics.getHeight()-1000-4, width, height * percent );
+        batch.draw(energyBarFull, Gdx.graphics.getWidth() - 90 - 12, Gdx.graphics.getHeight() - 1000 - 4, width, height * percent);
     }
+
     public void loadEnergyTextures() {
         energyBarEmpty = new Texture("energyBarEmpty.jpg");
         energyBarFull = new Texture("energy_fill.png");
     }
+
     public float getSpeed() {
         return speed;
     }
@@ -339,7 +340,6 @@ public abstract class GameView implements Screen, InputProcessor {
     public void setTeleportCooldown(float teleportCooldown) {
         this.teleportCooldown = teleportCooldown;
     }
-
 
 
     public TiledMap getMap() {
@@ -389,14 +389,8 @@ public abstract class GameView implements Screen, InputProcessor {
         Image fadeOverlay = new Image(new Texture("bg.png")); // 1x1 پیکسل مشکی بساز و بزار assets
         fadeOverlay.setSize(stage.getWidth(), stage.getHeight());
         fadeOverlay.getColor().a = 0;
-        fadeOverlay.addAction(
-            Actions.sequence(
-                Actions.fadeIn(1f),
-                Actions.run(onFinish),  // عملیات روز جدید
-                Actions.fadeOut(1f),
-                Actions.removeActor()
-            )
-        );
+        fadeOverlay.addAction(Actions.sequence(Actions.fadeIn(1f), Actions.run(onFinish),  // عملیات روز جدید
+            Actions.fadeOut(1f), Actions.removeActor()));
         stage.addActor(fadeOverlay);
     }
 
@@ -439,7 +433,10 @@ public abstract class GameView implements Screen, InputProcessor {
             GameApp.getTimeAndDate().getRainEffect().forEach(ParticleEffect::dispose);
         // dispose cached emoji textures
         for (Texture t : emojiTextureCache.values()) {
-            try { t.dispose(); } catch (Exception ignored) {}
+            try {
+                t.dispose();
+            } catch (Exception ignored) {
+            }
         }
         emojiTextureCache.clear();
     }

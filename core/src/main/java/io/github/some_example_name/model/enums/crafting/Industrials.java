@@ -102,11 +102,11 @@ public enum Industrials implements MaterialType {
         return craftableSupplier.get();
     }
 
-    public boolean isDynamic() {
+    public Boolean isDynamic() {
         return ingredientFilter != null && energyCalculator != null && priceCalculator != null;
     }
 
-    public boolean accepts(Material material) {
+    public Boolean accepts(Material material) {
         return isDynamic() && ingredientFilter.test(material);
     }
 

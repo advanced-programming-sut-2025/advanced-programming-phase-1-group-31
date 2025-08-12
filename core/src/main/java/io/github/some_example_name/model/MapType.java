@@ -15,15 +15,15 @@ public enum MapType {
     HOUSE(false, "house.tmx"),
     MINE(false, "mine.tmx");
 
-    private final boolean shared;
+    private final Boolean shared;
     private final String filename;
 
-    MapType(boolean shared, String filename) {
+    MapType(Boolean shared, String filename) {
         this.shared = shared;
         this.filename = filename;
     }
 
-    public boolean isShared() {
+    public Boolean isShared() {
         return shared;
     }
 

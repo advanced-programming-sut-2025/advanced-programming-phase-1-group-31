@@ -29,7 +29,7 @@ public class Coop implements Material {
         return animals;
     }
 
-    public boolean hasSpace() {
+    public Boolean hasSpace() {
         return animals.size() < coopType.getCapacity();
     }
 

@@ -94,7 +94,7 @@ public class HouseController extends GameController{
 
     }
 
-    public boolean isBlocked(float x, float y) {
+    public Boolean isBlocked(float x, float y) {
         // مختصات جهانی (world coordinates) نیاز است نه tileX/tileY
 
         for (MapObject object : getView().getMap().getLayers().get("Object").getObjects()) {

@@ -6,7 +6,7 @@ import java.net.Socket;
 
 public class ListenerThread extends Thread {
     private final ServerSocket serverSocket;
-    private boolean isEnd;
+    private Boolean isEnd;
 
     @Override
     public void run() {
@@ -40,11 +40,11 @@ public class ListenerThread extends Thread {
         }
     }
 
-    public boolean isEnd() {
+    public Boolean isEnd() {
         return isEnd;
     }
 
-    public void setEnd(boolean end) {
+    public void setEnd(Boolean end) {
         isEnd = end;
     }
 }

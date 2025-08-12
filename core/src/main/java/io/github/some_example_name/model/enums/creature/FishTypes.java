@@ -52,7 +52,7 @@ public enum FishTypes implements MaterialType {
 
 
 
-    public boolean isLegendary() {
+    public Boolean isLegendary() {
         return this == LEGEND || this == GLACIERFISH ||
                this == ANGLER || this == CRIMSONFISH;
     }

@@ -25,11 +25,11 @@ public enum Fruits implements MaterialType {
 
     private final String name;
     private final int baseSellPrice;
-    private final boolean isEdible;
+    private final Boolean isEdible;
     private final Integer energy;
     private final List<Seasons> harvestSeasons;
 
-    Fruits(String name, int baseSellPrice, boolean isEdible, Integer energy, List<Seasons> harvestSeasons) {
+    Fruits(String name, int baseSellPrice, Boolean isEdible, Integer energy, List<Seasons> harvestSeasons) {
         this.name = name;
         this.baseSellPrice = baseSellPrice;
         this.isEdible = isEdible;
@@ -45,7 +45,7 @@ public enum Fruits implements MaterialType {
         return baseSellPrice;
     }
 
-    public boolean isEdible() {
+    public Boolean isEdible() {
         return isEdible;
     }
 

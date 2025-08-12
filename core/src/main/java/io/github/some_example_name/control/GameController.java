@@ -44,7 +44,7 @@ public abstract class GameController {
             view.setJustTeleported(false);
         }
 
-        boolean moved = false;
+        Boolean moved = false;
         CharacterPlacer.Direction direction = null;
 
         float nextX = GameApp.getPlayer().getPlace().x;
@@ -75,6 +75,8 @@ public abstract class GameController {
             GameApp.player.getSkills().setMiningLevel(GameApp.player.getSkills().getMiningLevel() + 1);
         } else if (Gdx.input.isKeyPressed(Input.Keys.B)) {
             Main.getMain().setScreen(new ScoreBoardMenuView(GameAssetManager.getGameAssetManager().getSkin()));
+        } else if (Gdx.input.isKeyPressed(Input.Keys.V)) {
+            Main.getMain().setScreen(new VoteMenuView(GameAssetManager.getGameAssetManager().getSkin()));
         }
 
 
@@ -129,7 +131,7 @@ public abstract class GameController {
 //        }
     }
 
-    public boolean isBlocked(float x, float y) {
+    public Boolean isBlocked(float x, float y) {
         // تبدیل مختصات جهانی به مختصات تایل
         int tileX = (int) (x / view.getTILE_SIZE());
         int tileY = (int) (y / view.getTILE_SIZE());
@@ -147,7 +149,7 @@ public abstract class GameController {
         return false;
     }
 
-    public boolean checkPlayerFarmBlocks(float x, float y, int tileX, int tileY) {
+    public Boolean checkPlayerFarmBlocks(float x, float y, int tileX, int tileY) {
         if (getView().getMapType() != MapType.FARM) {
             return false;
         }
@@ -173,7 +175,7 @@ public abstract class GameController {
         return false;
     }
 
-    private boolean isBlockingPolygonObject(MapObject object, float x, float y) {
+    private Boolean isBlockingPolygonObject(MapObject object, float x, float y) {
         if (!(object instanceof PolygonMapObject))
             return false;
 
@@ -186,7 +188,7 @@ public abstract class GameController {
         return poly.contains(x, y);
     }
 
-    private boolean checkMapBlockingLayers(int tileX, int tileY) {
+    private Boolean checkMapBlockingLayers(int tileX, int tileY) {
         String[] blockingLayers = {"craft", "Buildings5", "block", "mine", "Buildings8", "Buildings10"};
 
         for (String layerName : blockingLayers) {
@@ -389,7 +391,7 @@ public abstract class GameController {
         }
     }
 
-    public static boolean isNearPolygonEdge(Polygon polygon, float px, float py, float maxDistance) {
+    public static Boolean isNearPolygonEdge(Polygon polygon, float px, float py, float maxDistance) {
         float[] vertices = polygon.getTransformedVertices();
         Vector2 player = new Vector2(px, py);
 

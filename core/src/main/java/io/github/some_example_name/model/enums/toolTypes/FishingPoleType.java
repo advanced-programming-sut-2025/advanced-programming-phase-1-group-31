@@ -10,14 +10,14 @@ public enum FishingPoleType implements MaterialType {
     Iridium(4, true);
 
     private final int energyConsumption;
-    private final boolean canCatchAllFishes;
+    private final Boolean canCatchAllFishes;
 
-    FishingPoleType(int energyConsumption, boolean canCatchAllFishes) {
+    FishingPoleType(int energyConsumption, Boolean canCatchAllFishes) {
         this.energyConsumption = energyConsumption;
         this.canCatchAllFishes = canCatchAllFishes;
     }
 
-    public boolean isCanCatchAllFishes() {
+    public Boolean isCanCatchAllFishes() {
         return canCatchAllFishes;
     }
 

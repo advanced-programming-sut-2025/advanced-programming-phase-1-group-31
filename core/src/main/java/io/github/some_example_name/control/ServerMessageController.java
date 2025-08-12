@@ -9,8 +9,10 @@ import io.github.some_example_name.Main;
 import io.github.some_example_name.model.GameApp;
 import io.github.some_example_name.model.GameAssetManager;
 import io.github.some_example_name.model.Reactions;
+import io.github.some_example_name.view.MainMenuView;
 import io.github.some_example_name.view.PreGameMenuView;
 import io.github.some_example_name.view.PrePreGameMenuView;
+import io.github.some_example_name.view.VotingMenuView;
 
 import java.awt.*;
 import java.lang.reflect.Type;
@@ -24,6 +26,52 @@ public class ServerMessageController {
         else if (message.getType().equals(Message.Type.Start_Game)) return startStartGame(message);
         else if (message.getType().equals(Message.Type.Get_Place)) return setPlaces(message);
         else if (message.getType().equals(Message.Type.Get_Reaction)) return reaction(message);
+        else if (message.getType().equals(Message.Type.Terminate_Game_Request)) return terminateVoting();
+        else if (message.getType().equals(Message.Type.Terminate_Game)) return terminate(message);
+        else if (message.getType().equals(Message.Type.Send_Somebody_Out)) return sendSomebodyOut(message);
+        else if (message.getType().equals(Message.Type.Get_Lobby)) return getAndSaveLobby(message);
+        else if (message.getType().equals(Message.Type.ByBy)) return byBy();
+        return null;
+    }
+
+    private static Message getAndSaveLobby(Message message) {
+        Lobby lobby = message.getFromBody("lobby", Lobby.class);
+        GameApp.player.setLobby(lobby);
+        GameApp.others.clear();
+        GameApp.others.add(new Others(0, new Point(0, 0)));
+        GameApp.others.add(new Others(0, new Point(0, 0)));
+        GameApp.others.add(new Others(0, new Point(0, 0)));
+        Gdx.app.postRunnable(() -> Main.getMain().setScreen(GameApp.getGameView()));
+        return null;
+    }
+
+    private static Message byBy() {
+        Gdx.app.postRunnable(() -> Main.getMain().setScreen(new MainMenuView(GameAssetManager.getGameAssetManager().getSkin())));
+        GameApp.player.setLobby(null);
+        GameApp.setMapManager(null);
+        return null;
+    }
+
+    private static Message terminate(Message message) {
+        Boolean terminated = message.getFromBody("terminate", Boolean.class);
+        if (terminated) {
+            GameApp.player.setLobby(null);
+            Gdx.app.postRunnable(() -> Main.getMain().setScreen(new MainMenuView(GameAssetManager.getGameAssetManager().getSkin())));
+            GameApp.setMapManager(null);
+        } else {
+            Gdx.app.postRunnable(() -> Main.getMain().setScreen(GameApp.getGameView()));
+        }
+        return null;
+    }
+
+    private static Message sendSomebodyOut(Message message) {
+        String username = message.getFromBody("username", String.class);
+        Gdx.app.postRunnable(() -> Main.getMain().setScreen(new VotingMenuView(GameAssetManager.getGameAssetManager().getSkin(), false, username)));
+        return null;
+    }
+
+    private static Message terminateVoting() {
+        Gdx.app.postRunnable(() -> Main.getMain().setScreen(new VotingMenuView(GameAssetManager.getGameAssetManager().getSkin(), true, null)));
         return null;
     }
 

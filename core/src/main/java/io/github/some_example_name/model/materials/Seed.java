@@ -52,7 +52,7 @@ public class Seed implements Material {
 //
 //
 //    }
-    public boolean isFullyGrown() {
+    public Boolean isFullyGrown() {
         Crops crop = getCorrespondingCrop();
         if (crop != null)
         {
@@ -116,7 +116,7 @@ public class Seed implements Material {
         // }
     }
 
-//    public boolean isReadyToTreeOrCrop() {
+//    public Boolean isReadyToTreeOrCrop() {
 //        Crops crop = getCorrespondingCrop();
 //        Trees tree = getCorrespondingTrees();
 //        if (crop != null)

@@ -3,9 +3,9 @@ package io.github.some_example_name.model;
 public class AnimalFriendship {
     private static final int MAX_FRIENDSHIP = 1000;
     private int friendshipPoints;
-    private boolean wasPettedToday;
-    private boolean wasFedToday;
-    private boolean stayedOutsideTonight;
+    private Boolean wasPettedToday;
+    private Boolean wasFedToday;
+    private Boolean stayedOutsideTonight;
 
     public AnimalFriendship() {
         this.friendshipPoints = 0;
@@ -18,7 +18,7 @@ public class AnimalFriendship {
         }
     }
 
-    public void feed(boolean ateOutside) {
+    public void feed(Boolean ateOutside) {
         wasFedToday = true;
         if (ateOutside) {
             friendshipPoints = Math.min(friendshipPoints + 8, MAX_FRIENDSHIP);
@@ -47,7 +47,7 @@ public class AnimalFriendship {
     public void setFriendshipPoints(int points) {
     this.friendshipPoints = Math.max(0, Math.min(points, MAX_FRIENDSHIP));
 }
-    public void setStayedOutsideTonight(boolean stayedOutsideTonight) {
+    public void setStayedOutsideTonight(Boolean stayedOutsideTonight) {
         this.stayedOutsideTonight = stayedOutsideTonight;
     }
 
@@ -59,23 +59,23 @@ public class AnimalFriendship {
         return friendshipPoints / (double)MAX_FRIENDSHIP;
     }
 
-    public boolean isWasPettedToday() {
+    public Boolean isWasPettedToday() {
         return wasPettedToday;
     }
 
-    public void setWasPettedToday(boolean wasPettedToday) {
+    public void setWasPettedToday(Boolean wasPettedToday) {
         this.wasPettedToday = wasPettedToday;
     }
 
-    public boolean isWasFedToday() {
+    public Boolean isWasFedToday() {
         return wasFedToday;
     }
 
-    public void setWasFedToday(boolean wasFedToday) {
+    public void setWasFedToday(Boolean wasFedToday) {
         this.wasFedToday = wasFedToday;
     }
 
-    public boolean isStayedOutsideTonight() {
+    public Boolean isStayedOutsideTonight() {
         return stayedOutsideTonight;
     }
 }

@@ -9,17 +9,17 @@ public class Trade {
     private Player receiver;
     private final Material materialToSell;
     private final int amountToSell;
-    private boolean isDone = false;
+    private Boolean isDone = false;
     /**
      * true = accepted, false = rejected (initially false)
      */
-    private boolean isAccepted = false;
+    private Boolean isAccepted = false;
 
     private Integer price;               // null if material-for-material
 
     private Material materialToReceive;  // null if money-for-material
     private Integer amountToReceive;     // null if money-for-material
-    private boolean isRead = false;
+    private Boolean isRead = false;
 
     // ========== Constructors ==========
 
@@ -93,11 +93,11 @@ public class Trade {
         return amountToSell;
     }
 
-    public boolean isAccepted() {
+    public Boolean isAccepted() {
         return isAccepted;
     }
 
-    public void setAccepted(boolean accepted) {
+    public void setAccepted(Boolean accepted) {
         isAccepted = accepted;
     }
 
@@ -113,19 +113,19 @@ public class Trade {
         return amountToReceive;
     }
 
-    public boolean isRead() {
+    public Boolean isRead() {
         return isRead;
     }
 
-    public void setRead(boolean read) {
+    public void setRead(Boolean read) {
         isRead = read;
     }
 
-    public boolean isDone() {
+    public Boolean isDone() {
         return isDone;
     }
 
-    public void setDone(boolean done) {
+    public void setDone(Boolean done) {
         isDone = done;
     }
 }

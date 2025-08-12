@@ -1,10 +1,8 @@
 package all;
 
-import com.google.gson.reflect.TypeToken;
 import common.*;
 
 import java.awt.*;
-import java.lang.reflect.Type;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +22,112 @@ public class ClientMessageController {
         else if (message.getType().equals(Message.Type.Get_Reaction)) return getAndSaveReaction(message, cct);
         else if (message.getType().equals(Message.Type.Get_Message)) return getChatsOrSave(message, cct);
         else if (message.getType().equals(Message.Type.Get_Player_Board)) return getPlayerBoardAndSave(message, cct);
+        else if (message.getType().equals(Message.Type.Send_Somebody_Out)) return sendSomebodyOut(message, cct);
+        else if (message.getType().equals(Message.Type.Terminate_Game_Request))
+            return terminateGameRequest(message, cct);
 
+
+        return null;
+    }
+
+    private static final ArrayList<Boolean> sendOutVote = new ArrayList<>();
+
+    private static Message sendSomebodyOut(Message message, ClientConnectionThread cct) {
+        Lobby lobby = cct.getPlayer().getLobby();
+        String username = message.getFromBody("username", String.class);
+        Boolean vote = message.getFromBody("vote", Boolean.class);
+        if (vote != null) {
+            sendOutVote.add(vote);
+        }
+        if (sendOutVote.isEmpty()) {
+            sendOutVote.add(false);
+            for (String player : lobby.getPlayers()) {
+                if (!player.equals(username)) {
+                    ClientConnectionThread c = ServerApp.getConnectionByUsername(player);
+                    if (c != null) {
+                        c.sendMessage(message);
+                    }
+                }
+            }
+
+        } else if (sendOutVote.size() == lobby.getNumberOfPlayers()) {
+            int agreement = 0;
+            for (Boolean bool : sendOutVote) {
+                if (bool) {
+                    agreement += 1;
+                }
+            }
+            boolean sendOut = agreement > (lobby.getNumberOfPlayers() / 2);
+            if  (sendOut) {
+                ClientConnectionThread c = ServerApp.getConnectionByUsername(username);
+                assert c != null;
+                c.sendMessage(new Message(new HashMap<>(), Message.Type.ByBy));
+                c.getPlayer().setLobby(null);
+                lobby.removePlayer(username);
+                if (username.equals(lobby.getAdmin())) lobby.setAdmin(lobby.getPlayers().getFirst());
+                for (String player : lobby.getPlayers()) {
+                    c = ServerApp.getConnectionByUsername(player);
+                    if (c != null) {
+                        HashMap<String, Object> body = new HashMap<>();
+                        body.put("lobby", lobby);
+                        c.sendMessage(new Message(body, Message.Type.Get_Lobby));
+                    }
+                }
+            } else {
+                for (String player : lobby.getPlayers()) {
+                    ClientConnectionThread c = ServerApp.getConnectionByUsername(player);
+                    if (c != null) {
+                        HashMap<String, Object> body = new HashMap<>();
+                        body.put("terminate", false);
+                        c.sendMessage(new Message(body, Message.Type.Terminate_Game));
+                    }
+                }
+
+            }
+            sendOutVote.clear();
+        }
+
+        return null;
+    }
+
+    private static final ArrayList<Boolean> terminateVotes = new ArrayList<>();
+
+    private static Message terminateGameRequest(Message message, ClientConnectionThread cct) {
+        Lobby lobby = cct.getPlayer().getLobby();
+        Boolean vote = message.getFromBody("vote", Boolean.class);
+        if (vote != null) {
+            terminateVotes.add(vote);
+        }
+        if (terminateVotes.isEmpty()) {
+            terminateVotes.add(true);
+            for (String player : lobby.getPlayers()) {
+                if (!cct.getPlayer().getUsername().equals(player)) {
+                    ClientConnectionThread c = ServerApp.getConnectionByUsername(player);
+                    if (c != null) {
+                        c.sendMessage(new Message(new HashMap<>(), Message.Type.Terminate_Game_Request));
+                    }
+                }
+            }
+
+        } else if (terminateVotes.size() == lobby.getNumberOfPlayers()) {
+            int agreement = 0;
+            for (Boolean bool : terminateVotes) {
+                if (bool) {
+                    agreement += 1;
+                }
+            }
+            Boolean terminated = agreement > (lobby.getNumberOfPlayers() / 2);
+            for (String player : lobby.getPlayers()) {
+                ClientConnectionThread c = ServerApp.getConnectionByUsername(player);
+                if (c != null) {
+                    HashMap<String, Object> body = new HashMap<>();
+                    body.put("terminate", terminated);
+                    c.sendMessage(new Message(body, Message.Type.Terminate_Game));
+                    if (terminated) c.getPlayer().setLobby(null);
+                }
+            }
+            terminateVotes.clear();
+        }
 
         return null;
     }
@@ -77,12 +180,7 @@ public class ClientMessageController {
         String currentUsername = cct.getPlayer().getUsername();
         Lobby lobby = cct.getPlayer().getLobby();
 
-        List<Others> others = lobby.getPlayers().stream()
-            .filter(username -> !username.equals(currentUsername))
-            .map(ServerApp::getConnectionByUsername)
-            .filter(Objects::nonNull)
-            .map(ClientConnectionThread::getOther)
-            .toList();
+        List<Others> others = lobby.getPlayers().stream().filter(username -> !username.equals(currentUsername)).map(ServerApp::getConnectionByUsername).filter(Objects::nonNull).map(ClientConnectionThread::getOther).toList();
 
         HashMap<String, Object> body = new HashMap<>();
         body.put("others", others);
@@ -228,7 +326,7 @@ public class ClientMessageController {
     private static Message sendAllPlayers() {
         HashMap<String, Boolean> players = new HashMap<>();
         for (UserInfo player : ServerApp.players) {
-            boolean isOnline = ServerApp.connections.stream().anyMatch(p -> p.getPlayer() != null && p.getPlayer().getUsername().equals(player.getUsername()));
+            Boolean isOnline = ServerApp.connections.stream().anyMatch(p -> p.getPlayer() != null && p.getPlayer().getUsername().equals(player.getUsername()));
             players.put(player.getUsername(), isOnline);
         }
         HashMap<String, Object> body = new HashMap<>();
@@ -250,7 +348,7 @@ public class ClientMessageController {
         String command = message.getFromBody("command", String.class);
         if (command.equals("signup")) {
             UserInfo player = message.getFromBody("player", UserInfo.class);
-            boolean isExist = ServerApp.players.stream().anyMatch(p -> p.getUsername().equals(player.getUsername()));
+            Boolean isExist = ServerApp.players.stream().anyMatch(p -> p.getUsername().equals(player.getUsername()));
             if (isExist) {
                 HashMap<String, Object> body = new HashMap<>();
                 body.put("error-message", "player already exists");

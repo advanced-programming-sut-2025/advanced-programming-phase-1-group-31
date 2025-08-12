@@ -88,7 +88,7 @@ public class StoreController extends GameController {
             }
         }
     }
-    public boolean isBlocked(float x, float y) {
+    public Boolean isBlocked(float x, float y) {
         // تبدیل مختصات جهانی به مختصات تایل
         int tileX = (int) (x / getView().getTILE_SIZE());
         int tileY = (int) (y / getView().getTILE_SIZE());
@@ -105,7 +105,7 @@ public class StoreController extends GameController {
 
         return false;
     }
-    public boolean checkMapBlockingLayers(int tileX, int tileY) {
+    public Boolean checkMapBlockingLayers(int tileX, int tileY) {
         String[] blockingLayers = { "Buildings", "Front", "Front2" };
         if (getView().getMapType() == MapType.JOJAMART || getView().getMapType() == MapType.PIERREGENERALSTORE) {
             blockingLayers = Arrays.stream(blockingLayers)

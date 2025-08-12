@@ -127,19 +127,19 @@ public class ScoreBoardMenuView implements Screen {
             skills.defaults().padRight(8).left();
 
             Label farming = smallStatLabel("F: ", p.farming());
-            Label fishing = smallStatLabel("Fi", p.fishing());
-            Label foraging = smallStatLabel("Fo", p.foraging());
-            Label mining = smallStatLabel("M", p.mining());
+            Label fishing = smallStatLabel("Fi: ", p.fishing());
+            Label foraging = smallStatLabel("Fo: ", p.foraging());
+            Label mining = smallStatLabel("M: ", p.mining());
 
             farming.setFontScale(1.25f);
             fishing.setFontScale(1.25f);
             foraging.setFontScale(1.25f);
             mining.setFontScale(1.25f);
 
-            skills.add(farming);
-            skills.add(fishing);
-            skills.add(foraging);
-            skills.add(mining).padRight(20);
+            skills.add(farming).pad(15);
+            skills.add(fishing).pad(15);
+            skills.add(foraging).pad(15);
+            skills.add(mining);
 
             Label money = new Label(String.format("%,d", p.money()), skin);
             money.setAlignment(Align.right);
@@ -174,7 +174,7 @@ public class ScoreBoardMenuView implements Screen {
     }
 
     private Label smallStatLabel(String shortName, int value){
-        Label l = new Label(shortName + " " + value, skin);
+        Label l = new Label(shortName + value, skin);
         l.setFontScale(0.9f);
         l.setAlignment(Align.left);
         l.setColor(Color.DARK_GRAY);

@@ -6,15 +6,15 @@ public class Lobby {
     private String lobbyName;
     private String lobbyPassword;
     private int lobbyID;
-    private final boolean isPrivate;
-    private boolean isStarted;
-    private boolean isVisible;
+    private final Boolean isPrivate;
+    private Boolean isStarted;
+    private Boolean isVisible;
     private long creationTime;
     private final ArrayList<String> players = new ArrayList<>();
     private String adminUsername;
     public ArrayList<Chat> chats =  new ArrayList<>();
 
-    public Lobby(String lobbyName, String lobbyPassword, int lobbyID, UserInfo admin, boolean isVisible) {
+    public Lobby(String lobbyName, String lobbyPassword, int lobbyID, UserInfo admin, Boolean isVisible) {
         // TODO: check if id is used or not
         this.lobbyName = lobbyName;
         this.lobbyPassword = lobbyPassword;
@@ -27,7 +27,7 @@ public class Lobby {
         this.creationTime = System.currentTimeMillis();
     }
 
-    public Lobby(String lobbyName, int lobbyID, UserInfo admin, boolean isVisible) {
+    public Lobby(String lobbyName, int lobbyID, UserInfo admin, Boolean isVisible) {
         this.lobbyName = lobbyName;
         this.lobbyID = lobbyID;
         this.isPrivate = false;
@@ -62,7 +62,7 @@ public class Lobby {
         this.lobbyID = lobbyID;
     }
 
-    public boolean isPrivate() {
+    public Boolean isPrivate() {
         return isPrivate;
     }
 
@@ -74,19 +74,19 @@ public class Lobby {
         this.adminUsername = admin;
     }
 
-    public boolean isStarted() {
+    public Boolean isStarted() {
         return isStarted;
     }
 
-    public void setStarted(boolean started) {
+    public void setStarted(Boolean started) {
         isStarted = started;
     }
 
-    public boolean isVisible() {
+    public Boolean isVisible() {
         return isVisible;
     }
 
-    public void setVisible(boolean visible) {
+    public void setVisible(Boolean visible) {
         isVisible = visible;
     }
 
@@ -117,7 +117,7 @@ public class Lobby {
         return players.size();
     }
 
-    public boolean isPlayerInThisLobby(UserInfo player) {
+    public Boolean isPlayerInThisLobby(UserInfo player) {
         return players.contains(player.getUsername());
     }
 

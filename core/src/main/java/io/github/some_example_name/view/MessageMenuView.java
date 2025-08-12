@@ -243,7 +243,7 @@ public class MessageMenuView implements Screen {
     private void refreshMessagesView() {
         chatMessagesTable.clear();
 
-        boolean isPublicView = (currentRecipient == null);
+        Boolean isPublicView = (currentRecipient == null);
 
         // optional title at top of messages
         String title = isPublicView ? "Public Chat" : ("Private chat with: " + currentRecipient);
@@ -259,7 +259,7 @@ public class MessageMenuView implements Screen {
                 Label msgLabel = new Label(text, skin);
                 msgLabel.setWrap(true);
 
-                boolean sentByMe = currentPlayer != null && currentPlayer.equals(c.getSender());
+                Boolean sentByMe = currentPlayer != null && currentPlayer.equals(c.getSender());
 
                 // align to right if sent by me, left otherwise
                 if (sentByMe) {
@@ -283,7 +283,7 @@ public class MessageMenuView implements Screen {
         }
     }
 
-    private boolean isRelevantToCurrentView(Chat c, boolean isPublicView) {
+    private Boolean isRelevantToCurrentView(Chat c, Boolean isPublicView) {
         if (isPublicView) {
             return c.getReceiver() == null;
         } else {

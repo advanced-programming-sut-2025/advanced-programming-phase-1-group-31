@@ -22,7 +22,7 @@ public class Player {
     private int gameCount = 0;
     private String email;
     private Energy energy;
-    //    private final boolean gender;// IMPORTANT!!!!!!!!!! : false is male, true is female
+    //    private final Boolean gender;// IMPORTANT!!!!!!!!!! : false is male, true is female
     private Vector2 place;
     private Rectangle playerRectangle;
     private String backupQuestion;
@@ -47,7 +47,7 @@ public class Player {
     private final ArrayList<Trade> tradeHistory = new ArrayList<>();
 
 
-    public Player(String username, String password, String nickname, String email, boolean gender, String question, String answer) {
+    public Player(String username, String password, String nickname, String email, Boolean gender, String question, String answer) {
         this.userInfo.setUsername(username);
         this.userInfo.setPassword(password);
         this.userInfo.setNickName(nickname);
@@ -138,7 +138,7 @@ public class Player {
         return place;
     }
 
-    //    public boolean getGender() {
+    //    public Boolean getGender() {
 //        return gender;
 //    }
     public Tool getInHand() {

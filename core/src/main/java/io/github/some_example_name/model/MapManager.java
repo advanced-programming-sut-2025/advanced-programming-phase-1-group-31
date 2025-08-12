@@ -43,7 +43,7 @@ import io.github.some_example_name.model.materials.MaterialType;
 public class MapManager {
     private final TmxMapLoader loader = new TmxMapLoader();
     private final HashMap<String, FarmMap> mapCache = new HashMap<>();
-//    private boolean merged = false;
+//    private Boolean merged = false;
 
     public FarmMap getMap(String fileName) {
         if (mapCache.containsKey(fileName)) {
@@ -70,7 +70,7 @@ public class MapManager {
         String selectedTmx;
 
 
-        boolean isThisPlayer;
+        Boolean isThisPlayer;
         int tileHeight = bigMapTile.getProperties().get("tileheight", Integer.class);
         int tileWidth = bigMapTile.getProperties().get("tilewidth", Integer.class);
 
@@ -123,7 +123,7 @@ public class MapManager {
     }
 
 
-    private void mergeMapIntoBigMap(TiledMap bigMap, TiledMap smallMap, int offsetX, int offsetY, boolean isThisPlayer) {
+    private void mergeMapIntoBigMap(TiledMap bigMap, TiledMap smallMap, int offsetX, int offsetY, Boolean isThisPlayer) {
         int tileHeight = bigMap.getProperties().get("tileheight", Integer.class);
         int tileWidth = bigMap.getProperties().get("tilewidth", Integer.class);
 
@@ -146,7 +146,7 @@ public class MapManager {
         cloneSmallMap(bigMap, smallMap, offsetY, tileHeight, offsetX, tileWidth, isThisPlayer);
     }
 
-    private void cloneSmallMap(TiledMap bigMap, TiledMap smallMap, int offsetY, int tileHeight, int offsetX, int tileWidth, boolean isThisPlayer) {
+    private void cloneSmallMap(TiledMap bigMap, TiledMap smallMap, int offsetY, int tileHeight, int offsetX, int tileWidth, Boolean isThisPlayer) {
         Farm farm = new Farm();
         for (MapLayer layer : smallMap.getLayers()) {
             if (layer instanceof TiledMapTileLayer) {
@@ -402,7 +402,6 @@ public class MapManager {
     public void placeScaledImageAsTile(TiledMap map, String layerName, int tileX, int tileY, String imagePath) {
         int tileSize = 16; // یا از map.getProperties() بگیر
 
-        // مرحله 1: بارگذاری و کوچک کردن تصویر
         Pixmap pixmap = new Pixmap(Gdx.files.internal(imagePath));
         Pixmap resized = new Pixmap(tileSize, tileSize, pixmap.getFormat());
         resized.drawPixmap(pixmap,
@@ -412,12 +411,10 @@ public class MapManager {
         Texture texture = new Texture(resized);
         TextureRegion region = new TextureRegion(texture);
 
-        // مرحله 2: تبدیل به تایل
         StaticTiledMapTile tile = new StaticTiledMapTile(region);
         TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
         cell.setTile(tile);
 
-        // مرحله 3: پیدا کردن لایه (یا ساختن)
         TiledMapTileLayer layer = null;
         MapLayer existingLayer = map.getLayers().get(layerName);
         if (existingLayer instanceof TiledMapTileLayer) {
@@ -430,11 +427,9 @@ public class MapManager {
             map.getLayers().add(layer);
         }
 
-        // مرحله 4: گذاشتن در مختصات مشخص
         layer.setCell(tileX, tileY, cell);
 
 
-        // آزادسازی منابع
         pixmap.dispose();
         resized.dispose();
     }

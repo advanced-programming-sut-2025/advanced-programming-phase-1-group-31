@@ -4,7 +4,7 @@ public class Friendship {
     private final Player friend;
     private int friendshipLevel = 0;
     private int friendshipUnit = 0;
-    private boolean flower;
+    private Boolean flower;
 
     public Friendship(Player friend) {
         this.friend = friend;
@@ -57,11 +57,11 @@ public class Friendship {
         return friendshipUnit;
     }
 
-    public void setFlower(boolean flower) {
+    public void setFlower(Boolean flower) {
         this.flower = flower;
     }
 
-    public boolean hasFlower() {
+    public Boolean hasFlower() {
         return flower;
     }
 }

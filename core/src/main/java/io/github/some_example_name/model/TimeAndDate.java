@@ -360,7 +360,7 @@ public class TimeAndDate {
         }
     }
 
-    private boolean isEmptyTile(int tileX, int tileY) {
+    private Boolean isEmptyTile(int tileX, int tileY) {
         Player p = GameApp.player;
         return !(p.getPlace().x == tileX || p.getPlace().y == tileY);
     }

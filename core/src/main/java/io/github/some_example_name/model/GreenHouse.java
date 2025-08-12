@@ -4,13 +4,13 @@ import java.awt.*;
 
 public class GreenHouse {
     private Rectangle rectangle;
-    private boolean hasBeenMade = false;
+    private Boolean hasBeenMade = false;
 
-    public boolean isHasBeenMade() {
+    public Boolean isHasBeenMade() {
         return hasBeenMade;
     }
 
-    public void setHasBeenMade(boolean hasBeenMade) {
+    public void setHasBeenMade(Boolean hasBeenMade) {
         this.hasBeenMade = hasBeenMade;
     }
 

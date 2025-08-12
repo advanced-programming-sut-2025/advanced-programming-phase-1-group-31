@@ -29,7 +29,7 @@ public class Barn implements Material {
         return this.getClass().equals(tool.getClass()) &&
                 this.getType().equals(tool.getType());
     }
-    public boolean hasSpace() {
+    public Boolean hasSpace() {
         return animals.size() < barnType.getCapacity();
     }
 

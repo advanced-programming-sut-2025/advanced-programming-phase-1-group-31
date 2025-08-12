@@ -116,7 +116,7 @@ public class AddLobbyMenuView implements Screen {
         isPrivateCheck.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                boolean isPrivate = isPrivateCheck.isChecked();
+                Boolean isPrivate = isPrivateCheck.isChecked();
                 passwordContainer.setVisible(isPrivate);
                 lobbyPasswordField.setVisible(isPrivate);
                 lobbyPasswordField.setDisabled(!isPrivate);

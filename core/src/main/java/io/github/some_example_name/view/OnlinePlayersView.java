@@ -91,11 +91,11 @@ public class OnlinePlayersView implements Screen {
         }
     }
 
-    private Table createPlayerCard(String username, boolean isOnline) {
+    private Table createPlayerCard(String username, Boolean isOnline) {
         Table card = new Table(skin);
         card.pad(12);
 
-        boolean isThisUser = GameApp.player.getUsername().equals(username);
+        Boolean isThisUser = GameApp.player.getUsername().equals(username);
         // Status dot
         Label statusDot = new Label("o", skin);
         statusDot.setFontScale(2f);

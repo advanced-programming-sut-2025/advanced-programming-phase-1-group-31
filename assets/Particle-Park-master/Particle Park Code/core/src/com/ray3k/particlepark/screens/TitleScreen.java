@@ -65,24 +65,24 @@ public class TitleScreen implements Screen {
 
     public TitleScreen(final Core core) {
         spineViewport = new FitViewport(800, 800, new OrthographicCamera());
-        
+
         this.core = core;
         stage = new Stage(new ScreenViewport(), core.batch);
         Gdx.input.setInputProcessor(stage);
-        
+
         skin = core.internalAssetManager.get("Particle Park UI/Particle Park UI.json", Skin.class);
-        
+
         Table root = new Table();
         root.setFillParent(true);
         stage.addActor(root);
         root.pad(20.0f);
         root.setTouchable(Touchable.enabled);
         root.addListener(core.handListener);
-        
+
         label = new Label("Click anywhere to begin...", skin);
         label.setColor(1, 1, 1, 0);
         root.add(label).expand().top().right();
-        
+
         stage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -95,7 +95,7 @@ public class TitleScreen implements Screen {
                 }
             }
         });
-        
+
         loadAnimation();
     }
 
@@ -107,7 +107,7 @@ public class TitleScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+
         core.batch.setProjectionMatrix(spineViewport.getCamera().combined);
         spineViewport.apply();
         core.batch.begin();
@@ -117,7 +117,7 @@ public class TitleScreen implements Screen {
         animationState.apply(skeleton);
         core.skeletonRenderer.draw(core.batch, skeleton);
         core.batch.end();
-        
+
         core.batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         stage.getViewport().apply();
         stage.act();
@@ -146,7 +146,7 @@ public class TitleScreen implements Screen {
     public void dispose() {
         stage.dispose();
     }
-    
+
     private void loadAnimation() {
         SkeletonData skeletonData = core.internalAssetManager.get("animations/main.json", SkeletonData.class);
         skeleton = new Skeleton(skeletonData);
@@ -162,7 +162,7 @@ public class TitleScreen implements Screen {
                 } else if (name.equals("hide-text")) {
                     label.addAction(Actions.sequence(Actions.fadeOut(.5f), Actions.delay(.5f), new Action() {
                         @Override
-                        public boolean act(float delta) {
+                        public Boolean act(float delta) {
                             core.setScreen(new MenuScreen(core));
                             return true;
                         }
@@ -185,15 +185,15 @@ public class TitleScreen implements Screen {
                     }
                 }
             }
-            
+
         });
-        
+
         animationState.setAnimation(0, "reveal", false);
         animationState.apply(skeleton);
         skeleton.setPosition(400, 400);
         skeleton.updateWorldTransform();
     }
-    
+
     private void fadeOutParkSound() {
         stage.addAction(Actions.sequence(new TemporalAction(1.0f) {
             @Override
@@ -202,7 +202,7 @@ public class TitleScreen implements Screen {
             }
         }, new Action() {
             @Override
-            public boolean act(float delta) {
+            public Boolean act(float delta) {
                 TitleScreen.this.core.internalAssetManager.get("sound/park.ogg", Sound.class).stop();
                 return true;
             }

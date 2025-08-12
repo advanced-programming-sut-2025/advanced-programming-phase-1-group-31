@@ -62,17 +62,17 @@ public enum Animals implements MaterialType {
         return daysBetweenProductions;
     }
 
-    public boolean canProduceToday(int daysSinceLastProduction, boolean isFed) {
+    public Boolean canProduceToday(int daysSinceLastProduction, Boolean isFed) {
         if (!isFed) return false;
         return daysBetweenProductions == 0 ||
                 daysSinceLastProduction >= daysBetweenProductions;
     }
 
-    public boolean needsSpecialTool() {
+    public Boolean needsSpecialTool() {
         return this == COW || this == GOAT || this == SHEEP;
     }
 
-    public boolean needsToGoOutside() {
+    public Boolean needsToGoOutside() {
         return this == PIG;
     }
 

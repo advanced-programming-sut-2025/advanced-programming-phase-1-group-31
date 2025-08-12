@@ -67,7 +67,7 @@ public class DialogColorPicker extends Dialog {
     private GradientDrawable boxGradient2;
     private SliderStyle sliderStyle;
     private Image reticle;
-    
+
     public DialogColorPicker(String title, Skin skin, Core core, Color currentColor) {
         super(title, skin, "dialog");
         this.core = core;
@@ -75,9 +75,9 @@ public class DialogColorPicker extends Dialog {
         this.selectedColor = new Color(currentColor);
         this.previousColor = currentColor;
         mode = Mode.HUE;
-        
+
         getTitleTable().padLeft(10).padRight(10);
-        
+
         getTitleTable().defaults().space(20);
         Button button = new Button(skin, "close");
         getTitleTable().add(button).expandX().right();
@@ -89,43 +89,43 @@ public class DialogColorPicker extends Dialog {
                 hide();
             }
         });
-        
+
         refresh();
     }
-    
+
     private void refresh() {
         Table root = getContentTable();
         root.clear();
-        
+
         Table table = new Table();
         table.setBackground(skin.getDrawable("color-box-bg"));
         root.add(table);
-        
+
         Stack stack = new Stack();
         table.add(stack);
-        
+
         Image image = new Image(skin, "hue-box");
         stack.add(image);
-        
+
         boxGradient1 = new GradientDrawable(skin.getAtlas().findRegion("white"));
         image = new Image(boxGradient1);
         stack.add(image);
-        
+
         boxGradient2 = new GradientDrawable(skin.getAtlas().findRegion("white"));
         image = new Image(boxGradient2);
         stack.add(image);
-        
+
         Table reticleTable = new Table();
         reticleTable.setClip(true);
         stack.add(reticleTable);
-        
+
         reticle = new Image(skin, "reticle");
         reticleTable.addActor(reticle);
-        
+
         stack.addListener(core.handListener);
         stack.addListener(new ClickListener() {
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            public Boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 reticle.setPosition(x, y, Align.center);
                 boxColorSelection(x, y);
                 return super.touchDown(event, x, y, pointer, button);
@@ -138,13 +138,13 @@ public class DialogColorPicker extends Dialog {
                 updateBoxColor();
             }
         });
-        
+
         Container container = new Container();
         container.setBackground(skin.getDrawable("hue-slider-bg"));
         root.add(container);
-        
+
         image = new Image(skin, "hue-slider");
-        
+
         sliderStyle = new SliderStyle(skin.get("color-slider", SliderStyle.class));
         sliderStyle.background = new GradientDrawable(skin.getAtlas().findRegion("white"));
         ((GradientDrawable) sliderStyle.background).setMinWidth(25);
@@ -192,33 +192,33 @@ public class DialogColorPicker extends Dialog {
             }
         };
         slider.addListener(sliderChangeListener);
-        
+
         stack = new Stack(image, slider);
         container.fill();
         container.size(25, 273);
         container.setActor(stack);
-        
+
         table = new Table();
         root.add(table);
-        
+
         table.defaults().space(5);
         Table subTable = new Table();
         subTable.setBackground(skin.getDrawable("color-box-bg"));
         table.add(subTable);
-        
+
         image = new Image(skin, "color-box");
         image.setName("color-image");
         image.setColor(selectedColor);
         subTable.add(image);
-        
+
         subTable.row();
         image = new Image(skin, "color-box");
         image.setColor(previousColor);
         subTable.add(image);
-        
+
         subTable = new Table();
         table.add(subTable);
-        
+
         subTable.defaults().width(125);
         TextButton textButton = new TextButton("OK", skin);
         subTable.add(textButton);
@@ -230,7 +230,7 @@ public class DialogColorPicker extends Dialog {
                 hide();
             }
         });
-        
+
         subTable.row();
         textButton = new TextButton("Cancel", skin);
         subTable.add(textButton);
@@ -242,11 +242,11 @@ public class DialogColorPicker extends Dialog {
                 hide();
             }
         });
-        
+
         table.row();
         subTable = new Table();
         table.add(subTable).colspan(2).left();
-        
+
         subTable.defaults().space(0).padBottom(0);
         ButtonGroup buttonGroup = new ButtonGroup<Button>();
         Button button = new Button(skin, "radio");
@@ -259,27 +259,27 @@ public class DialogColorPicker extends Dialog {
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                 if (((Button)actor).isChecked()) {
                     mode = Mode.HUE;
-                    
+
                     slider.removeListener(sliderChangeListener);
                     slider.setValue(selectedColor.toHsv(new float[3])[0] / 360f);
                     slider.addListener(sliderChangeListener);
-                    
+
                     updateBoxColor();
                     updateSliderColor();
                 }
             }
         });
-        
+
         Label label = new Label("H", skin);
         subTable.add(label);
-        
+
         TextField textField = new TextField("", skin, "color");
         textField.setName("hue-field");
         textField.setText(Integer.toString(MathUtils.floor(selectedColor.toHsv(new float[3])[0])));
         textField.setDisabled(true);
         subTable.add(textField).width(100).spaceLeft(10);
         textField.addListener(core.iBeamListener);
-        
+
         subTable.row();
         button = new Button(skin, "radio");
         buttonGroup.add(button);
@@ -290,27 +290,27 @@ public class DialogColorPicker extends Dialog {
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                 if (((Button)actor).isChecked()) {
                     mode = Mode.SATURATION;
-                    
+
                     slider.removeListener(sliderChangeListener);
                     slider.setValue(selectedColor.toHsv(new float[3])[1]);
                     slider.addListener(sliderChangeListener);
-                    
+
                     updateBoxColor();
                     updateSliderColor();
                 }
             }
         });
-        
+
         label = new Label("S", skin);
         subTable.add(label);
-        
+
         textField = new TextField("", skin, "color");
         textField.setName("saturation-field");
         textField.setText(Integer.toString(MathUtils.floor(selectedColor.toHsv(new float[3])[1] * 100)));
         textField.setDisabled(true);
         subTable.add(textField).width(100).spaceLeft(10);
         textField.addListener(core.iBeamListener);
-        
+
         subTable.row();
         button = new Button(skin, "radio");
         buttonGroup.add(button);
@@ -321,27 +321,27 @@ public class DialogColorPicker extends Dialog {
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                 if (((Button)actor).isChecked()) {
                     mode = Mode.BRIGHTNESS;
-                    
+
                     slider.removeListener(sliderChangeListener);
                     slider.setValue(selectedColor.toHsv(new float[3])[2]);
                     slider.addListener(sliderChangeListener);
-                    
+
                     updateBoxColor();
                     updateSliderColor();
                 }
             }
         });
-        
+
         label = new Label("B", skin);
         subTable.add(label);
-        
+
         textField = new TextField("", skin, "color");
         textField.setName("brightness-field");
         textField.setText(Integer.toString(MathUtils.floor(selectedColor.toHsv(new float[3])[2] * 100)));
         textField.setDisabled(true);
         subTable.add(textField).width(100).spaceLeft(10);
         textField.addListener(core.iBeamListener);
-        
+
         subTable.row();
         button = new Button(skin, "radio");
         buttonGroup.add(button);
@@ -352,27 +352,27 @@ public class DialogColorPicker extends Dialog {
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                 if (((Button)actor).isChecked()) {
                     mode = Mode.RED;
-                    
+
                     slider.removeListener(sliderChangeListener);
                     slider.setValue(selectedColor.r);
                     slider.addListener(sliderChangeListener);
-                    
+
                     updateBoxColor();
                     updateSliderColor();
                 }
             }
         });
-        
+
         label = new Label("R", skin);
         subTable.add(label);
-        
+
         textField = new TextField("", skin, "color");
         textField.setName("red-field");
         textField.setText(Integer.toString(MathUtils.floor(selectedColor.r * 255)));
         textField.setDisabled(true);
         subTable.add(textField).width(100).spaceLeft(10);
         textField.addListener(core.iBeamListener);
-        
+
         subTable.row();
         button = new Button(skin, "radio");
         buttonGroup.add(button);
@@ -383,27 +383,27 @@ public class DialogColorPicker extends Dialog {
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                 if (((Button)actor).isChecked()) {
                     mode = Mode.GREEN;
-                    
+
                     slider.removeListener(sliderChangeListener);
                     slider.setValue(selectedColor.g);
                     slider.addListener(sliderChangeListener);
-                    
+
                     updateBoxColor();
                     updateSliderColor();
                 }
             }
         });
-        
+
         label = new Label("G", skin);
         subTable.add(label);
-        
+
         textField = new TextField("", skin, "color");
         textField.setName("green-field");
         textField.setText(Integer.toString(MathUtils.floor(selectedColor.g * 255)));
         textField.setDisabled(true);
         subTable.add(textField).width(100).spaceLeft(10);
         textField.addListener(core.iBeamListener);
-        
+
         subTable.row();
         button = new Button(skin, "radio");
         buttonGroup.add(button);
@@ -414,101 +414,101 @@ public class DialogColorPicker extends Dialog {
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                 if (((Button)actor).isChecked()) {
                     mode = Mode.BLUE;
-                    
+
                     slider.removeListener(sliderChangeListener);
                     slider.setValue(selectedColor.b);
                     slider.addListener(sliderChangeListener);
-                    
+
                     updateBoxColor();
                     updateSliderColor();
                 }
             }
         });
-        
+
         label = new Label("B", skin);
         subTable.add(label);
-        
+
         textField = new TextField("", skin, "color");
         textField.setName("blue-field");
         textField.setText(Integer.toString(MathUtils.floor(selectedColor.b * 255)));
         textField.setDisabled(true);
         subTable.add(textField).width(100).spaceLeft(10);
         textField.addListener(core.iBeamListener);
-        
+
         subTable.row().padTop(3);
         subTable.add();
-        
+
         label = new Label("#", skin);
         subTable.add(label);
-        
+
         textField = new TextField("", skin, "color");
         textField.setName("hex-field");
         textField.setText(selectedColor.toString().substring(0, 6));
         textField.setDisabled(true);
         subTable.add(textField).width(100).spaceLeft(10);
         textField.addListener(core.iBeamListener);
-        
+
         button = findActor("hue-button");
         button.fire(new ChangeEvent());
     }
-    
+
     private void updateColorRGB() {
         TextField textField = findActor("red-field");
         selectedColor.r = Integer.parseInt(textField.getText()) / 255f;
-        
+
         textField = findActor("green-field");
         selectedColor.g = Integer.parseInt(textField.getText()) / 255f;
-        
+
         textField = findActor("blue-field");
         selectedColor.b = Integer.parseInt(textField.getText()) / 255f;
-        
+
         float[] hsb = selectedColor.toHsv(new float[3]);
-        
+
         textField = findActor("hue-field");
         textField.setText(Integer.toString(MathUtils.floor(hsb[0])));
-        
+
         textField = findActor("saturation-field");
         textField.setText(Integer.toString(MathUtils.floor(hsb[1] * 100)));
-        
+
         textField = findActor("brightness-field");
         textField.setText(Integer.toString(MathUtils.floor(hsb[2] * 100)));
-        
+
         textField = findActor("hex-field");
         textField.setText(selectedColor.toString().substring(0, 6));
-        
+
         Image image = findActor("color-image");
         image.setColor(selectedColor);
     }
-    
+
     private void updateColorHSB() {
         float[] hsb = new float[3];
         TextField textField = findActor("hue-field");
         hsb[0] = Integer.parseInt(textField.getText());
-        
+
         textField = findActor("saturation-field");
         hsb[1] = Integer.parseInt(textField.getText()) / 100f;
-        
+
         textField = findActor("brightness-field");
         hsb[2] = Integer.parseInt(textField.getText()) / 100f;
-        
+
         selectedColor.fromHsv(hsb);
-        
+
         textField = findActor("red-field");
         textField.setText(Integer.toString(MathUtils.floor(selectedColor.r * 255)));
-        
+
         textField = findActor("green-field");
         textField.setText(Integer.toString(MathUtils.floor(selectedColor.g * 255)));
-        
+
         textField = findActor("blue-field");
         textField.setText(Integer.toString(MathUtils.floor(selectedColor.b * 255)));
-        
+
         textField = findActor("hex-field");
         textField.setText(selectedColor.toString().substring(0, 6));
-        
+
         Image image = findActor("color-image");
         image.setColor(selectedColor);
     }
-    
+
     private void updateBoxColor() {
         float h = Integer.parseInt(((TextField) findActor("hue-field")).getText());
         float s = Integer.parseInt(((TextField) findActor("saturation-field")).getText()) / 100f;
@@ -524,7 +524,7 @@ public class DialogColorPicker extends Dialog {
                 boxGradient2.getColor4().set(Color.BLACK);
                 boxGradient2.getColor2().set(Color.CLEAR);
                 boxGradient2.getColor3().set(Color.CLEAR);
-                
+
                 reticle.setPosition(256f * s, 256f * b, Align.center);
                 break;
             case SATURATION:
@@ -537,7 +537,7 @@ public class DialogColorPicker extends Dialog {
                 boxGradient2.getColor4().set(Color.BLACK);
                 boxGradient2.getColor2().set(Color.CLEAR);
                 boxGradient2.getColor3().set(Color.CLEAR);
-                
+
                 reticle.setPosition(256f * h / 360, 256f * b, Align.center);
                 break;
             case BRIGHTNESS:
@@ -550,7 +550,7 @@ public class DialogColorPicker extends Dialog {
                 boxGradient2.getColor2().set(0, 0, 0, 1f - b);
                 boxGradient2.getColor3().set(0, 0, 0, 1f - b);
                 boxGradient2.getColor4().set(0, 0, 0, 1f - b);
-                
+
                 h = Integer.parseInt(((TextField) findActor("hue-field")).getText());
                 s = Integer.parseInt(((TextField) findActor("saturation-field")).getText());
                 reticle.setPosition(256f * h / 360, 256f * s / 100, Align.center);
@@ -565,7 +565,7 @@ public class DialogColorPicker extends Dialog {
                 boxGradient2.getColor2().set(Color.CLEAR);
                 boxGradient2.getColor3().set(Color.CLEAR);
                 boxGradient2.getColor4().set(Color.CLEAR);
-                
+
                 reticle.setPosition(selectedColor.b * 256f, selectedColor.g * 256f, Align.center);
                 break;
             case GREEN:
@@ -578,7 +578,7 @@ public class DialogColorPicker extends Dialog {
                 boxGradient2.getColor2().set(Color.CLEAR);
                 boxGradient2.getColor3().set(Color.CLEAR);
                 boxGradient2.getColor4().set(Color.CLEAR);
-                
+
                 reticle.setPosition(selectedColor.b * 256f, selectedColor.r * 256f, Align.center);
                 break;
             case BLUE:
@@ -591,21 +591,21 @@ public class DialogColorPicker extends Dialog {
                 boxGradient2.getColor2().set(Color.CLEAR);
                 boxGradient2.getColor3().set(Color.CLEAR);
                 boxGradient2.getColor4().set(Color.CLEAR);
-                
+
                 reticle.setPosition(selectedColor.r * 256f, selectedColor.g * 256f, Align.center);
                 break;
         }
     }
-    
+
     private void boxColorSelection(float x, float y) {
         float w = MathUtils.clamp(x / 256f, 0, 1);
         float h = MathUtils.clamp(y / 256f, 0, 1);
-        
+
         switch (mode) {
             case HUE:
                 TextField textField = findActor("hue-field");
                 selectedColor.fromHsv(Integer.parseInt(textField.getText()), w, h);
-                
+
                 textField = findActor("saturation-field");
                 textField.setText(Integer.toString(MathUtils.floor(w * 100)));
 
@@ -623,7 +623,7 @@ public class DialogColorPicker extends Dialog {
 
                 textField = findActor("hex-field");
                 textField.setText(selectedColor.toString().substring(0, 6));
-                
+
                 break;
             case SATURATION:
                 textField = findActor("saturation-field");
@@ -650,7 +650,7 @@ public class DialogColorPicker extends Dialog {
             case BRIGHTNESS:
                 textField = findActor("brightness-field");
                 selectedColor.fromHsv(w * 360, h, Integer.parseInt(textField.getText()) / 100f);
-                
+
                 textField = findActor("hue-field");
                 textField.setText(Integer.toString(MathUtils.floor(w * 360)));
 
@@ -671,7 +671,7 @@ public class DialogColorPicker extends Dialog {
                 break;
             case RED:
                 selectedColor.set(selectedColor.r, h, w, 1);
-                
+
                 textField = findActor("hue-field");
                 textField.setText(Integer.toString(MathUtils.floor(selectedColor.toHsv(new float[3])[0])));
 
@@ -733,13 +733,13 @@ public class DialogColorPicker extends Dialog {
                 textField.setText(selectedColor.toString().substring(0, 6));
                 break;
         }
-        
+
         Image image = findActor("color-image");
         image.setColor(selectedColor);
-        
+
         updateSliderColor();
     }
-    
+
     private void updateSliderColor() {
         switch (mode) {
             case HUE:
@@ -782,7 +782,7 @@ public class DialogColorPicker extends Dialog {
                 break;
         }
     }
-    
+
     public static class ColorPickerEvent extends Event {
         private Color color;
 
@@ -790,10 +790,10 @@ public class DialogColorPicker extends Dialog {
             this.color = color;
         }
     }
-    
+
     public static abstract class ColorPickerListener implements EventListener {
         @Override
-        public boolean handle(Event event) {
+        public Boolean handle(Event event) {
             if (event instanceof ColorPickerEvent) {
                 ColorPickerEvent colorPickerEvent = (ColorPickerEvent) event;
                 if (colorPickerEvent.color == null) {
@@ -806,7 +806,7 @@ public class DialogColorPicker extends Dialog {
                 return false;
             }
         }
-        
+
         public abstract void colorSelected(Color color);
         public abstract void cancelled();
     }

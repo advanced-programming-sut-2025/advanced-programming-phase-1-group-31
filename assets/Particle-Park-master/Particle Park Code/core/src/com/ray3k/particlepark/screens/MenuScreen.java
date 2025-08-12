@@ -59,40 +59,40 @@ public class MenuScreen implements Screen {
 
     public MenuScreen(Core core) {
         this.core = core;
-        
+
         if (core.preferences.getBoolean("bgm", true)) {
             core.playSong();
         }
-        
+
         stage = new Stage(new ScreenViewport(), core.batch);
         Gdx.input.setInputProcessor(stage);
         stage.getRoot().setColor(1, 1, 1, 0);
         stage.getRoot().addAction(Actions.fadeIn(.5f));
-        
+
         skin = core.internalAssetManager.get("Particle Park UI/Particle Park UI.json", Skin.class);
-        
+
         createMenu();
     }
-    
+
     private void createMenu() {
         Image image = new Image(skin, "bg");
         image.setFillParent(true);
         stage.addActor(image);
-        
+
         Table root = new Table();
         root.setFillParent(true);
         stage.addActor(root);
         root.pad(5).padTop(10);
-        
+
         Table table = new Table();
         root.add(table).growX();
-        
+
         Button button = new Button(skin, "about");
         table.add().width(Value.percentWidth(1, button));
-        
+
         Label label = new Label("Select a Scene", skin, "window");
         table.add(label).expandX();
-        
+
         table.add(button).padRight(5);
         button.addListener(core.handListener);
         button.addListener(new ChangeListener() {
@@ -102,17 +102,17 @@ public class MenuScreen implements Screen {
                 dialog.show(stage);
             }
         });
-        
+
         HorizontalGroup horizontalGroup = new HorizontalGroup();
         horizontalGroup.wrap();
         horizontalGroup.center();
-        
+
         root.row();
         ScrollPane scrollPane = new ScrollPane(horizontalGroup, skin, "bg");
         scrollPane.setFadeScrollBars(false);
         root.add(scrollPane).grow().padTop(5);
         stage.setScrollFocus(scrollPane);
-        
+
         horizontalGroup.addActor(createSceneButton("animations/city.json", "thumb-city"));
         horizontalGroup.addActor(createSceneButton("animations/welder.json", "thumb-welder"));
         horizontalGroup.addActor(createSceneButton("animations/camp-fire.json", "thumb-camp-fire"));
@@ -128,15 +128,15 @@ public class MenuScreen implements Screen {
         horizontalGroup.addActor(createSceneButton("animations/fighter.json", "thumb-fighter"));
         horizontalGroup.addActor(createSceneButton("animations/invaders.json", "thumb-invaders"));
         horizontalGroup.addActor(createSceneButton("animations/portal.json", "thumb-portal"));
-        
+
         root.row();
         label = new Label("Copyright 2019 Raymond Buckley", skin);
         root.add(label).left().padTop(5);
-        
+
         table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
-        
+
         final ImageButton bgmButton = new ImageButton(skin, "bgm");
         bgmButton.setChecked(core.preferences.getBoolean("bgm", true));
         table.add(bgmButton).expand().bottom().right();
@@ -146,7 +146,7 @@ public class MenuScreen implements Screen {
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                 core.preferences.putBoolean("bgm", bgmButton.isChecked());
                 core.preferences.flush();
-                
+
                 if (bgmButton.isChecked()) {
                     core.playSong();
                 } else {
@@ -154,7 +154,7 @@ public class MenuScreen implements Screen {
                 }
             }
         });
-        
+
         final ImageButton sfxButton = new ImageButton(skin, "sfx");
         sfxButton.setChecked(core.preferences.getBoolean("sfx", true));
         table.add(sfxButton).bottom();
@@ -167,7 +167,7 @@ public class MenuScreen implements Screen {
             }
         });
     }
-    
+
     private Button createSceneButton(final String animationPath, String thumbnailName) {
         Button button = new Button(skin);
         button.addListener(core.handListener);
@@ -176,23 +176,23 @@ public class MenuScreen implements Screen {
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                 Gdx.input.setInputProcessor(null);
                 Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
-                
+
                 stage.getRoot().addAction(Actions.sequence(Actions.fadeOut(.5f), new Action() {
                     @Override
-                    public boolean act(float delta) {
+                    public Boolean act(float delta) {
                         core.setScreen(new DemoScreen(core, animationPath));
                         return true;
                     }
                 }));
             }
         });
-        
+
         Image image = new Image(skin, thumbnailName);
         button.add(image);
-        
+
         return button;
     }
-    
+
     @Override
     public void show() {
         Array<Music> musics = core.internalAssetManager.getAll(Music.class, new Array<Music>());
@@ -200,12 +200,12 @@ public class MenuScreen implements Screen {
             stage.addAction(new TemporalAction(1.0f) {
                 private float startVolume;
                 private float targetVolume;
-                
+
                 {
                     startVolume = music.getVolume();
                     targetVolume = .5f;
                 }
-                
+
                 @Override
                 protected void update(float percent) {
                     music.setVolume((1 - percent) * (startVolume - targetVolume) + targetVolume);
@@ -218,7 +218,7 @@ public class MenuScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+
         stage.act();
         stage.draw();
     }

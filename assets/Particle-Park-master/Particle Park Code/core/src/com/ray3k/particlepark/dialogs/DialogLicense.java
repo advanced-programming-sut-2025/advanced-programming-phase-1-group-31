@@ -60,10 +60,10 @@ public class DialogLicense extends Dialog {
 
     public DialogLicense(Core core, Skin skin, FileHandle licenseFile) {
         super("License Agreement", skin, "dialog");
-        
+
         this.core = core;
         this.skin = skin;
-        
+
         if (licenseFile != null && licenseFile.exists()) {
             try {
                 licenseText = licenseFile.readString("utf-8");
@@ -74,7 +74,7 @@ public class DialogLicense extends Dialog {
         } else {
             licenseText = "No license text found";
         }
-        
+
         getTitleTable().pad(10);
         Button button = new Button(skin, "close");
         getTitleTable().add(button);
@@ -86,7 +86,7 @@ public class DialogLicense extends Dialog {
                 fire(new LicenseEvent(false));
             }
         });
-        
+
         refresh();
     }
 
@@ -98,22 +98,22 @@ public class DialogLicense extends Dialog {
         setPosition(MathUtils.floor(getX()), MathUtils.floor(getY()));
         return this;
     }
-    
+
     private void refresh() {
         Table root = getContentTable();
         root.clear();
         root.pad(10);
-        
+
         Table table = new Table();
         table.pad(10);
         ScrollPane scrollPane = new ScrollPane(table, skin, "license");
         root.add(scrollPane).grow();
-        
+
         Label label = new Label(licenseText, skin);
         label.setWrap(true);
         label.setAlignment(Align.topLeft);
         table.add(label).grow();
-        
+
         root.row();
         TextButton textButton = new TextButton("Accept and Download", skin, "download");
         root.add(textButton);
@@ -135,17 +135,17 @@ public class DialogLicense extends Dialog {
                         }
                     }
                 });
-                
+
                 thread.start();
             }
         });
     }
-    
+
     private void createZip(FileHandle sourceFolder, FileHandle targetZip) {
         try {
             FileOutputStream fos = new FileOutputStream(targetZip.path());
             ZipOutputStream zipOut = new ZipOutputStream(fos);
-            
+
             zipFile(sourceFolder.file(), sourceFolder.name(), zipOut);
             zipOut.close();
             fos.close();
@@ -153,7 +153,7 @@ public class DialogLicense extends Dialog {
             Gdx.app.log(getClass().getName(), "Error writing zip file", e);
         }
     }
-    
+
     private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) throws IOException {
         if (fileToZip.isHidden()) {
             return;
@@ -182,19 +182,19 @@ public class DialogLicense extends Dialog {
         }
         fis.close();
     }
-    
-    public static class LicenseEvent extends Event {
-        private boolean approved;
 
-        public LicenseEvent(boolean passed) {
+    public static class LicenseEvent extends Event {
+        private Boolean approved;
+
+        public LicenseEvent(Boolean passed) {
             this.approved = passed;
         }
     }
-    
+
     public static abstract class LicenseListener implements EventListener {
 
         @Override
-        public boolean handle(Event event) {
+        public Boolean handle(Event event) {
             if (event instanceof LicenseEvent) {
                 LicenseEvent licenseEvent = (LicenseEvent) event;
                 if (licenseEvent.approved) {
@@ -207,9 +207,9 @@ public class DialogLicense extends Dialog {
                 return false;
             }
         }
-        
+
         public abstract void approved();
-        
+
         public abstract void cancelled();
     }
 }

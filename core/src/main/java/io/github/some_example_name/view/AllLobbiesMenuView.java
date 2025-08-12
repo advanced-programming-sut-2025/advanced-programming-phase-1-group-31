@@ -218,7 +218,7 @@ public class AllLobbiesMenuView implements Screen {
         Dialog dialog = new Dialog("Connection", skin) {
             @Override
             protected void result(Object object) {
-                boolean result = Boolean.TRUE.equals(object);
+                Boolean result = Boolean.TRUE.equals(object);
                 if (result) {
                     try {
                         lobby.addPlayer(GameApp.player.getUserInfo());
@@ -249,7 +249,7 @@ public class AllLobbiesMenuView implements Screen {
         Dialog dialog = new Dialog("Password", skin) {
             @Override
             protected void result(Object object) {
-                boolean success = pass.getText().equals(lobby.getLobbyPassword());
+                Boolean success = pass.getText().equals(lobby.getLobbyPassword());
                 onResult.accept(success);
             }
         };

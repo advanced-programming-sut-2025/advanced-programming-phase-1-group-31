@@ -46,14 +46,14 @@ public class LoadScreen implements Screen {
     private final Stage stage;
     private final Skin skin;
     private ProgressBar progressBar;
-    private boolean finishedLoading;
+    private Boolean finishedLoading;
 
     public LoadScreen(Core core) {
         this.core = core;
         stage = new Stage(new ScreenViewport(), core.batch);
         skin = createSkin();
         finishedLoading = false;
-        
+
         createUI();
     }
 
@@ -65,11 +65,11 @@ public class LoadScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+
         progressBar.setValue((core.localAssetManager.getProgress() + core.internalAssetManager.getProgress()) / 2.0f);
         stage.act();
         stage.draw();
-        
+
         if (!finishedLoading && core.internalAssetManager.update() && core.localAssetManager.update()) {
             finishedLoading = true;
             progressBar.addAction(Actions.sequence(Actions.fadeOut(1f), new LoadingCompleteAction(core)));
@@ -98,57 +98,57 @@ public class LoadScreen implements Screen {
         stage.dispose();
         skin.dispose();
     }
-    
+
     private Drawable createDrawable(int width, int height, Color color) {
         Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
         pixmap.setColor(color);
         pixmap.fillRectangle(0, 0, width, height);
-        
+
         Texture texture = new Texture(pixmap);
         TextureRegionDrawable textureRegionDrawable = new TextureRegionDrawable(new TextureRegion(texture));
         textureRegionDrawable.setMinWidth(0);
         return textureRegionDrawable;
     }
-    
+
     private Skin createSkin() {
         Skin returnValue = new Skin();
-        
+
         returnValue.add("progress-bar", createDrawable(1, 20, Color.WHITE), Drawable.class);
-        
+
         ProgressBar.ProgressBarStyle progressBarStyle = new ProgressBar.ProgressBarStyle();
 
         progressBarStyle.knobBefore = returnValue.getDrawable("progress-bar");
-        
+
         returnValue.add("default-horizontal", progressBarStyle);
-        
+
         return returnValue;
     }
-    
+
     private void createUI() {
         stage.clear();
-        
+
         Table root = new Table();
         root.setFillParent(true);
         stage.addActor(root);
         root.pad(20);
-        
+
         progressBar = new ProgressBar(0, 1, .01f, false, skin);
         progressBar.setAnimateDuration(.5f);
         root.add(progressBar).growX();
     }
-    
+
     private static class LoadingCompleteAction extends Action {
         private Core core;
 
         public LoadingCompleteAction(Core core) {
             this.core = core;
         }
-        
+
         @Override
-        public boolean act(float delta) {
+        public Boolean act(float delta) {
             core.setScreen(new TitleScreen(core));
             return true;
         }
-        
+
     }
 }

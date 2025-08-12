@@ -56,16 +56,16 @@ public enum Crops implements MaterialType {
     private final Seeds source;
     private final List<Integer> stages;
     private final int totalHarvestTime;
-    private final boolean oneTime;
+    private final Boolean oneTime;
     private final Integer regrowthTime;
     private final int baseSellPrice;
-    private final boolean isEdible;
+    private final Boolean isEdible;
     private final int energy;
     private final List<Seasons> seasons;
-    private final boolean canBecomeGiant;
+    private final Boolean canBecomeGiant;
 
-    Crops(String displayName, Seeds source, List<Integer> stages, int totalHarvestTime, boolean oneTime, Integer regrowthTime,
-          int baseSellPrice, boolean isEdible, int energy, List<Seasons> seasons, boolean canBecomeGiant) {
+    Crops(String displayName, Seeds source, List<Integer> stages, int totalHarvestTime, Boolean oneTime, Integer regrowthTime,
+          int baseSellPrice, Boolean isEdible, int energy, List<Seasons> seasons, Boolean canBecomeGiant) {
         this.displayName = displayName;
         this.source = source;
         this.stages = stages;
@@ -95,7 +95,7 @@ public enum Crops implements MaterialType {
         return totalHarvestTime;
     }
 
-    public boolean isOneTime() {
+    public Boolean isOneTime() {
         return oneTime;
     }
 
@@ -107,7 +107,7 @@ public enum Crops implements MaterialType {
         return baseSellPrice;
     }
 
-    public boolean isEdible() {
+    public Boolean isEdible() {
         return isEdible;
     }
 
@@ -119,7 +119,7 @@ public enum Crops implements MaterialType {
         return seasons;
     }
 
-    public boolean isCanBecomeGiant() {
+    public Boolean isCanBecomeGiant() {
         return canBecomeGiant;
     }
 

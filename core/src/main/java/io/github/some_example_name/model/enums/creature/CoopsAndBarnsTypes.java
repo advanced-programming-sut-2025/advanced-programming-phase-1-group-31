@@ -22,7 +22,7 @@ public enum CoopsAndBarnsTypes implements MaterialType {
     public int getCapacity() {
         return capacity;
     }
-    public boolean isBarn() {
+    public Boolean isBarn() {
         return this == BARN || this == LARGE_BARN || this == DELUXE_BARN;
     }
     public String getDisplayName() {

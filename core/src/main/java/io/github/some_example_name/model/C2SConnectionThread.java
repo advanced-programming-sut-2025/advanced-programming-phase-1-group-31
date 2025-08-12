@@ -13,7 +13,7 @@ import java.util.concurrent.*;
 
 public class C2SConnectionThread extends Thread {
 
-    private boolean isEnd;
+    private Boolean isEnd;
     private final Socket socket;
     private final DataOutputStream dataOutputStream;
     private final DataInputStream dataInputStream;

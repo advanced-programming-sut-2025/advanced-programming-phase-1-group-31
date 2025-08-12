@@ -73,7 +73,7 @@ public class StartupHelper {
      * @return whether a new JVM was started and thus no code should be executed
      *         in this one
      */
-    public static boolean startNewJvmIfRequired(boolean redirectOutput) {
+    public static Boolean startNewJvmIfRequired(Boolean redirectOutput) {
         String osName = System.getProperty("os.name").toLowerCase();
         if (!osName.contains("mac")) {
             if (osName.contains("windows")) {
@@ -105,7 +105,7 @@ public class StartupHelper {
         long objc_msgSend = ObjCRuntime.getLibrary().getFunctionAddress("objc_msgSend");
         long NSThread      = objc_getClass("NSThread");
         long currentThread = invokePPP(NSThread, sel_getUid("currentThread"), objc_msgSend);
-        boolean isMainThread = invokePPZ(currentThread, sel_getUid("isMainThread"), objc_msgSend);
+        Boolean isMainThread = invokePPZ(currentThread, sel_getUid("isMainThread"), objc_msgSend);
         if(isMainThread) return false;
 
         long pid = LibC.getpid();
@@ -198,7 +198,7 @@ public class StartupHelper {
      * @return whether a new JVM was started and thus no code should be executed
      *         in this one
      */
-    public static boolean startNewJvmIfRequired() {
+    public static Boolean startNewJvmIfRequired() {
         return startNewJvmIfRequired(true);
     }
 }

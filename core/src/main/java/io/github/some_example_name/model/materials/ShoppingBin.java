@@ -67,7 +67,7 @@ public class ShoppingBin implements Material{
     }
 
 
-    public boolean isNextToTrashBin() {
+    public Boolean isNextToTrashBin() {
         for (Direction dir : Direction.values()) {
             Vector2 tilePoint = dir.apply(GameApp.getPlayer().getPlace());
 

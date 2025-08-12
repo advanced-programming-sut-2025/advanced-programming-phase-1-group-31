@@ -2,12 +2,12 @@ package io.github.some_example_name.model;
 
 public class SMS {
     private final String message;
-    private boolean isRead;
+    private Boolean isRead;
     private final String sender;
     private final String receiver;
-    private final boolean isForMarriage;
+    private final Boolean isForMarriage;
 
-    public SMS(String message, boolean isRead, String sender, String receiver, boolean isForMarriage) {
+    public SMS(String message, Boolean isRead, String sender, String receiver, Boolean isForMarriage) {
         this.message = message;
         this.isRead = isRead;
         this.sender = sender;
@@ -19,7 +19,7 @@ public class SMS {
         return message;
     }
 
-    public boolean isRead() {
+    public Boolean isRead() {
         return isRead;
     }
 
@@ -31,11 +31,11 @@ public class SMS {
         return receiver;
     }
 
-    public void setRead(boolean read) {
+    public void setRead(Boolean read) {
         isRead = read;
     }
 
-    public boolean isForMarriage() {
+    public Boolean isForMarriage() {
         return isForMarriage;
     }
 }

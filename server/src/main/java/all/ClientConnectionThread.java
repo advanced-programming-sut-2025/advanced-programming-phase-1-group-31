@@ -121,7 +121,7 @@ public class ClientConnectionThread extends Thread {
         return socket;
     }
 
-    public boolean isEnd() {
+    public Boolean isEnd() {
         return isEnd.get();
     }
 
@@ -155,11 +155,12 @@ public class ClientConnectionThread extends Thread {
     }
 
     public synchronized void ifDidntConnectAgain() {
+
         // TODO: ...
 
     }
 
-    public synchronized void end(String message, boolean reconnecting) {
+    public synchronized void end(String message, Boolean reconnecting) {
         if (!reconnecting) {
             if (isEnd.get()) return;
         }

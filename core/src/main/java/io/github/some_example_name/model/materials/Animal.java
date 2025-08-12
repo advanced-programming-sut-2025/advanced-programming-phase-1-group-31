@@ -50,7 +50,7 @@ public class Animal implements Material {
 
 
 
-    public boolean hasProduct() {
+    public Boolean hasProduct() {
         return todayProduct != null;
     }
 
